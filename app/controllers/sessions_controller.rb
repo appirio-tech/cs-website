@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   
   def login
     # delete the session from their last login attempt
-    session.delete(:authsession)
+    session.delete(:authsession) unless session[:authsession].nil?
   end
   
   # if the provider doesn't include an email, redirects them to this form
