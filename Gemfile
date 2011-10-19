@@ -23,8 +23,8 @@ group :test do
   gem 'turn', :require => false
 end
 
-group :production, :staging do
-  gem "pg"
+group :production do
+  gem 'pg'
 end
 
 # Gems used only for assets and not required
