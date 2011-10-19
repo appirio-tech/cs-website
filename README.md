@@ -40,7 +40,3 @@ The current homepage with links to various providers is a simple static file:
 'public/index.html'.
 
 May want to look into implementing the session store with Redis: https://github.com/mattmatt/redis-session-store
-
-Deployment Notes:
-- need to change the OAuth settings in congig/initializers/omniauth.rb
-- need to change the config/databasedotcom.yml if deploying for production sfdc org

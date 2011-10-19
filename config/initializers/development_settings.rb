@@ -15,4 +15,18 @@ unless Rails.env.production?
   ENV['sfdc_username_domain'] = 'sandbox.cloudspokes.com'
   # the CloudSpokes URI and API verson
   ENV['sfdc_instance_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
+  
+  # OmniAuth settings
+  ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'
+  ENV['twitter_oauth_key'] = 'KPJwFLfYmwj2Ug25aJgA'
+  ENV['twitter_oauth_secret'] = 'xa7HFNAIdGMfn6u20ph21yBdtpQHQ4Qykdq5rDV0'
+  ENV['github_oauth_key'] = '791a5c9d36f560ee9353'
+  ENV['github_oauth_secret'] = '861d9a246f0273825c71dab4bb5d3dbdd79a0a9d'
+  # does not work on localhost
+  ENV['facebook_oauth_key'] = ''
+  ENV['facebook_oauth_secret'] = ''
+  ENV['linkedin_oauth_key'] = ''
+  ENV['linkedin_oauth_secret'] = ''
+  ENV['sfdc_oauth_key'] = ''
+  ENV['sdfc_oauth_secret'] = ''
 end
