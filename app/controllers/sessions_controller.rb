@@ -91,7 +91,7 @@ class SessionsController < ApplicationController
 
   end
   def callback_failure
-      render :inline => "Authentication failed"
+      render :text =>  request.env["omniauth.auth"].to_yaml
   end
   
   # logging in with cloudspokes u/p

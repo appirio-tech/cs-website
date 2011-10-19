@@ -17,7 +17,7 @@ unless Rails.env.production?
   ENV['sfdc_instance_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
   
   # OmniAuth settings
-  ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'
+  ENV['omniauth_full_host'] = 'http://localhost:3000'
   ENV['twitter_oauth_key'] = 'KPJwFLfYmwj2Ug25aJgA'
   ENV['twitter_oauth_secret'] = 'xa7HFNAIdGMfn6u20ph21yBdtpQHQ4Qykdq5rDV0'
   ENV['github_oauth_key'] = '791a5c9d36f560ee9353'
@@ -27,6 +27,9 @@ unless Rails.env.production?
   ENV['facebook_oauth_secret'] = ''
   ENV['linkedin_oauth_key'] = ''
   ENV['linkedin_oauth_secret'] = ''
-  ENV['sfdc_oauth_key'] = ''
-  ENV['sdfc_oauth_secret'] = ''
+  ENV['sfdc_oauth_key'] = '3MVG9QDx8IX8nP5SXX53KcPXxpQhOyi17C1P217uB5m216Z6jaM3RPG6hyTHheHufWv9LckyZyc1Bk9BRS4yY'
+  ENV['sdfc_oauth_secret'] = '3751839286705907907'
+  
+  # don't think this is needed
+  ENV['sfdc_api_version'] = '21.0'
 end
