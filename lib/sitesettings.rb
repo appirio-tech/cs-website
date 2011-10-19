@@ -16,7 +16,7 @@ class SiteSettings
       p client
       # delete the existing token
       s = Settings.first
-      s.destroy
+      s.destroy unless s.nil?
       # add the new record
       s = Settings.new(:access_token => access_token)
       s.save
