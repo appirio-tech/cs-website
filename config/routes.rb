@@ -21,6 +21,8 @@ CloudSpokes::Application.routes.draw do
   get "test/get_current_access_token"
   get "test/auth_cloudspokes"
   get "test/auth_thirdparty"
+  get "test/display_users"
+  get "test/display_settings"
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  

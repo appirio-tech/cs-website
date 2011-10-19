@@ -2,6 +2,16 @@ class TestController < ApplicationController
   
   require 'services'
   
+  def display_users
+    p '============ display_users'
+    @results = User.all
+  end
+  
+  def display_settings
+    p '============ display_settings'
+    @results = Settings.all
+  end
+  
   def auth_cloudspokes
     p '============ auth_cloudspokes'
     @results = User.authenticate('testuser9-cs','!sbx9876')
