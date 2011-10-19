@@ -17,9 +17,7 @@ class User < ActiveRecord::Base
     if login_results[:success].eql?('true')
       # check for an existing record in the database and delete it
       user = find_by_username(username)
-      if !user.nil? 
-        user.destroy
-      end
+      user.destroy unless user.nil?
       # create the new user in the database
       user = User.new(:username => username, :sfdc_username => username+ENV['sfdc_username_domain'], 
         :password => password, :access_token => login_results[:access_token])
