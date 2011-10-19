@@ -2,6 +2,11 @@ class TestController < ApplicationController
   
   require 'services'
   
+  def dump_env
+    p '============ dump_env'
+    @results = ENV
+  end
+  
   def display_users
     p '============ display_users'
     @results = User.all

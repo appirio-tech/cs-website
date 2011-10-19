@@ -23,6 +23,7 @@ CloudSpokes::Application.routes.draw do
   get "test/auth_thirdparty"
   get "test/display_users"
   get "test/display_settings"
+  get "test/dump_env"
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  
