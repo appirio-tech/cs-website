@@ -1,13 +1,14 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
-
-gem 'sqlite3-ruby'
 gem 'compass', git: 'git://github.com/chriseppstein/compass.git'
-
 gem 'databasedotcom'
+gem 'jquery-rails'
+gem 'httparty'
+gem 'omniauth'
 
 group :development, :test do
+  gem 'sqlite3-ruby'
   gem 'rspec-rails', '~> 2.6'
   gem 'annotate', '2.4.0'
   gem 'guard'
@@ -30,7 +31,4 @@ group :assets do
   gem 'uglifier'
 end
 
-gem 'jquery-rails'
-gem 'httparty'
 
-gem 'omniauth'
