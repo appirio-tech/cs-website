@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.1.0'
 
-gem 'sqlite3'
+gem 'sqlite3-ruby'
 gem 'compass', git: 'git://github.com/chriseppstein/compass.git'
 
 gem 'databasedotcom'
@@ -32,14 +32,5 @@ end
 
 gem 'jquery-rails'
 gem 'httparty'
-
-# Use unicorn as the web server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'omniauth'
