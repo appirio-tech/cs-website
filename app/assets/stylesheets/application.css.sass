@@ -1,0 +1,176 @@
+//= require "normalize"
+//= require_self
+
+@import "compass"
+
+$bg-blue: #d1e7ed
+$border-blue: #456179
+$link-color: #09f
+$heading-blue: #6699C9
+
+=hide-text
+  text-indent: -999em
+  text-align: left
+
+html, body
+  min-height: 100%
+
+body
+  font-family: Arial, sans-serif
+  background: $bg-blue
+  font-size: 12px
+  color: #444
+  +background-image(linear-gradient(rgba(30,140,200,0.15), rgba(30,140,200,0) 50px))
+
+a
+  color: $link-color
+  text-decoration: none
+  &:hover
+    text-decoration: underline
+  &:visited
+    color: $link-color
+
+.upcase
+  text-transform: uppercase
+.downcase
+  text-transform: lowercase
+
+nav ul
+  padding: 0
+  margin: 0
+  list-style: none
+  li
+    padding: 0
+    margin: 0
+    display: inline-block
+
+#wrapper
+  width: 980px
+  margin: 0 auto
+
+#content
+  clear: both
+  background: white
+  border: 9px solid $border-blue
+  border-left: 0
+  border-right: 0
+
+#top
+  #logo
+    float: left
+    margin: 10px 10px 10px 20px
+    a
+      +hide-text
+      display: block
+      background: url(http://cloudspokes.s3.amazonaws.com/CloudSpokes.png) no-repeat top left
+      width: 125px
+      height: 97px
+  #menu
+    background: url(http://cloudspokes.s3.amazonaws.com/CloudSpokes2.png) no-repeat 5px 0px
+    padding-top: 42px
+    margin-top: 20px
+    float: left
+    a
+      display: block
+      background: #eee
+      color: adjust-saturation($link-color, -50)
+      text-decoration: none
+      font-size: 16px
+      padding: 8px 12px
+      margin: 0 4px
+      +border-radius(5px)
+      text-transform: lowercase
+      &:hover
+        background: adjust-saturation($link-color, -50) 
+        color: #eee
+
+  #side_menu
+    float: right
+    padding-top: 65px
+    a
+      color: #888
+      text-decoration: none
+      text-transform: lowercase
+      font-size: 16px
+      display: block
+      padding: 6px 12px
+      &:hover
+        color: $link-color
+
+#bottom
+  line-height: 40px
+  height: 40px
+  img
+    vertical-align: middle
+    margin: 0 3px
+  .left
+    float: left
+    nav
+      display: inline-block
+  .right
+    float: right
+    a
+      color: #666
+      padding: 0 10px
+      border-right: 1px solid #666
+    li:last-child a
+      border-right: 0
+
+a.btn
+  +box-shadow(1px 1px 6px rgba(0,0,0,0.6))
+  display: inline-block
+  padding: 10px 20px
+  +border-radius(8px)
+  font-size: 16px
+  background: $link-color
+  color: white
+  +background-image(linear-gradient(rgba(100,200,255,0.3),rgba(100,200,255,0)))
+  &:hover
+    +background-image(linear-gradient(rgba(100,200,255,0),rgba(100,200,255,0.3)))
+    text-decoration: none
+  &.light
+    color: $link-color
+    background: white
+    +background-image(linear-gradient(#fff,#ddd))
+    &:hover
+      +background-image(linear-gradient(#eee,#fff))
+
+#heading
+  color: white
+  font-family: Marvel
+  font-weight: bold
+  font-size: 48px
+  padding: 15px 20px 15px
+  margin: -9px 0px 20px
+  background-color: $border-blue
+  +background-image(linear-gradient(rgba(200,255,255,0.25),rgba(200,255,255,0)))
+
+.page
+  padding: 20px
+  #heading
+    margin-left: -20px
+    margin-top: -29px
+    margin-right: -20px
+  h4
+    font-size: 16px
+    color: black
+    margin: 10px 0
+    font-weight: normal
+  h3
+    font-size: 18px
+    font-weight: normal
+    color: $heading-blue
+    margin: 5px 0 10px
+  p.big
+    font-size: 16px
+    color: black
+
+.col3 
+  +clearfix
+  .col
+    +box-sizing(border-box)
+    width: 33%
+    float: left
+    padding: 15px 20px
+
+@import "content"

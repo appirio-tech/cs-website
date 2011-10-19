@@ -1,0 +1,17 @@
+<h1>Sign in Third Party - No Email</h1>
+
+<p>Unfortunately <b><%= session[:authsession].get_hash[:provider]%></b> doesn't provide us with your email address. Please enter it.</p>
+
+<%= form_for(:session, :url => 'signup_third_party_create') do |f| %>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email, :value => session[:authsession].get_hash[:email] %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Sign in" %>
+  </div>
+<% end %>
+
+<hr>
+
+<%= debug session[:authsession] %>
