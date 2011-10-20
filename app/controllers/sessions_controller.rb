@@ -62,11 +62,18 @@ class SessionsController < ApplicationController
       else
         # try and create the user in sfdc
         new_member_create_results = Services.new_member(as.get_hash)
+        
+        p '====== ok ==== new_member_create_results'
+        p new_member_create_results
+        
         if new_member_create_results[:success].eql?('true')
 
           user = User.new(:username => new_member_create_results[:username], 
             :sfdc_username => new_member_create_results[:sfdc_username], 
             :password => ENV['third_party_password'])
+          
+          p 'user to be created'
+          p user
           
           if user.save
             sign_in user
