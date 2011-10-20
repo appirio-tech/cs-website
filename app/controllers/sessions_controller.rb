@@ -70,9 +70,11 @@ class SessionsController < ApplicationController
           user.save
           sign_in user
           redirect_to root_path
-
+        
+        # they can't login - taken username or email address?
         else
           flash[:error] = new_member_create_results[:message]
+          redirect_to login_url
         end
       end
       
