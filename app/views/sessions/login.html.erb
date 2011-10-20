@@ -18,7 +18,7 @@
 
 <% if Rails.env.development? %>
 
-	<a href="/auth/google_apps" class="auth_provider">
+	<a href="/auth/google" class="auth_provider">
 	  <%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %>
 	  Google
 	</a>
@@ -33,7 +33,7 @@
 	<a href="/auth/forcedotcom" class="auth_provider">
 	  <%= image_tag "salesforce_64.png", :size => "64x64", :alt => "salesforce.com" %>
 	  salesforce.com
-	</a> <%= "(localhost)" if Rails.env.development? %>
+	</a>
 
 <% end %>
 

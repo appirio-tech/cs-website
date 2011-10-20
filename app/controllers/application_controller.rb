@@ -4,12 +4,6 @@ class ApplicationController < ActionController::Base
   require 'sitesettings'
   require "auth"
   
-  def new_public_token
-    # temp method to fetch a new public token
-    SiteSettings.get_new_public_access_token
-    redirect_to root_path
-  end
-  
   # fetch the access token for this user or return the public access token from the database
   def current_access_token
     if current_user.nil?

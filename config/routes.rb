@@ -1,4 +1,6 @@
 CloudSpokes::Application.routes.draw do
+  get "account/index"
+
   resources :users
   resources :sessions, :only => [:new, :new_third_party, :create, :create_third_party, :destroy]
   
@@ -10,8 +12,13 @@ CloudSpokes::Application.routes.draw do
   match '/logout', :to => 'sessions#destroy'  
   match '/login', :to => 'sessions#login'  
   
-  match '/new_public_token', :to => 'application#new_public_token'
+  match '/account', :to => 'account#index'  
+  get "account/index"
+  get "account/details"
+  get "account/schoolwork"
+  post "account/save"
 
+  match '/challenges', :to => 'challenges#index' 
   get "challenges/index"
   
   # tests
