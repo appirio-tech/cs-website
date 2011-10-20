@@ -60,16 +60,19 @@ class SessionsController < ApplicationController
         session[:authsession] = as
         redirect_to signup_complete_url
       else
-        # try and create the user
+        # try and create the user in sfdc
         new_member_create_results = Services.new_member(as.get_hash)
         if new_member_create_results[:success].eql?('true')
 
-          user = User.new(:username => new_member_create_results[:username], 
-            :sfdc_username => new_member_create_results[:sfdc_username], 
-            :password => ENV['third_party_password'])
-          user.save
-          sign_in user
-          redirect_to root_path
+          # now authenticate the user with salesforce to get their auth token and save to db
+          user = User.authenticate_third_party(as.get_hash[:provider],as.get_hash[:username])
+
+          if user.nil?
+            render :inline => "Whoops! Error. Hit the back button and try again."
+          else
+            sign_in user
+            redirect_to root_path
+          end
         
         # they can't login - taken username or email address?
         else
