@@ -59,7 +59,8 @@ class Services
       p results
       
       if results['Success'].eql?('true')
-        return {:success => 'true', :sfdc_username => results["sfdc_username"], :message => results["Message"]}
+        return {:success => 'true', :username => results["username"], 
+          :sfdc_username => results["sfdc_username"], :message => results["Message"]}
       else
         return {:success => 'false', :message => results["Message"]}
       end
