@@ -1,0 +1,43 @@
+<h1>School & Work Info</h1>
+
+<p>Please consider filling out your school and work information. We will not reveal your information outside of CloudSpokes, but the additional demographic information is helpful when getting companies to post jobs to our job boards.</p>
+
+<%= form_tag :controller => "account", :action => "save", :method => "post" do %>
+
+  <div class="field">
+  <%= label_tag(:company__c, "Company") %>
+  <%= text_field_tag("data[#{:company__c}]", @member[0]['Company__c']) %>
+  </div>
+
+  <div class="field">
+  <%= label_tag(:school__c, "School / University") %>
+  <%= text_field_tag("data[#{:school__c}]", @member[0]['School__c']) %>
+  </div>
+
+  <div class="field">
+  <%= label_tag(:years_of_experience__c, "Years of Experience") %>
+  <%= text_field_tag("data[#{:years_of_experience__c}]", @member[0]['Years_of_Experience__c']) %>
+  </div>
+
+  <div class="field">
+  <%= label_tag(:work_status__c, "Work Status") %>
+  <%= text_field_tag("data[#{:work_status__c}]", @member[0]['Work_Status__c']) %>
+  </div>
+
+  <div class="field">
+  <%= label_tag(:shirt_size__c, "Shirt Size") %>
+  <%= text_field_tag("data[#{:shirt_size__c}]", @member[0]['Shirt_Size__c']) %>
+  </div>
+
+  <div class="field">
+  <%= label_tag(:age_range__c, "Age Range") %>
+  <%= text_field_tag("data[#{:age_range__c}]", @member[0]['Age_Range__c']) %>
+  </div>
+
+  <div class="field">
+  <%= label_tag(:gender__c, "Gender") %>
+  <%= text_field_tag("data[#{:gender__c}]", @member[0]['Gender__c']) %>
+  </div>
+
+  <%= submit_tag("Submit") %>
+<% end %>

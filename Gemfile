@@ -6,6 +6,7 @@ gem 'databasedotcom'
 gem 'jquery-rails'
 gem 'httparty'
 gem 'omniauth'
+gem 'active_hash'
 
 group :development, :test do
   gem 'sqlite3-ruby'
