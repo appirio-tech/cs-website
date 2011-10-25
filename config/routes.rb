@@ -1,25 +1,35 @@
 CloudSpokes::Application.routes.draw do
-  get "account/index"
 
   resources :users
-  resources :sessions, :only => [:new, :new_third_party, :create, :create_third_party, :destroy]
+  resources :sessions
   
-  match '/signin',  :to => 'sessions#new'
   match '/signup',  :to => 'users#new'
   match '/signup_complete', :to => 'sessions#signup_third_party_no_email'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
   
   match '/logout', :to => 'sessions#destroy'  
   match '/login', :to => 'sessions#login'  
+  match '/login_cs',  :to => 'sessions#login_cs'
+  match '/login_cs_auth',  :to => 'sessions#login_cs_auth'
   
   match '/account', :to => 'account#index'  
   get "account/index"
   get "account/details"
   get "account/schoolwork"
   post "account/save"
+  
+  # scoring
+  match 'scoring', :to => 'scoring#index'  
+  get "scoring/index"
+  post "scoring/save"
+  match 'scoring/scorecard/:id', :to => 'scoring#scorecard'
 
-  match '/challenges', :to => 'challenges#index' 
+  #challenges
   get "challenges/index"
+  match 'challenges', :to => 'challenges#index' 
+  match 'challenges/:id', :to => 'challenges#detail'
+  match 'challenges/:id/registrants', :to => 'challenges#registrants'
+  match 'leaderboard', :to => 'challenges#leaderboard'
   
   # tests
   get "test/index"
@@ -34,6 +44,8 @@ CloudSpokes::Application.routes.draw do
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  
+  
+  match '/fail', :to => 'content#fail'
   
   match "/:id", to: "content#show", as: "content"
   

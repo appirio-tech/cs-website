@@ -7,14 +7,14 @@ class Members
 
   def self.get_member(access_token, username, fields) 
     set_header_token(access_token) 
-    get(ENV['sfdc_instance_url']+'/members/'+username+'?fields='+fields.gsub(' ','').downcase)
+    get(ENV['sfdc_rest_api_url']+'/members/'+username+'?fields='+fields.gsub(' ','').downcase)
   end 
   
   # updates the member in sfdc with parameters passed. skips any invalid params.
   def self.save_member(access_token, username, params) 
     set_header_token(access_token) 
     options = { :query => params }
-    response = put(ENV['sfdc_instance_url']+'/members/'+username, options)
+    response = put(ENV['sfdc_rest_api_url']+'/members/'+username, options)
     return {:success => response['Success'], :message => response['Message']}
   end
   

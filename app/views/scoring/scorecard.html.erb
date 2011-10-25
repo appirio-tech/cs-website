@@ -1,0 +1,131 @@
+<style type="text/css">
+ body {
+     font-family: arial;
+     font-size: small;
+ }
+ .question_group h3 {
+     color: #456078;
+ }
+ .question_group .head_outer {
+     background: #456078;
+     color: #fff;
+ }
+ .head_inner {
+     margin-left: auto;
+     margin-right: 0;
+     width: 39%;
+     padding: 5px;
+ }
+ .head_inner .head_right {
+     float:right;
+     padding-right: 10px;
+ }
+ .head_inner span {
+     font-size: x-small;
+     font-weight: bold;
+ }
+ .question_group_content {
+     border: 1px solid #e7edea;
+     padding: 8px;
+ }
+ .question_outer {
+     padding-top: 7px;
+     padding-bottom: 7px;
+ }
+ .q_numeric {
+     border: 1px solid #e7edea;
+     border-radius: 5px;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     background-color: #e7edea;
+ }
+ .question .question_content {
+     min-height: 60px;
+ }
+ .q_numeric .question_content {
+     border: 1px solid #fff;
+     background-color: #fff;
+     margin-right:40%;
+     border-radius: 5px;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+ }
+ .q_text .question_content{
+     margin-right: 60%;
+ }
+ .question .question_weight {
+     float:left;
+     font-size: 110%;
+     font-weight: bold;
+     color: #456078;
+     padding: 5px;
+     height:100%;
+ }
+ .question .has_weight {
+     margin-left: 60px;
+ }
+ .question .question_description  {
+     padding-right: 7px;
+     padding-bottom: 4px;
+ }
+ .q_numeric .question_answer {
+     float: right;
+     width: 40%;
+ }
+ .q_text .question_answer {
+     float: right;
+     width: 60%;
+ }
+ .q_numeric .question_answer table {
+     width:100%;
+     text-align:center;
+ }
+ .q_text .question_answer textarea {
+     width: 98%;
+     height: 80px;
+ }
+ .clear {
+     clear: both;
+ }
+ .button {
+     cursor: pointer;
+     margin: 10px;
+ }
+ .button, .button span {
+     float: left;
+     display: inline;
+     height: 26px;
+     line-height: 26px;
+     font-size: 14px;
+     color: #fff;
+     padding-left: 44px;
+     background: url(http://cloudspokes.s3.amazonaws.com/button-1.gif) no-repeat 0 0;
+ }
+ .button span {
+     padding-left: 0;
+     padding-right: 44px;
+     background-position: right 0;
+ }
+ .button:hover, .button:hover span {
+     text-decoration: none;
+     background-position: 0 -26px;
+ }
+ .button:hover span {
+     background-position: right -26px;
+ }
+ </style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfully\',\'id\': \'a0OU00000000KvhMAE\',\'name\': \'QSS-000590\',\'scored__c\': \'false\'}":  <%= @json %>}';
+</script>
+
+<% if @scored %><h1>This scorecard has been scored and is not updateable.</h1><% end %>
+<div id="scorecard"></div>
+<form id="scorecard_form" action="<%= ENV['omniauth_full_host'] %>/scoring/save" method="post">
+<input type="hidden" name="set_as_scored" id="hidden_scored" value="">
+<input type="hidden" name="xml" id="hiddenxml" value="">
+<% if !@scored %><a class="button" onClick="doSubmit('false')"><span>Save for Later</span></a><% end %>
+<% if !@scored %><a class="button" onClick="doSubmit('true')"><span>Submit</span></a><% end %>
+</form>
+</div>

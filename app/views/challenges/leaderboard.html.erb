@@ -1,0 +1,168 @@
+        <div class="page">
+            <h1 id="heading">
+                Leaderboards</h1>
+        
+        <!-- Content Wrapper -->
+        <div class="content-wrapper ">
+        <h4>
+        <span></span>
+    </h4>
+
+            <!-- Leaderboards -->
+            <div id="leaderboards">
+                <!-- Columns -->
+                <div class="columns">
+                    <div class="column">
+                        <h3>
+                            This Month</h3>
+                        <!-- Leaders -->
+
+                        
+                                <div class="leaders">
+                                    <ul>
+<% @this_month_leaders.each do |record| %>                                        
+                                <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl">
+                                    <%= record['rank'] %></span>
+                                    <div class="user-box box fl">
+                                        <div class="box-b">
+                                            <div class="box-t">
+                                                <a href='#' class="fl">
+
+                                                    <img src="<%= record["profile_pic__c"] %>" Width="48px" Height="48px" src="" style="border-width:0px;" /></a>
+                                                <div class="user-info fl">
+                                                    <span class="counter fr">
+                                                       $<%= record["total_money"] %></span>
+                                                    <h4>
+                                                        <a href='#'>
+                                                            <%= record["username__c"] %></a></h4>
+                                                     <span class="stats">
+
+                                                       # of Wins: <%= record["numwins"] %> </span>
+                                                </div>
+                                                <div class="cl"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="cl"></div>
+                                </li>
+<% end %>                            
+                                    </ul>
+                                </div>
+                            
+                        <!-- END Leaders -->
+
+                        <p class="ac">
+                            <a href="#">
+                                <span><a disabled="disabled">Load Previous 10</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPager1$ctl01$ctl00&#39;,&#39;&#39;)">Load Next 10</a>&nbsp;</span>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="column column-middle">
+                        <h3>
+
+                            This Year</h3>
+                        <!-- Leaders -->
+                        
+                                <div class="leaders">
+                                    <ul>
+ <% @this_year_leaders.each do |record| %>                                        
+                                <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl">
+                                    <%= record['rank'] %></span>
+                                    <div class="user-box box fl">
+                                        <div class="box-b">
+                                            <div class="box-t">
+                                                <a href='#' class="fl">
+
+                                                    <img src="<%= record["profile_pic__c"] %>" Width="48px" Height="48px" src="" style="border-width:0px;" /></a>
+                                                <div class="user-info fl">
+                                                    <span class="counter fr">
+                                                       $<%= record["total_money"] %></span>
+                                                    <h4>
+                                                        <a href='#'>
+                                                            <%= record["username__c"] %></a></h4>
+                                                     <span class="stats">
+
+                                                       # of Wins: <%= record["numwins"] %></span>
+                                                </div>
+                                                <div class="cl"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="cl"></div>
+                                </li>
+<% end %>                                       
+                            
+                                    </ul>
+                                </div>
+                            
+                        <!-- END Leaders -->
+                        <p class="ac">
+                            <a href="#">
+
+                                <span><a disabled="disabled">Load Previous 10</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPager2$ctl01$ctl00&#39;,&#39;&#39;)">Load Next 10</a>&nbsp;</span>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="column">
+                        <h3>
+                            All Time</h3>
+
+                        <!-- Leaders -->
+                        
+                                <div class="leaders">
+                                    <ul>
+
+<% @all_time_leaders.each do |record| %>                                        
+                                <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl">
+                                    <%= record['rank'] %></span>
+                                    <div class="user-box box fl">
+                                        <div class="box-b">
+                                            <div class="box-t">
+                                                <a href='#' class="fl">
+
+                                                    <img src="<%= record["profile_pic__c"] %>" Width="48px" Height="48px" src="" style="border-width:0px;" /></a>
+                                                <div class="user-info fl">
+                                                    <span class="counter fr">
+                                                       $<%= record["total_money"] %></span>
+                                                    <h4>
+                                                        <a href='#'>
+                                                            <%= record["username__c"] %></a></h4>
+                                                     <span class="stats">
+
+                                                       # of Wins: <%= record["numwins"] %></span>
+                                                </div>
+                                                <div class="cl"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="cl"></div>
+                                </li>
+<% end %>                                        
+                            
+                                    </ul>
+
+                                </div>
+                            
+                        <!-- END Leaders -->
+                        <p class="ac">
+                            <a href="#">
+                                <span><a disabled="disabled">Load Previous 10</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPager3$ctl01$ctl00&#39;,&#39;&#39;)">Load Next 10</a>&nbsp;</span>
+                            </a>
+                        </p>
+                    </div>
+
+                    <div class="cl">
+                        &nbsp;</div>
+                </div>
+                <!-- END Columns -->
+                <div class="cl">
+                    &nbsp;</div>
+            </div>
+            <!-- END Leaderboards -->
+        </div>
+
+        <!-- END Content Wrapper -->
+    </div>

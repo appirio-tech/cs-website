@@ -34,7 +34,7 @@ class SiteSettings
     s = Settings.first
         
     # if the settings are older than an hour, fetch a new access token from sfdc
-    if Time.now > s.created_at.getlocal + (60*60)
+    if Time.now > 60.minutes.since(s.created_at.getlocal)
       
       p '=========== public_access_token has expired. fetching a new one.'
       

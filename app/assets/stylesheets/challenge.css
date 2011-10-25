@@ -1,0 +1,622 @@
+.columns {
+    height: 100%;
+    padding: 15px 20px 50px;
+}
+.columns .column {
+    display: inline;
+    float: left;
+    width: 300px;
+}
+.columns .column-middle {
+    margin: 0 20px;
+}
+.columns h3 {
+    background: url("http://cloudspokes.s3.amazonaws.com/home-cols-h-bg.gif") no-repeat scroll 0 0 #E7EDEA;
+    line-height: 39px;
+    margin: 0;
+    padding: 0 13px;
+}
+.columns .box {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/home-cols-box-bg.gif");
+}
+.columns .box-b {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/home-cols-box-b.gif");
+}
+.columns .box-t {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/home-cols-box-t.gif");
+    min-height: 166px;
+    padding: 10px;
+}
+.columns .featured-member .member-box {
+    background: none repeat scroll 0 0 #E7EDEA;
+    margin-bottom: 10px;
+    width: 278px;
+}
+.columns .featured-member .member-b {
+    background: url("http://cloudspokes.s3.amazonaws.com/featured-member-b.gif") no-repeat scroll 0 bottom transparent;
+}
+.columns .featured-member .member-t {
+    background: url("http://cloudspokes.s3.amazonaws.com/featured-member-t.gif") no-repeat scroll 0 0 transparent;
+    height: 100%;
+    padding: 10px;
+}
+.columns .featured-member img {
+    display: inline;
+    float: left;
+    margin-right: 10px;
+}
+.columns .featured-member .user-info {
+    display: inline;
+    float: left;
+    width: 200px;
+}
+.columns .featured-member .user-info .job {
+    color: #999999;
+}
+.columns .featured-member .user-info .stats {
+    color: #666666;
+}
+.columns .leaders .user-box {
+    width: 249px;
+}
+.columns .leaders li {
+    margin-bottom: 5px;
+}
+.columns .leaders .user-box .box-t {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/home-leaders-t.gif");
+    min-height: 0;
+    padding: 10px;
+}
+.columns .leaders .user-box .box-b {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/home-leaders-b.gif");
+}
+.columns .leaders .user-box img {
+    display: inline;
+    float: left;
+}
+.columns .leaders .user-box .user-info {
+    display: inline;
+    float: right;
+    margin-top: -5px;
+    position: relative;
+    width: 193px;
+}
+.columns .leaders .user-box .user-info span {
+    color: #999999;
+}
+.columns .leaders .user-box .user-info span.counter {
+    font-size: 17px;
+}
+.columns .leaders .user-box .user-info span.stats {
+    line-height: 16px;
+}
+#leaderboards {
+    margin-bottom: 5px;
+}
+#leaderboards ul,ol {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+#leaderboards .leaders {
+    padding-bottom: 5px;
+}
+#leaderboards .columns {
+    padding: 0;
+}
+#leaderboards .columns h3 {
+    background: none repeat scroll 0 0 transparent;
+    line-height: 100%;
+    margin-bottom: 10px;
+    padding: 0;
+}
+#leaderboards .user-box {
+    width: 270px;
+}
+#leaderboards .user-box .box-t {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/leaders-box-t.gif");
+}
+#leaderboards .user-box .box-b {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/leaders-box-b.gif");
+}
+#leaderboards .user-box .user-info {
+    margin: 0;
+    width: 230px;
+}
+#leaderboards .leader .user-box .user-info {
+    width: 193px;
+}
+#leaderboards .leaders .user-box .box-t {
+    padding: 7px 10px 7px 5px;
+}
+#leaderboards .leaders .leader .user-box .box-t {
+    padding: 10px;
+}
+.leaders li {
+    margin-bottom: 6px;
+}
+.leaders li.last {
+    margin-bottom: 0;
+}
+.leaders .num {
+    display: inline;
+    float: left;
+}
+.leaders .user-box {
+    background: none repeat scroll 0 0 #E7EDEA;
+    width: 270px;
+}
+.leaders .user-box .box-b {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/leaders-box-b.gif");
+}
+.leaders .user-box .box-t {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/leaders-box-t.gif");
+    padding: 7px 10px 7px 5px;
+}
+.leaders .user-box a.fl {
+    margin-right: 5px;
+}
+.leaders .user-box a.fl img {
+    display: block;
+}
+.leaders .user-box .user-info {
+    line-height: 21px;
+    width: 230px;
+}
+.leaders .leader .user-box .user-info {
+    line-height: 16px;
+    width: 195px;
+}
+.leaders .user-box .user-info h4 {
+    color: #000000;
+    font-size: 17px;
+    font-weight: normal;
+    margin: 0px;
+}
+.leaders .user-box .user-info h4 a {
+    color: #000000;
+    cursor: pointer;
+    text-decoration: none;
+}
+.leaders .leader .user-box .box-t {
+    padding: 10px;
+}
+.leaders .num {
+    background: url("http://cloudspokes.s3.amazonaws.com/num-default.gif") repeat scroll 0 0 transparent;
+    color: #7E7E7E;
+    display: inline;
+    float: left;
+    font-size: 16px;
+    font-weight: bold;
+    height: 31px;
+    letter-spacing: -2px;
+    line-height: 28px;
+    margin: 2px 4px 0 -2px;
+    position: relative;
+    text-align: center;
+    text-indent: -2px;
+    width: 28px;
+}
+.leaders .num-gold {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/num-gold.gif");
+    color: #7B5B30;
+}
+.leaders .num-silver {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/num-silver.gif");
+    color: #666666;
+}
+.leaders .num-bronze {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/num-bronze.gif");
+    color: #7A5A30;
+}
+.list-members .box {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/list-members-bg.gif");
+    margin-bottom: 5px;
+}
+.list-members .box-b {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/list-members-b.gif");
+}
+.list-members .box-t {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/list-members-t.gif");
+    padding: 10px;
+}
+.list-members .user-info {
+    width: 291px;
+}
+.list-members .user-info img {
+    display: inline;
+    float: left;
+    margin-right: 10px;
+}
+.list-members .user-info .text-holder {
+    display: inline;
+    float: left;
+    width: 220px;
+}
+.list-members .user-info h4 {
+    color: #000000;
+    font-size: 17px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+span.job, span.stats {
+    color: #000C4C;
+    display: block;
+    font-size: 13px;
+}
+.list-members .user-desc {
+    width: 272px;
+}
+.list-members .user-desc p {
+    color: #666666;
+    padding: 0;
+}
+.list-members .user-desc p a {
+    color: #0099FF;
+}
+
+.challenge-information {
+    font-size: 13px;
+}
+.sidebar {
+    width: 300px;
+}
+.challenge-information .list-technologies {
+    height: 30px;
+    margin-bottom: 30px;
+}
+.challenge-information .list-technologies li {
+    display: inline;
+    float: left;
+    height: 30px;
+    margin-right: 8px;
+}
+.challenge-information .list-technologies li.last {
+    margin: 0;
+}
+.challenge-information .list-technologies li a, .challenge-information .list-technologies li a span {
+    background: url("http://cloudspokes.s3.amazonaws.com/challenge-technology-bg.gif") no-repeat scroll 0 0 transparent;
+    display: inline;
+    float: left;
+    font-size: 17px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+}
+.challenge-information .list-technologies li a span {
+    background-position: right 0;
+    padding-left: 0;
+    padding-right: 10px;
+}
+.challenge-information .list-technologies li a:hover {
+    text-decoration: none;
+}
+.challenge-information li.active span, .challenge-information li.hover span {
+    background-position: right -30px;
+}
+.discussion {
+    margin-top: 20px;
+}
+.discussion h2 {
+    color: #6699C9;
+    font: 28px "Myriad Pro","Trebuchet MS",Arial,sans-serif;
+    margin-bottom: 15px;
+}
+.discussion .box {
+    margin-bottom: 7px;
+}
+.discussion .reply-post .box {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/challenge-l2-bg.gif");
+    margin-left: 33px;
+    width: 568px;
+}
+.discussion .reply-post .box-b {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/challenge-l2-b.gif");
+}
+.discussion .reply-post .box-t {
+    background-image: url("http://cloudspokes.s3.amazonaws.com/challenge-l2-t.gif");
+}
+.discussion .reply-post .text-holder {
+    width: 460px;
+}
+.discussion .captchaCode {
+    float: left;
+    margin: 8px 5px 5px 0;
+    width: 155px;
+}
+.discussion .captcha {
+    border: 1px solid gray;
+    float: left;
+    margin: 0 5px 5px 0;
+    width: 200px;
+}
+.discussion .captchaRefresh {
+    float: left;
+    padding-top: 15px;
+    vertical-align: middle;
+}
+.discussion .field {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #666666;
+    display: inline;
+    float: left;
+    font-size: 13px;
+    height: 16px;
+    margin-bottom: 10px;
+    padding: 6px 5px;
+    width: 130px;
+}
+.discussion .codelbl {
+    float: left;
+    margin-right: 5px;
+    margin-top: 10px;
+    width: 70px;
+}
+.post-comment {
+    margin-top: 23px;
+}
+.post-comment .holder {
+    background: url("http://cloudspokes.s3.amazonaws.com/textarea-1.gif") repeat scroll 0 0 transparent;
+    height: 84px;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 448px;
+}
+.post-comment .holder textarea {
+    border: 0 none;
+    color: #666666;
+    display: block;
+    font-size: 14px;
+    height: 84px;
+    width: 448px;
+}
+.post-comment .captchaCode {
+    float: left;
+    margin: 8px 5px 5px 0;
+    width: 155px;
+}
+.post-comment .captcha {
+    border: 1px solid gray;
+    float: left;
+    margin: 0 5px 5px 0;
+    width: 200px;
+}
+.post-comment .captchaRefresh {
+    float: left;
+    padding-top: 15px;
+    vertical-align: middle;
+}
+.post-comment .field {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #666666;
+    display: inline;
+    float: left;
+    font-size: 13px;
+    height: 16px;
+    margin-bottom: 10px;
+    padding: 6px 5px;
+    width: 130px;
+}
+.post-comment .codelbl {
+    float: left;
+    margin-right: 5px;
+    margin-top: 10px;
+    width: 70px;
+}
+.challenge-sidebar ul {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+.challenge-sidebar h2 {
+    font-size: 24px;
+    font-weight: normal;
+    line-height: 100%;
+    margin-bottom: 5px;
+}
+.challenge-sidebar li {
+    margin-bottom: 15px;
+}
+.challenge-sidebar li li {
+    margin-bottom: 0;
+}
+.challenge-sidebar li li span {
+    display: inline;
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+    text-align: right;
+}
+
+
+.help-nav {
+    background: url("http://cloudspokes.s3.amazonaws.com/help-nav-bg.gif") repeat scroll 0 0 transparent;
+    height: 25px;
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+}
+.fl {
+    display: inline;
+    float: left !important;
+}
+.fr {
+    display: inline;
+    float: right !important;
+}
+.cl {
+    clear: both;
+}
+.help-nav .sort ul li {
+    color: #7D837D;
+    display: inline;
+    float: left;
+    font-size: 15px;
+    margin-right: 10px;
+}
+.help-nav .sort ul li a {
+    color: #7D837D;
+    display: inline;
+    float: left;
+    margin-right: 15px;
+}
+.help-nav .sort ul li a.dd {
+    background: url("http://cloudspokes.s3.amazonaws.com/bullet-1.gif") no-repeat scroll 0 center transparent;
+    color: #000000;
+    padding-left: 11px;
+}
+.help-nav .sort ul li a.ddasc {
+    background: url("http://cloudspokes.s3.amazonaws.com/bullet-2.gif") no-repeat scroll 0 center transparent;
+    color: #000000;
+    padding-left: 11px;
+}
+.help-nav .sort ul li a.active, .help-nav .sort ul li a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+#search {
+    background: url("http://cloudspokes.s3.amazonaws.com/search-bg.gif") no-repeat scroll 0 0 transparent;
+    display: inline;
+    float: right;
+    height: 26px;
+    overflow: hidden;
+    position: relative;
+    width: 265px;
+}
+#search fieldset {
+    padding-bottom: 0;
+}
+#search .field {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    color: #A3A5A4;
+    display: inline;
+    float: left;
+    font-size: 13px;
+    font-style: italic;
+    height: 16px;
+    padding: 5px 8px;
+    width: 219px;
+}
+#search .submit {
+    background: none repeat scroll 0 0 transparent;
+    display: inline;
+    float: left;
+    height: 26px;
+    width: 30px;
+}
+/*
+    Categories
+*/
+
+.categories { height: 30px; margin-left: -20px; margin-bottom: 0;
+    margin-right: -20px;
+    margin-top: -29px;background-color:#456179;padding:20px}
+.categories li { float: left; display: inline; height: 30px; margin-right: 8px; }
+.categories li.last { margin: 0; }
+
+.categories li a, 
+.categories li a span { float: left; display: inline; height: 30px; line-height: 30px; padding-left: 10px; background: url(http://cloudspokes.s3.amazonaws.com/cat-bg.gif) no-repeat 0 0; font-size: 17px; color: #1B1F22; }
+.categories li a span { padding-left: 0; padding-right: 10px; background-position: right 0; }
+
+.category-selected
+{
+    font-weight: bold;
+    color:White;
+}
+
+.categories li.active a,
+.categories li.hover a,
+.categories li.active span,
+.categories li.hover span { background-position: 0 -30px; color: #fff; text-decoration: none; }
+
+.categories li.active span,
+.categories li.hover span { background-position: right -30px; }
+
+.categories .hover .brown,
+.categories .active .brown { color: #df9f2d; }
+
+.categories .hover .blue,
+.categories .active .blue { color: #649ada; }
+
+.categories .hover .red,
+.categories .active .red { color: #bb3d2b; }
+
+.categories .hover .grey,
+.categories .active .grey { color: #999; }
+
+.categories .hover .yellow,
+.categories .active .yellow { color: #fadf43; }
+
+.categories .hover .light-blue,
+.categories .active .light-blue { color: #54b1b6; }
+
+.categories .hover .pink,
+.categories .active .pink { color: #ac85ce; }
+
+.categories .hover .orange,
+.categories .active .orange { color: #e44a1b; }
+
+.categories .hover .green,
+.categories .active .green { color: #79c844; }
+
+.categories .hover .light-green,
+.categories .active .light-green { color: #89bc92; }
+
+.categories .hover .dark-green,
+.categories .active .dark-green { color: #548d30; }
+
+.categories .hover .black, 
+.categories .active .black {color: #000000;}
+
+.content-wrapper { height: 100%; }
+
+.two-cols-bg { background: url(http://cloudspokes.s3.amazonaws.com/two-cols-shadow.gif) repeat-y 0 0; }
+
+.widecolumn { width: 600px; }
+
+.box { background-repeat: repeat-y; background-position: 0 0; }
+.box-b { background-repeat: no-repeat; background-position: 0 bottom; }
+.box-t { background-repeat: no-repeat; background-position: 0 0; height: 100%; }
+
+.list-challenges { margin-bottom: 20px; }
+.list-challenges .box { background-image: url(http://cloudspokes.s3.amazonaws.com/challenge-box-bg.gif); margin-bottom: 10px; }
+.list-challenges .box-b { background-image: url(http://cloudspokes.s3.amazonaws.com/challenge-box-b.gif); }
+.list-challenges .box-t { background-image: url(http://cloudspokes.s3.amazonaws.com/challenge-box-t.gif); padding: 6px 10px; }
+.list-challenges .col-left { width: 410px; }
+.list-challenges .col-right { width: 132px; }
+.list-challenges .col-right p a { color: #020c4e; }
+.list-challenges .col-left h4 { padding: 6px 0 7px; margin: 0; }
+.list-challenges .col-left p { color: #666; }
+
+.list-challenges p { padding: 0; font-size: 13px; line-height: 17px; color: #000C4C; margin: 0;}
+.list-challenges .brown { color: #da7b20; }
+.list-challenges .yellow { color: #f1d563; }
+.list-challenges .pink { color: #ac85ce; }
+.list-challenges .green { color: #74bf44; }
+.list-challenges .light-green { color: #88bb92; }
+.list-challenges .dark-green { color: #aacb33; }
+.list-challenges .red { color: #b1394d; }
+.list-challenges .grey { color: #7e8388; }
+.list-challenges .orange { color: #e44a1b; }
+.list-challenges .blue { color: #649ADA; }
+.list-challenges .light-blue { color: #54B1B6; }
+
+/*
+    Full Width Challenges
+*/
+
+.full-width-challenges { margin-bottom: 55px; }
+.full-width-challenges .box { background-image: url(http://cloudspokes.s3.amazonaws.com/challenge-box-bg-full.gif); }
+.full-width-challenges .box-b { background-image: url(http://cloudspokes.s3.amazonaws.com/challenge-box-b-full.gif); }
+.full-width-challenges .box-t { background-image: url(http://cloudspokes.s3.amazonaws.com/challenge-box-t-full.gif); padding: 10px; }
+.full-width-challenges .col-left { width: 585px; }
+.full-width-challenges .col-left h4 { padding: 0 0 2px; }
+.full-width-challenges .col-right { width: 300px; }
+.full-width-challenges .box .col-left .checkbox { float: left; padding-right: 5px; }
+
+.get-rss { padding-left: 30px; background: url(http://cloudspokes.s3.amazonaws.com/icon-rss.gif) no-repeat 0 0; line-height: 20px; position: relative; margin-left: -6px; height: 25px; }
+

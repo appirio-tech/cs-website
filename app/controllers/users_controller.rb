@@ -1,10 +1,6 @@
 class UsersController < ApplicationController
   require 'services'
   
-  def show
-    @user = User.find(params[:id])
-  end
-
   # signing up with a cloudspokes u/p
   def new
     @user = User.new

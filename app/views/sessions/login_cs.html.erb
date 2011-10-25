@@ -1,6 +1,6 @@
-<h1>Sign in</h1>
+<h1>Login</h1>
 
-<%= form_for(:session, :url => sessions_path) do |f| %>
+<%= form_for @login_form, :url => login_cs_auth_url do |f| %>
   <div class="field">
     <%= f.label :username %><br />
     <%= f.text_field :username %>
@@ -10,6 +10,6 @@
     <%= f.password_field :password %>
   </div>
   <div class="actions">
-    <%= f.submit "Sign in" %>
+    <%= f.submit "Login in" %>
   </div>
 <% end %>

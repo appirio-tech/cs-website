@@ -1,0 +1,108 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl dvbulletedlist">
+                <!-- Challenge Information -->
+                <div class="challenge-information">
+                    <span style="font-size:Small;font-weight:bold;"></span>
+                    <h3>Technologies</h3>
+                    <div class="list-technologies">
+                        <ul>
+                            <table cellspacing="0" border="0" style="border-collapse:collapse;">
+								<tr>
+									<% @categories.each do |record| %>	
+									<td><li><a href="#"><span><%= record %></span></a></li></td>
+									<% end %>                                
+								</tr>
+							</table>
+                        </ul>
+                    </div>
+
+                    <h3>Overview</h3>
+                    <p><%= @challenge_detail["Description__c"].html_safe %></p>
+
+                    <h3>Challenge Requirements</h3>
+                    <p><%= @challenge_detail["Requirements__c"].html_safe %></p>
+
+                    <h3>Submission Details</h3>
+                    <p><%= @challenge_detail["Submission_Details__c"].html_safe %></p>
+
+                    <h3>Additional Info</h3>
+                    <p><%= @challenge_detail["Additional_Info__c"].html_safe %></p>
+
+                    <!--
+                    <div>
+                        <h3><span>Register or Login to submit for the contest</span></h3>
+                        <a class="button fl" href="register.html"> <span>Register</span></a>
+                        <a class="button fl" href="login.html"> <span>Login</span></a>                        
+                    </div>
+                    -->
+                </div>
+
+                <!-- END Challenge Information -->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+
+    				<ul>
+        				<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
+        				<li><h3>Time Left For Submission</h3><h2><span><%= @challenge_detail["TimeTillEnd"] %></span></h2></li>
+ 						<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
+        				<li><h3>Prizes</h3>
+							<ul>
+								<% @prizes.each do |record| %>                
+                        		<li><span><%= record["Place__c"] %>. <%= record["Prize__c"] %></span><br /></li>
+								<% end %>
+							</ul>
+						</li>
+        				<li><h3>Winner Announced</h3><strong><span><%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %></span></strong></li>
+        
+						<li style="display:block;"><h3>Registered Members</h3>
+            				<a href="<%= @challenge_detail["Id"] %>/registrants"><strong>
+								<span><%= @challenge_detail["Registered_Members__c"] %> Registered Member(s)</span></strong></a>
+						</li>
+        				<li>
+            				<h3>Delivery Formats</h3>
+            				<ul>
+			                HTML, Word, Google Doc, Text, RTF, Other: Upload a text document with details on
+			                how to retrieve your submission.
+			                <li><strong>HTML</strong></li>
+			                <li><strong>Word</strong></li>
+			                <li><strong>Google Doc</strong></li>
+			                <li><strong>Text</strong></li>
+			                <li><strong>RT</strong></li>
+			                <li><strong>Other:</strong> Upload a text document<br />with details on how to retrieve<br />your submission.</li>
+            				</ul>
+        				</li>
+        				<li><h3>Assets</h3>
+							<ul>
+                				<li><strong><span style="width: 300px; text-align: left">No asset(s) found for this challenge.<br /><br /></span></strong></li>
+                    		</ul>
+						</li>
+        				<li>
+            				<h3>Share</h3>
+				            <!-- AddThis Button BEGIN -->
+				            <div class="addthis_toolbox addthis_default_style ">
+				                <a class="addthis_button_facebook_like"><fb:like:layout="button_count"></fb:like></a><a class="addthis_button_tweet"></a>
+				                <a class="addthis_counter addthis_pill_style"></a>
+				            </div>
+				            <script type="text/javascript">                var addthis_config = { "data_track_clickback": true };</script>
+				            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=mess"></script>
+				            <!-- AddThis Button END -->
+							<div class="cl">&nbsp;</div>
+						</li>
+					</ul>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>

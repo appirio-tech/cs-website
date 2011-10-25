@@ -13,11 +13,13 @@ unless Rails.env.production?
   # this is appended to the member's username when creating new users plus when logging in. 
   # Make sure it matches the 'Platform Settings' custom setting 'Email Domain' in sfdc
   ENV['sfdc_username_domain'] = 'sandbox.cloudspokes.com'
+  # the root url of the pod running on
+  ENV['sfdc_instance_url'] = 'https://cs10.salesforce.com'
   # the CloudSpokes URI and API verson
-  ENV['sfdc_instance_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
+  ENV['sfdc_rest_api_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
   
   # OmniAuth settings
-  ENV['omniauth_full_host'] = 'http://localhost:3000'
+  ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'
   ENV['twitter_oauth_key'] = 'KPJwFLfYmwj2Ug25aJgA'
   ENV['twitter_oauth_secret'] = 'xa7HFNAIdGMfn6u20ph21yBdtpQHQ4Qykdq5rDV0'
   ENV['github_oauth_key'] = '791a5c9d36f560ee9353'

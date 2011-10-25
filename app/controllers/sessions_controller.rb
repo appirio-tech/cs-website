@@ -37,8 +37,7 @@ class SessionsController < ApplicationController
       end
 
     else
-      flash[:error] = new_member_create_results[:message]
-      redirect_to signup_complete_url
+      redirect_to signup_complete_url, :notice => new_member_create_results[:message]
     end
   end
   
@@ -54,6 +53,10 @@ class SessionsController < ApplicationController
     
     # if no user was returned, then create them
     if user_exists_results[:success].eql?('false')
+      
+      if user_exists_results[:message].eql('Session expired or invalid')
+        redirect_to fail_url, :notice => user_exists_results[:message]
+      end
       
       # if the provider does not send us an email, redirect them
       if ['twitter','github'].include?(params[:provider])
@@ -78,8 +81,7 @@ class SessionsController < ApplicationController
         
         # they can't login - taken username or email address?
         else
-          flash[:error] = new_member_create_results[:message]
-          redirect_to login_url
+          redirect_to login_url, :notice => new_member_create_results[:message]
         end
       end
       
@@ -101,19 +103,31 @@ class SessionsController < ApplicationController
       render :text =>  request.env["omniauth"].to_yaml
   end
   
-  # logging in with cloudspokes u/p
-  def create
+  # manual login page with cloudpsokes u/p
+  def login_cs
+    @login_form = LoginForm.new
+  end
+  
+  # authenticate them against sfdc in with cloudspokes u/p
+  def login_cs_auth
     
-    user = User.authenticate(params[:session][:username],
-        params[:session][:password])
-    
-    if user.nil?
-      flash[:error] = "Invalid email/password combination."
-      redirect_to '/signin'
+    @login_form = LoginForm.new(params[:login_form])
+    if @login_form.valid?
+
+      user = User.authenticate(params[:session][:username],
+          params[:session][:password])
+
+      if user.nil?
+        redirect_to login_cs_url, :notice => 'Invalid email/password combination.'
+      else
+        sign_in user
+        redirect_to root_path
+      end
+
     else
-      sign_in user
-      redirect_to root_path
+      render :action => 'login_cs'
     end
+    
   end
 
   def destroy 

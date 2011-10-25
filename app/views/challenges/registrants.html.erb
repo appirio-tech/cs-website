@@ -1,0 +1,107 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl">
+                <!-- Challenge Registrants -->
+                <span></span>
+                <p><a href="/challenges/<%= @challenge_detail["Id"] %>" id="ctl00_Body_aBack" class="fl">&laquo; Back</a><br /></p>
+
+				<!-- List Members -->
+                <div class="list-members">
+					<% @registrants.each do |record| %>
+					<div class="box">
+						<div class="box-b">
+							<div class="box-t">
+								<div class="user-info fl">
+                             		<a href='#'><img class="member-pic" src="<%= record["Member__r"]["Profile_Pic__c"] %>" style="height:48px;width:48px;border-width:0px;" /></a>
+									<div class="text-holder">
+										<h4><a href='#'><%= record["Member__r"]["Name"] %></a></h4>
+										<span class="stats"># of Wins: <%= record["Member__r"]["Total_Wins__c"] %></span>
+									</div>
+									<div class="cl"></div>
+								</div>
+								<div class="user-desc fr">
+									<p><strong>About Me:</strong>
+									<a href='#'>View Profile</a></p>
+								</div>
+								<div class="cl"></div>
+							</div>
+						</div>
+					</div>
+					<% end %>                        
+                        
+                    <div class="cl"></div>
+                    <!-- Paging -->
+                    <!--
+                    <div class="paging">
+                        <p class="ar">
+						<span><span class="selected">1</span>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPagerMembers$ctl00$ctl01&#39;,&#39;&#39;)">2</a>&nbsp;</span></p>
+                    </div>-->
+                    <!-- END Paging -->
+                </div>
+                <!-- END List Members -->
+
+
+                <!-- END Challenge Registrants -->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+
+    				<ul>
+        				<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
+        				<li><h3>Time Left For Submission</h3><h2><span><%= @challenge_detail["TimeTillEnd"] %></span></h2></li>
+ 						<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
+        				<li><h3>Prizes</h3>
+							<ul>
+								<% @prizes.each do |record| %>                
+                        		<li><span><%= record["Place__c"] %>. <%= record["Prize__c"] %></span><br /></li>
+								<% end %>
+							</ul>
+						</li>
+        				<li><h3>Winner Announced</h3><strong><span><%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %></span></strong></li>
+        
+        				<li>
+            				<h3>Delivery Formats</h3>
+            				<ul>
+			                HTML, Word, Google Doc, Text, RTF, Other: Upload a text document with details on
+			                how to retrieve your submission.
+			                <li><strong>HTML</strong></li>
+			                <li><strong>Word</strong></li>
+			                <li><strong>Google Doc</strong></li>
+			                <li><strong>Text</strong></li>
+			                <li><strong>RT</strong></li>
+			                <li><strong>Other:</strong> Upload a text document<br />with details on how to retrieve<br />your submission.</li>
+            				</ul>
+        				</li>
+        				<li><h3>Assets</h3>
+							<ul>
+                				<li><strong><span style="width: 300px; text-align: left">No asset(s) found for this challenge.<br /><br /></span></strong></li>
+                    		</ul>
+						</li>
+        				<li>
+            				<h3>Share</h3>
+				            <!-- AddThis Button BEGIN -->
+				            <div class="addthis_toolbox addthis_default_style ">
+				                <a class="addthis_button_facebook_like"><fb:like:layout="button_count"></fb:like></a><a class="addthis_button_tweet"></a>
+				                <a class="addthis_counter addthis_pill_style"></a>
+				            </div>
+				            <script type="text/javascript">                var addthis_config = { "data_track_clickback": true };</script>
+				            <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=mess"></script>
+				            <!-- AddThis Button END -->
+							<div class="cl">&nbsp;</div>
+						</li>
+					</ul>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>

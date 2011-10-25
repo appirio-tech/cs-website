@@ -51,7 +51,7 @@ class Services
     p '======= options for new user in sfdc'
     p options     
          
-    results = post(ENV['sfdc_instance_url']+'/members', options)
+    results = post(ENV['sfdc_rest_api_url']+'/members', options)
                 
     begin
       
@@ -82,7 +82,7 @@ class Services
     }
 
     p "========= getting sfdc_username for #{third_party_service} and #{third_party_username} and public access token"
-    results = get(ENV['sfdc_instance_url']+'/credentials', options)
+    results = get(ENV['sfdc_rest_api_url']+'/credentials', options)
             
     begin
     

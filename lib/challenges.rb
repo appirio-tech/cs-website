@@ -4,14 +4,44 @@ class Challenges
   format :json
   
   headers 'Content-Type' => 'application/json' 
-
-  def self.get_challenges(access_token) 
-    set_header_token(access_token) 
-    get(ENV['sfdc_instance_url']+'/challenges')
-  end 
   
   def self.set_header_token(access_token)
     headers 'Authorization' => "OAuth #{access_token}" 
   end
+
+  def self.get_challenges(access_token)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/challenges?fields=Id,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c')
+  end
   
+  def self.get_challenge_detail(access_token, id)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?fields=Id,Name,Description__c,Additional_Info__c,Comments__c,End_date__c,License__c,Requirements__c,Status__c,Submission_Details__c,Top_Prize__c,Winner_Announced__c,Registered_Members__c')
+  end
+  
+  def self.get_categories(access_token, id)
+    set_header_token(access_token) 
+    catnames = []
+    cats = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'/categories?fields=id,name,display_name__c')
+    p cats
+    cats.each do |cat|
+        catnames.push(cat['Display_Name__c'])
+    end
+    return catnames
+  end
+  
+  def self.get_prizes(access_token, id)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'/prizes?fields=Prize__c,Place__c')
+  end
+  
+  def self.get_registrants(access_token, id)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c')
+  end
+  
+  def self.get_leaderboard(access_token, from_date, page_num)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/leaderboard?pageNum='+page_num.to_s+'&dateFormat='+from_date.to_s)
+  end
 end
