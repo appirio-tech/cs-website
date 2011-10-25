@@ -14,7 +14,7 @@ class AccountController < ApplicationController
       flash[:error] = @results[:message]
       redirect_to(:back)
     else
-      redirect_to 'account_url
+      redirect_to account_url
     end
          
   end
