@@ -1,5 +1,6 @@
 class Challenges 
   
+  require 'uri'
   include HTTParty 
   format :json
   
@@ -9,9 +10,19 @@ class Challenges
     headers 'Authorization' => "OAuth #{access_token}" 
   end
 
-  def self.get_challenges(access_token)
+  def self.get_challenges(access_token, show_open, orderby, category)
+    
+    qry_open = show_open ? '&open=true' : '&open=false'
+    qry_orderby = '&orderby='+orderby
+    qry_category = category.nil? ? '' : '&category='+CGI::escape(category)
+    
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/challenges?fields=Id,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c')
+    get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c'+qry_orderby+qry_open+qry_category)
+  end
+  
+  def self.get_challenges_by_keyword(access_token, keyword)  
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c&search='+keyword)
   end
   
   def self.get_challenge_detail(access_token, id)

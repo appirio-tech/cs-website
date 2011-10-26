@@ -1,36 +1,21 @@
         <div class="page">
-            <h1 id="heading">
-                Challenges</h1>
+            <h1 id="heading">Challenges</h1>
             <div class="categories">
-              
-                    <table cellspacing="0" border="0" style="border-collapse:collapse;">
-	<tr>
-		<td>
-                            <li class="active"><a href="#"><span class="brown">Salesforce.com</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="blue">Google</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="pink">AWS</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="yellow">Heroku</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="light-blue">Mobile</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="red">Twilio</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="purple">Other</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="brown">Java</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="red">Ruby</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#"><span class="green">Cloud Foundry</span></a></li>
-                        </td><td>
-                            <li class="active"><a href="#" class="category-selected"><span class="category-selected">all</span></a></li>
-                        </td><td></td>
-	</tr>
-</table>
-      
+				<table cellspacing="0" border="0" style="border-collapse:collapse;">
+					<tr>
+						<td><li class="active"><a href="/challenges?category=Salesforce.com"><span class="brown">Salesforce.com</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Google"><span class="blue">Google</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=AWS"><span class="pink">AWS</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Heroku"><span class="yellow">Heroku</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Mobile"><span class="light-blue">Mobile</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Twilio"><span class="red">Twilio</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Other"><span class="purple">Other</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Java"><span class="brown">Java</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Ruby"><span class="red">Ruby</span></a></li></td>
+						<td><li class="active"><a href="/challenges?category=Cloud Foundry"><span class="green">Cloud Foundry</span></a></li></td>
+						<td><li class="active"><a href="/challenges" class="category-selected"><span class="category-selected">all</span></a></li></td>
+					</tr>
+				</table>
             </div>
         <!-- END Page heading -->
         <!-- Help Nav -->
@@ -39,14 +24,10 @@
             <div class="sort fl">
                 <ul>
                     <li>SORT BY</li>
-                    <li>
-                        <a class="ddasc" href="#">title</a></li>
-                    <li>
-                        <a  href="#">type</a></li>
-                    <li>
-                        <a href="#">due</a></li>
-                    <li>
-                        <a href="#">start date</a></li>
+                    <li><a class="ddasc" href="/challenges?orderby=name">title</a></li>
+                    <li><a  href="#">type</a></li>
+                    <li><a href="/challenges?orderby=end_date__c">due</a></li>
+                    <li><a href="/challenges?orderby=start_date__c">start date</a></li>
                 </ul>
             </div>
             <!-- END Sort -->
@@ -54,17 +35,18 @@
             <div class="sort fl">
                 <ul>
                     <li>SHOW</li>
-                    <li><a href="#" class="active">open</a></li>
-                    <li><a href="#">closed</a></li>
+                    <li><a href="/challenges?show=open" class="active">open</a></li>
+                    <li><a href="/challenges?show=closed">closed</a></li>
                 </ul>
             </div>
             <!-- END Sort -->
             <!-- Search -->
             <div id="search">
                 <fieldset>
-                    
-                    <input type="text" class="field blink" title="search challenges" value="search challenges" />
+					<form method="get" action="/challenges">
+                    <input type="text" class="field blink" title="search challenges" value="search challenges" name="keyword"/>
                     <input type="submit" value="" class="submit notext" />
+					</form>
                 </fieldset>
             </div>
             <!-- END Search -->
@@ -76,39 +58,37 @@
             <div class="list-challenges full-width-challenges">
                 <!-- Box -->
                 
-                        <div>
-<% @challenges.each do |record| %>
-                        <div class="box">
-                            <div class="box-b">
-                                <div class="box-t">
-                                    <div class="col-left fl">
-                                        <h4>
-                                            <a href="/challenges/<%= record["Id"] %>">
-                                                <%= record["Name"] %></a></h4>
-                                        <p><%= record["Description__c"] %></p>
-                                    </div>
-                                    <div class="col-right fr">
-                                        <p>
-                                            <strong>
-                                                <%= record["Top_Prize__c"] %>&nbsp;<!--for-->
-                                            </strong>
-                                            <br />
-                                            <span><%= record["TimeTillEnd"] %> for </span>
-                                            <!--<a href="Profile.aspx?username=jeffdonthemic">
-                                                jeffdonthemic</a>-->
-                                            <br />
-                                            <a href="<%= record["Id"] %>/registrants">
-                                                <%= record["Registered_Members__c"] %>&nbsp;registered members </a>
-                                            
-                                            <br />
-                                             <span><a href='' target="_blank"> </a></span></p>
-                                    </div>
-                                    <div class="cl"></div>
-                                </div>
-                            </div>
-                        </div>
-<% end %>
-                        </div>
+                <div>
+				<% if @challenges.nil? %>
+					<div style="text-align: center; padding:50px"><b> No open challenges found! </b></div>
+				<% else %>
+					<% @challenges.each do |record| %>
+		                <div class="box">
+		                    <div class="box-b">
+		                        <div class="box-t">
+		                            <div class="col-left fl">
+		                                <h4><a href="/challenges/<%= record["Id"] %>"><%= record["Name"] %></a></h4>
+		                                <p><%= record["Description__c"].html_safe %></p>
+		                            </div>
+		                            <div class="col-right fr">
+		                                <p>
+		                                    <strong><%= record["Top_Prize__c"] %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong>
+		                                    <br />
+		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
+		                                    <!--<a href="Profile.aspx?username=jeffdonthemic">
+		                                        jeffdonthemic</a>-->
+		                                    <br />
+		                                    <a href="/challenges/<%= record["Id"] %>/registrants"><%= record["Registered_Members__c"] %>&nbsp;registered members </a>
+		                                    <br />
+		                                    <span><a href='' target="_blank"> </a></span></p>
+		                            </div>
+		                            <div class="cl"></div>
+		                        </div>
+		                    </div>
+		                </div>
+					<% end %>
+				<% end %>
+                </div>
                     
                 
                 <div class="paging fr">

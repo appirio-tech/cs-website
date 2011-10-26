@@ -5,21 +5,20 @@ require 'settings'
 class ChallengesController < ApplicationController
 
   def index  
-    @challenges = Challenges.get_challenges(current_access_token)
-    @challenges.each do |record|
-        end_time = Time.parse(record["End_Date__c"])
-        if end_time.past?
-            record["TimeTillEnd"] = "closed"
-        else
-            secs = Time.parse(record["End_Date__c"]) - Time.now
-            if (secs > 86400)
-                record["TimeTillEnd"] = "due in " + (secs/86400).floor.to_s + " days(s)"
-            else
-                record["TimeTillEnd"] = "due in " + (secs/3600).floor.to_s + " hour(s) " + (secs/60).round.to_s + " minute(s)"
-            end
-        end
+        
+    show_open = false
+    show_open = true unless params[:show].eql?('closed')
+    orderby = params[:orderby].nil? ? 'name' : params[:orderby]
+    
+    p "show open: #{show_open}"
+    p "orderby: #{orderby}"
+    
+    if params[:keyword].nil?
+      @challenges = Challenges.get_challenges(current_access_token, show_open, orderby, params[:category])
+    else 
+      @challenges = Challenges.get_challenges_by_keyword(current_access_token, params[:keyword])
     end
-    puts @challenges
+    
   end
   
   def detail
