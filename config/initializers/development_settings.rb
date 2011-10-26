@@ -18,6 +18,8 @@ unless Rails.env.production?
   # the CloudSpokes URI and API verson
   ENV['sfdc_rest_api_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
   
+  ENV['access_token'] = '00DJ00000004weA!AQQAQIsv60lK8eSzG4CKeqelHbVIjTQKokGjXKpASZ7NlWgptQwmiWjig3PpnhWJn3JystHWIR4MsX9_EvdDijHV1YXAH.y'
+  
   # OmniAuth settings
   ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'
   ENV['twitter_oauth_key'] = 'KPJwFLfYmwj2Ug25aJgA'

@@ -1,0 +1,97 @@
+.content-wrapper.two-cols-bg
+  .widecolumn.fl
+    .list-challenges
+      - if @active_challenges.size > 1
+        %a.fr{:href => "/members/%s/active_challenges" % @member["Id"]}
+          See all »
+      %h3= "#{@active_challenges.size} active challenges"
+      - if @active_challenges.count == 0 
+        %div{:style => "text-align:center"}
+          %b No active challenge found
+      - @active_challenges[0..2].each do |active_challenge|
+        = render "challenge", :challenge => active_challenge
+
+    .list-challenges
+      - if @past_challenges.size > 0
+        %a.fr{:href => "/members/%s/past_challenges" % @member["Id"]}
+          See all »
+      %h3= "#{@past_challenges.size} past challenges"
+      - if @past_challenges.count == 0
+        %div{:style => "text-align:center"}
+          %b No past challenge found
+      - @past_challenges.each do |past_challenge|
+        = render "challenge", :challenge => past_challenge
+
+    .recommendations
+      %ul
+        %li.recommend
+          %a{:href => "#"}= "Recommend #{@member["Name"]}"
+        %li.last Show all
+      %h3= "#{@recommendations.size} recommendations"
+      - if @recommendations.count == 0
+        %div{:style => "text-align:center"}
+          %b No recommendation found
+      - @recommendations.each do |recommendation|
+        = render "recommendation", :recommendation => recommendation, :member => Members.find(recommendation["Member__c"])
+
+  .sidebar.fr
+    .profile
+      %img.fl{:width => "100px", :height => "100px", :src =>  @member["Profile_Pic__c"]}
+      .profile-info.fl
+        %h4
+          %span= @member["Name"].try(:upcase)
+        %span
+        %span
+          %span= @member["Country__c"].try(:upcase)
+      .cl= " "
+      %p
+        %strong About me :
+        %span= @member["Summary_Bio__c"]
+        %br
+        %strong Quote :
+        %span= @member["Quote__c"]
+      .actions
+        %ul
+          %li.recommend
+            %a{:href => "#"} Recommend
+        .cl
+    %a{:href => "#"}
+      %h3 Stats & Achievements
+    .stats
+      %ul
+        %li
+          = @member["Challenges_Submitted__c"]
+          %strong Total Submissions
+        %li
+          = @member[""]
+          %strong Average Score
+        %li
+          = @member["Total_1st_Place__c"]
+          %strong # of 1st Places
+        %li
+          = @member["Total_2nd_Place__c"]
+          %strong # of 2nd Places
+        %li
+          = @member["Total_3st_Place__c"]
+          %strong # of 3rd Places
+        %li
+          = @member["Challenges_Entered__c"]
+          %strong Contests Entered
+        %li
+          = @member["Total_Points__c"]
+          %strong Total Points
+    .achievements
+    %h3 Social
+    .socials
+      %ul
+        - "Twitter__c,LinkedIn__c,Icq__c,Jabber__c,Github__c,Facebook__c,Digg__c,Myspace__c".split(',').each do |social|
+          - if @member[social]
+            %li
+              %a{:href => @member[social], :target => "_blank"}
+                = image_tag social[0..-4].downcase + ".gif"
+    .cl
+    - if @member["Website__c"]
+      .website
+        %strong Website :
+        %a{:href => "http://"+@member["Website__c"], :target => "_blank"}
+          = @member["Website__c"]

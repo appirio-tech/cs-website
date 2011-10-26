@@ -3,6 +3,8 @@ source 'http://rubygems.org'
 gem 'rails', '3.1.0'
 gem 'compass', git: 'git://github.com/chriseppstein/compass.git'
 gem 'databasedotcom'
+gem 'haml'
+gem 'will_paginate'
 gem 'jquery-rails'
 gem 'httparty'
 gem 'omniauth'
@@ -17,6 +19,8 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'growl'
   gem 'rb-fsevent'
+  gem 'ruby-debug19'
+  gem 'heroku'
 end
 
 group :test do

@@ -1,0 +1,24 @@
+.box
+  .box-b
+    .box-t
+      .user-info.fl
+        %a{:href => "#"}
+          %img.member-pic{:style => "height:48px;width:48px;border-width:0px;", :src => member["Profile_Pic__c"], :id =>member["Id"]}
+            .text-holder
+              %h4
+                %a{:href => member_path(member["Name"])}
+                  = member["Name"]
+                %span.stats
+                  = "Following:"
+                  = "11"
+                  = "Active:"
+                  = member["Challenges_Entered__c"]
+                  = "# of Wins:"
+                  = member["Total_1st_Place__c"].to_i + member["Total_2nd_Place__c"].to_i + member["Total_3st_Place__c"].to_i
+            .cl= " "
+      .user-desc.fr
+        %p
+          %strong= "About Me:"
+          = member["Summary_Bio__c"]
+          %a{:href => member_path(member["Name"])}= "View Profile"
+      .cl= " "

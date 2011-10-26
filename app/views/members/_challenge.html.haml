@@ -1,0 +1,18 @@
+%div
+  .box
+    .box-b
+      .box-t
+        .col-left.fl
+          %h4= challenge["Name"]
+          %p= challenge["Description__c"]
+        .col-right.fr
+          %p
+            %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']
+            %br
+            = "#{challenge['Challenge_Participants__r']['records'].first['Money_Awarded__c'].round}$ for"
+            %br
+            %span
+              - challenge["Challenge_Categories__r"]["records"].each do |category|
+                %span{:class =>category["Category__r"]["Name"]}= category["Category__r"]["Name"]
+            %br
+        .cl  

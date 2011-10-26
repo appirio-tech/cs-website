@@ -1,0 +1,29 @@
+.page-heading
+  %h2.melbourne
+    %cufon.cufon.cufon-canvas{:alt => "Members", :style => "width: 150px; height: 45px;"}
+      %cufontext= "Members"
+
+.help-nav
+  .sort.fl
+    %ul
+      %li= "SORT"
+      %li{:class => ((params[:order_by] == "name") or (params[:order_by] == nil)) ? "current_sort" : ""}
+        = link_to "Name", members_order_by_name_path
+      %li{:class => params[:order_by] == "total_wins__c" ? "current_sort" : ""}
+        = link_to "Highest win rate", members_order_by_win_path
+      %li{:class => params[:order_by] == "challenges_entered__c" ? "current_sort" : ""}
+        = link_to "Most active", members_order_by_active_path
+  #search
+    %form{:action => "/members/search", :method => "post"}
+      %fieldset
+        %input{:type => "text", :value => "search members", :onclick => "this.value=''", :title => "search members", :class => "field blink", :name => "query"}
+          %span{:style => "color:Red;float:right;"}
+            %input.submit{:type => "submit", :value =>"", :name =>""}
+
+.content-wrapper.two-cols-bg
+  .widecolumn
+    .list-members
+      - @members.each do |member|
+        = render "member", :member => member
+        %br
+

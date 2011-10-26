@@ -58,7 +58,7 @@ class SiteSettings
       end
       
     else 
-      p '=========== returning publics_access_token from database'
+      p "=========== returning publics_access_token from database #{s.access_token}"
       return s.access_token  
     end
     
