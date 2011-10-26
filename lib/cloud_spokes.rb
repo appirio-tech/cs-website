@@ -10,8 +10,7 @@ class Cloudspokes
   format :json
 
   AvailableObjects = ["challenges","members","recommendations","participants"]
-  BASE_URL         = 'https://cs10.salesforce.com/services/apexrest/v.9/'
-  SFDC_URL         = 'https://cs10.salesforce.com/services/data/v20.0/sobjects/'
+  SFDC_URL         = ENV['sfdc_instance_url']+'/services/data/v20.0/sobjects/'
 
   headers 'Content-Type' => 'application/json' 
   headers 'Authorization' => "OAuth #{ENV['access_token']}"
@@ -19,11 +18,10 @@ class Cloudspokes
   # generic get with given options
   def self.get_sobjects(options)
     if AvailableObjects.include?(self.to_s.downcase)
-      request_url  = BASE_URL + self.to_s.downcase + "?fields=" + options[:select]
+      request_url  = ENV['sfdc_rest_api_url'] + '/' + self.to_s.downcase + "?fields=" + options[:select]
       request_url += ("&orderby=" + options[:order_by]) unless options[:order_by].nil?
       request_url += ("&search=" + options[:where]) unless options[:where].nil?
       request_url += ("&limit=" + options[:limit]) unless options[:limit].nil?
-
       get(request_url)
     end
   end
@@ -31,7 +29,7 @@ class Cloudspokes
   # update a given object
   def self.update(id,params)
     if AvailableObjects.include?(self.to_s.downcase)
-      request_url  = BASE_URL + self.to_s.downcase + "/" + id
+      request_url  = ENV['sfdc_rest_api_url'] + '/' + self.to_s.downcase + "/" + id
 
       put(request_url,:query => params)
     end
@@ -49,6 +47,8 @@ class Cloudspokes
   
   # return all records of a given sObject
   def self.all(options = {:select => "id,name", :order_by => nil, :where => nil})
+    p '======= outputting mysettings'
+    p Application::current_access_token
     get_sobjects(:select => options[:select], :order_by => options[:order_by], :where => options[:where])
   end
 
@@ -56,7 +56,7 @@ class Cloudspokes
   AvailableObjects.each do |sobject|
     class_eval <<-EOS
       def self.get_#{sobject}
-        request_url = BASE_URL + '#{sobject}'
+        request_url = ENV['sfdc_rest_api_url'] + '/' + '#{sobject}'
         get(request_url)
       end
     EOS

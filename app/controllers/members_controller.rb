@@ -6,8 +6,8 @@ class MembersController < ApplicationController
     # Define the default order criteria
     order_by  = params[:order_by] || "name"
 
-    @members = Members.all(:select => DEFAULT_MEMBER_FIELDS,:order_by => order_by)
-    #
+    @members = Members.all(:select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c',:order_by => order_by)
+p @members
     # Sorting order hacked here cause not available in the CloudSpokes API
     if params[:order_by] == "total_wins__c" or params[:order_by] == "challenges_entered__c"
       @members = @members.reverse
@@ -34,7 +34,7 @@ class MembersController < ApplicationController
   end
 
   def search
-    @members = Members.all(:select => DEFAULT_MEMBER_FIELDS, :where => params[:query])
+    @members = Members.all(:select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c', :where => params[:query])
     render 'index'
   end
 

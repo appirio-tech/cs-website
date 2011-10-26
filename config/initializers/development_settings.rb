@@ -18,7 +18,7 @@ unless Rails.env.production?
   # the CloudSpokes URI and API verson
   ENV['sfdc_rest_api_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
   
-  ENV['access_token'] = '00DJ00000004weA!AQQAQIsv60lK8eSzG4CKeqelHbVIjTQKokGjXKpASZ7NlWgptQwmiWjig3PpnhWJn3JystHWIR4MsX9_EvdDijHV1YXAH.y'
+  ENV['access_token'] = '00DJ00000004weA!AQQAQK3TrynHwsaQ5VL_oDIuvTd6b13KXbfwrQxOiZcQ1YDZ_yQkoaEzZ0jHd_B1lJnY4bMYwdBOz1ylXlhmIGGc9Ru5olww'
   
   # OmniAuth settings
   ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'
