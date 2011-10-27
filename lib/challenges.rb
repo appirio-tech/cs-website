@@ -1,15 +1,7 @@
-class Challenges 
-  
-  require 'uri'
-  include HTTParty 
-  format :json
-  
-  headers 'Content-Type' => 'application/json' 
-  
-  def self.set_header_token(access_token)
-    headers 'Authorization' => "OAuth #{access_token}" 
-  end
-
+require 'cloud_spokes'
+class Challenges < Cloudspokes
+    
+  # this method may go away
   def self.get_challenges(access_token, show_open, orderby, category)
     
     qry_open = show_open ? '&open=true' : '&open=false'
@@ -20,23 +12,19 @@ class Challenges
     get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c'+qry_orderby+qry_open+qry_category)
   end
   
+  #this member may go away
   def self.get_challenges_by_keyword(access_token, keyword)  
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c&search='+keyword)
   end
-  
-  def self.get_challenge_detail(access_token, id)
-    set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?fields=Id,Name,Description__c,Additional_Info__c,Comments__c,End_date__c,License__c,Requirements__c,Status__c,Submission_Details__c,Top_Prize__c,Winner_Announced__c,Registered_Members__c')
-  end
-  
+    
   def self.get_categories(access_token, id)
     set_header_token(access_token) 
     catnames = []
     cats = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'/categories?fields=id,name,display_name__c')
     p cats
     cats.each do |cat|
-        catnames.push(cat['Display_Name__c'])
+      catnames.push(cat['Display_Name__c'])
     end
     return catnames
   end

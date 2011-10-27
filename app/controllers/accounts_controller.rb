@@ -1,9 +1,14 @@
 class AccountsController < ApplicationController
+  before_filter :require_login
   before_filter :get_account, :except => ["require_password","reset_password"]
+  
+  def index
+    redirect_to '/account/challenges'
+  end
 
   def challenges
     # Gather challenges for sorting
-    @challenges          = Members.challenges(:name => @account["Name"])
+    @challenges          = Members.challenges(current_access_token, :name => @current_user.username)
 
     @followed_challenges = []
     @active_challenges   = []
@@ -26,17 +31,19 @@ class AccountsController < ApplicationController
   # Member details info tab
   def details
     if params["form_details"]
-      Members.update(@account["Name"],params["form_details"])
+      Members.update(current_access_token, @current_user.username,params["form_details"])
     end
-    @account = Members.find(params[:id])
+    # get the updated account
+    get_account
   end
 
   # School & Work info tab
   def school
     if params["form_school"]
-      Members.update(@account["Name"],params["form_school"])
+      Members.update(current_access_token, @current_user.username,params["form_school"])
     end
-    @account = Members.find(params[:id])
+    # get the updated account
+    get_account
   end
 
   # Action to change the password of logged user (not activated)
@@ -74,6 +81,19 @@ class AccountsController < ApplicationController
   end
 
   def get_account
-    @account = Members.find(params[:id])
+    @account = Members.find_by_username(current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS)[0]
   end
+  
+  private
+ 
+    def require_login
+      unless logged_in?
+        redirect_to login_url, :notice => 'You must be logged in to access this section'
+      end
+    end
+ 
+    def logged_in?
+      !!current_user
+    end
+  
 end

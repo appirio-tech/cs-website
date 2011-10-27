@@ -13,7 +13,10 @@ class Cloudspokes
   SFDC_URL         = ENV['sfdc_instance_url']+'/services/data/v20.0/sobjects/'
 
   headers 'Content-Type' => 'application/json' 
-  headers 'Authorization' => "OAuth #{ENV['access_token']}"
+  
+  def self.set_header_token(access_token)
+    headers 'Authorization' => "OAuth #{access_token}" 
+  end
 
   # generic get with given options
   def self.get_sobjects(options)
@@ -27,28 +30,27 @@ class Cloudspokes
   end
 
   # update a given object
-  def self.update(id,params)
-    if AvailableObjects.include?(self.to_s.downcase)
+  def self.update(access_token, id, params)
+    set_header_token(access_token)
+    if AvailableObjects.include?(self.to_s.downcase)      
       request_url  = ENV['sfdc_rest_api_url'] + '/' + self.to_s.downcase + "/" + id
-
       put(request_url,:query => params)
     end
   end
   
 
   # return a particular object
-  def self.find(id)
+  def self.find(access_token, id)
+    set_header_token(access_token)    
     if AvailableObjects.include?(self.to_s.downcase)
       request_url  = SFDC_URL + self.to_s.singularize.capitalize + "__c/" + id
-
       get(request_url)
     end
   end
   
   # return all records of a given sObject
-  def self.all(options = {:select => "id,name", :order_by => nil, :where => nil})
-    p '======= outputting mysettings'
-    p Application::current_access_token
+  def self.all(access_token, options = {:select => "id,name", :order_by => nil, :where => nil})
+    set_header_token(access_token)
     get_sobjects(:select => options[:select], :order_by => options[:order_by], :where => options[:where])
   end
 

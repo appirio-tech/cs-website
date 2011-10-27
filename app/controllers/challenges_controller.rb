@@ -9,10 +9,7 @@ class ChallengesController < ApplicationController
     show_open = false
     show_open = true unless params[:show].eql?('closed')
     orderby = params[:orderby].nil? ? 'name' : params[:orderby]
-    
-    p "show open: #{show_open}"
-    p "orderby: #{orderby}"
-    
+        
     if params[:keyword].nil?
       @challenges = Challenges.get_challenges(current_access_token, show_open, orderby, params[:category])
     else 
@@ -22,7 +19,7 @@ class ChallengesController < ApplicationController
   end
   
   def detail
-    @challenge_detail = Challenges.get_challenge_detail(current_access_token, params[:id])[0]
+    @challenge_detail = Challenges.find(current_access_token, params[:id])
     @prizes = Challenges.get_prizes(current_access_token, params[:id])
     @categories = Challenges.get_categories(current_access_token, params[:id])
     end_time = Time.parse(@challenge_detail["End_Date__c"])

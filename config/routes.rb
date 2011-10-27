@@ -20,15 +20,11 @@ CloudSpokes::Application.routes.draw do
   match "/members/:id/active_challenges"  => "members#active_challenges"
   resources :members
 
-  match "/account/:id/challenges"     => "accounts#challenges"
-  match "/account/:id/school"         => "accounts#school"
-  match "/account/:id/details"        => "accounts#details"
-  match "/account/:id/password"       => "accounts#password"
-  # match '/account', :to => 'account#index'  
-  # get "account/index"
-  # get "account/details"
-  # get "account/schoolwork"
-  # post "account/save"
+  match "account"                     => "accounts#index"
+  match "/account/challenges"     => "accounts#challenges"
+  match "/account/school"         => "accounts#school"
+  match "/account/details"        => "accounts#details"
+  match "/account/password"       => "accounts#password"
 
   match "/reset_password"             => "accounts#reset_password"
   match "/require_password"           => "accounts#require_password"

@@ -64,7 +64,7 @@
         
 						<li style="display:block;"><h3>Registered Members</h3>
             				<a href="<%= @challenge_detail["Id"] %>/registrants"><strong>
-								<span><%= @challenge_detail["Registered_Members__c"] %> Registered Member(s)</span></strong></a>
+								<span><%= @challenge_detail["Registered_Members__c"].to_i %> Registered Member(s)</span></strong></a>
 						</li>
         				<li>
             				<h3>Delivery Formats</h3>

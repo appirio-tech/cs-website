@@ -1,0 +1,31 @@
+.content-wrapper.left-sidebar.top-border
+  #account
+    .sidebar.fl
+      = render 'menu', :selected_item => "my_challenges"
+      
+    .widecolumn.fr
+      #project-overview
+        %h3 X Followed Challenges
+        - if @followed_challenges.count == 0 
+          %div{:style => "text-align:center"}
+            %b No followed challenge found
+        - @followed_challenges.each do |followed_challenge|
+          = render "challenge", :challenge => followed_challenge
+
+      #project-overview
+        %h3 X Active Challenges
+        - if @active_challenges.count == 0 
+          %div{:style => "text-align:center"}
+            %b No active challenge found
+        - @active_challenges.each do |active_challenge|
+          = render "challenge", :challenge => active_challenge
+
+      #project-overview
+        %h3 X Past Challenges
+        - if @past_challenges.count == 0 
+          %div{:style => "text-align:center"}
+            %b No past challenge found
+        - @past_challenges.each do |past_challenge|
+          = render "challenge", :challenge => past_challenge
+   
+
