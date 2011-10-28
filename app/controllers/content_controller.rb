@@ -1,9 +1,20 @@
+require 'utils'
+
 class ContentController < ApplicationController
-  def show
-    if File.exist?(Rails.root.to_s + "/app/views/content/#{params[:id]}.html.erb")
-      render template: "content/#{params[:id]}"
+  
+  include HTTParty 
+  format :json
+  
+  def contact
+    @contact_form = ContactForm.new
+  end
+  
+  def contact_send
+    @contact_form = ContactForm.new(params[:contact_form])
+    if @contact_form.valid?
+      Utils.send_mail(params[:contact_form])
     else
-      render file: Rails.root + '/public/404.html', status: 404
+      render :action => 'contact'
     end
   end
 end

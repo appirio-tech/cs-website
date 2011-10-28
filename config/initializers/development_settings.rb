@@ -4,9 +4,9 @@
 
 unless Rails.env.production?
   # administrator sfdc sandbox username
-  ENV['sfdc_username'] = 'jeff@cloudspokes.com.sandbox'
+  ENV['sfdc_username'] = 'shareduser@sandbox.cloudspokes.com'
   # administrator sfdc sandbox password
-  ENV['sfdc_password'] = '8fuJk2uwZQ'
+  ENV['sfdc_password'] = 'g6vC<5j,DV'
   # the password used for all third party users when logging in. 
   # Make sure it matches the 'Platform Settings' custom setting 'Third Party Password' in sfdc
   ENV['third_party_password'] =  '!cloudspokes963'

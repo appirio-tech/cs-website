@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       
         if @user.save
           sign_in @user
-          redirect_to @user
+          redirect_to '/challenges'
         else
           # could not save the user in the database
           flash[:error] = @user.errors.full_messages

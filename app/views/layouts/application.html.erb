@@ -19,9 +19,9 @@
         <li><%= link_to "Account", "/account" %></li>
       </ul></nav>
       <nav id='side_menu'><ul>
-        <li><%= link_to "How it Works", content_path("about") %></li>
+        <li><%= link_to "How it Works", "/about" %></li>
         <li><%= link_to "Blog", "http://blog.cloudspokes.com/" %></li>
-        <li><%= link_to "FAQ", content_path("faq") %></li>
+        <li><%= link_to "FAQ", "/faq" %></li>
       </ul></nav>
     </header>
     <section id='content'>
@@ -42,8 +42,8 @@
         </ul></nav>
       </aside>
       <nav class='right'><ul>
-        <li><%= link_to "Privacy", content_path("privacy") %></li>
-        <li><%= link_to "Terms", content_path("tos") %></li>
+        <li><%= link_to "Privacy", "/privacy" %></li>
+        <li><%= link_to "Terms", "/tos" %></li>
         <% if current_user.nil? %>
 			<li><%= link_to "Login", "/login" %></li>
 		<% else %>

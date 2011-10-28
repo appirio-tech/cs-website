@@ -56,9 +56,15 @@ CloudSpokes::Application.routes.draw do
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  
   
-  match '/fail', :to => 'content#fail'
-  
-  match "/:id", to: "content#show", as: "content"
-  root to: 'content#show', id: 'home'
+  #content -- eventually will be siteforce
+  #match "/:id", to: "content#show", as: "content"
+  match "/about", to: "content#about"
+  match "/faq", to: "content#faq"
+  match "/privacy", to: "content#privacy"
+  match "/tos", to: "content#tos"
+  match "/fail", to: "content#fail"
+  match "/contact", to: "content#contact"
+  match "/contact_send", to: "content#contact_send"
+  root to: 'content#home'
 
 end

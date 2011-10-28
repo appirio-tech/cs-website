@@ -114,8 +114,8 @@ class SessionsController < ApplicationController
     @login_form = LoginForm.new(params[:login_form])
     if @login_form.valid?
 
-      user = User.authenticate(params[:session][:username],
-          params[:session][:password])
+      user = User.authenticate(params[:login_form][:username],
+          params[:login_form][:password])
 
       if user.nil?
         redirect_to login_cs_url, :notice => 'Invalid email/password combination.'
