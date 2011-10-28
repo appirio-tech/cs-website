@@ -24,6 +24,8 @@ The pages that are available are:
 
 The application is configured to run on http://127.0.0.1:3000 if you want to use OAuth. It uses the CloudSpokes *sandbox* org and not a developer org. 
 
+It uses a small sqlite3 database to store some values. It is primarily need to store the access_token for the public user. This will probably be changes to a different persistence mechanism; this is temp for development. 
+
 Beware! Both the sandbox org and this site are constantly changing so check out the latest before working on any challenges with it. 
 
 Check config/initializers/development_settings.rg for required variables and credentials.
