@@ -11,9 +11,9 @@ class Challenges < Cloudspokes
     set_header_token(access_token) 
     results = get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&membername='+username)
     if results.length > 0
-      return results[0]['Status__c']
+      return {:status => results[0]['Status__c'], :participantId => results[0]['Id']}
     else
-      return 'Not Registered'
+      return {:status => 'Not Registered', :participantId => nil}
     end
   end
   
@@ -96,4 +96,30 @@ class Challenges < Cloudspokes
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/leaderboard?pageNum='+page_num.to_s+'&dateFormat='+from_date.to_s)
   end
+  
+  def self.save_submission(access_token, participantId, link, comments, type)
+    set_header_token(access_token) 
+    
+    options = {
+      :body => {
+          :challenge_participant__c => participantId,
+          :url__c => link,
+          :type__c => type,
+          :comments__c => comments
+      }
+    }
+             
+    results = post(ENV['sfdc_rest_api_url']+'/submissions', options)
+  end
+  
+  def self.delete_submission(access_token, submissionId)
+    set_header_token(access_token) 
+    put(ENV['sfdc_rest_api_url']+'/submissions/'+submissionId+'?deleted__c=true')
+  end
+  
+  def self.current_submissions(access_token, participantId)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/submissions?participantid='+participantId)
+  end
+  
 end

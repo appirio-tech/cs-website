@@ -18,7 +18,7 @@
 		
 	<% if signed_in? %>
 	<li><h3>Your Status</h3><strong>
-		<span><%= @participation_status %></span></strong></li>
+		<span><%= @participation_status[:status] %></span></strong></li>
 	<% end %>
 
 	<li style="display:block;"><h3>Registered Members</h3>

@@ -30,12 +30,35 @@ class ChallengesController < ApplicationController
     end
   end
   
+  #TODO - only let them access this page if they are registered
   def submission
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @participation_status = Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"])
     @prizes = Challenges.get_prizes(current_access_token, @challenge_detail["Id"])
     @categories = Challenges.get_categories(current_access_token, @challenge_detail["Id"])
-    @participation_status = Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"])
+    @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
   end  
+  
+  def submission_url
+    submission_results = Challenges.save_submission(current_access_token, 
+      params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
+    if submission_results['Success'].eql?('true')
+      flash[:notice] = "URL successfully submitted for this challenge."
+    else
+      flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
+    end
+    redirect_to(:back)
+  end  
+    
+  def submission_url_delete
+    submission_results = Challenges.delete_submission(current_access_token, params[:submissionId])
+    if submission_results['Success'].eql?('true')
+      flash[:notice] = "URL successfully deleted."
+    else
+      flash[:error] = "There was an error deleting your URL. Please try again."
+    end
+    redirect_to(:back)
+  end
   
   def detail
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]

@@ -2,13 +2,42 @@
 <!-- Content Wrapper -->
         <div class="content-wrapper">
             <!-- Widecolumn -->
-            <div class="widecolumn fl dvbulletedlist">
-                <!-- Challenge Information -->
+            <div class="widecolumn fl">
+				<span style="font-size:Small;font-weight:bold;"></span>
                 <div class="challenge-information">
-                    <span style="font-size:Small;font-weight:bold;"></span>
+					<br/>
                     <h3>Submit Your Entry</h3>
+                    <div class="list-technologies">
+                        <ul>
+                            <table cellspacing="0" border="0" style="border-collapse:collapse;">
+								<tr>
+									<% @categories.each do |record| %>	
+									<td><li><a href="/challenges?category=<%= record %>"><span><%= record %></span></a></li></td>
+									<% end %>                                
+								</tr>
+							</table>
+                        </ul>
+                    </div>
 
-
+					<h3>Upload Files</h3>
+					<p>Upload any deliverables for your challenge submission. This can be a zip file containing your code, a Word or text file containing instructions, a movie or image.</p>
+					
+					<h3>Include URLs</h3>
+					<p>Add any URLs to supporting info such as a YouTube or Jing videos, a GitHub repo or any other URL you would like to include in your submission.</p>
+					
+					<%= form_for :url_submission, :url => submission_url_path do |f| %>
+						<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
+						<p>URL<br/><%= f.text_field :link, :size => 60 %><br>
+						Comments<br/><%= f.text_area :comments, :rows => 5, :cols => 75 %></p>
+						<p><%= f.submit "submit" %></p>
+					<% end %>
+					
+					<h3>Current Files</h3>
+					<% @current_submissions.each do |record| %>
+					<p><%= record['Type__c']%> - <a href="<%= record['URL__c']%>" target="_blank"><%= record['URL__c']%></a><br>
+					<%= record['Comments__c']%><br>
+					<%= link_to "Delete", submission_delete_path(:submissionId => record['Id']) %></p>
+					<% end %>
 
                 </div>
 

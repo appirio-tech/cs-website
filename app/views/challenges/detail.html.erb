@@ -42,15 +42,15 @@
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 					<% if signed_in? %>
 	                    <div>
-						<% if @participation_status.eql?('Not Registered') %>
+						<% if @participation_status[:status].eql?('Not Registered') %>
 	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register?challengeId=<%= @challenge_detail["Id"] %>">
 		 					<span>Register</span></a>
 	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/watch?challengeId=<%= @challenge_detail["Id"] %>">
 							<span>Add to Watch List</span></a>    
-						<% elsif @participation_status.eql?('Watching') %>
+						<% elsif @participation_status[:status].eql?('Watching') %>
 	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register?challengeId=<%= @challenge_detail["Id"] %>&current_status=Watching">
 		 					<span>Register</span></a>
-						<% elsif @participation_status.eql?('Registered') %>
+						<% elsif @participation_status[:status].eql?('Registered') %>
 	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/submission">
 							<span>Submit Your Entry</span></a>
 						<% end %>                    

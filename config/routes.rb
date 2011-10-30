@@ -43,7 +43,10 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/register', :to => 'challenges#register'
   match 'challenges/:id/results', :to => 'challenges#results', :as => :results
   match 'challenges/:id/watch', :to => 'challenges#watch' 
-  match 'challenges/:id/submission', :to => 'challenges#submission'      
+  match 'challenges/:id/submission', :to => 'challenges#submission'
+  match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
+  match 'challenges/:id/submission/file', :to => 'challenges#submission_file'
+  match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard'
   
   # tests
