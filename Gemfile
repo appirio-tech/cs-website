@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'httparty'
 gem 'omniauth'
 gem 'active_hash'
+gem 'aws-s3', :require => 'aws/s3'
 
 group :development, :test do
   gem 'sqlite3-ruby'

@@ -39,6 +39,26 @@ class ChallengesController < ApplicationController
     @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
   end  
   
+  def submission_file
+    begin
+      sanitized = sanitize_filename(params[:file][:file_name].original_filename)
+      complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+sanitized
+      AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id], :access => :public_read)
+      # submit the files to sfdc
+      submission_results = Challenges.save_submission(current_access_token, 
+        params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
+      if submission_results['Success'].eql?('true')
+        flash[:notice] = "File successfully submitted for this challenge."
+      else
+        flash[:error] = "There was an error submitting your File. Please check it and submit it again."
+      end
+      redirect_to(:back)
+      
+    rescue Exception => exc
+      render :text => "Couldn't complete the upload: #{exc.message}"
+    end
+  end  
+  
   def submission_url
     submission_results = Challenges.save_submission(current_access_token, 
       params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
@@ -97,5 +117,11 @@ class ChallengesController < ApplicationController
     def signed_in?
       !current_user.nil?
     end
+    
+    def sanitize_filename(file_name)
+        just_filename = File.basename(file_name)
+        just_filename.sub(/[^\w\.\-]/,'_')
+    end
+    
   
 end

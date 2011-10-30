@@ -22,6 +22,13 @@
 					<h3>Upload Files</h3>
 					<p>Upload any deliverables for your challenge submission. This can be a zip file containing your code, a Word or text file containing instructions, a movie or image.</p>
 					
+					<%= form_for :file_submission, :url => submission_file_path, :method => "post", :html => { :multipart => true } do |f| %>
+						<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
+						<p>File <%= file_field 'file', 'file_name' %><br>
+						Comments<br/><%= f.text_area :comments, :rows => 5, :cols => 75 %></p>
+						<p><%= f.submit "Upload" %></p>
+					<% end %>
+					
 					<h3>Include URLs</h3>
 					<p>Add any URLs to supporting info such as a YouTube or Jing videos, a GitHub repo or any other URL you would like to include in your submission.</p>
 					

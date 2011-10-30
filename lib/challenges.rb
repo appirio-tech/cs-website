@@ -84,7 +84,7 @@ class Challenges < Cloudspokes
   
   def self.get_registrants(access_token, id)
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c')
+    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c,Member__r.summary_bio__c')
   end
   
   def self.get_winners(access_token, id)

@@ -2,6 +2,15 @@ class TestController < ApplicationController
   
   require 'services'
   
+  def s3
+    @files = AWS::S3::Bucket.find('cs-sandbox').objects  
+    p '======= files'
+    p @files
+    buckets = AWS::S3::Bucket.list
+    p '======= buckets'
+    p buckets
+  end
+  
   def dump_env
     p '============ dump_env'
     @results = ENV

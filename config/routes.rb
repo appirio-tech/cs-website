@@ -45,7 +45,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/watch', :to => 'challenges#watch' 
   match 'challenges/:id/submission', :to => 'challenges#submission'
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
-  match 'challenges/:id/submission/file', :to => 'challenges#submission_file'
+  match 'challenges/:id/submission/file', :to => 'challenges#submission_file', :as => :submission_file
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard'
   
@@ -59,6 +59,7 @@ CloudSpokes::Application.routes.draw do
   get "test/display_users"
   get "test/display_settings"
   get "test/dump_env"
+  get "test/s3"
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  

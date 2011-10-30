@@ -17,6 +17,11 @@ unless Rails.env.production?
   ENV['sfdc_instance_url'] = 'https://cs10.salesforce.com'
   # the CloudSpokes URI and API verson
   ENV['sfdc_rest_api_url'] = 'https://cs10.salesforce.com/services/apexrest/v.9'
+  # s3 settings
+  ENV['AMAZON_ACCESS_KEY_ID'] = 'AKIAJXNGEXQID3CELIVA'
+  ENV['AMAZON_SECRET_ACCESS_KEY'] = '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'
+  ENV['AMAZON_S3_DEFAULT_BUCKET'] = 'cs-sandbox'
+  
   
   # OmniAuth settings -- these all point back to 127.0.0.1
   ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'

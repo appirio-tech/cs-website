@@ -16,9 +16,9 @@ module ChallengesHelper
     else
         secs = Time.parse(end_date) - Time.now
         if (secs > 86400)
-            display = "due in " + (secs/86400).floor.to_s + " days(s)"
+            display = "due in " + pluralize((secs/86400).floor, 'day')
         else
-            display = "due in " + (secs/3600).floor.to_s + " hour(s) " + (secs/60).round.to_s + " minute(s)"
+            display = "due in " + pluralize((secs/3600).floor, 'hour') + "  " + pluralize((secs/60).round, 'minute')
         end
     end
 
@@ -32,12 +32,12 @@ module ChallengesHelper
     else
       secs = Time.parse(end_date) - Time.now
       display = "due in "
-      display += (secs/86400).floor.to_s + " day(s) "
+      display += pluralize((secs/86400).floor, 'day')
       secs = secs%86400
-      display += (secs/3600).floor.to_s + " hour(s) " + ((secs%3600)/60).round.to_s + " minute(s)"
+      display += " " + pluralize((secs/3600).floor, 'hour') + " " + pluralize(((secs%3600)/60).round, 'minute')
     end
 
-  end  
+  end
   
 end
 

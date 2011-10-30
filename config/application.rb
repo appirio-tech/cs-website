@@ -58,5 +58,11 @@ module CloudSpokes
       g.template_engine :haml
       g.test_framework :rspec
     end
+    
+    AWS::S3::Base.establish_connection!(  
+        :access_key_id     => 'AKIAJXNGEXQID3CELIVA',  
+        :secret_access_key => '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'  
+    )
+    
   end
 end
