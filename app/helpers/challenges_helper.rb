@@ -24,4 +24,25 @@ module ChallengesHelper
 
   end
   
+  def format_close_date_time(end_date)
+    
+    end_time = Time.parse(end_date)
+    if end_time.past?
+        display = "Completed"
+    else
+      secs = Time.parse(end_date) - Time.now
+      display = "due in "
+      display += (secs/86400).floor.to_s + " day(s) "
+      secs = secs%86400
+      display += (secs/3600).floor.to_s + " hour(s) " + ((secs%3600)/60).round.to_s + " minute(s)"
+    end
+
+  end  
+  
 end
+
+
+
+
+
+

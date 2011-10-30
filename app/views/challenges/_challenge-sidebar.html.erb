@@ -1,0 +1,57 @@
+<ul>
+	<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
+	<li><h3>Time Left For Submission</h3><h2><span><%= format_close_date_time(@challenge_detail['End_Date__c']) %></span></h2></li>
+	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
+	<li><h3>Prizes</h3>
+		<ul>
+			<% @prizes.each do |record| %>                
+    		<li><span><%= record["Place__c"] %>. <%= record["Prize__c"] %></span><br /></li>
+			<% end %>
+		</ul>
+	</li>
+	<li><h3>Winner Announced</h3><strong><span>
+	<% if @challenge_detail["Status__c"].eql?("Winner Selected") %>
+		<%= link_to "View the Winners", results_path %></span></strong>
+	<% else %>
+		<%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %>
+	<% end %></span></strong></li>
+		
+	<% if signed_in? %>
+	<li><h3>Your Status</h3><strong>
+		<span><%= @participation_status %></span></strong></li>
+	<% end %>
+
+	<li style="display:block;"><h3>Registered Members</h3>
+		<strong><span><%= link_to "#{@challenge_detail["Registered_Members__c"].to_i} Registered Member(s)", registrants_path %></span></strong>
+	</li>
+	<li>
+		<h3>Delivery Formats</h3>
+		<ul>
+        HTML, Word, Google Doc, Text, RTF, Other: Upload a text document with details on
+        how to retrieve your submission.
+        <li><strong>HTML</strong></li>
+        <li><strong>Word</strong></li>
+        <li><strong>Google Doc</strong></li>
+        <li><strong>Text</strong></li>
+        <li><strong>RT</strong></li>
+        <li><strong>Other:</strong> Upload a text document<br />with details on how to retrieve<br />your submission.</li>
+		</ul>
+	</li>
+	<li><h3>Assets</h3>
+		<ul>
+			<li><strong><span style="width: 300px; text-align: left">No asset(s) found for this challenge.<br /><br /></span></strong></li>
+		</ul>
+	</li>
+	<li>
+		<h3>Share</h3>
+        <!-- AddThis Button BEGIN -->
+        <div class="addthis_toolbox addthis_default_style ">
+            <a class="addthis_button_facebook_like"><fb:like:layout="button_count"></fb:like></a><a class="addthis_button_tweet"></a>
+            <a class="addthis_counter addthis_pill_style"></a>
+        </div>
+        <script type="text/javascript">                var addthis_config = { "data_track_clickback": true };</script>
+        <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=mess"></script>
+        <!-- AddThis Button END -->
+		<div class="cl">&nbsp;</div>
+	</li>
+</ul>

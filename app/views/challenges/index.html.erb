@@ -67,8 +67,8 @@
 		                    <div class="box-b">
 		                        <div class="box-t">
 		                            <div class="col-left fl">
-		                                <h4><a href="/challenges/<%= record["Id"] %>"><%= record["Name"] %></a></h4>
-		                                <p><%= record["Description__c"].html_safe %></p>
+		                                <h4><%= link_to "#{record["Name"]}", "/challenges/#{record['ID__c']}" %></h4>
+		                                <p><%= record["Description__c"].gsub(/<\/?[^>]*>/, "")[0..200] %>...</p>
 		                            </div>
 		                            <div class="col-right fr">
 		                                <p>
@@ -78,7 +78,7 @@
 		                                    <!--<a href="Profile.aspx?username=jeffdonthemic">
 		                                        jeffdonthemic</a>-->
 		                                    <br />
-		                                    <a href="/challenges/<%= record["Id"] %>/registrants"><%= record["Registered_Members__c"] %>&nbsp;registered members </a>
+											<%= link_to "#{record["Registered_Members__c"]} registered members", "/challenges/#{record['ID__c']}/registrants" %>
 		                                    <br />
 		                                    <span><a href='' target="_blank"> </a></span></p>
 		                            </div>
