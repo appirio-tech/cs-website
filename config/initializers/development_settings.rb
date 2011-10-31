@@ -22,6 +22,11 @@ unless Rails.env.production?
   ENV['AMAZON_SECRET_ACCESS_KEY'] = 'exDEOYIf4sYErYzXRvZFSv60+WdsgAuP+gc3SNsL'
   ENV['AMAZON_S3_DEFAULT_BUCKET'] = 'cs-sandbox'
   
+  # databasedotcom gem
+  ENV['DATABASEDOTCOM_CLIENT_ID'] = '3MVG9_7ddP9KqTzdCEqrJi8EiCVqIcfbXqjuRfyBMa3UNUHw2dNZrjbcaif5WJ_h18qY.5nMc0oYsEqthLU97'
+  ENV['DATABASEDOTCOM_CLIENT_SECRET'] = '6135129799238543535'
+  ENV['DATABASEDOTCOM_HOST'] = 'test.salesforce.com'
+  ENV['DATABASEDOTCOM_DEBUGGING'] = 'true'
   
   # OmniAuth settings -- these all point back to 127.0.0.1
   ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'

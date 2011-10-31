@@ -1,5 +1,4 @@
-# salesforce settings for databasedotcom gem (Sandbox) -- CloudSpokes localhost remove access
-client_id: 3MVG9_7ddP9KqTzdCEqrJi8EiCVqIcfbXqjuRfyBMa3UNUHw2dNZrjbcaif5WJ_h18qY.5nMc0oYsEqthLU97
-client_secret: 6135129799238543535
-host: test.salesforce.com
-debugging: true
+client_id: ENV['DATABASEDOTCOM_CLIENT_ID']
+client_secret: ENV['DATABASEDOTCOM_CLIENT_SECRET']
+host: ENV['DATABASEDOTCOM_HOST']
+debugging: ENV['DATABASEDOTCOM_DEBUGGING']
