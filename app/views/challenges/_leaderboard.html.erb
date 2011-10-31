@@ -10,7 +10,7 @@
               <a href='#' class="fl"><img src="<%= record["profile_pic__c"] %>" <% if record['rank']==1 %>Width="48px" Height="48px"<% else %>Width="20px" Height="20px"<% end %> src="" style="border-width:0px;" /></a>
               <div class="user-info fl">
                   <span class="counter fr">
-                     $<%= record["total_money"] %></span>
+                     <%= number_to_currency(record["total_money"], :precision => 0) %></span>
                   <h4><a href='#'><%= record["username__c"] %></a></h4>
                    <span class="stats"># of Wins: <%= record["numwins"] %> </span>
               </div>

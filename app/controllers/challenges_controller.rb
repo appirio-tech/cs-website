@@ -114,6 +114,10 @@ class ChallengesController < ApplicationController
     @this_month_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
     @this_year_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_year.iso8601(0),1)["data"])
     @all_time_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, all_time.iso8601(0),1)["data"])
+    # paginate!!
+    @this_month_leaders = @this_month_leaders.paginate(:page => params[:page_month] || 1, :per_page => 2) 
+    @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 2) 
+    @all_time_leaders = @all_time_leaders.paginate(:page => params[:page_all] || 1, :per_page => 2) 
   end
   
   private

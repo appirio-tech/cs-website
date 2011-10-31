@@ -5,6 +5,7 @@ class MembersController < ApplicationController
   def index
     # Define the default order criteria
     order_by  = params[:order_by] || "total_wins__c"
+    display_leaderboard  = params[:period] || "month"
 
     @members = Members.all(current_access_token, 
       :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c,total_money__c', 
@@ -20,9 +21,15 @@ class MembersController < ApplicationController
     this_month = Time.new(tn.year, tn.month)
     this_year = Time.new(tn.year)
     all_time = Time.new(2000)
-    @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
-    #@this_year_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_year.iso8601(0),1)["data"])
-    #@all_time_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, all_time.iso8601(0),1)["data"])
+    
+    case display_leaderboard
+    when "year"
+      @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_year.iso8601(0),1)["data"])
+    when "all"
+      @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, all_time.iso8601(0),1)["data"])
+    else
+      @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
+    end
     
   end
 
@@ -49,7 +56,10 @@ class MembersController < ApplicationController
     @members = Members.all(current_access_token, 
       :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c', 
       :where => params[:query])
-    @members = @members.paginate(:page => params[:page] || 1, :per_page => 10)   
+    @members = @members.paginate(:page => params[:page] || 1, :per_page => 10)
+    tn = Time.now
+    this_month = Time.new(tn.year, tn.month)
+    @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])   
     render 'index'
   end
 

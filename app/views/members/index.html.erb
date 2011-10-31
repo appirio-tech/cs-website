@@ -71,12 +71,12 @@
             <!-- Sidebar -->
             <div class="sidebar fr">
                 <a href="/leaderboard" class="fr">See All &raquo;</a>
-                <h3>Leaderboard</h3>
+                <h3>Top 10 Leaderboard</h3>
                 <!-- Filters -->
                 <div class="filters">
-                    <span>SHOW</span><span><a href="members.html?period=month" id="ctl00_Body_Amonth" class="active">month</a></span>
-                    <span><a href="members.html?period=year" id="ctl00_Body_Ayear">year</a></span>
-                    <span><a href="members.html?period=all" id="ctl00_Body_Aall">all time</a></span>
+                    <span>SHOW</span><span><%= link_to "month", members_path(:period => 'month') %></span>
+                    <span><span><%= link_to "year", members_path(:period => 'year') %></span>
+                    <span><span><%= link_to "all time", members_path(:period => 'all') %></span>
                 </div>
                 <!-- END Filters -->
                 <!-- Leaders -->

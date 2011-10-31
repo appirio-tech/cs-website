@@ -14,8 +14,7 @@
                         <h3>This Month</h3>
                         <%= render :partial => "leaderboard", :locals => { :leaders => @this_month_leaders } %>
                         <p class="ac">
-                            <a href="#">
-                            <span><a disabled="disabled">Load Previous 10</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPager1$ctl01$ctl00&#39;,&#39;&#39;)">Load Next 10</a>&nbsp;</span></a>
+                            <%= will_paginate @this_month_leaders, :param_name => :page_month %>
                         </p>
                     </div>
 
@@ -23,8 +22,7 @@
                         <h3>This Year</h3>
                         <%= render :partial => "leaderboard", :locals => { :leaders => @this_year_leaders } %>
                         <p class="ac">
-                            <a href="#">
-							<span><a disabled="disabled">Load Previous 10</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPager2$ctl01$ctl00&#39;,&#39;&#39;)">Load Next 10</a>&nbsp;</span></a>
+                            <%= will_paginate @this_year_leaders, :param_name => :page_year %>
                         </p>
                     </div>
 
@@ -32,8 +30,7 @@
                         <h3>All Time</h3>
                         <%= render :partial => "leaderboard", :locals => { :leaders => @all_time_leaders } %>
                         <p class="ac">
-                            <a href="#">
-                            <span><a disabled="disabled">Load Previous 10</a>&nbsp;<a href="javascript:__doPostBack(&#39;ctl00$Body$DataPager3$ctl01$ctl00&#39;,&#39;&#39;)">Load Next 10</a>&nbsp;</span></a>
+                            <%= will_paginate @all_time_leaders, :param_name => :page_all %>
                         </p>
                     </div>
 

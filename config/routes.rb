@@ -37,7 +37,7 @@ CloudSpokes::Application.routes.draw do
 
   #challenges
   get "challenges/index"
-  match 'challenges', :to => 'challenges#index' 
+  match 'challenges', :to => 'challenges#index', :as => :challenges
   match 'challenges/:id', :to => 'challenges#show', :as => :challenge
   match 'challenges/:id/registrants', :to => 'challenges#registrants', :as => :registrants
   match 'challenges/:id/register', :to => 'challenges#register'
