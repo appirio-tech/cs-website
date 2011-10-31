@@ -97,7 +97,6 @@
 		                    <!-- Replies -->
 							<% if !record["Challenge_Comments__r"].nil? %>
 								<% record["Challenge_Comments__r"]["records"].each do |reply| %> 
-							
 				                    <!-- Reply Post -->
 									<div class="reply-post">
 									    <div class="box">
@@ -128,26 +127,16 @@
                     <div class="post-comment">
                         <h3>Post a Comment</h3>
                         <fieldset>
-                            <span id="ctl00_Body_lblDiscussion"></span>
-                            <span id="ctl00_Body_rfvUserName" style="color:Red;visibility:hidden;">Please specify comment</span><br />
-                            <span id="ctl00_Body_revQuote" style="color:Red;visibility:hidden;">You cannot enter more than 5000 characters</span>
-                            <div class="holder"><textarea name="ctl00$Body$txtComment" rows="8" cols="20" id="ctl00_Body_txtComment" cols="40"></textarea></div>
-                            <div>
-                                <div class="codelbl">Enter code:</div>
-                                <div class="captchaCode">
-                                    <input name="ctl00$Body$txtCaptchCode" type="text" maxlength="6" id="ctl00_Body_txtCaptchCode" class="field" style="height:20px;" />
-                                </div>
-                                <div class="captcha">
-                                    <img id="ctl00_Body_imgCaptcha" src="JpegImage.aspx?id=1a665a18-59bf-4a77-a02f-152fba2a1bb2" style="border-width:0px;" />
-                                </div>
-                                <div class="captchaRefresh">
-                                    <a onclick="javascript:refresh();return false;" id="ctl00_Body_lnkRefresh" href="javascript:__doPostBack(&#39;ctl00$Body$lnkRefresh&#39;,&#39;&#39;)">Refresh</a></div>
-                                <div class="cl">
-                                </div>
-                            </div>
-                            <a id="ctl00_Body_lnkComment" class="button" href="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$Body$lnkComment&quot;, &quot;&quot;, true, &quot;Comment&quot;, &quot;&quot;, false, true))">
-                                <span>Post</span></a>
-                            <div class="cl">&nbsp;</div>
+							<% if signed_in? %>
+								<%= form_for :discussion, :url => challenge_comment_path do |f| %>
+								  <%= f.text_area( :comments, :cols => "80", :rows => "8" )  %>
+								  <br/>
+								  <%= submit_tag("Post") %>
+								<% end %>
+							<% else %>
+								Please login to post a comment.
+							<% end %>
+
                         </fieldset>
                     </div>
                     <!-- END Post Comment -->

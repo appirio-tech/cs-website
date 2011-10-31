@@ -5,8 +5,6 @@ class Challenges < Cloudspokes
   def self.find_by_id(access_token, id)  
     set_header_token(access_token)
     results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
-    p '============ returned challenge'
-    p results
   end  
   
   def self.user_participation_status(access_token, username, id)
@@ -62,43 +60,20 @@ class Challenges < Cloudspokes
     get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c'+qry_orderby+qry_open+qry_category)
   end
   
-  #this member may go away
+  #this method may go away
   def self.get_challenges_by_keyword(access_token, keyword)  
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c&search='+keyword)
   end
-    
-  def self.get_categories(access_token, id)
-    set_header_token(access_token) 
-    catnames = []
-    cats = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'/categories?fields=id,name,display_name__c')
-    p cats
-    cats.each do |cat|
-      catnames.push(cat['Display_Name__c'])
-    end
-    return catnames
-  end
-  
-  def self.get_prizes(access_token, id)
-    set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'/prizes?fields=Prize__c,Place__c&orderby=place__c')
-  end
-  
-  def self.get_registrants(access_token, id)
+      
+  def self.registrants(access_token, id)
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c,Member__r.summary_bio__c')
   end
   
-  def self.get_winners(access_token, id)
+  def self.winners(access_token, id)
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=id,name,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=place__c')
-  end
-  
-  def self.comments(access_token, id)
-    set_header_token(access_token) 
-    comments = get(ENV['sfdc_rest_api_url']+'/comments/'+id)
-    p '======comments'
-    p comments
   end
   
   def self.get_leaderboard(access_token, from_date, page_num)

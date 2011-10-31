@@ -1,6 +1,7 @@
 require 'challenges'
 require 'time'
 require 'settings'
+require 'will_paginate/array'
 
 class ChallengesController < ApplicationController
   
@@ -28,14 +29,13 @@ class ChallengesController < ApplicationController
     else 
       @challenges = Challenges.get_challenges_by_keyword(current_access_token, params[:keyword])
     end
+    @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) 
   end
   
   #TODO - only let them access this page if they are registered
   def submission
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @participation_status = Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"])
-    @prizes = Challenges.get_prizes(current_access_token, @challenge_detail["Id"])
-    @categories = Challenges.get_categories(current_access_token, @challenge_detail["Id"])
     @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
   end  
   
@@ -80,21 +80,29 @@ class ChallengesController < ApplicationController
     redirect_to(:back)
   end
   
-  def detail
+  def new_comment
+    post_results = Comments.save(current_access_token, current_user.username, params[:id], params[:discussion][:comments])
+    if post_results['Success'].eql?('false')
+      flash[:error] = "There was an error posting your comments. Please try again."
+    end
+    redirect_to(:back)
+  end
+  
+  def show
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @comments = Challenges.comments(current_access_token, params[:id])
+    @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
   end
   
   def registrants    
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @registrants = Challenges.get_registrants(current_access_token, @challenge_detail["Id"])
+    @registrants = Challenges.registrants(current_access_token, @challenge_detail["Id"])
     @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
   end
   
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @winners = Challenges.get_winners(current_access_token, @challenge_detail["Id"])
+    @winners = Challenges.winners(current_access_token, @challenge_detail["Id"])
     @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
   end
   

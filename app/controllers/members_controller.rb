@@ -14,6 +14,7 @@ class MembersController < ApplicationController
     if params[:order_by] == "total_wins__c" or params[:order_by] == "challenges_entered__c"
       @members = @members.reverse
     end
+    @members = @members.paginate(:page => params[:page] || 1, :per_page => 10) 
   end
 
   def show
@@ -39,6 +40,7 @@ class MembersController < ApplicationController
     @members = Members.all(current_access_token, 
       :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c', 
       :where => params[:query])
+    @members = @members.paginate(:page => params[:page] || 1, :per_page => 10)   
     render 'index'
   end
 

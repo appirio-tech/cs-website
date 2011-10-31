@@ -26,4 +26,6 @@
       - @members.each do |member|
         = render "member", :member => member
         %br
+      = will_paginate @members
+      %br
 
