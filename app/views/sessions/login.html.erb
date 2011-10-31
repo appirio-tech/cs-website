@@ -16,12 +16,14 @@
   Facebook
 <% end %>
 
+<a href="/auth/google" class="auth_provider">
+  <%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %>
+  Google
+</a>
+
 <% if Rails.env.development? %>
 
-	<a href="/auth/google" class="auth_provider">
-	  <%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %>
-	  Google
-	</a>
+
 	<a href="/auth/linkedin" class="auth_provider">
 	  <%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %>
 	  LinkedIn
