@@ -11,8 +11,8 @@
                         <ul>
                             <table cellspacing="0" border="0" style="border-collapse:collapse;">
 								<tr>
-									<% @categories.each do |record| %>	
-									<td><li><a href="/challenges?category=<%= record %>"><span><%= record %></span></a></li></td>
+									<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
+									<td><li><a href="/challenges?category=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a></li></td>
 									<% end %>                                
 								</tr>
 							</table>
@@ -72,13 +72,55 @@
                 <div class="discussion recommendations">
                     <h2>Discussion</h2>
                     <!-- Box -->
-                    <!-- Box -->
-                    <%= render "discussion_box" %>
-                    <!-- END Box -->
-
-                    <!-- Reply Post -->
-                    <%= render "discussion_box_reply" %>
-                    <!-- END Reply Post -->
+					<% @comments.each do |record| %> 
+						<% if record["Reply_To__c"].nil? %>
+							<!-- Box -->
+							<div class="box">
+							    <div class="box-b">
+							        <div class="box-t" id="commentdiv">
+							            <a href='/members/<%= record["Member__r"]["Name"] %>' class="fl">
+							                <img src="<%= record["Member__r"]["Profile_Pic__c"] %>" id="ctl00_Body_rptComment_ctl00_imgUser" width="50" height="50" alt="<%= record["Member__r"]["Name"] %>" /></a>
+							            <div class="text-holder fr">
+							                <div style="width: 480px; overflow-x: auto; overflow-y: hidden"><p style="padding-bottom: 15px"><%= raw(record["Comment__c"]) %></p></div>
+							                <span>
+												<a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a>, <%= Time.parse(record["CreatedDate"]).strftime("%b. %d, %Y at %I:%M %p") %>&nbsp;&nbsp;
+							                    <a href="reply_comment.html?contestid=333&messageID=948" id="ctl00_Body_rptComment_ctl00_aFaceBox" rel="facebox">Reply</a>
+											</span>
+							            </div>
+							            <div class="cl">
+							                &nbsp;</div>
+							        </div>
+							    </div>
+							</div>
+							<!-- END Box -->
+							
+		                    <!-- Replies -->
+							<% if !record["Challenge_Comments__r"].nil? %>
+								<% record["Challenge_Comments__r"]["records"].each do |reply| %> 
+							
+				                    <!-- Reply Post -->
+									<div class="reply-post">
+									    <div class="box">
+									        <div class="box-b">
+									            <div class="box-t">
+									                <a href='/members/<%= reply["Member__r"]["Name"] %>' class="fl">
+									                    <img src="<%= reply["Member__r"]["Profile_Pic__c"] %>" width="50" height="50" alt="<%= reply["Member__r"]["Name"] %>"/></a>
+									                <div class="text-holder fr">
+									                    <div style="width: 450px; overflow-x: auto; overflow-y: hidden"><p style="padding-bottom: 15px"><%= raw(reply["Comment__c"]) %></p></div>
+									                    <span><a href='/members/<%= reply["Member__r"]["Name"] %>'><%= reply["Member__r"]["Name"] %></a>, <%= Time.parse(reply["CreatedDate"]).strftime("%b. %d, %Y at %I:%M %p") %> 
+									                </div>
+									                <div class="cl">&nbsp;</div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+				                    <!-- END Reply Post -->
+								<% end %>
+							<% end %>
+		                    <!-- END Replies -->
+							
+						<% end %>
+					<% end %>
 
                     <div style="text-align: center"></div>
                     <!-- END Box -->

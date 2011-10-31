@@ -11,9 +11,9 @@
                         <ul>
                             <table cellspacing="0" border="0" style="border-collapse:collapse;">
 								<tr>
-									<% @categories.each do |record| %>	
-									<td><li><a href="/challenges?category=<%= record %>"><span><%= record %></span></a></li></td>
-									<% end %>                                
+									<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
+									<td><li><a href="/challenges?category=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a></li></td>
+									<% end %>                              
 								</tr>
 							</table>
                         </ul>

@@ -4,7 +4,7 @@
 	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
 	<li><h3>Prizes</h3>
 		<ul>
-			<% @prizes.each do |record| %>                
+			<% @challenge_detail["Challenge_Prizes__r"]["records"].each do |record| %>                
     		<li><span><%= record["Place__c"] %>. <%= record["Prize__c"] %></span><br /></li>
 			<% end %>
 		</ul>
@@ -22,7 +22,7 @@
 	<% end %>
 
 	<li style="display:block;"><h3>Registered Members</h3>
-		<strong><span><%= link_to "#{@challenge_detail["Registered_Members__c"].to_i} Registered Member(s)", registrants_path %></span></strong>
+		<strong><span><%= link_to pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Registered Member'), registrants_path %></span></strong>
 	</li>
 	<li>
 		<h3>Delivery Formats</h3>
@@ -39,7 +39,13 @@
 	</li>
 	<li><h3>Assets</h3>
 		<ul>
-			<li><strong><span style="width: 300px; text-align: left">No asset(s) found for this challenge.<br /><br /></span></strong></li>
+			<% if @challenge_detail["Attachments"].nil? %>
+				<li><strong><span style="width: 300px; text-align: left">No assets found for this challenge.<br /><br /></span></strong></li>
+			<% else %>
+				<% @challenge_detail["Attachments"]["records"].each do |record| %>
+				<li><strong><a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Name"] %>" target="_blank"><%= record["Name"] %></a></strong></li>
+				<% end %>
+			<% end %>
 		</ul>
 	</li>
 	<li>
@@ -49,7 +55,7 @@
             <a class="addthis_button_facebook_like"><fb:like:layout="button_count"></fb:like></a><a class="addthis_button_tweet"></a>
             <a class="addthis_counter addthis_pill_style"></a>
         </div>
-        <script type="text/javascript">                var addthis_config = { "data_track_clickback": true };</script>
+        <script type="text/javascript">var addthis_config = { "data_track_clickback": true };</script>
         <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=mess"></script>
         <!-- AddThis Button END -->
 		<div class="cl">&nbsp;</div>

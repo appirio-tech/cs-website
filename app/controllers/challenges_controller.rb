@@ -82,23 +82,19 @@ class ChallengesController < ApplicationController
   
   def detail
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @prizes = Challenges.get_prizes(current_access_token, @challenge_detail["Id"])
-    @categories = Challenges.get_categories(current_access_token, @challenge_detail["Id"])
+    @comments = Challenges.comments(current_access_token, params[:id])
     @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
   end
   
   def registrants    
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @registrants = Challenges.get_registrants(current_access_token, @challenge_detail["Id"])
-    @prizes = Challenges.get_prizes(current_access_token, @challenge_detail["Id"])
     @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
   end
   
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @winners = Challenges.get_winners(current_access_token, @challenge_detail["Id"])
-    @prizes = Challenges.get_prizes(current_access_token, @challenge_detail["Id"])
-    @categories = Challenges.get_categories(current_access_token, @challenge_detail["Id"])
     @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
   end
   

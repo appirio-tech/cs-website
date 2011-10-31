@@ -3,8 +3,10 @@ class Challenges < Cloudspokes
   
   #this member may go away
   def self.find_by_id(access_token, id)  
-    set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/challenges?fields=Id,Name,Additional_Info__c,Comments__c,Contest_Image__c,Contest_Logo__c,Description__c,End_Date__c,Is_Open__c,Prize_Type__c,Release_to_Open_Source__c,Requirements__c,ID__c,Start_Date__c,Status__c,Submission_Badge__c,Submission_Details__c,Terms__c,Usage_Details__c,Winner_Announced__c,Registered_Members__c,Total_Prize_Money__c,Top_Prize__c&id__c='+id)
+    set_header_token(access_token)
+    results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
+    p '============ returned challenge'
+    p results
   end  
   
   def self.user_participation_status(access_token, username, id)
@@ -90,6 +92,13 @@ class Challenges < Cloudspokes
   def self.get_winners(access_token, id)
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=id,name,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=place__c')
+  end
+  
+  def self.comments(access_token, id)
+    set_header_token(access_token) 
+    comments = get(ENV['sfdc_rest_api_url']+'/comments/'+id)
+    p '======comments'
+    p comments
   end
   
   def self.get_leaderboard(access_token, from_date, page_num)
