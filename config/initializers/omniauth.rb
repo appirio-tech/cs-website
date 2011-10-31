@@ -18,6 +18,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :linked_in, ENV['linkedin_oauth_key'], ENV['linkedin_oauth_secret']
   provider :salesforce, ENV['sfdc_oauth_key'], ENV['sfdc_oauth_secret']
   provider :forcedotcom, ENV['sfdc_oauth_key'], ENV['sfdc_oauth_secret']
-  provider :google, "http://cs-website-sandbox.herokuapp.com", "/jTKTxPX58pBEgUIbHYlfH0g"
+  provider :google, "cs-website-sandbox.herokuapp.com", "5WKsvl3O2wzpQtG3k-XnhbqR"
   provider :openid, OpenID::Store::Filesystem.new('./tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id'
 end
