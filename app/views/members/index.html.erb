@@ -1,0 +1,123 @@
+        <!-- Page heading -->
+        <div class="page-heading">
+            <h2 class="melbourne">Members</h2>
+        </div>
+        <!-- END Page heading -->
+        <!-- Help Nav -->
+        <div class="help-nav">
+            <!-- Sort -->
+            <div class="sort fl">
+                <ul>
+                    <li>SORT</li>
+                    <li><%= link_to "name", members_order_by_name_path %></li>
+                    <li><%= link_to "highest win rate", members_order_by_win_path %></li>
+					<li><%= link_to "most active", members_order_by_active_path %></li>
+                </ul>
+            </div>
+            <!-- END Sort -->
+            <!-- Search -->
+            <div id="search">
+                <fieldset>
+					<%= form_for :search, :url => members_search_path do |f| %>
+					<input type="text" value="search members" onclick="this.value=''" title="search members" class="field blink" name="query">	
+                    <input type="submit" value="go" onclick="submit()" class="submit notext" />
+					<% end %>
+                </fieldset>
+            </div>
+            <!-- END Search -->
+        </div>
+        <span></span>
+        <div class="content-wrapper two-cols-bg">
+            <div class="widecolumn fl">
+                <!-- List Members -->
+                <div class="list-members">
+                    
+						<% @members.each do |member| %>
+                            <div class="box">
+                                <div class="box-b">
+                                    <div class="box-t">
+                                        <div class="user-info fl">
+                                            <a href='<%= member_path(member["Name"]) %>'><img class="member-pic" src="<%= member["Profile_Pic__c"]%>" style="height:48px;width:48px;border-width:0px;" /></a>
+                                            <div class="text-holder">
+                                                <h4><a href='<%= member_path(member["Name"]) %>'><%= member["Name"]%></a></h4>
+                                                <span class="stats">
+                                                    Active:
+                                                    <%= member["Challenges_Entered__c"] %>
+                                                    # of Wins:
+                                                    <%= member["Total_1st_Place__c"].to_i + member["Total_2nd_Place__c"].to_i + member["Total_3st_Place__c"].to_i %>
+													<br/>Total Money: <%= number_to_currency(member["Total_Money__c"], :precision => 0) %>
+                                                </span>
+                                            </div>
+                                            <div class="cl">&nbsp;</div>
+                                        </div>
+                                        <div class="user-desc fr">
+                                            <p><strong>About Me:</strong><%= member["Summary_Bio__c"]%> <a href='<%= member_path(member["Name"]) %>'>View Profile</a></p>
+                                        </div>
+                                        <div class="cl">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+						<% end %>
+                    <div class="cl">&nbsp;</div>
+                    <!-- Paging -->
+                    <div class="paging">
+                       <%= will_paginate @members %>
+                    </div>
+                    <!-- END Paging -->
+                </div>
+                <!-- END List Members -->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                <a href="/leaderboard" class="fr">See All &raquo;</a>
+                <h3>Leaderboard</h3>
+                <!-- Filters -->
+                <div class="filters">
+                    <span>SHOW</span><span><a href="members.html?period=month" id="ctl00_Body_Amonth" class="active">month</a></span>
+                    <span><a href="members.html?period=year" id="ctl00_Body_Ayear">year</a></span>
+                    <span><a href="members.html?period=all" id="ctl00_Body_Aall">all time</a></span>
+                </div>
+                <!-- END Filters -->
+                <!-- Leaders -->
+                
+                        <div class="leaders">
+                            <ul>
+                                
+						<% @leaderboard.each do |record| %>
+                        <li class="leader"><span id="ctl00_Body_lstLeaderBoard_ctrl0_spannum1" class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank']%></span>
+                            <div class="user-box box fl">
+                                <div class="box-b">
+                                    <div class="box-t">
+                                        <a href='<%= member_path(record["username__c"]) %>' class="fl">
+                                            <img src="<%= record["profile_pic__c"] %>" <% if record['rank']==1 %>Width="48px" Height="48px"<% else %>Width="20px" Height="20px"<% end %> style="border-width:0px;" /></a>
+                                        <div class="user-info fl">
+                                            <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span>
+                                            <h4><a href='<%= member_path(record["username__c"]) %>'><%= record["username__c"] %></a></h4>
+                                            <span id="ctl00_Body_lstLeaderBoard_ctrl0_spanstats1" class="stats">
+                                                Active:
+                                                0<br />
+                                                # of Wins:
+                                                <%= record["numwins"] %>
+                                            </span>
+                                        </div>
+                                        <div class="cl">&nbsp;</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cl">
+                                &nbsp;</div>
+                        </li>
+						<% end %>
+                                       
+
+                    
+                            </ul>
+                        </div>
+                    
+                <!-- END Leaders -->
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->

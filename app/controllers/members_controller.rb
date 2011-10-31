@@ -4,17 +4,26 @@ class MembersController < ApplicationController
 
   def index
     # Define the default order criteria
-    order_by  = params[:order_by] || "name"
+    order_by  = params[:order_by] || "total_wins__c"
 
     @members = Members.all(current_access_token, 
-      :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c', 
+      :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c,total_money__c', 
       :order_by => order_by)
-
+      
     # Sorting order hacked here cause not available in the CloudSpokes API
-    if params[:order_by] == "total_wins__c" or params[:order_by] == "challenges_entered__c"
+    if order_by == "total_wins__c" or order_by == "challenges_entered__c"
       @members = @members.reverse
     end
     @members = @members.paginate(:page => params[:page] || 1, :per_page => 10) 
+    
+    tn = Time.now
+    this_month = Time.new(tn.year, tn.month)
+    this_year = Time.new(tn.year)
+    all_time = Time.new(2000)
+    @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
+    #@this_year_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_year.iso8601(0),1)["data"])
+    #@all_time_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, all_time.iso8601(0),1)["data"])
+    
   end
 
   def show
