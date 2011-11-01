@@ -1,0 +1,15 @@
+= stylesheet_link_tag 'member'
+= stylesheet_link_tag 'members'
+
+.content-wrapper.two-cols-bg
+  .widecolumn.fl
+    %p= link_to "Back", member_path
+    .list-challenges
+      %h3= pluralize(@past_challenges.size, "past challenge")
+      - if @past_challenges.count == 0
+        %div{:style => "text-align:center"}
+          %b No past challenge found
+      - @past_challenges.each do |past_challenge|
+        = render "challenge", :challenge => past_challenge
+
+  = render "member-sidebar"

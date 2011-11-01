@@ -1,13 +1,5 @@
 module ChallengesHelper
   
-  def category_display(categories)
-    cats = ''
-    categories['records'].each do |record|
-      cats = cats + record['Display_Name__c'] + ", "
-    end
-    return cats[0..cats.length-3]
-  end
-  
   def format_close_date(end_date)
     
     end_time = Time.parse(end_date)

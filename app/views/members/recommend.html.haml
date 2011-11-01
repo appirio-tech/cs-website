@@ -1,0 +1,22 @@
+= stylesheet_link_tag 'member'
+= stylesheet_link_tag 'members'
+
+.content-wrapper.two-cols-bg
+  .widecolumn.fl
+    %p=link_to "Back", member_path
+    .post-comment
+      %h3 Recommend #{@member["Name"]}
+      %fieldset
+      - if signed_in?
+        Please fill this out
+        - form_for :discussion, :url => login_url do |f|
+          = f.text_field :name
+          = f.submit "Submit now!"
+      - else
+        %p= link_to "You must login to recommend a user.", login_url
+
+
+
+  = render "member-sidebar"
+
+

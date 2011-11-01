@@ -36,8 +36,9 @@ class MembersController < ApplicationController
   def show
     # Gather all required information for the page
     @member            = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
-
     @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
+    @total_recommendations = @recommendations.size
+    @recommendations   = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
     @challenges        = Members.challenges(current_access_token, :name => @member["Name"])
 
     # Gather challenges and group them depending of their end date
@@ -47,6 +48,20 @@ class MembersController < ApplicationController
       if challenge["End_Date__c"].to_date > Time.now.to_date
         @active_challenges << challenge
       else
+        @past_challenges << challenge
+      end
+    end
+  end
+  
+  def past_challenges
+    # Gather all required information for the page
+    @member            = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
+    @challenges        = Members.challenges(current_access_token, :name => @member["Name"])
+
+    # Gather challenges and group them depending of their end date
+    @past_challenges   = []
+    @challenges.each do |challenge|
+      if challenge["End_Date__c"].to_date < Time.now.to_date
         @past_challenges << challenge
       end
     end
@@ -62,21 +77,10 @@ class MembersController < ApplicationController
     @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])   
     render 'index'
   end
-
-  # Need a merge of those 2 actions
-  def past_challenges
-    # NOTE: per_page is forced to 1
-    @member = Members.find(current_access_token, params[:id])
-    @challenges = Members.challenges(current_access_token, :name => @member["Name"]).select{|c| c["End_Date__c"].to_date < Time.now.to_date}
-    @challenges = @challenges.paginate(current_access_token, :page => params[:page] || 1, :per_page => 1) 
-    render 'challenges'
+  
+  def recommend
+    # Gather all required information for the page
+    @member = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
   end
 
-  def active_challenges
-    # NOTE: per_page is forced to 1
-    @member = Members.find(current_access_token, params[:id])
-    @challenges = Members.challenges(current_access_token, :name => @member["Name"]).select{|c| c["End_Date__c"].to_date > Time.now.to_date}
-    @challenges = @challenges.paginate(current_access_token, :page => params[:page] || 1, :per_page => 1) 
-    render 'challenges'
-  end
 end

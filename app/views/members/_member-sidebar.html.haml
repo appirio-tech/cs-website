@@ -1,0 +1,61 @@
+.sidebar.fr
+  .profile
+    %img.fl{:width => "100px", :height => "100px", :src =>  @member["Profile_Pic__c"]}
+    .profile-info.fl
+      %h4
+        %span= @member["Name"]
+      %span
+      %span
+        %span= @member["Country__c"]
+    .cl= " "
+    %p
+      - if !@member["Summary_Bio__c"].nil?
+        %strong About me :
+        %span= @member["Summary_Bio__c"]
+      - if !@member["Quote__c"].nil?
+        %br
+        %br
+        %strong Quote :
+        %span= @member["Quote__c"]
+    .actions
+      %ul
+        %li.recommend
+          %a{:href => recommend_member_url} Recommend
+      .cl
+  %a{:href => "#"}
+    %h3 Stats & Achievements
+  .stats
+    %ul
+      %li
+        = @member["Challenges_Submitted__c"]
+        %strong Total Submissions
+      %li
+        = @member["Total_1st_Place__c"]
+        %strong # of 1st Places
+      %li
+        = @member["Total_2nd_Place__c"]
+        %strong # of 2nd Places
+      %li
+        = @member["Total_3st_Place__c"]
+        %strong # of 3rd Places
+      %li
+        = @member["Challenges_Entered__c"]
+        %strong Contests Entered
+      %li
+        = @member["Total_Points__c"]
+        %strong Total Points
+  .achievements
+  %h3 Social
+  .socials
+    %ul
+      - "Twitter__c,LinkedIn__c,Facebook__c,Github__c".split(',').each do |social|
+        - if @member[social]
+          %li
+            %a{:href => @member[social], :target => "_blank"}
+              = image_tag social[0..-4].downcase + ".gif"
+  .cl
+  - if @member["Website__c"]
+    .website
+      %strong Website :
+      %a{:href => "http://"+@member["Website__c"], :target => "_blank"}
+        = @member["Website__c"]

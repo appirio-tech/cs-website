@@ -1,12 +1,12 @@
 .box
   .box-b
     .box-t
-      %a.fl{:href => member_path(member["Name"])}
-        %img{:width => "49px", :height => "49px", :src => member["Profile_Pic__c"]}
+      %a.fl{:href => member_path(recommendation["Recommendation_From__r"]["Name"])}
+        %img{:width => "49px", :height => "49px", :src => recommendation["Recommendation_From__r"]["Profile_Pic__c"]}
       .text-holder.fr
         %div{:style => "width: 480px; overflow-x: auto; overflow-y: hidden"}
-          %p{:style => "padding-bottom: 15px"}= "MISSING FIELD"
+          %p{:style => "padding-bottom: 15px"}= raw(recommendation["Recommendation__c"])
         %span
-          %a{:href => member_path(member["Name"])}= recommendation["Name"]
-          = recommendation["CreatedDate"].to_date.strftime(", %m/%d/%Y")
+          %a{:href => member_path(recommendation["Recommendation_From__r"]["Name"])}= recommendation["Recommendation_From__r"]["Name"]
+          = recommendation["CreatedDate"].to_date.strftime(" %b. %d, %Y")
       .cl

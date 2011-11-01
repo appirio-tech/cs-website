@@ -3,13 +3,14 @@
     .box-b
       .box-t
         .col-left.fl
-          %h4= challenge["Name"]
-          %p= challenge["Description__c"]
+          %h4
+            %a{:href => challenge_url(challenge["ID__c"])}= challenge["Name"]
+          %p= "#{challenge["Description__c"].gsub(/<\/?[^>]*>/, "")[0..300]}..."
         .col-right.fr
           %p
             %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']
             %br
-            = "#{challenge['Challenge_Participants__r']['records'].first['Money_Awarded__c'].round}$ for"
+            = "$#{challenge['Challenge_Participants__r']['records'].first['Money_Awarded__c'].round} for"
             %br
             %span
               - challenge["Challenge_Categories__r"]["records"].each do |category|
