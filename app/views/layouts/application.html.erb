@@ -22,6 +22,11 @@
         <li><%= link_to "How it Works", "/about" %></li>
         <li><%= link_to "Blog", "http://blog.cloudspokes.com/" %></li>
         <li><%= link_to "FAQ", "/faq" %></li>
+        <% if current_user.nil? %>
+			<li><%= link_to "Login", "/login" %></li>
+		<% else %>
+			<li><%= link_to "Logout", "/logout" %></li>
+		<% end %>
       </ul></nav>
     </header>
     <section id='content'>
@@ -44,14 +49,10 @@
       <nav class='right'><ul>
         <li><%= link_to "Privacy", "/privacy" %></li>
         <li><%= link_to "Terms", "/tos" %></li>
-        <% if current_user.nil? %>
-			<li><%= link_to "Login", "/login" %></li>
-		<% else %>
-			<li><%= link_to "Logout", "/logout" %></li> (<%= current_user.username %>)
-		<% end %>
       </ul></nav>
     </footer>
   </div>
+  <%= debug(current_user.username) if Rails.env.development? && !current_user.nil? %>
   <%= debug(params) if Rails.env.development? %>
 </body>
 </html>

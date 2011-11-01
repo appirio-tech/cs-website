@@ -1,3 +1,6 @@
+= stylesheet_link_tag "member"
+= stylesheet_link_tag "members"
+
 .content-wrapper.left-sidebar.top-border
   #account
     .sidebar.fl
@@ -5,27 +8,29 @@
       
     .widecolumn.fr
       #project-overview
-        %h3 X Followed Challenges
+        %h3 Followed Challenges
         - if @followed_challenges.count == 0 
           %div{:style => "text-align:center"}
             %b No followed challenge found
         - @followed_challenges.each do |followed_challenge|
-          = render "challenge", :challenge => followed_challenge
+          = render "challenge", :challenge => followed_challenge, :type => 'watching'
 
       #project-overview
-        %h3 X Active Challenges
+        %br
+        %h3 Active Challenges
         - if @active_challenges.count == 0 
           %div{:style => "text-align:center"}
             %b No active challenge found
         - @active_challenges.each do |active_challenge|
-          = render "challenge", :challenge => active_challenge
+          = render "challenge", :challenge => active_challenge, :type => 'active'
 
       #project-overview
-        %h3 X Past Challenges
+        %br
+        %h3 Past Challenges
         - if @past_challenges.count == 0 
           %div{:style => "text-align:center"}
             %b No past challenge found
         - @past_challenges.each do |past_challenge|
-          = render "challenge", :challenge => past_challenge
+          = render "challenge", :challenge => past_challenge, :type => 'past'
    
 

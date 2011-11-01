@@ -3,26 +3,26 @@
     .box-b
       .box-t
         .col-left.fl
-          %span.checkbox
-            %input{:type => "checkbox"}
           %h4
-            %a{:href => "#"}
-              = challenge["Name"]
-          .cl= " "
-          %p= challenge["Description__c"]
+            %a{:href => challenge_url(challenge["ID__c"])}= challenge["Name"]
+          %p= "#{challenge["Description__c"].gsub(/<\/?[^>]*>/, "")[0..300]}..."
         .col-right.fr
           %p
-            = "$#{challenge['Challenge_Participants__r']['records'].first['Money_Awarded__c'].to_i} for"
+            %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']
+            %br
+            = "#{challenge['Top_Prize__c']} for"
+            %br
             %span
               - challenge["Challenge_Categories__r"]["records"].each do |category|
                 %span{:class =>category["Category__r"]["Name"]}= category["Category__r"]["Name"]
             %br
-            %span
-              - due_date = ((challenge["End_Date__c"].to_time - Time.now)/86400).round
-              = "due in #{due_date} days" if due_date > 0
-            %br
-            %a{:href => "#"}
-              x registered participants
-            %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']
-            %br
+            %br 
+            - if type.eql?('watching')
+              = link_to('Register' , '/challenges/'+challenge['ID__c'])
+              %br
+              = format_close_date_time(challenge['End_Date__c'])
+            - elsif type.eql?('active')
+              = link_to('Submit' , '/challenges/'+challenge['ID__c']+'/submission')
+              %br
+              = format_close_date_time(challenge['End_Date__c'])
         .cl  
