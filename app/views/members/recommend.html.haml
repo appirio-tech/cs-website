@@ -8,10 +8,14 @@
       %h3 Recommend #{@member["Name"]}
       %fieldset
       - if signed_in?
-        Please fill this out
-        - form_for :discussion, :url => login_url do |f|
-          = f.text_field :name
-          = f.submit "Submit now!"
+        %p Please fill this out
+        - form_for :discussion, :url => '/members' do |f|
+          %p 
+            %label{:for => "name"} Name
+            = f.text_field :name
+          %p
+            = submit_tag 'New'
+        %p I am done!!
       - else
         %p= link_to "You must login to recommend a user.", login_url
 

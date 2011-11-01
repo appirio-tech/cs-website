@@ -79,8 +79,12 @@ class MembersController < ApplicationController
   end
   
   def recommend
-    # Gather all required information for the page
     @member = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
+  end
+  
+  def recommend_new
+    results = Recommendations.save(current_access_token, params[:id], current_user.username, params[:recommendation][:comments])
+    redirect_to member_path(params[:id])
   end
 
 end

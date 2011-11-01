@@ -18,6 +18,7 @@ CloudSpokes::Application.routes.draw do
   match "/members/search"             => "members#search", :as => :members_search
   match "/members/:id/past_challenges"    => "members#past_challenges"
   match "/members/:id/recommend"  => "members#recommend", :as => :recommend_member
+  match "/members/:id/recommend_new"  => "members#recommend_new", :as => :recommend_member_new
   resources :members
 
   match "account"                     => "accounts#index"
