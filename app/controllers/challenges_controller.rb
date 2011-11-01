@@ -35,7 +35,7 @@ class ChallengesController < ApplicationController
   #TODO - only let them access this page if they are registered
   def submission
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @participation_status = Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"])
+    @participation_status = challenge_participation_status
     @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
   end  
   
@@ -91,19 +91,19 @@ class ChallengesController < ApplicationController
   def show
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
-    @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
+    @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def registrants    
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @registrants = Challenges.registrants(current_access_token, @challenge_detail["Id"])
-    @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
+    @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @winners = Challenges.winners(current_access_token, @challenge_detail["Id"])
-    @participation_status = signed_in? ? Challenges.user_participation_status(current_access_token, current_user.username, @challenge_detail["Id"]) : nil
+    @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def leaderboard
@@ -121,6 +121,18 @@ class ChallengesController < ApplicationController
   end
   
   private
+    
+    # iterate through all participants and see if the current user is one of them
+    def challenge_participation_status
+      status =  {:status => 'Not Registered', :participantId => nil}
+      @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
+        if record["Member__r"]["Name"].eql?(current_user.username) 
+          status = {:status => record['Status__c'], :participantId => record['Id']}
+          break
+        end
+      end
+      return status
+    end
   
     def signed_in?
       !current_user.nil?
@@ -130,6 +142,5 @@ class ChallengesController < ApplicationController
         just_filename = File.basename(file_name)
         just_filename.sub(/[^\w\.\-]/,'_')
     end
-    
   
 end

@@ -6,17 +6,7 @@ class Challenges < Cloudspokes
     set_header_token(access_token)
     results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
   end  
-  
-  def self.user_participation_status(access_token, username, id)
-    set_header_token(access_token) 
-    results = get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&membername='+username)
-    if results.length > 0
-      return {:status => results[0]['Status__c'], :participantId => results[0]['Id']}
-    else
-      return {:status => 'Not Registered', :participantId => nil}
-    end
-  end
-  
+    
   # add a member as a participant and update to 'watch'
   def self.update_participation_status(access_token, username, id, status)
     
