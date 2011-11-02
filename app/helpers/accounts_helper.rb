@@ -24,7 +24,7 @@ module AccountsHelper
   end
 
   def work_options
-    [["Please select ...",nil],["Contractor","Contractor"],["Employed","Employed"],["Unemployed","Unemployed"],["Prefer Not to Answer","Prefer Not to Answer"]]
+    [["Please select ...",nil],["Contractor","Contractor"],["Employed","Employed"],["Unemployed","Unemployed"],["Prefer Not To Answer","Prefer Not To Answer"]]
   end
 
   def shirt_size_options

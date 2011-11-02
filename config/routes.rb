@@ -26,9 +26,10 @@ CloudSpokes::Application.routes.draw do
   match "/account/school"         => "accounts#school"
   match "/account/details"        => "accounts#details"
   match "/account/password"       => "accounts#password"
+  match "/account/password_reset" => "accounts#password_reset", :as => :password_reset
 
-  match "/reset_password"             => "accounts#reset_password"
-  match "/require_password"           => "accounts#require_password"
+  match "/reset_password"             => "accounts#public_reset_password"
+  match "/forgot_password"           => "accounts#public_forgot_password"
     
   # scoring
   match 'scoring', :to => 'scoring#index'  

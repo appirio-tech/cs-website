@@ -8,7 +8,6 @@ gem 'will_paginate'
 gem 'jquery-rails'
 gem 'httparty'
 gem 'omniauth'
-gem 'active_hash'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'mongrel', '1.2.0.pre2'
 

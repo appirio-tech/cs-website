@@ -63,14 +63,12 @@
         %label
           %span.required *
           Main Phone:
-        %input.txtsm{:maxlength => 5, :name => "", :value => "toto"}
-        %input.txtsm{:maxlength => 5, :name => "", :value => "toto"}
-        %input.txtsm{:maxlength => 6, :name => "", :value => "toto"}
+        %input.txt{:maxlength => 15, :name => "form_details[phone_mobile__c]", :value => @account["Phone_Mobile__c"]}
         .cl
         %label
           %span.required *
           Time Zone:
-        = time_zone_select(:form_details, :time_zone__c)
+        = time_zone_select(:form_details, :time_zone__c, nil, :default => @account["Time_Zone__c"])
         .cl
         %br
         #button-right.buttons
