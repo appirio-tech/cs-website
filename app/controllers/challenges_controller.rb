@@ -106,6 +106,7 @@ class ChallengesController < ApplicationController
   
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @winners = Challenges.winners(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   

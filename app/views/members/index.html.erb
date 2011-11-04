@@ -1,6 +1,3 @@
-		<%= stylesheet_link_tag 'member' %>
-		<%= stylesheet_link_tag 'members' %>
-
         <!-- Page heading -->
         <div class="page-heading">
             <h2 class="melbourne">Members</h2>
@@ -88,7 +85,7 @@
                             <ul>
                                 
 						<% @leaderboard.each do |record| %>
-                        <li class="leader"><span id="ctl00_Body_lstLeaderBoard_ctrl0_spannum1" class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank']%></span>
+                        <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank']%></span>
                             <div class="user-box box fl">
                                 <div class="box-b">
                                     <div class="box-t">

@@ -572,7 +572,7 @@ span.job, span.stats {
 .categories .hover .black, 
 .categories .active .black {color: #000000;}
 
-.content-wrapper { height: 100%; }
+.challenge-content-wrapper { height: 100%; }
 
 .two-cols-bg { background: url(http://cloudspokes.s3.amazonaws.com/two-cols-shadow.gif) repeat-y 0 0; }
 
@@ -620,3 +620,63 @@ span.job, span.stats {
 
 .get-rss { padding-left: 30px; background: url(http://cloudspokes.s3.amazonaws.com/icon-rss.gif) no-repeat 0 0; line-height: 20px; position: relative; margin-left: -6px; height: 25px; }
 
+/* added by jeff for submissions page */
+.post-submission {
+    margin-top: 5px;
+	margin-bottom: 25px;
+}
+.post-submission .holder {
+    background: url("http://cloudspokes.s3.amazonaws.com/textarea-1.gif") repeat scroll 0 0 transparent;
+    height: 84px;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 448px;
+}
+.post-submission .holder textarea {
+    border: 0 none;
+    color: #666666;
+    display: block;
+    font-size: 14px;
+    height: 84px;
+    width: 448px;
+}
+.post-submission .field {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #666666;
+    display: inline;
+    font-size: 13px;
+    height: 16px;
+    margin-bottom: 10px;
+    padding: 6px 5px;
+    width: 400px;
+}
+.post-comment .codelbl {
+    float: left;
+    margin-right: 5px;
+    margin-top: 10px;
+    width: 70px;
+}
+
+#submissions-current
+{
+	font-size: 12px;
+	background: #fff;
+	margin-bottom: 50px;
+	width: 550px;
+	border-collapse: collapse;
+	text-align: left;
+}
+#submissions-current th
+{
+	font-size: 14px;
+	font-weight: normal;
+	color: #6699C9;
+	padding: 10px 8px;
+	border-bottom: 2px solid;
+}
+#submissions-current td
+{
+	border-bottom: 1px solid #ccc;
+	padding: 6px 8px;
+}

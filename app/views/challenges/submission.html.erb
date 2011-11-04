@@ -1,6 +1,6 @@
 <div class="page two-cols-bg top-border">
 <!-- Content Wrapper -->
-        <div class="content-wrapper">
+        <div class="challenge-content-wrapper">
             <!-- Widecolumn -->
             <div class="widecolumn fl">
 				<span style="font-size:Small;font-weight:bold;"></span>
@@ -19,33 +19,67 @@
                         </ul>
                     </div>
 
+					<% if @current_submissions.length > 0 %>
+					<h3>Current media for your submission</h3>
+
+					<table id="submissions-current">
+					    <thead>
+					    	<tr>
+					        	<th scope="col">Media</th>
+					            <th scope="col">Comments</th>
+					            <th scope="col">Type</th>
+								<th scope="col"></th>
+					        </tr>
+					    </thead>
+					    <tbody>
+							<% @current_submissions.each do |record| %>
+					    	<tr>
+					        	<td><a href="<%= record['URL__c']%>" target="_blank"><%= record['URL__c'].split('/').last %></a></td>
+					            <td><%= record['Comments__c']%></td>
+					            <td><%= record['Type__c']%></td>
+								<td><%= link_to "Delete", submission_delete_path(:submissionId => record['Id']) %></td>
+					        </tr>
+							<% end %>
+					    </tbody>
+					</table>
+					<% end %>
+					
 					<h3>Upload Files</h3>
 					<p>Upload any deliverables for your challenge submission. This can be a zip file containing your code, a Word or text file containing instructions, a movie or image.</p>
 					
-					<%= form_for :file_submission, :url => submission_file_path, :method => "post", :html => { :multipart => true } do |f| %>
-						<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
-						<p>File <%= file_field 'file', 'file_name' %><br>
-						Comments<br/><%= f.text_area :comments, :rows => 5, :cols => 75 %></p>
-						<p><%= f.submit "Upload" %></p>
-					<% end %>
+					<div class="post-submission">
+						<fieldset>
+							<%= form_for :file_submission, :url => submission_file_path, :method => "post", :html => { :multipart => true } do |f| %>
+								<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
+								<p>File <%= file_field 'file', 'file_name' %><br>
+								<div class="codelbl">Comments:</div>
+								<div class="holder">
+								<%= f.text_area :comments, :rows => 5, :cols => 75 %></p>
+								</div>
+								<a class="button fl" onclick="document.forms[0].submit();"> <span>Upload</span></a>
+							<% end %>
+						</fieldset>
+					</div>
 					
 					<h3>Include URLs</h3>
 					<p>Add any URLs to supporting info such as a YouTube or Jing videos, a GitHub repo or any other URL you would like to include in your submission.</p>
 					
-					<%= form_for :url_submission, :url => submission_url_path do |f| %>
-						<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
-						<p>URL<br/><%= f.text_field :link, :size => 60 %><br>
-						Comments<br/><%= f.text_area :comments, :rows => 5, :cols => 75 %></p>
-						<p><%= f.submit "submit" %></p>
-					<% end %>
-					
-					<h3>Current Files</h3>
-					<% @current_submissions.each do |record| %>
-					<p><%= record['Type__c']%> - <a href="<%= record['URL__c']%>" target="_blank"><%= record['URL__c']%></a><br>
-					<%= record['Comments__c']%><br>
-					<%= link_to "Delete", submission_delete_path(:submissionId => record['Id']) %></p>
-					<% end %>
+					<div class="post-submission">
+						<fieldset>
+							<%= form_for :url_submission, :url => submission_url_path do |f| %>
+								<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
+								<div class="codelbl">URL:</div>
+								<%= f.text_field :link, :size => 60, :class => 'field' %>
+								<div class="codelbl">Comments:</div>
+								<div class="holder">
+								<%= f.text_area :comments, :rows => 5, :cols => 75 %></p>
+								</div>
 
+								<a class="button fl" onclick="document.forms[1].submit();"> <span>Submit</span></a>
+							<% end %>
+						</fieldset>
+					</div>
+					
                 </div>
 
                 <!-- END Challenge Information -->

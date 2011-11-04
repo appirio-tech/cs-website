@@ -1,8 +1,6 @@
-<%= stylesheet_link_tag 'member' %>
-
 <div class="page two-cols-bg top-border">
 <!-- Content Wrapper -->
-        <div class="content-wrapper">
+        <div class="challenge-content-wrapper">
             <!-- Widecolumn -->
             <div class="widecolumn fl dvbulletedlist">
                 <!-- Challenge Information -->
@@ -128,8 +126,9 @@
 	                        <fieldset>
 								<% if signed_in? %>
 									<%= form_for :discussion, :url => challenge_comment_path, :name => 'new_comment' do |f| %>
-									  <%= f.text_area( :comments, :cols => "80", :rows => "8" )  %>
-									  <br/><br/>
+										<div class="holder">
+										<%= f.text_area( :comments, :cols => "80", :rows => "8" )  %>
+										</div>
 									  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
 									<% end %>
 								<% else %>

@@ -1,17 +1,15 @@
-<%= stylesheet_link_tag "member" %>
-<%= stylesheet_link_tag "members" %>
-
 <div class='content-wrapper two-cols-bg'>
   <div class='widecolumn fl'>
-    <p><a href="/members/testmember1">Back</a></p>
-	<div class="post-comment">
+    <p><%= link_to 'Back', member_path %></p>
+	<div class="post-submission">
 	    <h3>Post a Recommendation</h3>
 	    <fieldset>
 			<% if signed_in? %>
 				<%= form_for :recommendation, :url => recommend_member_new_path do |f| %>
-				  <%= f.text_area( :comments, :cols => "80", :rows => "12" )  %>
-				  <br/>
-				  <%= submit_tag("Post") %>
+					<div class="holder">
+					<%= f.text_area( :comments )  %>
+					</div>
+					<a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
 				<% end %>
 			<% else %>
 				Please login to post a comment.
