@@ -43,10 +43,12 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id', :to => 'challenges#show', :as => :challenge
   match 'challenges/:id/registrants', :to => 'challenges#registrants', :as => :registrants
   match 'challenges/:id/register', :to => 'challenges#register'
+  match 'challenges/:id/agree_to_tos', :to => 'challenges#register_agree_to_tos', :as => :agree_tos
   match 'challenges/:id/results', :to => 'challenges#results', :as => :results
   match 'challenges/:id/watch', :to => 'challenges#watch' 
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 
   match 'challenges/:id/submission', :to => 'challenges#submission'
+  match 'challenges/:id/scorecard', :to => 'challenges#scorecard'
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file', :as => :submission_file
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
@@ -63,6 +65,7 @@ CloudSpokes::Application.routes.draw do
   get "test/display_settings"
   get "test/dump_env"
   get "test/s3"
+  get "test/send_mail"
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  
@@ -78,4 +81,5 @@ CloudSpokes::Application.routes.draw do
   match "/contact_send", to: "content#contact_send"
   root to: 'content#home'
 
+  mount Resque::Server, :at => "/resque"
 end

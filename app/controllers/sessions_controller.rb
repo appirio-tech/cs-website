@@ -74,6 +74,8 @@ class SessionsController < ApplicationController
           
           if user.save
             sign_in user
+            # send the 'welcome' email
+            Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
             redirect_to root_path
           else
             render :inline => user.errors.full_messages

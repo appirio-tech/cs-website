@@ -2,6 +2,11 @@ class TestController < ApplicationController
   
   require 'services'
   
+  def send_mail
+    Resque.enqueue(WelcomeEmailSender, current_access_token, 'jefftest5')
+    render :inline => "Mail sent"
+  end
+  
   def s3
     @files = AWS::S3::Bucket.find('cs-sandbox').objects  
     p '======= files'

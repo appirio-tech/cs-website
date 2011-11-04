@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+	<table with="100%" cellpadding="2" cellspacing="2">
+	<tr>
+		<td><a href="http://www.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png"></a></td>
+		<td><h2>Welcome to CloudSpokes, <%= @username%>!</h2></td>
+	</tr>
+	</table>
+    <p>
+		Thank you for registering for CloudSpokes! You’ve joined a unique development community, focused on using mobile technologies and 
+		public cloud platforms to build and deliver enterprise class solutions.  
+    </p>
+	<p>
+		<a href="http://<%= ENV['omniauth_full_host'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!
+	</p>
+	<h3>Getting Started</h3>
+	<p>
+		Take a look at our <a href="http://<%= ENV['omniauth_full_host'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="http://<%= ENV['omniauth_full_host'] %>/about">how the process works</a>.
+	</p>
+	<h3>Stay up to date on our latest development challenges for money, prizes and badges:</h3>
+	<ul>
+		<li><a href="http://feedburner.google.com/fb/a/mailverify?uri=cloudspokes/contests/all">Subscribe to our email list</a> to receive a summary of our latest challenges</li>
+		<li><a href="http://www.cloudspokes.com/contests.rss">Subscribe to our RSS feed</a> for new challenges
+		<li>Watch the <a href="http://blog.cloudspokes.com">CloudSpokes Blog</a> for the latest info, submission results and videos</li>
+	</ul>
+	
+	<p><br>Regards,<br/>The CloudSpokes Team<br/><em>...where the rubber meets the code!</em></p>
+	
+    <h3 style="padding-top:25px">Follow Us!</h3>
+	<table cellpadding="2" cellspacing="2">
+	<tr>
+		<td><a href="http://www.github.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/github_64.png"></a></td>
+		<td><a href="http://www.twitter.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/twitter_64.png"></a></td>
+		<td><a href="http://www.facebook.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/facebook_64.png"></a></td>
+		<td><a href="http://www.youtube.com/cloudspokescommunity"><img src="https://s3.amazonaws.com/cs-public/email_images/youtube_icon.png" width="59" style="padding-left:5px;padding-top:3px"></a></td>
+		<td><a href="http://blog.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/blogicon.png" width="55" style="padding-left:10px;padding-top:4px"></a></td>
+		<td><a href="http://www.cloudspokes.com/contests.rss"><img src="https://s3.amazonaws.com/cs-public/email_images/rss_icon.png" width="57" style="padding-left:10px;padding-top:3px"></a></td>
+	</tr>
+	</table>
+
+	<p><a href="http://www.cloudspokes.com">http://www.cloudspokes.com</a></p>
+
+  </body>
+</html>

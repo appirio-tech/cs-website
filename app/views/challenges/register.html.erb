@@ -1,0 +1,33 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl">
+                <!-- Terms -->
+                <span></span>
+				<p><%= link_to "Back", challenge_path %></p>
+
+				<h3>Challenge Terms and Conditions</h3>
+				<p>You must agree to the terms and conditions of this challenge before competing.</p>
+				<%= @terms.description %>
+				
+				<p><br/><a href="<%= agree_tos_path %>" class="button"><span>Agree & Register</span></a></p>
+
+                <!-- END Terms-->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+				<%= render "challenge-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>

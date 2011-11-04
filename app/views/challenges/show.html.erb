@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag 'member' %>
+
 <div class="page two-cols-bg top-border">
 <!-- Content Wrapper -->
         <div class="content-wrapper">
@@ -33,6 +35,7 @@
                     <h3>Submission Details</h3>
                     <p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
 					<% end %>
+					<p>Your submission will be judged by a panel of peers based upon <a href="/challenges/<%= @challenge_detail["ID__c"] %>/scorecard">this criteria</a>.</p> 
 
 					<% if !@challenge_detail["Additional_Info__c"].nil? %>
                     <h3>Additional Info</h3>
@@ -40,31 +43,26 @@
 					<% end %>
 
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
-					<% if signed_in? %>
-	                    <div>
-						<% if @participation_status[:status].eql?('Not Registered') %>
-	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register?challengeId=<%= @challenge_detail["Id"] %>">
-		 					<span>Register</span></a>
-	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/watch?challengeId=<%= @challenge_detail["Id"] %>">
-							<span>Add to Watch List</span></a>    
-						<% elsif @participation_status[:status].eql?('Watching') %>
-	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register?challengeId=<%= @challenge_detail["Id"] %>&current_status=Watching">
-		 					<span>Register</span></a>
-						<% elsif @participation_status[:status].eql?('Registered') %>
-	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/submission">
-							<span>Submit Your Entry</span></a>
-						<% end %>                    
-	                    </div>
-					<% else %>
- 	                   <div>
-	                        <h3><span>Register or Login to submit for the contest</span></h3>
-	                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register"> <span>Register</span></a>
-	                        <a class="button fl" href="/login"> <span>Login</span></a>                        
-	                    </div>
-					<% end %>
+						<% if signed_in? %>
+		                    <div>
+							<% if @participation_status[:status].eql?('Not Registered') %>
+		                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register"><span>Register</span></a>
+		                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/watch"><span>Add to Watch List</span></a>    
+							<% elsif @participation_status[:status].eql?('Watching') %>
+		                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/register"><span>Register</span></a>
+							<% elsif @participation_status[:status].eql?('Registered') %>
+		                        <a class="button fl" href="<%= @challenge_detail["ID__c"] %>/submission"><span>Submit Your Entry</span></a>
+							<% end %>                    
+		                    </div>
+						<% else %>
+	 	                   <div>
+		                        <h3><span>Please login to submit for this challenge</span></h3>
+		                        <a class="button fl" href="/login"> <span>Login</span></a>                        
+		                    </div>
+						<% end %>
 					<% end %>
 
-                </div><br/>
+                </div><br/><br/>
 
                 <!-- END Challenge Information -->
 
@@ -124,20 +122,24 @@
                     <div style="text-align: center"></div>
                     <!-- END Box -->
                     <!-- Post Comment -->
-                    <div class="post-comment">
-                        <h3>Post a Comment</h3>
-                        <fieldset>
-							<% if signed_in? %>
-								<%= form_for :discussion, :url => challenge_comment_path do |f| %>
-								  <%= f.text_area( :comments, :cols => "80", :rows => "8" )  %>
-								  <br/>
-								  <%= submit_tag("Post") %>
+					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
+	                    <div class="post-comment">
+	                        <h3>Post a Comment</h3>
+	                        <fieldset>
+								<% if signed_in? %>
+									<%= form_for :discussion, :url => challenge_comment_path, :name => 'new_comment' do |f| %>
+									  <%= f.text_area( :comments, :cols => "80", :rows => "8" )  %>
+									  <br/><br/>
+									  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
+									<% end %>
+								<% else %>
+									Please login to post a comment.
 								<% end %>
-							<% else %>
-								Please login to post a comment.
-							<% end %>
-                        </fieldset>
-                    </div>
+	                        </fieldset>
+	                    </div>
+					<% else %>
+						<p>The discussion board is closed for this challenge.</p>
+					<% end %>
                     <!-- END Post Comment -->
                 </div>
                 <!-- END Discussion -->

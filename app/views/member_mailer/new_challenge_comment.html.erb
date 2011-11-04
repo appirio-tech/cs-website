@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+	<table with="100%" cellpadding="2" cellspacing="2">
+	<tr>
+		<td><a href="http://www.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png" width="75"></a></td>
+		<td><h2><%= @challenge_name %></h2></td>
+	</tr>
+	</table>
+    <p>
+		A new comment has been posted by <a href="http://<%= ENV['omniauth_full_host'] %>/members/<%= @username %>"><%= @username %></a> for this challenge that you are either registered for or watching:
+    </p>
+	<blockquote>
+		<em>"<%= @comments %>"</em>
+	</blockquote>
+	<p><br/>
+		You can <a href="http://<%= ENV['omniauth_full_host'] %>/challenges/<%= @challenge_id %>">reply to this comment</a> or <a href="http://<%= ENV['omniauth_full_host'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
+	</p>
+	
+	<p><br>Regards,<br/>The CloudSpokes Team<br/><em>...where the rubber meets the code!</em></p>
+
+    <h3 style="padding-top:25px">Follow Us!</h3>
+	<table cellpadding="2" cellspacing="2">
+	<tr>
+		<td><a href="http://www.github.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/github_64.png"></a></td>
+		<td><a href="http://www.twitter.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/twitter_64.png"></a></td>
+		<td><a href="http://www.facebook.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/facebook_64.png"></a></td>
+		<td><a href="http://www.youtube.com/cloudspokescommunity"><img src="https://s3.amazonaws.com/cs-public/email_images/youtube_icon.png" width="59" style="padding-left:5px;padding-top:3px"></a></td>
+		<td><a href="http://blog.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/blogicon.png" width="55" style="padding-left:10px;padding-top:4px"></a></td>
+		<td><a href="http://www.cloudspokes.com/contests.rss"><img src="https://s3.amazonaws.com/cs-public/email_images/rss_icon.png" width="57" style="padding-left:10px;padding-top:3px"></a></td>
+	</tr>
+	</table>
+
+	<p><a href="http://www.cloudspokes.com">http://www.cloudspokes.com</a></p>
+
+  </body>
+</html>

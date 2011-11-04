@@ -4,18 +4,29 @@ require 'settings'
 require 'will_paginate/array'
 
 class ChallengesController < ApplicationController
+  before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
   
+  # TODO - rework this section. move into the challenge module
   def register
-    if params[:current_status].nil?
-      Challenges.register(current_access_token, current_user.username, params[:challengeId])
+    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    #see if we need to show them tos different than standard ones
+    if @challenge_detail["Terms__c"].eql?('Standard Terms & Conditions')
+      Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
+      redirect_to(:back)
+    # challenge has it's own terms. show and make them register
     else
-      Challenges.update_participation_status(current_access_token, current_user.username, params[:challengeId], 'Registered')
+      @participation_status = signed_in? ? challenge_participation_status : nil
+      @terms = Term.find_by_name(@challenge_detail["Terms__c"])
     end
-    redirect_to(:back)
+  end
+  
+  def register_agree_to_tos
+    Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
+    redirect_to challenge_path
   end
   
   def watch
-    Challenges.update_participation_status(current_access_token, current_user.username, params[:challengeId], 'Watching')
+    Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Watching')
     redirect_to(:back)
   end
 
@@ -31,13 +42,6 @@ class ChallengesController < ApplicationController
     end
     @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) 
   end
-  
-  #TODO - only let them access this page if they are registered
-  def submission
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @participation_status = challenge_participation_status
-    @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
-  end  
   
   def submission_file
     begin
@@ -80,12 +84,12 @@ class ChallengesController < ApplicationController
     redirect_to(:back)
   end
   
-  def new_comment
-    post_results = Comments.save(current_access_token, current_user.username, params[:id], params[:discussion][:comments])
-    if post_results['Success'].eql?('false')
-      flash[:error] = "There was an error posting your comments. Please try again."
-    end
-    redirect_to(:back)
+  def submission
+    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    # do not let them see this page is the challenge has closed
+    redirect_to(challenge_url) unless @challenge_detail["Is_Open__c"].eql?('true')
+    @participation_status = challenge_participation_status
+    @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
   end
   
   def show
@@ -96,14 +100,31 @@ class ChallengesController < ApplicationController
   
   def registrants    
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @registrants = Challenges.registrants(current_access_token, @challenge_detail["Id"])
+    @registrants = Challenges.registrants(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @winners = Challenges.winners(current_access_token, @challenge_detail["Id"])
     @participation_status = signed_in? ? challenge_participation_status : nil
+  end
+  
+  def scorecard    
+    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id])
+    @participation_status = signed_in? ? challenge_participation_status : nil
+  end
+  
+  def new_comment
+    post_results = Comments.save(current_access_token, current_user.username, params[:id], params[:discussion][:comments])
+    if post_results['Success'].eql?('true')
+      # send an email to all registered and watching members of the new comment post
+      Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
+        current_user.username, params[:discussion][:comments]) unless ENV['MAILER_ENABLED'].eql?('false')
+    else
+      flash[:error] = "There was an error posting your comments. Please try again."
+    end
+    redirect_to(:back)
   end
   
   def leaderboard
@@ -120,15 +141,30 @@ class ChallengesController < ApplicationController
     @all_time_leaders = @all_time_leaders.paginate(:page => params[:page_all] || 1, :per_page => 2) 
   end
   
+  # make sure the challenge exists and it is available to show online
+  def valid_challenge
+    challenge = Challenges.find_by_id(current_access_token, params[:id])[0]
+    if challenge.nil?
+      redirect_to '/challenges'
+    else
+      # if the challenge exists, but the start date/time hasn't passed, don't show it
+      if Time.parse(challenge["Start_Date__c"]) > Time.now
+        redirect_to '/challenges'
+      end
+    end
+  end
+  
   private
     
-    # iterate through all participants and see if the current user is one of them
+    # iterate through all participants and see if the current user is one of them & get status
     def challenge_participation_status
       status =  {:status => 'Not Registered', :participantId => nil}
-      @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
-        if record["Member__r"]["Name"].eql?(current_user.username) 
-          status = {:status => record['Status__c'], :participantId => record['Id']}
-          break
+      if @challenge_detail["Challenge_Participants__r"]
+        @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
+          if record["Member__r"]["Name"].eql?(current_user.username) 
+            status = {:status => record['Status__c'], :participantId => record['Id']}
+            break
+          end
         end
       end
       return status

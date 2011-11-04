@@ -10,6 +10,7 @@ gem 'httparty'
 gem 'omniauth'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'mongrel', '1.2.0.pre2'
+gem 'resque', :require => 'resque/server'
 
 group :development, :test do
   gem 'sqlite3-ruby'

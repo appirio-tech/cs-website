@@ -21,6 +21,11 @@ unless Rails.env.production?
   ENV['AMAZON_ACCESS_KEY_ID'] = 'AKIAJXNGEXQID3CELIVA'
   ENV['AMAZON_SECRET_ACCESS_KEY'] = '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'
   ENV['AMAZON_S3_DEFAULT_BUCKET'] = 'cs-sandbox'
+  # mailchimp / aws mailer credentials - MUST match credentails in mailchimp-sts-play java app at heroku
+  ENV['MAILER_USERNAME'] = 'CloudSpokes'
+  ENV['MAILER_PASSWORD'] = 'Appirio11'
+  # set to false to stop emails from being sent out
+  ENV['MAILER_ENABLED'] = 'false'
   
   # databasedotcom gem
   ENV['DATABASEDOTCOM_CLIENT_ID'] = '3MVG9_7ddP9KqTzdCEqrJi8EiCVqIcfbXqjuRfyBMa3UNUHw2dNZrjbcaif5WJ_h18qY.5nMc0oYsEqthLU97'

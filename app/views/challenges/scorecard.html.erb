@@ -1,0 +1,42 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl">
+                <!-- Challenge Registrants -->
+                <span></span>
+				<p><%= link_to "Back", challenge_path %></p>
+
+				<h3>Challenge Scorecard</h3>
+				<p>Here is the weighted criteria that judges will use to score submissions for this challenge.</p>
+
+				<% @scorecard_group.each do |sc| %>
+					<h4><%= sc["Name"] %> (<%= sc["Group_Weight__c"].to_i %>%)</h4>
+					<% counter = 1 %>
+					<% sc["QwikScore_Questions__r"]["records"].each do |question| %>
+						<% if question["Question_Type__c"].eql?('Numeric') %>
+							<%= counter %>. <%= question["Question_Text__c"] %> (<%= question["Minimum_Value__c"] %> - <%= question["Maximum_Value__c"] %>)<br/>
+							<% counter += 1 %>
+						<% end %>
+					<% end %>
+					</ol>					
+				<% end %>
+
+                <!-- END Challenge Registrants -->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+				<%= render "challenge-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>

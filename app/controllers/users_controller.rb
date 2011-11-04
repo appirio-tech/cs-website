@@ -28,6 +28,8 @@ class UsersController < ApplicationController
       
         if @user.save
           sign_in @user
+          # send the 'welcome' email
+          Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
           redirect_to '/challenges'
         else
           # could not save the user in the database

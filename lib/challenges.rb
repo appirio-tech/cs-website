@@ -1,51 +1,44 @@
 require 'cloud_spokes'
 class Challenges < Cloudspokes
   
+  def self.set_participation_status(access_token, username, id, new_status) 
+    
+    set_header_token(access_token)
+    # get the current status of the user
+    current_status = get(ENV['sfdc_rest_api_url']+'/participants/'+username+'?challengeId='+id)
+    
+    # no record yet... create it with the specified status
+    if current_status.length == 0
+
+      options = {
+        :body => {
+            :username => username,
+            :challengeid => id,
+            :status__c => new_status
+        }
+      }
+
+      # create participation record if it doesn't exist         
+      results = post(ENV['sfdc_rest_api_url']+'/participants', options)
+
+    # participant record exists... update it with the new status
+    else
+      results = put(ENV['sfdc_rest_api_url']+'/participants/'+username+'?challengeid='+id+'&status__c='+new_status)
+    end
+    
+  end
+  
   #this member may go away
   def self.find_by_id(access_token, id)  
     set_header_token(access_token)
     results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
   end  
-    
-  # add a member as a participant and update to 'watch'
-  def self.update_participation_status(access_token, username, id, status)
-    
-    options = {
-      :body => {
-          :username => username,
-          :challengeid => id
-      }
-    }
-    
-    # try and create participation record if it doesn't exist         
-    results = post(ENV['sfdc_rest_api_url']+'/participants', options)
-    if results['Success'].eql?('true')
-      # now update with status of 'watch'. use the id returned from the post in the message
-      put(ENV['sfdc_rest_api_url']+'/participants/'+results['Message']+'?status__c='+status, options)
-    end
-  end
-  
-  # add a member as a participant
-  def self.register(access_token, username, id)
-    
-    options = {
-      :body => {
-          :username => username,
-          :challengeid => id
-      }
-    }
-             
-    post(ENV['sfdc_rest_api_url']+'/participants', options)
-    
-  end
-    
+        
   # this method may go away
   def self.get_challenges(access_token, show_open, orderby, category)
-    
     qry_open = show_open ? '&open=true' : '&open=false'
     qry_orderby = '&orderby='+orderby
     qry_category = category.nil? ? '' : '&category='+CGI::escape(category)
-    
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c'+qry_orderby+qry_open+qry_category)
   end
@@ -94,6 +87,11 @@ class Challenges < Cloudspokes
   def self.current_submissions(access_token, participantId)
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/submissions?participantid='+participantId)
+  end
+  
+  def self.scorecard_questions(access_token, id)
+    set_header_token(access_token) 
+    get(ENV['sfdc_rest_api_url']+'/scorecard/'+id+'/questions')
   end
   
 end
