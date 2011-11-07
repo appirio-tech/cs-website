@@ -2,7 +2,7 @@ module AccountsHelper
 
   MENU_OPTIONS_TOP = { :account_details      => {:value => "account details",     :link => "/account/details"},
                        :school_work_info     => {:value => "school & work info",  :link => "/account/school"},
-                       :edit_public_profile  => {:value => "edit public profile", :link => "#"},
+                       :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
                        :change_password      => {:value => "change password",     :link => "/account/password"}}
 
   MENU_OPTIONS_BOTTOM = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"},

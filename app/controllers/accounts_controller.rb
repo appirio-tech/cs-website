@@ -72,7 +72,16 @@ class AccountsController < ApplicationController
   # School & Work info tab
   def school
     if params["form_school"]
-      Members.update(current_access_token, @current_user.username,params["form_school"])
+      Members.update(current_access_token, @current_user.username, params["form_school"])
+    end
+    # get the updated account
+    get_account
+  end
+  
+  # School & Work info tab
+  def public_profile
+    if params["form_profile"]
+      Members.update(current_access_token, @current_user.username, params["form_profile"])
     end
     # get the updated account
     get_account
