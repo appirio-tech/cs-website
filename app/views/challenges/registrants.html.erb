@@ -6,7 +6,7 @@
                 <!-- Challenge Registrants -->
                 <span></span>
 				<p><%= link_to "Back", challenge_path %></p>
-
+				<%= flash_messages %>
 				<% if @registrants.size == 0 %>
 					<div style="text-align: center; padding:50px"><b> No registrants for this challenge at this time.</b></div>
 				<% else %>

@@ -5,6 +5,7 @@
       
     .widecolumn.fr
       #project-overview
+        = flash_messages
         %h3 Followed Challenges
         - if @followed_challenges.count == 0 
           %div{:style => "text-align:center"}

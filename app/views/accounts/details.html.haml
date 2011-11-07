@@ -5,6 +5,7 @@
 
     .widecolumn.fr
       #account
+        = flash_messages
         %h3 Account details
         %p
           Sometimes we need to send you stuff. Like award money. So keep your contact info up to date so we can get in touch! We promise to never ever use your informations for evil (unless we have your permission).
@@ -26,9 +27,9 @@
         %label
           %span.required *
           Email Address:
-        %input.txt{:maxlength => 250, :name => "form_details[email__c]", :value => @account["Email__c"]}
+        %input.txt{:maxlength => 250, :name => "form_details[email__c]", :value => @account["Email__c"], :style => 'width:250px'}
         .cl
-        %hr
+        %hr{:style => 'margin: 10px'}
         %label
           %span.required *
           Address:
@@ -36,7 +37,7 @@
         .cl
         %label
           %span.required *
-          Address 2:
+          Address:
         %input.field{:maxlength => 100, :name => "form_details[address_line2__c]", :value => @account["Address_Line2__c"]}
         .cl
         %label
@@ -55,11 +56,12 @@
         %label
           %span.required *
           Country:
-        = country_select(:form_details, :country__c,  @account["Country__c"] =>  @account["Country__c"]  )
+        = country_select(:form_details, :country__c,  @account["Country__c"] =>  @account["Country__c"] )
         .cl
+        %div{:style => 'margin:10px'}
         %label
           %span.required *
-          Main Phone:
+          Phone:
         %input.txt{:maxlength => 15, :name => "form_details[phone_mobile__c]", :value => @account["Phone_Mobile__c"]}
         .cl
         %label
@@ -68,11 +70,9 @@
         = time_zone_select(:form_details, :time_zone__c, nil, :default => @account["Time_Zone__c"])
         .cl
         %br
-        #button-right.buttons
+        #button-container
           %a.button{:href => "#", :onclick => "document['form_details'].submit()"}
             %span Submit
-          %a.button{:href => "/account/a0GU0000000c8xiMAA/details"}
-            %span Cancel
 
 
 

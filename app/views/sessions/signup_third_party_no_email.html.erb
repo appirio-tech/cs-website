@@ -1,17 +1,24 @@
-<h1>Sign in Third Party - No Email</h1>
+<div style="margin:25px">
+	
+	<div style="float:left; width:150px;padding-bottom:100px;padding-top:25px">
+		<img src="assets/<%= session[:authsession].get_hash[:provider]%>_128.png">
+	</div>
+	
+	<div style="float:left;width:500px;;padding-top:25px">
+		
+		<h3>Complete the Signup Process</h3>
+		
+		<%= flash_messages %>
 
-<p>Unfortunately <b><%= session[:authsession].get_hash[:provider]%></b> doesn't provide us with your email address. Please enter it.</p>
+		<p>Unfortunately <b><%= session[:authsession].get_hash[:provider] %></b> doesn't provide us with your email address during the OAuth process. Please enter your email to complete the signup process and create your account.</p>
+		
+		<div class="third_party_no_email">
+		<%= form_for :session, :url => "/signup_third_party_create" do |f| %>
+		  Email: <%= f.text_field :email, :value => session[:authsession].get_hash[:email], :class => 'field' %><br/>
+		<a class="button" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+		<% end %>
+		</div>
 
-<%= form_for(:session, :url => 'signup_third_party_create') do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email, :value => session[:authsession].get_hash[:email] %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Sign in" %>
-  </div>
-<% end %>
+	</div>
 
-<hr>
-
-<%= debug session[:authsession] %>
+<div>

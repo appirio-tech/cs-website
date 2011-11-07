@@ -1,44 +1,41 @@
-<a href="/auth/twitter" class="auth_provider">
-  <%= image_tag "twitter_64.png", :size => "64x64", :alt => "Twitter" %>
-  Twitter
-</a>
-<a href="/auth/github" class="auth_provider">
-  <%= image_tag "github_64.png", :size => "64x64", :alt => "GitHub" %>
-  GitHub
-</a>
-<% if Rails.env.production? %>
-	<a href="/auth/facebook" class="auth_provider">
-	  <%= image_tag "facebook_64.png", :size => "64x64", :alt => "Facebook" %>
-	  Facebook
-	</a>
-<% else %>
-  <%= image_tag "facebook_64.png", :size => "64x64", :alt => "Facebook" %>
-  Facebook
-<% end %>
+<div id="container">
+	<div id="header">
+		<img src="assets/cloudspokes-logo-hor.png" height="50">
+		<div id="header_right"><a href="/signup">New to CloudSpokes? Sign up now!</a></div>
+	</div>
+	<div id="content">
+		<h1>Login Quickly and Easily Using</h1>
+		<a href="/auth/twitter" target="_parent" class="auth_provider"><%= image_tag "twitter_64.png", :size => "64x64", :alt => "Twitter" %></a>
+		<a href="/auth/github" target="_parent" class="auth_provider"><%= image_tag "github_64.png", :size => "64x64", :alt => "GitHub" %></a>
+		<a href="/auth/facebook" target="_parent" class="auth_provider"><%= image_tag "facebook_64.png", :size => "64x64", :alt => "Facebook" %></a>
+		<a href="/auth/google" class="auth_provider"><%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %></a>
+		<br/>
+		<a href="/auth/linkedin" target="_parent" class="auth_provider"><%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
+		<a href="/auth/open_id" target="_parent" class="auth_provider"><%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %></a>
+		<a href="/auth/forcedotcom" target="_parent" class="auth_provider"><%= image_tag "salesforce_64.png", :size => "64x64", :alt => "salesforce.com" %></a>
+		
+	</div>
+	<div id="sidebar">
+		<p>Have a CloudSpokes username<br/> and password?</p>
+		<%= flash_messages %>
+		<%= form_for @login_form, :url => login_cs_auth_url do |f| %>
+		  <div class="field">
+		    <%= f.label :username %><br />
+		    <%= f.text_field :username, :style => "width: 125px" %>
+		  </div>
+		  <div class="field">
+		    <%= f.label :password %><br />
+		    <%= f.password_field :password, :style => "width: 125px" %>
+		  </div>
+		  <div class="actions">
+		    <%= f.submit "Login" %>
+		  </div>
+		<% end %>
 
-<a href="/auth/google" class="auth_provider">
-  <%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %>
-  Google
-</a>
-
-<% if Rails.env.development? %>
-
-
-	<a href="/auth/linkedin" class="auth_provider">
-	  <%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %>
-	  LinkedIn
-	</a>
-	<a href="/auth/open_id" class="auth_provider">
-	  <%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %>
-	  OpenID
-	</a>
-	<a href="/auth/forcedotcom" class="auth_provider">
-	  <%= image_tag "salesforce_64.png", :size => "64x64", :alt => "salesforce.com" %>
-	  salesforce.com
-	</a>
-
-<% end %>
-
-<p><br/>Or you can <a href="/login_cs">login</a> or <a href="/signup">signup</a>.</p>
-
-<p>By logging in, you state the you agree to the <a href="/tos">Terms & Conditions</a> of this website.</p>
+		<p><%= link_to 'Forget your password?', forgot_password_url %></p>
+		
+	</div>
+	<div id="footer">
+		<p>By logging in, you state that you agree to the <a href="/tos" target="_blank">Terms & Conditions</a> of this website.</p>
+	</div>
+</div>

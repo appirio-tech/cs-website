@@ -6,8 +6,7 @@ module AccountsHelper
                        :change_password      => {:value => "change password",     :link => "/account/password"}}
 
   MENU_OPTIONS_BOTTOM = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"},
-                          :discussions          => {:value => "discussions",         :link => "#"},
-                          :outstanding_reviews  => {:value => "outstanding reviews", :link => "/scoring"}}
+                          :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"}}
 
   def build_menu(position,selected_item)
     content = ""

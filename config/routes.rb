@@ -1,41 +1,37 @@
 CloudSpokes::Application.routes.draw do
-
-  match '/signup',  :to => 'users#new'
+  
   resources :users
 
+  match '/signup',  :to => 'sessions#signup'
   match '/signup_complete', :to => 'sessions#signup_third_party_no_email'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
-  
   match '/logout', :to => 'sessions#destroy'  
   match '/login', :to => 'sessions#login'  
-  match '/login_cs',  :to => 'sessions#login_cs'
   match '/login_cs_auth',  :to => 'sessions#login_cs_auth'
+  match "/reset_password"               => "sessions#public_reset_password"
+  match "/reset_password_submit"        => "sessions#public_reset_password_submit"  
+  match "/forgot_password"              => "sessions#public_forgot_password"
+  match "/forgot_password_send"         => "sessions#public_forgot_password_send"
   resources :sessions
   
-  match "/members/order_by_name"      => "members#index", :defaults => { :order_by => 'name' }
-  match "/members/order_by_win"       => "members#index", :defaults => { :order_by => 'total_wins__c' }
-  match "/members/order_by_active"    => "members#index", :defaults => { :order_by => 'challenges_entered__c' }
-  match "/members/search"             => "members#search", :as => :members_search
-  match "/members/:id/past_challenges"    => "members#past_challenges"
-  match "/members/:id/recommend"  => "members#recommend", :as => :recommend_member
-  match "/members/:id/recommend_new"  => "members#recommend_new", :as => :recommend_member_new
+  match "/members/order_by_name"        => "members#index", :defaults => { :order_by => 'name' }
+  match "/members/order_by_win"         => "members#index", :defaults => { :order_by => 'total_wins__c' }
+  match "/members/order_by_active"      => "members#index", :defaults => { :order_by => 'challenges_entered__c' }
+  match "/members/search"               => "members#search", :as => :members_search
+  match "/members/:id/past_challenges"  => "members#past_challenges"
+  match "/members/:id/recommend"        => "members#recommend", :as => :recommend_member
+  match "/members/:id/recommend_new"    => "members#recommend_new", :as => :recommend_member_new
   resources :members
 
-  match "account"                     => "accounts#index"
-  match "/account/challenges"     => "accounts#challenges"
-  match "/account/school"         => "accounts#school"
-  match "/account/details"        => "accounts#details"
-  match "/account/password"       => "accounts#password"
-  match "/account/password_reset" => "accounts#password_reset", :as => :password_reset
-
-  match "/reset_password"             => "accounts#public_reset_password"
-  match "/forgot_password"           => "accounts#public_forgot_password"
-    
-  # scoring
-  match 'scoring', :to => 'scoring#index'  
-  get "scoring/index"
-  post "scoring/save"
-  match 'scoring/scorecard/:id', :to => 'scoring#scorecard'
+  match "account"                       => "accounts#index"
+  match "/account/challenges"           => "accounts#challenges"
+  match "/account/school"               => "accounts#school"
+  match "/account/details"              => "accounts#details"
+  match "/account/password"             => "accounts#password"
+  match "/account/password_reset"       => "accounts#password_reset", :as => :password_reset
+  match "/account/outstanding_reviews"  => "accounts#outstanding_reviews" 
+  match '/account/scorecard/:id'        => 'accounts#scorecard'
+  post "/account/scorecard_save"
 
   #challenges
   get "challenges/index"
@@ -46,9 +42,9 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/agree_to_tos', :to => 'challenges#register_agree_to_tos', :as => :agree_tos
   match 'challenges/:id/results', :to => 'challenges#results', :as => :results
   match 'challenges/:id/watch', :to => 'challenges#watch' 
+  match 'challenges/:id/scorecard', :to => 'challenges#scorecard'
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 
   match 'challenges/:id/submission', :to => 'challenges#submission'
-  match 'challenges/:id/scorecard', :to => 'challenges#scorecard'
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file', :as => :submission_file
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
@@ -77,6 +73,7 @@ CloudSpokes::Application.routes.draw do
   match "/privacy", to: "content#privacy"
   match "/tos", to: "content#tos"
   match "/fail", to: "content#fail"
+  match "/fail_oauth", to: "content#fail_oauth"
   match "/contact", to: "content#contact"
   match "/contact_send", to: "content#contact_send"
   root to: 'content#home'

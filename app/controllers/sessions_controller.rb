@@ -6,38 +6,48 @@ class SessionsController < ApplicationController
   def login
     # delete the session from their last login attempt
     session.delete(:authsession) unless session[:authsession].nil?
+    @login_form = LoginForm.new
+    render :layout => "blank"
   end
   
+  def signup
+    @user = User.new
+    render :layout => "blank"
+  end
+    
   # if the provider doesn't include an email, redirects them to this form
   def signup_third_party_no_email
   end
   
-  # once user enters email for provider, submits and create user & logs in
+  # once user enters email for provider, submits and CREATES a user & logs in
   def signup_third_party_create
     
     # add the email to the session hash
     session[:authsession].get_hash[:email] = params[:session][:email]
     # try and create the user in sfdc
     new_member_create_results = Services.new_member(session[:authsession].get_hash)
+    
     # if the user was created successfully in sfdc
     if new_member_create_results[:success].eql?('true')
-
-      # now authenticate the user with salesforce to get their auth token and save to db
-      user = User.authenticate_third_party(session[:authsession].get_hash[:provider],
-          session[:authsession].get_hash[:username])
-          
-      # delete the session var that stored the auth variables
-      session.delete(:authsession)
-
-      if user.nil?
-        render :inline => "Whoops! Error. Hit the back button and try again."
-      else
+      
+      user = User.new(:username => new_member_create_results[:username], :sfdc_username => new_member_create_results[:sfdc_username], 
+        :password => ENV['third_party_password'])
+      
+      if user.save
+        # delete the session var that stored the auth variables
+        session.delete(:authsession)
+        # sign the user in
         sign_in user
-        redirect_to root_path
+        # send the 'welcome' email
+        Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
+        redirect_to '/challenges'
+      else
+        render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
       end
 
     else
-      redirect_to signup_complete_url, :notice => new_member_create_results[:message]
+      flash[:error] = new_member_create_results[:message]
+      redirect_to signup_complete_url
     end
   end
   
@@ -54,8 +64,8 @@ class SessionsController < ApplicationController
     # if no user was returned, then create them
     if user_exists_results[:success].eql?('false')
       
-      if user_exists_results[:message].eql('Session expired or invalid')
-        redirect_to fail_url, :notice => user_exists_results[:message]
+      if user_exists_results[:message].eql?('Session expired or invalid')
+        render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
       end
       
       # if the provider does not send us an email, redirect them
@@ -104,12 +114,7 @@ class SessionsController < ApplicationController
   def callback_failure
       render :text =>  request.env["omniauth"].to_yaml
   end
-  
-  # manual login page with cloudpsokes u/p
-  def login_cs
-    @login_form = LoginForm.new
-  end
-  
+    
   # authenticate them against sfdc in with cloudspokes u/p
   def login_cs_auth
     
@@ -120,25 +125,65 @@ class SessionsController < ApplicationController
           params[:login_form][:password])
 
       if user.nil?
-        redirect_to login_cs_url, :notice => 'Invalid email/password combination.'
+        flash[:error] = "Invalid email/password."
+        redirect_to login_url
       else
         sign_in user
-        redirect_to root_path
+        render :layout => "blank"
       end
 
     else
-      render :action => 'login_cs'
+      redirect_to login_url
     end
     
+  end
+  
+  # Send a passcode by mail for password reset
+  def public_forgot_password
+    render :layout => "blank"
+  end
+  
+  # Send a passcode by mail for password reset
+  def public_forgot_password_send
+    if params[:form_forgot_password]
+      results = Password.reset(params[:form_forgot_password][:username])
+      if results['Success'].eql?('true')
+        flash[:notice] = results["Message"]
+        redirect_to reset_password_url
+      else 
+        flash[:error] = results["Message"]
+        redirect_to forgot_password_url
+      end
+    end
+  end
+
+  # Check the passwode et new password and update it
+  def public_reset_password
+    @reset_form = ResetPasswordForm.new
+    render :layout => "blank"
+  end
+  
+  # Check the passwode et new password and update it
+  def public_reset_password_submit
+    @reset_form = ResetPasswordForm.new(params[:reset_password_form])
+    if @reset_form.valid?
+      #check to make sure their passwords match
+      if params[:reset_password_form][:new_password].eql?(params[:reset_password_form][:new_password_again])
+        results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:new_password])
+        flash[:warning] = results["Message"]
+      else
+        flash[:error] = 'Please ensure that your new passwords match.'
+      end  
+      redirect_to reset_password_url
+    else
+      flash[:error] = "Please ensure that you fill out all form fields."
+      redirect_to reset_password_url
+    end
   end
 
   def destroy 
     sign_out
     redirect_to root_path
-  end
-  
-  def callback_test
-      render :inline => "<html><body><b>Our hash:</b><br>"+as.get_hash.to_s + "<br><br><b>Omniauth hash:</b><br>" + request.env['omniauth.auth'].to_s+"</body></html>"
   end
 
 end

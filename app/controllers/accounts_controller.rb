@@ -5,6 +5,30 @@ class AccountsController < ApplicationController
   def index
     redirect_to '/account/challenges'
   end
+  
+  def outstanding_reviews
+    @challenges = Scoring.outstanding_scorecards(current_access_token)
+  end
+  
+  def scorecard
+    scorecard = Scoring.scorecard(current_access_token, params[:id], current_user.username).to_json
+    # get the 'message' potion of the string
+    message = scorecard[0,scorecard.index('[')].gsub('\\','')
+    # see if the scorecard has been scored
+    @scored = message.index('"scored__c": "true"').nil? ? false : true
+    # set the json results to be html safe are usable in the javascript
+    @json = scorecard[scorecard.index('['),scorecard.length].gsub(']}',']').html_safe
+  end
+  
+  def scorecard_save
+    save_results = Scoring.save_scorecard(current_access_token, params[:xml],params[:set_as_scored])
+    if save_results[:success].eql?('true')
+      redirect_to '/account/outstanding_reviews'
+    else
+      flash[:error] = save_results[:message]
+      redirect_to(:back)
+    end
+  end
 
   def challenges
     # Gather challenges for sorting
@@ -55,7 +79,7 @@ class AccountsController < ApplicationController
   end
 
   # Action to change the password of logged user (not activated)
-  def password
+  def password    
     if params[:reset]
       results = Password.reset(current_user.username)
       if results['Success'].eql?('true')
@@ -76,39 +100,6 @@ class AccountsController < ApplicationController
       else
         flash[:notice] = 'Please ensure that your passwords match.'
       end
-    end
-  end
-
-  # Send a passcode by mail for password reset
-  def public_forgot_password
-    if params[:form_forgot_password]
-      results = Password.reset(params[:form_forgot_password][:username])
-      if results['Success'].eql?('true')
-        redirect_to reset_password_url, :notice => results["Message"]
-      else 
-        flash[:notice] = results["Message"]
-      end
-    end
-  end
-
-  # Check the passwode et new password and update it
-  def public_reset_password
-    #if they submitted the form
-    if params[:reset_password_form]
-      @reset_form = ResetPasswordForm.new(params[:reset_password_form])
-      if @reset_form.valid?
-
-        #check to make sure their passwords match
-        if params[:reset_password_form][:new_password].eql?(params[:reset_password_form][:new_password_again])
-          results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:new_password])
-          flash[:notice] = results["Message"]
-        else
-          flash[:notice] = 'Please ensure that your passwords match.'
-        end        
-
-      end
-    else
-      @reset_form = ResetPasswordForm.new
     end
   end
   

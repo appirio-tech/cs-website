@@ -19,6 +19,8 @@
                         </ul>
                     </div>
 
+					<%= flash_messages %>
+
 					<% if !@challenge_detail["Description__c"].nil? %>
                     <h3>Overview</h3>
                     <p><%= raw(@challenge_detail["Description__c"])%></p>

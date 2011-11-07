@@ -1,0 +1,49 @@
+<div id="container">
+	<div id="header">
+		<img src="assets/cloudspokes-logo-hor.png" height="50">
+		<div id="header_right"><a href="/login">Existing User? Login here!</a></div>
+	</div>
+	<div id="content">
+		<h1>Use your existing account from...</h1>
+		<a href="/auth/twitter" target="_parent" class="auth_provider"><%= image_tag "twitter_64.png", :size => "64x64", :alt => "Twitter" %></a>
+		<a href="/auth/github" target="_parent" class="auth_provider"><%= image_tag "github_64.png", :size => "64x64", :alt => "GitHub" %></a>
+		<a href="/auth/facebook" target="_parent" class="auth_provider"><%= image_tag "facebook_64.png", :size => "64x64", :alt => "Facebook" %></a>
+		<a href="/auth/google" class="auth_provider"><%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %></a>
+		<br/>
+		<a href="/auth/linkedin" target="_parent" class="auth_provider"><%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
+		<a href="/auth/open_id" target="_parent" class="auth_provider"><%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %></a>
+		<a href="/auth/forcedotcom" target="_parent" class="auth_provider"><%= image_tag "salesforce_64.png", :size => "64x64", :alt => "salesforce.com" %></a>
+		
+		<p>Using an existing account is quick and easy. Select the account<br/>you would like to use and we'll do the rest for you.</p>
+		
+	</div>
+	<div id="sidebar">
+		<p>Or create a new account with CloudSpokes:</p>
+		
+		<%= form_for(@user) do |f| %>
+		  <div class="field">
+		    <%= f.label :username %><br />
+		    <%= f.text_field :username %>
+		  </div>
+		  <div class="field">
+		    <%= f.label :email %><br />
+		    <%= f.text_field :email %>
+		  </div>
+		  <div class="field">
+		    <%= f.label :password %><br />
+		    <%= f.password_field :password %>
+		  </div>
+		  <div class="field">
+		    <%= f.label :password %><br />
+		    <%= f.password_field :password_confirmation %>
+		  </div>
+		  <div class="actions">
+		    <%= f.submit "Sign up" %>
+		  </div>
+		<% end %>
+		
+	</div>
+	<div id="footer">
+		<p>By signing in, you state that you agree to the <a href="/tos" target="_blank">Terms & Conditions</a> of this website.</p>
+	</div>
+</div>

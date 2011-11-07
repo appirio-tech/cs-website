@@ -2,29 +2,21 @@
   .widecolumn.fl
     .list-challenges
       %h3= pluralize(@active_challenges.size, "active challenge")
-      - if @active_challenges.count == 0 
-        %div{:style => "text-align:center"}
-          %b No active challenge found
       - @active_challenges[0..2].each do |active_challenge|
         = render "challenge", :challenge => active_challenge
 
+    = flash_messages
     .list-challenges
       - if @past_challenges.size > 0
         %a.fr{:href => "/members/#{@member["Name"]}/past_challenges"}
           See all »
       %h3= pluralize(@past_challenges.size, "past challenge")
-      - if @past_challenges.count == 0
-        %div{:style => "text-align:center"}
-          %b No past challenge found
       - @past_challenges.each do |past_challenge|
         = render "challenge", :challenge => past_challenge
 
     .recommendations
       %ul
       %h3= pluralize(@total_recommendations, "recommendations")
-      - if @recommendations.count == 0
-        %div{:style => "text-align:center"}
-          %b No recommendation found
       - @recommendations.each do |recommendation|
         = render "recommendation", :recommendation => recommendation
       = will_paginate @recommendations

@@ -5,8 +5,6 @@ class User < ActiveRecord::Base
             :uniqueness => true
   validates :password, :presence => true
   validates :sfdc_username, :presence => true
-
-  # TODO -- encrypt password before save??
   
   def self.authenticate(username, password)
         

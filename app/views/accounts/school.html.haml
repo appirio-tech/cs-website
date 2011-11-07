@@ -5,6 +5,7 @@
 
     .widecolumn.fr
       #account
+        = flash_messages
         %h3 School & Work info
         %p
           Please consider filling out your school and work information. We will not reveal your information outside of CloudSpokes, but the additional demographic information is helpful when getting companies to post jobs to our job boards.
@@ -39,13 +40,10 @@
           Gender:
         = select_tag("form_school[gender__c]", options_for_select(gender_options, @account["Gender__c"]) )
         .cl
-        #button-right.buttons
-          %div{:style => "float:left;padding-right:10px;"}
-            %a.button{:href => "#", :onclick => "document['form_school'].submit()"}
-              %span Submit
-          %div{:style => "float:left"}
-            %a.button{:href => "/account/a0GU0000000c8xiMAA/school"}
-              %span Cancel
+        %br
+        #button-container
+          %a.button{:href => "#", :onclick => "document['form_details'].submit()"}
+            %span Submit
 
 
 

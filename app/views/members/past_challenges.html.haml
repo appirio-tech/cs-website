@@ -1,6 +1,7 @@
 .content-wrapper.two-cols-bg
   .widecolumn.fl
     %p= link_to "Back", member_path
+    = flash_messages
     .list-challenges
       %h3= pluralize(@past_challenges.size, "past challenge")
       - if @past_challenges.count == 0

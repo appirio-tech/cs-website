@@ -6,7 +6,7 @@
                 <!-- Challenge Registrants -->
                 <span></span>
 				<p><%= link_to "Back", challenge_path %></p>
-
+				<%= flash_messages %>
 				<% if @winners.size == 0 %>
 					<div style="text-align: center; padding:50px"><b>No winners found for this challenge.</b></div>
 				<% else %>
