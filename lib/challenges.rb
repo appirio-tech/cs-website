@@ -28,11 +28,16 @@ class Challenges < Cloudspokes
     
   end
   
-  #this member may go away
+  #this method may go away
   def self.find_by_id(access_token, id)  
     set_header_token(access_token)
     results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
   end  
+
+  def self.recent(access_token)  
+    set_header_token(access_token)
+    results = get(ENV['sfdc_rest_api_url']+'/challenges/recent')
+  end
         
   # this method may go away
   def self.get_challenges(access_token, show_open, orderby, category)
@@ -40,7 +45,7 @@ class Challenges < Cloudspokes
     qry_orderby = '&orderby='+orderby
     qry_category = category.nil? ? '' : '&category='+CGI::escape(category)
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c'+qry_orderby+qry_open+qry_category)
+    get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c,License__c'+qry_orderby+qry_open+qry_category)
   end
   
   #this method may go away
@@ -51,12 +56,12 @@ class Challenges < Cloudspokes
       
   def self.registrants(access_token, id)
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c,Member__r.summary_bio__c')
+    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c,Member__r.summary_bio__c,Status__c')
   end
   
   def self.winners(access_token, id)
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=id,name,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=place__c')
+    get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=id,name,has_submission__c,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=money_awarded__c%20desc')
   end
   
   def self.get_leaderboard(access_token, from_date, page_num)

@@ -117,15 +117,23 @@ class ChallengesController < ApplicationController
   end
   
   def new_comment
-    post_results = Comments.save(current_access_token, current_user.username, params[:id], params[:discussion][:comments])
-    if post_results['Success'].eql?('true')
-      # send an email to all registered and watching members of the new comment post
-      Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
-        current_user.username, params[:discussion][:comments]) unless ENV['MAILER_ENABLED'].eql?('false')
+    if verify_recaptcha
+      post_results = Comments.save(current_access_token, current_user.username, params)
+      if post_results['Success'].eql?('true')
+        # send an email to all registered and watching members of the new comment post
+        Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
+          current_user.username, params[:discussion][:comments]) unless ENV['MAILER_ENABLED'].eql?('false')
+      else
+        flash[:error] = "There was an error posting your comments. Please try again."
+      end
+      redirect_to(:back)
+      
     else
-      flash[:error] = "There was an error posting your comments. Please try again."
+      flash[:error] = "There was an error with the recaptcha code below. Please resubmit your comment." 
+      # delete the recaptcha flash that shows up incorrectly!!
+      flash.delete(:recaptcha_error)
+      redirect_to(:back)
     end
-    redirect_to(:back)
   end
   
   def leaderboard
@@ -140,6 +148,10 @@ class ChallengesController < ApplicationController
     @this_month_leaders = @this_month_leaders.paginate(:page => params[:page_month] || 1, :per_page => 2) 
     @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 2) 
     @all_time_leaders = @all_time_leaders.paginate(:page => params[:page_all] || 1, :per_page => 2) 
+  end
+  
+  def recent
+    @challenges = Challenges.recent(current_access_token)
   end
   
   # make sure the challenge exists and it is available to show online

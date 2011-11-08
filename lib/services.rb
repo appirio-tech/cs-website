@@ -5,10 +5,14 @@ class Services
   format :json
   
   headers 'Content-Type' => 'application/json' 
-  headers 'Authorization' => "OAuth #{SiteSettings.public_access_token}"
+  
+  def self.set_header_token(access_token)
+    headers 'Authorization' => "OAuth #{access_token}" 
+  end
   
   # creates a new member -- either directly or from third party service
-  def self.new_member(params)
+  def self.new_member(access_token, params)
+    set_header_token(access_token)
           
     if params.has_key?(:provider)
       
@@ -72,7 +76,8 @@ class Services
   end
   
   # returns the username and sfdc usersname for third party credentals
-  def self.sfdc_username(third_party_service, third_party_username)  
+  def self.sfdc_username(access_token, third_party_service, third_party_username)  
+    set_header_token(access_token)
     
     options = {
       :query => {
@@ -81,17 +86,15 @@ class Services
       }
     }
 
-    p "========= getting sfdc_username for #{third_party_service} and #{third_party_username} and public access token"
+    p "========= getting sfdc_username for #{third_party_service} and #{third_party_username} and public access token #{SiteSettings.public_access_token}"
     results = get(ENV['sfdc_rest_api_url']+'/credentials', options)
             
     begin
-    
       if results['Success'].eql?('true')
         return {:success => 'true', :username => results["Username"], :sfdc_username => results["SFusername"]}
       else
         return {:success => 'false', :message => results["Message"]}
       end
-    
     # something bad.. probably expired token
     rescue Exception => exc
       return {:success => 'false', :message => results[0]['message']}

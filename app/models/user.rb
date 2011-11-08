@@ -27,10 +27,10 @@ class User < ActiveRecord::Base
     end
   end
   
-  def self.authenticate_third_party(third_party_service, third_party_username)
+  def self.authenticate_third_party(access_token, third_party_service, third_party_username)
     
     # find their sfdc username and cloudspokes username
-    results = Services.sfdc_username(third_party_service, third_party_username)
+    results = Services.sfdc_username(access_token, third_party_service, third_party_username)
     p '======= sfdc_username'
     p results
     if results[:success].eql?('true')

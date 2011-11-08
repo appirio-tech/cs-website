@@ -68,19 +68,19 @@
 		                        <div class="box-t">
 		                            <div class="col-left fl">
 		                                <h4><%= link_to "#{record["Name"]}", "/challenges/#{record['ID__c']}" %></h4>
-		                                <p><%= record["Description__c"].gsub(/<\/?[^>]*>/, "")[0..200] %>...</p>
+		                                <p><%= record["Description__c"].gsub(/<\/?[^>]*>/, "")[0..300] %>...</p>
 		                            </div>
 		                            <div class="col-right fr">
 		                                <p>
 		                                    <strong><%= record["Top_Prize__c"] %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong>
 		                                    <br />
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
-		                                    <!--<a href="Profile.aspx?username=jeffdonthemic">
-		                                        jeffdonthemic</a>-->
 		                                    <br />
 											<%= link_to "#{record["Registered_Members__c"]} registered members", "/challenges/#{record['ID__c']}/registrants" %>
-		                                    <br />
-		                                    <span><a href='' target="_blank"> </a></span></p>
+											<% if !record["License__c"].nil? %>
+		                                    	<br /><span><%= record["License__c"] %> license
+											<% end %>
+											</p>
 		                            </div>
 		                            <div class="cl"></div>
 		                        </div>

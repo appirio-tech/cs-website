@@ -5,8 +5,8 @@
 
     .widecolumn.fr
       #account
-        = flash_messages
         %h3 School & Work info
+        = flash_messages
         %p
           Please consider filling out your school and work information. We will not reveal your information outside of CloudSpokes, but the additional demographic information is helpful when getting companies to post jobs to our job boards.
         .cl
@@ -42,7 +42,7 @@
         .cl
         %br
         #button-container
-          %a.button{:href => "#", :onclick => "document['form_details'].submit()"}
+          %a.button{:href => "#", :onclick => "document['form_school'].submit()"}
             %span Submit
 
 

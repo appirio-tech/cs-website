@@ -43,12 +43,12 @@ class TestController < ApplicationController
   
   def service_sfdc_username
     p '============ service_sfdc_username'
-    @results = Services.sfdc_username('github', 'jeffdonthemic')
+    @results = Services.sfdc_username(current_access_token, 'github', 'jeffdonthemic')
   end
   
   def service_new_member_cloudsppokes
     p '============ service_new_member_cloudsppokes'
-    @results = Services.new_member({:username => 'jeffdonthemic', :email => 'jeff@jeffdouglas.com', :password => 'changeme'})
+    @results = Services.new_member(current_access_token, {:username => 'jeffdonthemic', :email => 'jeff@jeffdouglas.com', :password => 'changeme'})
   end
   
   def get_current_access_token

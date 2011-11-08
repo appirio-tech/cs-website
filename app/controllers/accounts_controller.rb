@@ -63,6 +63,8 @@ class AccountsController < ApplicationController
         else
           flash[:error] = 'Duplicate email address found! The email address that you specified is already in use.'
         end
+      else
+        flash.now[:notice] = "Your account information has been updated."
       end
     end
     # get the updated account
@@ -73,6 +75,7 @@ class AccountsController < ApplicationController
   def school
     if params["form_school"]
       Members.update(current_access_token, @current_user.username, params["form_school"])
+      flash.now[:notice] = "Your school and work information has been updated."      
     end
     # get the updated account
     get_account
@@ -82,6 +85,7 @@ class AccountsController < ApplicationController
   def public_profile
     if params["form_profile"]
       Members.update(current_access_token, @current_user.username, params["form_profile"])
+      flash.now[:notice] = "Your profile information has been updated."
     end
     # get the updated account
     get_account
@@ -98,6 +102,9 @@ class AccountsController < ApplicationController
       end
     end
     get_account
+    if !@account["Login_Managed_By__c"].eql?('CloudSpokes')
+      flash.now[:warning] = "You are logging into CloudSpokes with your #{@account["Login_Managed_By__c"]} account. You will need to change your password at #{@account["Login_Managed_By__c"]}"
+    end
   end
   
   def password_reset

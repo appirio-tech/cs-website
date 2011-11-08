@@ -8,9 +8,9 @@
 				<p><%= link_to "Back", challenge_path %></p>
 				<%= flash_messages %>
 				<% if @registrants.size == 0 %>
-					<div style="text-align: center; padding:50px"><b> No registrants for this challenge at this time.</b></div>
+					<div style="text-align: center; padding:50px"><b> No participants for this challenge at this time.</b></div>
 				<% else %>
-					<h3>Registrants</h3>
+					<h3>Participants</h3>
 					<!-- List Members -->
 	                <div class="list-members">
 						<% @registrants.each do |record| %>
@@ -22,6 +22,7 @@
 										<div class="text-holder">
 											<h4><a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a></h4>
 											<span class="stats"># of Wins: <%= record["Member__r"]["Total_Wins__c"] %></span>
+											<span class="stats">Status: <%= record["Status__c"] %></span>
 										</div>
 										<div class="cl"></div>
 									</div>

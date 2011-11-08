@@ -2,13 +2,14 @@ require 'cloud_spokes'
 
 class Comments < Cloudspokes
   
-  def self.save(access_token, username, id, comment)
+  def self.save(access_token, username, params)
     
     options = {
       :body => {
           :username => username,
-          :challenge => id,
-          :comment => comment
+          :challenge => params[:id],
+          :comment => params[:discussion][:comments],
+          :replyto => params[:discussion][:reply_to]
       }
     }
     

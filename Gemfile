@@ -11,6 +11,7 @@ gem 'omniauth'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'mongrel', '1.2.0.pre2'
 gem 'resque', :require => 'resque/server'
+gem "recaptcha", :require => "recaptcha/rails"
 gem 'flash_messages_helper'
 
 group :development, :test do

@@ -26,6 +26,9 @@ unless Rails.env.production?
   ENV['MAILER_PASSWORD'] = 'Appirio11'
   # set to false to stop emails from being sent out
   ENV['MAILER_ENABLED'] = 'false'
+  #recaptcha
+  ENV['RECAPTCHA_PUBLIC_KEY'] = '6Le24ckSAAAAAMsv3sgzAaIj9bcive0weo1X3_iM'
+  ENV['RECAPTCHA_PRIVATE_KEY'] = '6Le24ckSAAAAAFmDh-USI280EN5YbUHkRkbvk88y'
   
   # databasedotcom gem
   ENV['DATABASEDOTCOM_CLIENT_ID'] = '3MVG9_7ddP9KqTzdCEqrJi8EiCVqIcfbXqjuRfyBMa3UNUHw2dNZrjbcaif5WJ_h18qY.5nMc0oYsEqthLU97'

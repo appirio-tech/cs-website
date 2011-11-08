@@ -1,0 +1,57 @@
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "edit_public_profile"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Edit Public Profile</h3>
+			<%= flash_messages %>
+			<p>
+            The community wants to get to know you. Who is that brainiac writing those compliant,
+            minified lines of code? Show you’re really not a robot and write a little something
+            about yourself. Note that the information you provide below is public and anyone
+            can see it. Including your boss.</p>
+
+			<div id="profile">
+				<%= form_for "/account/public_profile", :name => "form_profile" do |f| %>
+				<label>Summary / Bio:</label>
+				<div class="holder"><textarea name="form_profile[Summary_Bio__c]" rows="8" cols="40"><%= @account["Summary_Bio__c"]%></textarea></div>
+				<div class="spacer"></div>
+
+				<label>Quote:</label>
+				<div class="holder"><textarea name="form_profile[Quote__c]" rows="8" cols="40"><%= @account["Quote__c"]%></textarea></div>
+				<div class="spacer"></div>
+				
+				<label>Site / Blog:</label>
+				<input name="form_profile[Website__c]" value="<%= @account["Website__c"]%>" class="field" style="width: 300px">
+				<div class="spacer"></div>
+				
+				<label>Twitter:</label>
+				<input name="form_profile[Twitter__c]" value="<%= @account["Twitter__c"]%>" class="field">
+				<div class="spacer"></div>
+				
+				<label>GitHub:</label>
+				<input name="form_profile[Github__c]" value="<%= @account["Github__c"]%>" class="field">
+				<div class="spacer"></div>
+				
+				<label>Facebook:</label>
+				<input name="form_profile[Facebook__c]" value="<%= @account["Facebook__c"]%>" class="field">
+				<div class="spacer"></div>
+				
+				<label>LinkedIn:</label>
+				<input name="form_profile[LinkedIn__c]" value="<%= @account["LinkedIn__c"]%>" class="field" style="width: 300px">
+				<div class="spacer"></div>
+				<% end %>
+				
+				<div id="button-container">
+					<a class="button" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+				</div>
+
+				
+			</div>
+
+		</div>
+
+	</div>
+</div>

@@ -4,6 +4,7 @@ require 'services'
 class SessionsController < ApplicationController
   
   def login
+    session[:redirect_to_after_auth] = request.env['HTTP_REFERER']
     # delete the session from their last login attempt
     session.delete(:authsession) unless session[:authsession].nil?
     @login_form = LoginForm.new
@@ -25,7 +26,7 @@ class SessionsController < ApplicationController
     # add the email to the session hash
     session[:authsession].get_hash[:email] = params[:session][:email]
     # try and create the user in sfdc
-    new_member_create_results = Services.new_member(session[:authsession].get_hash)
+    new_member_create_results = Services.new_member(current_access_token, session[:authsession].get_hash)
     
     # if the user was created successfully in sfdc
     if new_member_create_results[:success].eql?('true')
@@ -40,7 +41,7 @@ class SessionsController < ApplicationController
         sign_in user
         # send the 'welcome' email
         Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
-        redirect_to '/challenges'
+        redirect_to session[:redirect_to_after_auth]
       else
         render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
       end
@@ -57,55 +58,57 @@ class SessionsController < ApplicationController
     as = AuthSession.new(request.env['omniauth.auth'], params[:provider])
             
     # see if they exist as a member with these third party credentials
-    user_exists_results = Services.sfdc_username(as.get_hash[:provider], as.get_hash[:username])
+    user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], as.get_hash[:username])
     p 'user exists?'
     p user_exists_results
     
-    # if no user was returned, then create them
-    if user_exists_results[:success].eql?('false')
-      
-      if user_exists_results[:message].eql?('Session expired or invalid')
-        render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
-      end
-      
-      # if the provider does not send us an email, redirect them
-      if ['twitter','github'].include?(params[:provider])
-        session[:authsession] = as
-        redirect_to signup_complete_url
-      else
-        # try and create the user in sfdc
-        new_member_create_results = Services.new_member(as.get_hash)
-        
-        if new_member_create_results[:success].eql?('true')
-
-          user = User.new(:username => new_member_create_results[:username], 
-            :sfdc_username => new_member_create_results[:sfdc_username], 
-            :password => ENV['third_party_password'])
-          
-          if user.save
-            sign_in user
-            # send the 'welcome' email
-            Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
-            redirect_to root_path
-          else
-            render :inline => user.errors.full_messages
-          end
-        
-        # they can't login - taken username or email address?
-        else
-          redirect_to login_url, :notice => new_member_create_results[:message]
-        end
-      end
-      
+    # bad session!!!
+    if user_exists_results[:message].eql?('Session expired or invalid')
+      render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
     else
+    
+      # if no user was returned, then create them
+      if user_exists_results[:success].eql?('false')
       
-      # log them in
-      user = User.authenticate_third_party(as.get_hash[:provider],as.get_hash[:username])
-      if user.nil?
-        flash[:error] = "Serious error loggin in!!"
+        # if the provider does not send us an email, redirect them
+        if ['twitter','github'].include?(params[:provider])
+          session[:authsession] = as
+          redirect_to signup_complete_url
+        else
+          # try and create the user in sfdc
+          new_member_create_results = Services.new_member(current_access_token, as.get_hash)
+        
+          if new_member_create_results[:success].eql?('true')
+
+            user = User.new(:username => new_member_create_results[:username], 
+              :sfdc_username => new_member_create_results[:sfdc_username], 
+              :password => ENV['third_party_password'])
+          
+            if user.save
+              sign_in user
+              # send the 'welcome' email
+              Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+              redirect_to session[:redirect_to_after_auth]
+            else
+              render :inline => user.errors.full_messages
+            end
+        
+          # they can't login - taken username or email address?
+          else
+            redirect_to login_url, :notice => new_member_create_results[:message]
+          end
+        end
+      
+      # user already exists. log them in
       else
-        sign_in user
-        redirect_to root_path
+        # log them in
+        user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],as.get_hash[:username])
+        if user.nil?
+          flash[:error] = "Serious error loggin in!!"
+        else
+          sign_in user
+          redirect_to session[:redirect_to_after_auth]
+        end
       end
       
     end

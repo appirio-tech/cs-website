@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       params[:user].delete(:password_confirmation)
           
       # create the member and user in sfdc
-      results = Services.new_member(params[:user])
+      results = Services.new_member(current_access_token, params[:user])
     
       p results
       logger.info results

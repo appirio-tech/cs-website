@@ -194,6 +194,7 @@ GEM
     rb-fsevent (0.4.3.1)
     rdoc (3.10)
       json (~> 1.4)
+    recaptcha (0.3.1)
     redis (2.2.2)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
@@ -293,6 +294,7 @@ DEPENDENCIES
   pg
   rails (= 3.1.0)
   rb-fsevent
+  recaptcha
   resque
   rspec-rails (~> 2.6)
   ruby-debug19

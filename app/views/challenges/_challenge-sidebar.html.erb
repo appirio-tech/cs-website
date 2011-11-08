@@ -21,8 +21,24 @@
 		<span><%= @participation_status[:status] %></span></strong></li>
 	<% end %>
 
-	<li style="display:block;"><h3>Registered Members</h3>
-		<strong><span><%= link_to pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Registered Member'), registrants_path %></span></strong>
+	<li style="display:block;"><h3>Participants</h3>
+		<strong><span><a href="<%= registrants_path %>"><%= pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Member') %> Registered or Watching</a></span></strong>
+	</li>
+	<% if !@challenge_detail["License__c"].nil? %>
+	<li style="display:block;"><h3>License</h3>
+		<strong><span><% if @challenge_detail["Release_to_Open_Source__c"] %>The results of this challenge will be released at <a href="http://www.github.com/cloudspokes" target="_blank">GitHub</a> under a <% end %><%= @challenge_detail["License__c"] %> license</span></strong>
+	</li>
+	<% end %>
+	<li><h3>Assets</h3>
+		<ul>
+			<% if @challenge_detail["Attachments"].nil? %>
+				<li><strong><span style="width: 300px; text-align: left">No assets found for this challenge.<br /><br /></span></strong></li>
+			<% else %>
+				<% @challenge_detail["Attachments"]["records"].each do |record| %>
+				<li><strong><a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Name"] %>" target="_blank"><%= record["Name"] %></a></strong></li>
+				<% end %>
+			<% end %>
+		</ul>
 	</li>
 	<li>
 		<h3>Delivery Formats</h3>
@@ -35,17 +51,6 @@
         <li><strong>Text</strong></li>
         <li><strong>RT</strong></li>
         <li><strong>Other:</strong> Upload a text document<br />with details on how to retrieve<br />your submission.</li>
-		</ul>
-	</li>
-	<li><h3>Assets</h3>
-		<ul>
-			<% if @challenge_detail["Attachments"].nil? %>
-				<li><strong><span style="width: 300px; text-align: left">No assets found for this challenge.<br /><br /></span></strong></li>
-			<% else %>
-				<% @challenge_detail["Attachments"]["records"].each do |record| %>
-				<li><strong><a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Name"] %>" target="_blank"><%= record["Name"] %></a></strong></li>
-				<% end %>
-			<% end %>
 		</ul>
 	</li>
 	<li>

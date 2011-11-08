@@ -1,0 +1,44 @@
+    <div class="page">
+        <h1 id="heading">Recently Completed Challenges</h1>
+ 
+    <!-- Content Wrapper -->
+    <div class="challenge-content-wrapper">
+        <!-- List Challenges -->
+        <div class="list-challenges full-width-challenges">
+            <!-- Box -->
+            <%= flash_messages %>
+            <div>
+			<% @challenges.each do |record| %>
+                <div class="box">
+                    <div class="box-b">
+                        <div class="box-t">
+                            <div class="col-left fl">
+                                <h4><%= link_to "#{record["Name"]}", "/challenges/#{record['ID__c']}" %></h4>
+                                <p><%= record["Description__c"].gsub(/<\/?[^>]*>/, "")[0..500] %>...</p>
+                            </div>
+                            <div class="col-right fr">
+                                <p>
+									<%= Time.parse(record["End_Date__c"]).strftime("%b. %d, %Y") %>
+									<br/><strong>Top Prize: <%= record["Top_Prize__c"] %></strong>
+									<br/><span><%= category_display(record['Challenge_Categories__r']) %></span>
+									<br/><span><%= record["Challenge_Participants__r"]["totalSize"]%> Participants &middot; <a href="/challenges/<%= record["ID__c"] %>/results">View the Winners</a></span>
+									<% if !record["License__c"].nil? %>
+										<br/><span><%= record["License__c"] %> license</span>
+									<% end %>
+									<% if !record["Blog_URL__c"].nil? %>
+										<br/><span><a href="<%= record["Blog_URL__c"] %>">Read the blog post</a></span>
+									<% end %>
+									<% if !record["Source_Code_URL__c"].nil? %>
+										<br/><span><a href="<%= record["Source_Code_URL__c"] %>">Source code available on GitHub</a></span>
+									<% end %>
+								</p>
+                            </div>
+                            <div class="cl"></div>
+                        </div>
+                    </div>
+                </div>
+			<% end %>
+            </div>
+        </div>
+    </div>
+</div>

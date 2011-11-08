@@ -57,7 +57,7 @@
 						<% else %>
 	 	                   <div>
 		                        <h3><span>Please login to submit for this challenge</span></h3>
-		                        <a class="button fl" href="/login"> <span>Login</span></a>                        
+		                        <a class="button fl fancy" href="/login"> <span>Login</span></a>                        
 		                    </div>
 						<% end %>
 					<% end %>
@@ -82,7 +82,7 @@
 							                <div style="width: 480px; overflow-x: auto; overflow-y: hidden"><p style="padding-bottom: 15px"><%= raw(record["Comment__c"]) %></p></div>
 							                <span>
 												<a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a>, <%= Time.parse(record["CreatedDate"]).strftime("%b. %d, %Y at %I:%M %p") %>&nbsp;&nbsp;
-							                    <a href="reply_comment.html?contestid=333&messageID=948" id="ctl00_Body_rptComment_ctl00_aFaceBox" rel="facebox">Reply</a>
+							                    <a href="<%= challenge_path %>?reply_to=<%= record["Id"] %>#comment">Reply</a>
 											</span>
 							            </div>
 							            <div class="cl">
@@ -122,6 +122,7 @@
                     <div style="text-align: center"></div>
                     <!-- END Box -->
                     <!-- Post Comment -->
+					<a name="comment"></a>
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 	                    <div class="post-comment">
 	                        <h3>Post a Comment</h3>
@@ -131,10 +132,12 @@
 										<div class="holder">
 										<%= f.text_area( :comments, :cols => "80", :rows => "8" )  %>
 										</div>
+										<%= f.hidden_field :reply_to, :value => params[:reply_to] %>
+										<%= recaptcha_tags %>
 									  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
 									<% end %>
 								<% else %>
-									Please login to post a comment.
+									Please <a href="/login" class="fancy">login</a> to post a comment.
 								<% end %>
 	                        </fieldset>
 	                    </div>
