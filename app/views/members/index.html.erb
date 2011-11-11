@@ -83,7 +83,7 @@
                 <!-- Leaders -->
                 
                         <div class="leaders">
-                            <ul>
+                            <ul style="padding: 0px">
                                 
 						<% @leaderboard.each do |record| %>
                         <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank']%></span>
@@ -95,7 +95,7 @@
                                         <div class="user-info fl">
                                             <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span>
                                             <h4><a href='<%= member_path(record["username__c"]) %>'><%= record["username__c"] %></a></h4>
-                                            <span id="ctl00_Body_lstLeaderBoard_ctrl0_spanstats1" class="stats">
+                                            <span class="stats">
                                                 Active:
                                                 0<br />
                                                 # of Wins:
@@ -106,8 +106,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="cl">
-                                &nbsp;</div>
+                            <div class="cl">&nbsp;</div>
                         </li>
 						<% end %>
                                        

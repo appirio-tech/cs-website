@@ -74,8 +74,7 @@ CloudSpokes::Application.routes.draw do
   match "/faq", to: "content#faq"
   match "/privacy", to: "content#privacy"
   match "/tos", to: "content#tos"
-  match "/fail", to: "content#fail"
-  match "/fail_oauth", to: "content#fail_oauth"
+  match "/badges", to: "content#badges"
   match "/contact", to: "content#contact"
   match "/contact_send", to: "content#contact_send"
   root to: 'content#home'

@@ -87,6 +87,9 @@
 .columns .leaders .user-box .user-info span.counter {
     font-size: 17px;
 }
+.leaders .user-box .user-info span.counter {
+    font-size: 17px;
+}
 .columns .leaders .user-box .user-info span.stats {
     line-height: 16px;
 }
@@ -434,10 +437,10 @@ span.job, span.stats {
 .help-nav {
     background: url("http://cloudspokes.s3.amazonaws.com/help-nav-bg.gif") repeat scroll 0 0 transparent;
     height: 25px;
-    margin-bottom: 10px;
+    //margin-bottom: 10px;
     padding: 10px 20px;
     margin-left: -20px;
-    margin-right: -20px;
+    //margin-right: -20px;
 }
 .fl {
     display: inline;

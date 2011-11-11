@@ -40,6 +40,9 @@ a
 .downcase
   text-transform: lowercase
 
+.melbourne
+  font-family: Marvel
+
 nav ul
   padding: 0
   margin: 0
@@ -56,7 +59,7 @@ nav ul
 #content
   clear: both
   background: white
-  //border: 9px solid $border-blue
+  border: 9px solid $border-blue // this is screwing things upon on the challenge/index page -- FIX
   border-left: 0
   border-right: 0
   overflow: auto
@@ -152,7 +155,7 @@ a.btn
   +background-image(linear-gradient(rgba(200,255,255,0.25),rgba(200,255,255,0)))
 
 .page
-  padding: 20px
+  padding: 20px // FIX -- this is screwing up the right side of the search bar on the challenges index page
   #heading
     margin-left: -20px
     margin-top: -29px
@@ -253,3 +256,43 @@ a.btn
   padding: 6px 5px
   width: 200px
 
+.technologyBadgesdiv
+  float: left
+  width: 155px
+  text-align: center
+  height: 105px
+
+#badgesMain
+  background-color: #FFF
+  padding: 20px
+  font-family: Arial, Helvetica, sans-serif
+
+.badgesmainA:hover
+  text-decoration:none
+
+.divBadgespopUp
+  width: 400px
+  padding: 20px
+  font-family: Arial, Helvetica, sans-serif
+  display: none
+  border: 2px solid #AFAFAF
+  margin-bottom: 10px
+
+.divBadgePopupText
+  float: left
+  width: 240px
+  margin-left: 10px
+  margin-top: 15px
+
+.developSkillbadges
+  border-right: 2px solid #AFAFAF
+  float: left
+  width: 450px
+
+.developSkillbadgetextdiv
+  float: left
+  width: 300px
+
+.developSkillbadgeimgdiv
+  float: left
+  width: 148px
