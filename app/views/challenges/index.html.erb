@@ -76,7 +76,7 @@
 		                                    <br />
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
 		                                    <br />
-											<%= link_to "#{record["Registered_Members__c"]} registered members", "/challenges/#{record['ID__c']}/registrants" %>
+											<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), "/challenges/#{record['ID__c']}/registrants" %>
 											<% if !record["License__c"].nil? %>
 		                                    	<br /><span><%= record["License__c"] %> license
 											<% end %>
