@@ -1,0 +1,8 @@
+<%= form_for "/test/profile_pic", :name => "form_profile", :method => "post", :html => { :multipart => true } do |f| %>
+
+<%= file_field 'form_profile', 'Profile_Pic__c', :class => 'file' %>
+<% end %>
+
+<div id="button-container">
+	<a class="button" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+</div>

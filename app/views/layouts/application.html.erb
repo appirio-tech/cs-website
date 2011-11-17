@@ -14,8 +14,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$(".fancy").fancybox({
-		 'width' : '60%',
-		 'height' : '60%',
+		 'width' : 650,
+		 'height' : 400,
 		 'autoScale' : false,
 		 'hideOnOverlayClick' : true,
 		 'type' : 'iframe'
@@ -31,7 +31,11 @@ $(document).ready(function(){
         <li><%= link_to "Members", members_path %></li>
         <li><%= link_to "Challenges", "/challenges" %></li>
         <li><%= link_to "Badges", "/badges" %></li>
-        <li><%= link_to "Account", "/account" %></li>
+        <% if current_user.nil? %>
+			<li><%= link_to "Account", "/login", :class => "fancy" %></li>
+		<% else %>
+			<li><%= link_to "Account", "/account" %></li>
+		<% end %>
       </ul></nav>
       <nav id='side_menu'><ul>
         <li><%= link_to "How it Works", "/about" %></li>

@@ -64,6 +64,8 @@ CloudSpokes::Application.routes.draw do
   get "test/dump_env"
   get "test/s3"
   get "test/send_mail"
+  get "test/profile_pic"
+  post "test/profile_pic"  
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  

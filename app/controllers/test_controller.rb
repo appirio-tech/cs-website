@@ -1,6 +1,24 @@
 class TestController < ApplicationController
   
   require 'services'
+  include HTTParty   
+  
+  def profile_pic
+    if params["form_profile"]
+      p '========== checking for profile pic upload'
+      if !params["form_profile"]["Profile_Pic__c"].nil?
+        p '==== it it not nil ... so posting to gae'
+        options = {
+          :body => {
+              :image => params["form_profile"]["Profile_Pic__c"].read 
+          }
+        }
+        results = post('http://cs-image-service.appspot.com', options)
+        p "====== post results: #{results}"
+      end
+      p params
+    end
+  end
   
   def send_mail
     Resque.enqueue(WelcomeEmailSender, current_access_token, 'jefftest5')

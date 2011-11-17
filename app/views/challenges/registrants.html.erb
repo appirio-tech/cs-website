@@ -18,7 +18,7 @@
 							<div class="box-b">
 								<div class="box-t">
 									<div class="user-info fl">
-	                             		<a href='/members/'><img class="member-pic" src="<%= record["Member__r"]["Profile_Pic__c"] %>" style="height:48px;width:48px;border-width:0px;" /></a>
+	                             		<a href='/members/<%= record["Member__r"]["Name"] %>'><img class="member-pic" src="<%= record["Member__r"]["Profile_Pic__c"] %>" style="height:48px;width:48px;border-width:0px;" /></a>
 										<div class="text-holder">
 											<h4><a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a></h4>
 											<span class="stats"># of Wins: <%= record["Member__r"]["Total_Wins__c"] %></span>

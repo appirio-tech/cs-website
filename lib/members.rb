@@ -12,6 +12,18 @@ class Members < Cloudspokes
     set_header_token(access_token)    
     get(ENV['sfdc_rest_api_url']+'/members/'+username+'?fields='+fields.gsub(' ','').downcase)
   end
+  
+  def self.upload_profile_pic(pic)
+    
+    options = {
+      :body => {
+          :image => pic
+      }
+    }
+    results = post('http://cs-image-service.appspot.com/upload', options)
+    p "====== post results: #{results}"
+    
+  end
 
 end
 

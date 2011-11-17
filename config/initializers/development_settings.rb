@@ -36,8 +36,8 @@ unless Rails.env.production?
   ENV['DATABASEDOTCOM_HOST'] = 'test.salesforce.com'
   ENV['DATABASEDOTCOM_DEBUGGING'] = 'true'
   
-  # OmniAuth settings -- these all point back to 127.0.0.1
-  ENV['omniauth_full_host'] = 'http://127.0.0.1:3000'
+  # OmniAuth settings -- these all point back to 127.0.0.1 except when testing salesforce -- see below
+  ENV['omniauth_full_host'] = 'http://localhost:3000'
   ENV['twitter_oauth_key'] = 'KPJwFLfYmwj2Ug25aJgA'
   ENV['twitter_oauth_secret'] = 'xa7HFNAIdGMfn6u20ph21yBdtpQHQ4Qykdq5rDV0'
   ENV['github_oauth_key'] = '791a5c9d36f560ee9353'
@@ -47,7 +47,7 @@ unless Rails.env.production?
   ENV['facebook_oauth_secret'] = ''
   ENV['linkedin_oauth_key'] = ''
   ENV['linkedin_oauth_secret'] = ''
-  # must use localhost instead of 127.0.0.1 for testing
+  # OAUTH TESTING must use localhost instead of 127.0.0.1 for testing with salesforce (this key is for a sandbox url: test.salesforce.com)
   ENV['sfdc_oauth_key'] = '3MVG9QDx8IX8nP5SXX53KcPXxpQhOyi17C1P217uB5m216Z6jaM3RPG6hyTHheHufWv9LckyZyc1Bk9BRS4yY'
   ENV['sdfc_oauth_secret'] = '3751839286705907907'
 end

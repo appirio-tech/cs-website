@@ -14,7 +14,19 @@
             can see it. Including your boss.</p>
 
 			<div id="profile">
-				<%= form_for "/account/public_profile", :name => "form_profile" do |f| %>
+				<%= form_for "/account/public_profile", :name => "form_profile", :method => "post", :html => { :multipart => true } do |f| %>
+				
+				<label>Photo:</label>
+				<div class="holder">
+					<table>
+					<tr>
+						<td><img src="<%= @account["Profile_Pic__c"]%>"></td>
+						<td><%= file_field 'form_profile', 'Profile_Pic__c', :class => 'file' %></td>
+					</tr>
+					</table>
+				</div>
+				<div class="spacer"></div>
+				
 				<label>Summary / Bio:</label>
 				<div class="holder"><textarea name="form_profile[Summary_Bio__c]" rows="8" cols="40"><%= @account["Summary_Bio__c"]%></textarea></div>
 				<div class="spacer"></div>
