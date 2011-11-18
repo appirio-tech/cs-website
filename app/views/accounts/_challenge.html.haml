@@ -18,7 +18,7 @@
             %br
             %br 
             - if type.eql?('watching')
-              = link_to('Register' , '/challenges/'+challenge['ID__c'])
+              = link_to('Register' , challenge_url(challenge["ID__c"]))
               %br
               = format_close_date_time(challenge['End_Date__c'])
             - elsif type.eql?('active')

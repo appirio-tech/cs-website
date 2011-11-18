@@ -60,14 +60,14 @@
                 <%= flash_messages %>
                 <div>
 				<% if @challenges.nil? %>
-					<div style="text-align: center; padding:50px"><b> No open challenges found! </b></div>
+					<div style="text-align:center;padding:50px"><b> No challenges found! </b></div>
 				<% else %>
 					<% @challenges.each do |record| %>
 		                <div class="box">
 		                    <div class="box-b">
 		                        <div class="box-t">
 		                            <div class="col-left fl">
-		                                <h4><%= link_to "#{record["Name"]}", "/challenges/#{record['ID__c']}" %></h4>
+		                                <h4><%= link_to "#{record["Name"]}", challenge_url(record['ID__c']) %></h4>
 		                                <p><%= record["Description__c"].gsub(/<\/?[^>]*>/, "")[0..300] %>...</p>
 		                            </div>
 		                            <div class="col-right fr">
@@ -76,7 +76,7 @@
 		                                    <br />
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
 		                                    <br />
-											<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), "/challenges/#{record['ID__c']}/registrants" %>
+											<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['ID__c']) %>
 											<% if !record["License__c"].nil? %>
 		                                    	<br /><span><%= record["License__c"] %> license
 											<% end %>
@@ -90,16 +90,15 @@
 				<% end %>
                 </div>
                     
-                
-                <div class="paging fr">
-                    <p class="fr">
-                        <%= will_paginate @challenges %>
-                    </p>
-                </div>
-                <a href="contests.rss" class="get-rss fl">Get RSS for this
-                    Set</a>
-                <div class="cl">
-                    &nbsp;</div>
+                <% if !@challenges.nil? %>
+	                <div class="paging fr">
+	                    <p class="fr">
+	                        <%= will_paginate @challenges %>
+	                    </p>
+	                </div>
+				<% end %>
+                <a href="contests.rss" class="get-rss fl">Get RSS for thisSet</a>
+                <div class="cl">&nbsp;</div>
             </div>
         </div>
     </div>

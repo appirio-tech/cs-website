@@ -40,7 +40,7 @@ class ChallengesController < ApplicationController
     else 
       @challenges = Challenges.get_challenges_by_keyword(current_access_token, params[:keyword])
     end
-    @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) 
+    @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) unless @challenges.nil?
   end
   
   def submission_file

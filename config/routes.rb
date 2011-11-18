@@ -41,13 +41,13 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/recent', :to => 'challenges#recent'
   match 'challenges/:id', :to => 'challenges#show', :as => :challenge
   match 'challenges/:id/registrants', :to => 'challenges#registrants', :as => :registrants
-  match 'challenges/:id/register', :to => 'challenges#register'
+  match 'challenges/:id/register', :to => 'challenges#register', :as => :register
   match 'challenges/:id/agree_to_tos', :to => 'challenges#register_agree_to_tos', :as => :agree_tos
   match 'challenges/:id/results', :to => 'challenges#results', :as => :results
-  match 'challenges/:id/watch', :to => 'challenges#watch' 
-  match 'challenges/:id/scorecard', :to => 'challenges#scorecard'
+  match 'challenges/:id/watch', :to => 'challenges#watch', :as => :watch
+  match 'challenges/:id/scorecard', :to => 'challenges#scorecard', :as => :scorecard_display
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 
-  match 'challenges/:id/submission', :to => 'challenges#submission'
+  match 'challenges/:id/submission', :to => 'challenges#submission', :as => :submission
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file', :as => :submission_file
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
