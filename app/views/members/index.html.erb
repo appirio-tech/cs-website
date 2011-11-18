@@ -43,7 +43,7 @@
                                                 <h4><a href='<%= member_path(member["Name"]) %>'><%= member["Name"]%></a></h4>
                                                 <span class="stats">
                                                     Active:
-                                                    <%= member["Challenges_Entered__c"] %>
+                                                    <%= member["Active_Challenges__c"] %>
                                                     # of Wins:
                                                     <%= member["Total_1st_Place__c"].to_i + member["Total_2nd_Place__c"].to_i + member["Total_3st_Place__c"].to_i %>
 													<br/>Total Money: <%= number_to_currency(member["Total_Money__c"], :precision => 0) %>
@@ -96,10 +96,8 @@
                                             <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span>
                                             <h4><a href='<%= member_path(record["username__c"]) %>'><%= record["username__c"] %></a></h4>
                                             <span class="stats">
-                                                Active:
-                                                0<br />
-                                                # of Wins:
-                                                <%= record["numwins"] %>
+                                                Active: <%= record["active_challenges"] %><br />
+                                                # of Wins: <%= record["numwins"] %>
                                             </span>
                                         </div>
                                         <div class="cl">&nbsp;</div>
@@ -109,9 +107,7 @@
                             <div class="cl">&nbsp;</div>
                         </li>
 						<% end %>
-                                       
-
-                    
+      
                             </ul>
                         </div>
                     

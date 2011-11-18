@@ -295,6 +295,7 @@ DEPENDENCIES
   rails (= 3.1.0)
   rb-fsevent
   recaptcha
+  redis
   resque
   rspec-rails (~> 2.6)
   ruby-debug19

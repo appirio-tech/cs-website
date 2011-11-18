@@ -8,7 +8,7 @@ class MembersController < ApplicationController
     display_leaderboard  = params[:period] || "month"
 
     @members = Members.all(current_access_token, 
-      :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c,total_money__c', 
+      :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,active_challenges__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c,total_money__c', 
       :order_by => order_by)
       
     # Sorting order hacked here cause not available in the CloudSpokes API
@@ -30,7 +30,8 @@ class MembersController < ApplicationController
     else
       @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
     end
-    
+    p 'leaderbaord'
+    p @leaderboard
   end
 
   def show
