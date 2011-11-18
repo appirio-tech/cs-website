@@ -1,0 +1,125 @@
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "payments"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Payment Info</h3>
+			<%= flash_messages %>
+			<p>
+            If you've won money from a CloudSpokes challenge here is how you get it. Make sure you check here often to ensure we are not waiting on something from you. Payments are paid on the 20th of each month via the method that you define below. You can also check the status of your payments below. If you have any questions, please contact us at <a href="mailto:info@cloudspokes.com">info@cloudspokes.com</a>.</p>
+
+			<div id="profile">
+				<%= form_for "/account/payments", :name => "form_payment", :method => "post", :html => { :multipart => true } do |f| %>
+				
+				<label>Preferred Payment:</label>
+				<%= select_tag("form_payment[preferred_payment__c]", options_for_select(preferred_payment_options, @account["Preferred_Payment__c"]), :style => 'margin: 5px 5px 5px 0px;' ) %>
+				<div class="spacer"></div>
+				
+				<label>Paperwork Status:</label>
+				<div class="display"><%= @account["Paperwork_Received__c"]%>&nbsp;</div>
+				<div class="spacer"></div>
+				
+				<label>Paperwork Sent:</label>
+				<div class="display"><%= @account["Paperwork_Sent__c"]%>&nbsp;</div>
+				<div class="spacer"></div>
+				
+				<label>Paperwork for Year:</label>
+				<div class="display"><%= @account["Paperwork_Year__c"]%>&nbsp;</div>
+				<div class="spacer"></div>
+				
+				<label>PayPal Address:</label>
+				<input name="form_payment[paypal_payment_address__c]" value="<%= @account["Paypal_Payment_Address__c"]%>" class="field" style="width: 200px">
+				<div class="spacer"></div>
+				<% end %>
+				
+				<div id="button-container">
+					<a class="button" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+				</div>
+				
+			</div>
+			
+			<div style="padding-top: 75px;"/>
+			
+			<h3>Outstanding</h3>
+			
+			<% if @show_outstanding_section %>
+
+				<table class="fancytable" style="width:100%">
+				    <thead>
+				    	<tr>
+							<th scope="col">ID</th>
+				            <th scope="col">Challenge</th>
+							<th scope="col">Place</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Reason</th>
+							<th scope="col">Type</th>
+							<th scope="col">Status</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+						<% @payments.each do |record| %>
+							<% if !record['Status__c'].eql?('Paid')%>
+					    	<tr>
+								<td><%= record['Name'] %></td>
+								<td><%= record['Challenge__r']['Name'] %></td>
+								<td><%= record['Place__c'] %></td>
+								<td><%= number_to_currency(record["Money__c"], :precision => 0) %></td>
+								<td><%= record['Reason__c'] %></td>
+								<td><%= record['Type__c'] %></td>
+								<td><%= record['Status__c'] %></td>
+					        </tr>
+							<% end %>
+						<% end %>
+				    </tbody>
+				</table>
+			
+			<% else %>
+				<p style="padding-bottom:35px">No outstanding payments found.</p>
+			<% end %>
+			
+			<h3>Paid</h3>
+			
+			<% if @show_paid_section %>
+			
+				<table class="fancytable" style="width:100%">
+				    <thead>
+				    	<tr>
+							<th scope="col">ID</th>
+				            <th scope="col">Challenge</th>
+							<th scope="col">Place</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Reason</th>
+							<th scope="col">Type</th>
+							<th scope="col">Date</th>
+							<th scope="col">Ref #</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+						<% @payments.each do |record| %>
+							<% if record['Status__c'].eql?('Paid')%>
+					    	<tr>	
+								<td><%= record['Name'] %></td>
+								<td><%= record['Challenge__r']['Name'] %></td>
+								<td><%= record['Place__c'] %></td>
+								<td><%= number_to_currency(record["Money__c"], :precision => 0) %></td>
+								<td><%= record['Reason__c'] %></td>
+								<td><%= record['Type__c'] %></td>
+								<td><%= record['Payment_Sent__c'] %></td>
+								<td><%= record['Reference_Number__c'] %></td>
+					        </tr>
+							<% end %>
+						<% end %>
+				    </tbody>
+				</table>
+				
+			<% else %>
+				<p>No payments found that are marked as paid.</p>
+			<% end %>
+			
+
+		</div>
+
+	</div>
+</div>

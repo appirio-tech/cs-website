@@ -27,6 +27,7 @@ CloudSpokes::Application.routes.draw do
   match "/account/challenges"           => "accounts#challenges"
   match "/account/school"               => "accounts#school"
   match "/account/details"              => "accounts#details"
+  match "/account/payments"              => "accounts#payments"
   match "/account/public_profile"       => "accounts#public_profile"  
   match "/account/password"             => "accounts#password"
   match "/account/password_reset"       => "accounts#password_reset", :as => :password_reset

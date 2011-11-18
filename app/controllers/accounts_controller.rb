@@ -51,6 +51,30 @@ class AccountsController < ApplicationController
       end
     end
   end
+  
+  # Member details info tab
+  def payments
+    if params["form_payment"]
+      results = Members.update(current_access_token, @current_user.username, params["form_payment"])
+      #check for errors!!
+      if results["Success"].eql?('false')
+        flash[:error] = results["Message"]
+      else
+        flash.now[:notice] = "Your payment information has been updated."
+      end
+    end
+    @payments = Payments.all(current_access_token, :select => 'id,name,challenge__r.name,challenge__r.id__c,money__c,place__c,reason__c,status__c,type__c,Reference_Number__c,payment_sent__c', :where => current_user.username)
+    @payments.each do |record| 
+      if record['Status__c'].eql?('Paid')
+        @show_paid_section = true
+      else 
+        @show_outstanding_section = true
+      end
+    end
+    p @show_paid_section
+    p @show_outstanding_section
+    get_account
+  end
 
   # Member details info tab
   def details

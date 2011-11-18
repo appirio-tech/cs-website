@@ -1,6 +1,7 @@
 module AccountsHelper
 
   MENU_OPTIONS_TOP = { :account_details      => {:value => "account details",     :link => "/account/details"},
+                       :payments             => {:value => "payment info",        :link => "/account/payments"},
                        :school_work_info     => {:value => "school & work info",  :link => "/account/school"},
                        :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
                        :change_password      => {:value => "change password",     :link => "/account/password"}}
@@ -36,6 +37,10 @@ module AccountsHelper
 
   def gender_options
     [["Please select ...",nil],["Male","Male"],["Female","Female"]]
+  end
+  
+  def preferred_payment_options
+    [["Please select ...",nil],["Check","Check"],["Paypal","Paypal"],["Wire","Wire"]]
   end
 
 end
