@@ -84,7 +84,7 @@
                 <strong><span><%= @challenes_open.to_i %></span></strong> <small>open challenges</small></a>
         </div>
         <div class="label label-3 label-green">
-            <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+            <a href="/challenges?show=closed" style="text-decoration: none">
                 <span class="pin notext">&nbsp;</span> <strong>
                 <span><%= @chalenges_won.to_i %></span></strong> <small>challenges won</small> </a>
         </div>
@@ -93,12 +93,12 @@
                 <strong><span><%= number_to_currency(@money_up_for_grabs, :precision => 0) %></span></strong> <small>up for grabs now</small> </a>
         </div>
         <div class="label label-5 label-white">
-            <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+            <a href="/challenges?show=closed" style="text-decoration: none">
                 <span class="pin notext">&nbsp;</span> <strong>
                 <span><%= @entries_submitted.to_i %></span></strong> <small>entries submitted</small> </a>
         </div>
         <div class="label label-6 label-yellow">
-            <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+            <a href="/challenges?show=closed" style="text-decoration: none">
                 <span class="pin notext">&nbsp;</span><strong>
                 <span><%= number_to_currency(@money_pending, :precision => 0) %></span></strong> <small>pending and paid</small>
             </a>
@@ -109,13 +109,13 @@
     <div id="featured-challenge">
         <h3 class="melbourne">Featured Challenge</h3>
         <div class="info fl">
-            <p><strong><span><%= @featured_challenge["name"] %></span></strong>
-            <span><%= @featured_challenge["details"].gsub(/<\/?[^>]*>/, "")[0..130] %>...</span></p>
+            <p><strong><span><%= @featured_challenge_name %></span></strong>
+            <span><%= @featured_challenge_details.gsub(/<\/?[^>]*>/, "")[0..130] %>...</span></p>
         </div>
         <div class="prize-info fr">
             <span class="prize">
-                <span><%= @featured_challenge["top_prize"] %></span></span>
-            <a href="/challenges/<%= @featured_challenge["id"] %>">See Details &raquo;</a>
+                <span><%= @featured_challenge_prize %></span></span>
+            <a href="/challenges/<%= @featured_challenge_id %>">See Details &raquo;</a>
         </div>
     </div>
     <!-- END Featured Challenge -->
@@ -133,14 +133,14 @@
 	                        <div class="member-box">
 	                            <div class="member-b">
 	                                <div class="member-t">
-	                                    <a class="member-pic" href="<%= member_url(@featured_member['username']) %>">
-											<img src="<%= @featured_member['picture'] %>" style="width:48px;border-width:0px;" /></a>
+	                                    <a class="member-pic" href="<%= member_url(@featured_member_username) %>">
+											<img src="<%= @featured_member_pic %>" style="width:48px;border-width:0px;" /></a>
 	                                    <div class="user-info">
 	                                        <span class="counter fr">
-	                                            <a href="<%= member_url(@featured_member['username']) %>"><%= number_to_currency(@featured_member['money'], :precision => 0) %></a></span>
-	                                        <h4><a href="<%= member_url(@featured_member['username']) %>"><%= @featured_member['username'] %></a></h4>
-	                                        &nbsp;<span class="stats">Challenge Wins: <span><%= @featured_member['wins'].to_i %></span>
-											<span class="stats">Active Challenges: <span><%= @featured_member['active'].to_i %></span></span>
+	                                            <a href="<%= member_url(@featured_member_username) %>"><%= number_to_currency(@featured_member_money, :precision => 0) %></a></span>
+	                                        <h4><a href="<%= member_url(@featured_member_username) %>"><%= @featured_member_username %></a></h4>
+	                                        &nbsp;<span class="stats">Challenge Wins: <span><%= @featured_member_wins.to_i %></span>
+											<span class="stats">Active Challenges: <span><%= @featured_member_active.to_i %></span></span>
 	                                    </div>
 	                                    <div class="cl">&nbsp;</div>
 	                                </div>
@@ -161,26 +161,26 @@
                         <div class="leaders">
                             <ul style="padding: 0px">
 								<% @leaders.take(3).each do |record| %> 
-                                        <li>
-                                            <span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> 		
-												fl"><%= record['rank'] %></span>
-                                            <div class="user-box fl">
-                                                <div class="box-b">
-                                                    <div class="box-t">
-                                                        <a href='<%= member_url(record["username__c"]) %>'>
-                                                            <img complete="complete" height="30" width="30" src='<%= record["profile_pic__c"] %>' alt='<%= record["username__c"] %>' />
-                                                        </a>
-                                                        <div class="user-info">
-                                                            <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span><h4>
-                                                                <a href='<%= member_url(record["username__c"]) %>' style="font-size: 14px;"><%= record["username__c"] %></a></h4>
-                                                            <span class="stats"><%= record["country__c"] %></span>
-                                                        </div>
-                                                        <div class="cl">&nbsp;</div>
+                                    <li>
+                                        <span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> 		
+								fl"><%= record['rank'] %></span>
+                                        <div class="user-box fl">
+                                            <div class="box-b">
+                                                <div class="box-t">
+                                                    <a href='<%= member_url(record["username__c"]) %>'>
+                                                        <img complete="complete" height="30" width="30" src='<%= record["profile_pic__c"] %>' alt='<%= record["username__c"] %>' />
+                                                    </a>
+                                                    <div class="user-info">
+                                                        <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span><h4>
+                                                            <a href='<%= member_url(record["username__c"]) %>' style="font-size: 14px;"><%= record["username__c"] %></a></h4>
+                                                        <span class="stats"><%= record["country__c"] %></span>
                                                     </div>
+                                                    <div class="cl">&nbsp;</div>
                                                 </div>
                                             </div>
-                                        </li>
-                                    <% end %>                                    
+                                        </div>
+                                    </li>
+                                <% end %>                                    
                             </ul>
                         </div>
                     </div>

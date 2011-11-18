@@ -1,20 +1,35 @@
 require 'faqs'
 require 'webpages'
+require 'utils'
 
 class ContentController < ApplicationController
   
   def home
+    
+    ## ALL OF THIS IS TEMP -- NEED TO MOVE IT TO POSTGRES OR REDIS
+    home = Utils.get_home_page(current_access_token, 'a0eJ000000005wNIAQ')
+    
+    @featured_member_username = home['Featured_Member__r']['Name']
+    @featured_member_pic = home['Featured_Member__r']['Profile_Pic__c']
+    @featured_member_money = home['Featured_Member__r']['Total_Money__c']
+    @featured_member_active = home['Featured_Member__r']['Active_Challenges__c']
+    @featured_member_wins = home['Featured_Member__r']['Total_Wins__c']
+    
+    @members = home['Members__c']
+    @challenes_open = home['Open_Challenges__c']
+    @chalenges_won = home['Won_Challenges__c']
+    @money_up_for_grabs = home['Money_Up_for_Grabs__c']
+    @money_pending = home['Money_Pending__c']
+    @entries_submitted = home['Entries_Submitted__c']
+    
+    @featured_challenge_id = home['Featured_Challenge__r']['ID__c']
+    @featured_challenge_name = home['Featured_Challenge__r']['Name']
+    @featured_challenge_prize = home['Featured_Challenge__r']['Top_Prize__c']
+    @featured_challenge_details = home['Featured_Challenge__r']['Description__c']
+    
     tn = Time.now
     this_month = Time.new(tn.year, tn.month)
     @leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
-    @members = 50061.1
-    @challenes_open = 17.0
-    @chalenges_won = 347.0
-    @money_up_for_grabs = 11459
-    @money_pending = 287987
-    @entries_submitted = 589.0
-    @featured_challenge = {'id' => 4, 'name' => "Search for Members with Redis", 'top_prize' => "$1000", 'details' => "Redis, <b>and</b> NoSQL in general, is all the rage right now and what is not to love? Redis is an extremely fast, atomic key-value store f sdf asdf adfasdfasdfa fa..."}
-    @featured_member = {'username' => 'testmember1', 'money' => 16589, 'active' => 3, 'wins' => 11, 'picture' => 'https://acdcstorage.blob.core.windows.net/userimages/profilekenji776038c1f86-598e-4488-a13d-02ff065ebe17_th_100.jpg'}
   end
   
   def faq
