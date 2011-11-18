@@ -58,112 +58,140 @@
 #featured-challenge .prize { background: url(http://cloudspokes.s3.amazonaws.com/icon-prize.gif) no-repeat 0 0; padding-left: 35px; display :block; height: 32px; line-height: 32px; color: #000C4C; font-size: 15px; }
 </style>
 
-		<div id="dashboard">
-            <!-- Transparent Box -->
-            <div class="trans-box">
-                <div class="box-t notext"> &nbsp;</div>
-                <div class="box-cnt">
-                    <h2 class="melbourne">Join Us</h2>
-                    <p>Participate in challenges, build a diverse portfolio, learn something new, and earna little cash money on the side too.</p>
-                    <a class="button-blue" href="challenges.html">Challenges</a>
-                    <a href="howitworks.html" class="button-grey">Learn More</a>
-                    <div class="cl">&nbsp;</div>
-                </div>
-                <div class="box-b notext">&nbsp;</div>
-            </div>
-            <!-- END Transparent Box -->
-            <!-- Pinned Info -->
-            <div class="pinned-info">
-                <div class="label label-1 label-red">
-                    <a href="members.html" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
-                        <strong><span>26,930</span></strong> <small>members</small>
-                    </a>
-                </div>
-                <div class="label label-2 label-blue">
-                    <a href="challenges.html" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
-                        <strong><span>5</span></strong> <small>open challenges</small></a>
-                </div>
-                <div class="label label-3 label-green">
-                    <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
-                        <span class="pin notext">&nbsp;</span> <strong>
-                        <span id="ctl00_Body_lblChallengeCompleted">101</span></strong> <small>challenges won</small> </a>
-                </div>
-                <div class="label label-4 label-blue">
-                    <a href="challenges.html" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
-                        <strong>
-                        <span>$11,450</span></strong> <small>up for grabs now</small> </a>
-                </div>
-                <div class="label label-5 label-white">
-                    <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
-                        <span class="pin notext">&nbsp;</span> <strong>
-                        <span>547</span></strong> <small>entries submitted</small> </a>
-                </div>
-                <div class="label label-6 label-yellow">
-                    <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
-                        <span class="pin notext">&nbsp;</span><strong>
-                        <span>$278,075</span></strong> <small>pending and paid</small>
-                    </a>
-                </div>
-            </div>
-            <!-- END Pinned Info -->
-            <!-- Featured Challenge -->
-            <div id="featured-challenge">
-                <h3 class="melbourne">Featured Challenge</h3>
-                <div class="info fl">
-                    <p><strong><span>Stream Realtime Salesforce Support Status with Jetstream</span></strong>
-                    <span>Be to “cool kid on the block” by being one of the first to work with s</span>...</p>
-                </div>
-                <div class="prize-info fr">
-                    <span class="prize">
-                        <span id="ctl00_Body_lblFeaturedContestPrize">$750</span></span>
-                    <a href="challenge_detail.html?contestId=326">See Details &raquo;</a>
-                </div>
-            </div>
-            <!-- END Featured Challenge -->
-        </div>
-        <!-- END Dashboard -->
-        <!-- Columns -->
-        <div class="columns">
+<div id="dashboard">
+    <!-- Transparent Box -->
+    <div class="trans-box">
+        <div class="box-t notext"> &nbsp;</div>
+        <div class="box-cnt">
+            <h2 class="melbourne">Join Us</h2>
+            <p>Participate in challenges, build a diverse portfolio, learn something new, and earn a little cash money on the side too.</p>
+            <a class="button-blue" href="/challenges">Challenges</a>
+            <a href="/about" class="button-grey">Learn More</a>
             <div class="cl">&nbsp;</div>
-            <div class="column">
-                <h3>Featured Member</h3>
-                <div class="box">
-                    <div class="box-b">
-                        <div class="box-t">
-                            <div class="featured-member">
-                                <div class="member-box">
-                                    <div class="member-b">
-                                        <div class="member-t">
-                                            <a id="ctl00_Body_lnkFeaturedPic" class="member-pic" href="profile.html?username=mbleigh"><img id="ctl00_Body_imgFeatured" src="http://cloudspokes.s3.amazonaws.com/Cloud_th_100.jpg" style="height:33px;width:48px;border-width:0px;" /></a>
-                                            <div class="user-info">
-                                                <span class="counter fr">
-                                                    <a href="profile.html?username=mbleigh">$7100</a></span>
-                                                <h4><a href="profile.html?username=mbleigh">mbleigh</a></h4>
-                                                &nbsp;<span class="stats">Challenge Wins: <span>6</span></span>
+        </div>
+        <div class="box-b notext">&nbsp;</div>
+    </div>
+    <!-- END Transparent Box -->
+    <!-- Pinned Info -->
+    <div class="pinned-info">
+        <div class="label label-1 label-red">
+            <a href="/members" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
+                <strong><span><%= number_with_delimiter(@members.to_i, :delimiter => ',') %></span></strong> <small>members</small>
+            </a>
+        </div>
+        <div class="label label-2 label-blue">
+            <a href="/challenges" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
+                <strong><span><%= @challenes_open.to_i %></span></strong> <small>open challenges</small></a>
+        </div>
+        <div class="label label-3 label-green">
+            <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+                <span class="pin notext">&nbsp;</span> <strong>
+                <span><%= @chalenges_won.to_i %></span></strong> <small>challenges won</small> </a>
+        </div>
+        <div class="label label-4 label-blue">
+            <a href="/challenges" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
+                <strong><span><%= number_to_currency(@money_up_for_grabs, :precision => 0) %></span></strong> <small>up for grabs now</small> </a>
+        </div>
+        <div class="label label-5 label-white">
+            <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+                <span class="pin notext">&nbsp;</span> <strong>
+                <span><%= @entries_submitted.to_i %></span></strong> <small>entries submitted</small> </a>
+        </div>
+        <div class="label label-6 label-yellow">
+            <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+                <span class="pin notext">&nbsp;</span><strong>
+                <span><%= number_to_currency(@money_pending, :precision => 0) %></span></strong> <small>pending and paid</small>
+            </a>
+        </div>
+    </div>
+    <!-- END Pinned Info -->
+    <!-- Featured Challenge -->
+    <div id="featured-challenge">
+        <h3 class="melbourne">Featured Challenge</h3>
+        <div class="info fl">
+            <p><strong><span><%= @featured_challenge["name"] %></span></strong>
+            <span><%= @featured_challenge["details"].gsub(/<\/?[^>]*>/, "")[0..130] %>...</span></p>
+        </div>
+        <div class="prize-info fr">
+            <span class="prize">
+                <span><%= @featured_challenge["top_prize"] %></span></span>
+            <a href="/challenges/<%= @featured_challenge["id"] %>">See Details &raquo;</a>
+        </div>
+    </div>
+    <!-- END Featured Challenge -->
+	</div>
+	<!-- END Dashboard -->
+	<!-- Columns -->
+	<div class="columns">
+	    <div class="cl">&nbsp;</div>
+	    <div class="column">
+	        <h3>Featured Member</h3>
+	        <div class="box">
+	            <div class="box-b">
+	                <div class="box-t">
+	                    <div class="featured-member">
+	                        <div class="member-box">
+	                            <div class="member-b">
+	                                <div class="member-t">
+	                                    <a class="member-pic" href="<%= member_url(@featured_member['username']) %>">
+											<img src="<%= @featured_member['picture'] %>" style="width:48px;border-width:0px;" /></a>
+	                                    <div class="user-info">
+	                                        <span class="counter fr">
+	                                            <a href="<%= member_url(@featured_member['username']) %>"><%= number_to_currency(@featured_member['money'], :precision => 0) %></a></span>
+	                                        <h4><a href="<%= member_url(@featured_member['username']) %>"><%= @featured_member['username'] %></a></h4>
+	                                        &nbsp;<span class="stats">Challenge Wins: <span><%= @featured_member['wins'].to_i %></span>
+											<span class="stats">Active Challenges: <span><%= @featured_member['active'].to_i %></span></span>
+	                                    </div>
+	                                    <div class="cl">&nbsp;</div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <p class="intro"><span></span></p>
+							<p>See the types of projects we have build and how members have done in our <a href="/challenges/recent">recently completed challenges</a>. Check out the winners, prize money, blog posts and even download any open source code that's been made available.</p>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        <div class="column column-middle">
+            <h3>Leaderboard</h3>
+            <div class="box">
+                <div class="box-b">
+                    <div class="box-t">
+                        <div class="leaders">
+                            <ul style="padding: 0px">
+								<% @leaders.take(3).each do |record| %> 
+                                        <li>
+                                            <span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> 		
+												fl"><%= record['rank'] %></span>
+                                            <div class="user-box fl">
+                                                <div class="box-b">
+                                                    <div class="box-t">
+                                                        <a href='<%= member_url(record["username__c"]) %>'>
+                                                            <img complete="complete" height="30" width="30" src='<%= record["profile_pic__c"] %>' alt='<%= record["username__c"] %>' />
+                                                        </a>
+                                                        <div class="user-info">
+                                                            <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span><h4>
+                                                                <a href='<%= member_url(record["username__c"]) %>' style="font-size: 14px;"><%= record["username__c"] %></a></h4>
+                                                            <span class="stats"><%= record["country__c"] %></span>
+                                                        </div>
+                                                        <div class="cl">&nbsp;</div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="cl">&nbsp;</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="intro"><span></span></p>
-                            </div>
+                                        </li>
+                                    <% end %>                                    
+                            </ul>
                         </div>
                     </div>
+                    <div style="padding:10px"><%= link_to 'View leaderboards', leaderboards_path %> by month, year and all time.</div>
                 </div>
             </div>
-            <div class="column column-middle">
-                <h3>Leaderboard</h3>
-                <div class="box">
-                    <div class="box-b">
-                        <div class="box-t">
-                            <!-- insert leaderboard -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column">
-                <iframe width="300" height="250" src="http://www.youtube.com/embed/abMDBbxpsGo?rel=0" frameborder="0"></iframe>
-            </div>
-            <div class="cl">&nbsp;</div>
         </div>
-        <!-- END Columns -->
+
+	    <div class="column">
+	        <iframe width="300" height="250" src="http://www.youtube.com/embed/abMDBbxpsGo?rel=0" frameborder="0"></iframe>
+	    </div>
+	    <div class="cl">&nbsp;</div>
+	</div>
+	<!-- END Columns -->

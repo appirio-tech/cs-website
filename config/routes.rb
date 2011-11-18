@@ -51,7 +51,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file', :as => :submission_file
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
-  match 'leaderboard', :to => 'challenges#leaderboard'
+  match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
   # tests
   get "test/index"
