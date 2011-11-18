@@ -1,20 +1,169 @@
-<section id='dashboard'>
-  <aside class='join-us'>
-    <h1>Join Us</h1>
-    <p>Participate in challenges, build a diverse portfolio, learn something new, and earn a little cash money on the side too.</p>
-    <nav>
-      <%= link_to "Challenges", "/challenges", class: 'btn' %>
-      <%= link_to "Learn More", "/about", class: 'btn light' %>
-    </nav>
-  </aside>
-</section>
-<section class='col3'>
-  <div class='col'>
-	Here's the <a href="/leaderboard">leaderboard</a>
-  </div>
-  <div class='col'>
-  </div>
-  <div class='col'>
+<style type="text/css">
+/*
+	Dashboard
+*/
 
-  </div>
-</section>
+#dashboard { height: 348px; width: 980px; background: url(http://cloudspokes.s3.amazonaws.com/dashboard.gif) no-repeat 0 0; border-top: 9px solid #456179; }
+
+#dashboard .trans-box { float: left; display: inline; width: 430px; padding: 40px 0 0 40px; color: #fff; }
+#dashboard .trans-box .box-t { height: 10px; width: 430px; background: url(http://cloudspokes.s3.amazonaws.com/dashboard-trans-t.png); }
+#dashboard .trans-box .box-b { height: 10px; width: 430px; background: url(http://cloudspokes.s3.amazonaws.com/dashboard-trans-b.png); }
+#dashboard .trans-box .box-cnt { background: url(http://cloudspokes.s3.amazonaws.com/dashboard-trans-bg.png); padding: 20px 20px 10px; height: 100%; }
+
+#dashboard .trans-box h2 { font-size: 70px; line-height: 100%; color: #fff; font-weight: 400; }
+#dashboard .trans-box p { width: 360px; font-size: 15px; line-height: 22px; }
+
+#dashboard .button-blue { float: left; display: inline; height: 49px; width: 138px; text-align: center; line-height: 49px; color: #fff; font-size: 16px; background: url(http://cloudspokes.s3.amazonaws.com/button-blue.png); margin-right: 10px; }
+#dashboard .button-blue:hover { background-position: 0 -49px; text-decoration: none; }
+
+#dashboard .button-grey { float: left; display: inline; height: 47px; width: 135px; text-align: center; line-height: 47px; color: #0099FF; font-size: 16px; background: url(http://cloudspokes.s3.amazonaws.com/button-grey.png); }
+#dashboard .button-grey:hover { background-position: 0 -47px; text-decoration: none; }
+
+#dashboard .pinned-info { float: right; display: inline; width: 480px; height: 210px; position: relative; margin: 0 20px 0 0; }
+#dashboard .pinned-info .label { position: absolute; width: 130px; padding: 10px 0 5px; background: #fff; text-align: center; display: none; box-shadow: 0 0  1px #000; -moz-box-shadow: 0 0 7px #000; }
+#dashboard .pinned-info .label-1 { display: block; top: 0; left: 0; }
+#dashboard .pinned-info .label .pin { position: absolute; }
+#dashboard .pinned-info .label strong { display: block; font-size: 24px; line-height: 100%; margin-bottom: 5px; }
+#dashboard .pinned-info .label small { font-size: 14px; color: #666; }
+
+#dashboard .pinned-info .label-1 { display: block; top: 30px; left: 20px; -moz-transform: rotate(-5deg); -webkit-transform: rotate(-5deg); -o-transform: rotate(-5deg); -ms-transform: rotate(-5deg); tranform: rotate(-5deg); }
+#dashboard .pinned-info .label-1 strong { color: #b27e26; }
+#dashboard .pinned-info .label-red .pin { top: -15px; left: 65px; height: 23px; width: 18px; background: url(http://cloudspokes.s3.amazonaws.com/red-pin.png); }
+
+#dashboard .pinned-info .label-2 { display: block; top: 30px; left: 175px; -moz-transform: rotate(2deg); -webkit-transform: rotate(2deg); -o-transform: rotate(2deg); -ms-transform: rotate(2deg); tranform: rotate(2deg); }
+#dashboard .pinned-info .label-2 strong { color: #507abf; }
+#dashboard .pinned-info .label-blue .pin { top: -17px; left: 58px; height: 29px; width: 20px; background: url(http://cloudspokes.s3.amazonaws.com/blue-pin.png); }
+
+
+#dashboard .pinned-info .label-3 { display: block; top: 30px; left: 330px; -moz-transform: rotate(-2deg); -webkit-transform: rotate(-2deg); -o-transform: rotate(-2deg); -ms-transform: rotate(-2deg); tranform: rotate(-2deg); }
+#dashboard .pinned-info .label-3 strong { color: #79ac7e; }
+#dashboard .pinned-info .label-green .pin { top: -13px; left: 60px; height: 21px; width: 22px; background: url(http://cloudspokes.s3.amazonaws.com/green-pin.png); }
+
+#dashboard .pinned-info .label-4 { display: block; top: 130px; left: 20px; -moz-transform: rotate(5deg); -webkit-transform: rotate(5deg); -o-transform: rotate(5deg); -ms-transform: rotate(5deg); tranform: rotate(5deg); }
+#dashboard .pinned-info .label-4 strong { color: #4b9da0; }
+
+#dashboard .pinned-info .label-5 { display: block; top: 130px; left: 175px; -moz-transform: rotate(2deg); -webkit-transform: rotate(2deg); -o-transform: rotate(2deg); -ms-transform: rotate(2deg); tranform: rotate(2deg); }
+#dashboard .pinned-info .label-5 strong { color: #9f2e24; }
+#dashboard .pinned-info .label-white .pin { top: -13px; left: 60px; height: 22px; width: 19px; background: url(http://cloudspokes.s3.amazonaws.com/white-pin.png); }
+
+#dashboard .pinned-info .label-6 { display: block; top: 130px; left: 330px; -moz-transform: rotate(-2deg); -webkit-transform: rotate(-2deg); -o-transform: rotate(-2deg); -ms-transform: rotate(-2deg); tranform: rotate(-2deg); }
+#dashboard .pinned-info .label-6 strong { color: #946cbd; }
+#dashboard .pinned-info .label-yellow .pin { top: -13px; left: 60px; height: 22px; width: 19px; background: url(http://cloudspokes.s3.amazonaws.com/yellow-pin.png); }
+
+#featured-challenge { height: 97px; width: 384px; background: url(http://cloudspokes.s3.amazonaws.com/dashboard-fearured-project.gif); position: relative; overflow: hidden; margin-right: 50px;float: right; display: inline;  padding: 20px 15px 0 25px; }
+#featured-challenge h3 { font-size: 20px; font-weight: 400; color: #000; margin-bottom: 10px; }
+#featured-challenge .info { width: 250px; color: #666; }
+#featured-challenge .info strong { font-weight: normal; font-size: 15px; color: #000; padding-right: 5px; }
+#featured-challenge .prize-info { width: 115px; padding-top: 5px; }
+#featured-challenge .prize { background: url(http://cloudspokes.s3.amazonaws.com/icon-prize.gif) no-repeat 0 0; padding-left: 35px; display :block; height: 32px; line-height: 32px; color: #000C4C; font-size: 15px; }
+</style>
+
+		<div id="dashboard">
+            <!-- Transparent Box -->
+            <div class="trans-box">
+                <div class="box-t notext"> &nbsp;</div>
+                <div class="box-cnt">
+                    <h2 class="melbourne">Join Us</h2>
+                    <p>Participate in challenges, build a diverse portfolio, learn something new, and earna little cash money on the side too.</p>
+                    <a class="button-blue" href="challenges.html">Challenges</a>
+                    <a href="howitworks.html" class="button-grey">Learn More</a>
+                    <div class="cl">&nbsp;</div>
+                </div>
+                <div class="box-b notext">&nbsp;</div>
+            </div>
+            <!-- END Transparent Box -->
+            <!-- Pinned Info -->
+            <div class="pinned-info">
+                <div class="label label-1 label-red">
+                    <a href="members.html" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
+                        <strong><span>26,930</span></strong> <small>members</small>
+                    </a>
+                </div>
+                <div class="label label-2 label-blue">
+                    <a href="challenges.html" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
+                        <strong><span>5</span></strong> <small>open challenges</small></a>
+                </div>
+                <div class="label label-3 label-green">
+                    <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+                        <span class="pin notext">&nbsp;</span> <strong>
+                        <span id="ctl00_Body_lblChallengeCompleted">101</span></strong> <small>challenges won</small> </a>
+                </div>
+                <div class="label label-4 label-blue">
+                    <a href="challenges.html" style="text-decoration: none"><span class="pin notext">&nbsp;</span>
+                        <strong>
+                        <span>$11,450</span></strong> <small>up for grabs now</small> </a>
+                </div>
+                <div class="label label-5 label-white">
+                    <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+                        <span class="pin notext">&nbsp;</span> <strong>
+                        <span>547</span></strong> <small>entries submitted</small> </a>
+                </div>
+                <div class="label label-6 label-yellow">
+                    <a href="challenges.html?sort=startdate&sortasc=false&filter=closed&type=all" style="text-decoration: none">
+                        <span class="pin notext">&nbsp;</span><strong>
+                        <span>$278,075</span></strong> <small>pending and paid</small>
+                    </a>
+                </div>
+            </div>
+            <!-- END Pinned Info -->
+            <!-- Featured Challenge -->
+            <div id="featured-challenge">
+                <h3 class="melbourne">Featured Challenge</h3>
+                <div class="info fl">
+                    <p><strong><span>Stream Realtime Salesforce Support Status with Jetstream</span></strong>
+                    <span>Be to “cool kid on the block” by being one of the first to work with s</span>...</p>
+                </div>
+                <div class="prize-info fr">
+                    <span class="prize">
+                        <span id="ctl00_Body_lblFeaturedContestPrize">$750</span></span>
+                    <a href="challenge_detail.html?contestId=326">See Details &raquo;</a>
+                </div>
+            </div>
+            <!-- END Featured Challenge -->
+        </div>
+        <!-- END Dashboard -->
+        <!-- Columns -->
+        <div class="columns">
+            <div class="cl">&nbsp;</div>
+            <div class="column">
+                <h3>Featured Member</h3>
+                <div class="box">
+                    <div class="box-b">
+                        <div class="box-t">
+                            <div class="featured-member">
+                                <div class="member-box">
+                                    <div class="member-b">
+                                        <div class="member-t">
+                                            <a id="ctl00_Body_lnkFeaturedPic" class="member-pic" href="profile.html?username=mbleigh"><img id="ctl00_Body_imgFeatured" src="http://cloudspokes.s3.amazonaws.com/Cloud_th_100.jpg" style="height:33px;width:48px;border-width:0px;" /></a>
+                                            <div class="user-info">
+                                                <span class="counter fr">
+                                                    <a href="profile.html?username=mbleigh">$7100</a></span>
+                                                <h4><a href="profile.html?username=mbleigh">mbleigh</a></h4>
+                                                &nbsp;<span class="stats">Challenge Wins: <span>6</span></span>
+                                            </div>
+                                            <div class="cl">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="intro"><span></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column column-middle">
+                <h3>Leaderboard</h3>
+                <div class="box">
+                    <div class="box-b">
+                        <div class="box-t">
+                            <!-- insert leaderboard -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <iframe width="300" height="250" src="http://www.youtube.com/embed/abMDBbxpsGo?rel=0" frameborder="0"></iframe>
+            </div>
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Columns -->
