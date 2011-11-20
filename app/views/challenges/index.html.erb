@@ -68,7 +68,7 @@
 		                        <div class="box-t">
 		                            <div class="col-left fl">
 		                                <h4><%= link_to "#{record["Name"]}", challenge_url(record['ID__c']) %></h4>
-		                                <p><%= record["Description__c"].gsub(/<\/?[^>]*>/, "")[0..300] %>...</p>
+		                                <p><%= truncate(record["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ') %></p>
 		                            </div>
 		                            <div class="col-right fr">
 		                                <p>

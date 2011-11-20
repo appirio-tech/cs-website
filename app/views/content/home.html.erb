@@ -110,7 +110,7 @@
         <h3 class="melbourne">Featured Challenge</h3>
         <div class="info fl">
             <p><strong><span><%= @featured_challenge_name %></span></strong>
-            <span><%= @featured_challenge_details.gsub(/<\/?[^>]*>/, "")[0..130] %>...</span></p>
+            <span><%= truncate(@featured_challenge_details.gsub(/<\/?[^>]*>/, ""), :length => 130, :separator => ' ') %></span></p>
         </div>
         <div class="prize-info fr">
             <span class="prize">

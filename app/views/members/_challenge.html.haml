@@ -5,7 +5,7 @@
         .col-left.fl
           %h4
             %a{:href => challenge_url(challenge["ID__c"])}= challenge["Name"]
-          %p= "#{challenge["Description__c"].gsub(/<\/?[^>]*>/, "")[0..300]}..."
+          %p= "#{truncate(challenge["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
         .col-right.fr
           %p
             %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']

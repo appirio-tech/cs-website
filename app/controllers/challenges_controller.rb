@@ -8,7 +8,7 @@ class ChallengesController < ApplicationController
   
   # TODO - rework this section. move into the challenge module
   def register
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @challenge_detail = current_challenge
     #see if we need to show them tos different than standard ones
     if @challenge_detail["Terms__c"].eql?('Standard Terms & Conditions')
       Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
@@ -20,11 +20,13 @@ class ChallengesController < ApplicationController
     end
   end
   
+  #these should probably be refactored to ajax calls
   def register_agree_to_tos
     Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
     redirect_to challenge_path
   end
   
+  #these should probably be refactored to ajax calls
   def watch
     Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Watching')
     redirect_to(:back)
@@ -85,7 +87,7 @@ class ChallengesController < ApplicationController
   end
   
   def submission
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @challenge_detail = current_challenge
     # do not let them see this page is the challenge has closed
     redirect_to(challenge_url) unless @challenge_detail["Is_Open__c"].eql?('true')
     @participation_status = challenge_participation_status
@@ -93,25 +95,25 @@ class ChallengesController < ApplicationController
   end
   
   def show
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @challenge_detail = current_challenge
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def registrants    
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @challenge_detail = current_challenge
     @registrants = Challenges.registrants(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def results
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @challenge_detail = current_challenge
     @winners = Challenges.winners(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def scorecard    
-    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @challenge_detail = current_challenge
     @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
@@ -156,15 +158,18 @@ class ChallengesController < ApplicationController
   
   # make sure the challenge exists and it is available to show online
   def valid_challenge
-    challenge = Challenges.find_by_id(current_access_token, params[:id])[0]
-    if challenge.nil?
+    if current_challenge.nil?
       redirect_to '/challenges'
     else
       # if the challenge exists, but the start date/time hasn't passed, don't show it
-      if Time.parse(challenge["Start_Date__c"]) > Time.now
+      if Time.parse(current_challenge["Start_Date__c"]) > Time.now
         redirect_to '/challenges'
       end
     end
+  end
+  
+  def current_challenge
+    @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id])[0]
   end
   
   private

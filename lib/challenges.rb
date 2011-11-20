@@ -30,6 +30,7 @@ class Challenges < Cloudspokes
   
   #this method may go away
   def self.find_by_id(access_token, id)  
+    p '========= calling challnges find by id'
     set_header_token(access_token)
     results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
   end  
