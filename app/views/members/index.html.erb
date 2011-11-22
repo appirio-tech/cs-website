@@ -86,18 +86,18 @@
                             <ul style="padding: 0px">
                                 
 						<% @leaderboard.each do |record| %>
-                        <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank']%></span>
+                        <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank'] %></span>
                             <div class="user-box box fl">
                                 <div class="box-b">
                                     <div class="box-t">
-                                        <a href='<%= member_path(record["username__c"]) %>' class="fl">
+                                        <a href='<%= member_path(record["username"]) %>' class="fl">
                                             <img src="<%= record["profile_pic__c"] %>" <% if record['rank']==1 %>Width="48px" Height="48px"<% else %>Width="20px" Height="20px"<% end %> style="border-width:0px;" /></a>
                                         <div class="user-info fl">
                                             <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span>
-                                            <h4><a href='<%= member_path(record["username__c"]) %>'><%= record["username__c"] %></a></h4>
+                                            <h4><a href='<%= member_path(record["username"]) %>'><%= record["username"] %></a></h4>
                                             <span class="stats">
-                                                Active: <%= record["active_challenges"] %><br />
-                                                # of Wins: <%= record["numwins"] %>
+                                                Active: <%= record["active"] %><br />
+                                                # of Wins: <%= record["wins"] %>
                                             </span>
                                         </div>
                                         <div class="cl">&nbsp;</div>

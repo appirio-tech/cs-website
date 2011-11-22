@@ -27,9 +27,7 @@ class ContentController < ApplicationController
     @featured_challenge_prize = home['Featured_Challenge__r']['Top_Prize__c']
     @featured_challenge_details = home['Featured_Challenge__r']['Description__c']
     
-    tn = Time.now
-    this_month = Time.new(tn.year, tn.month)
-    @leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
+    @leaders = Challenges.get_leaderboard(current_access_token, :period => 'month')
   end
   
   def faq

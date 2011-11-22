@@ -1,34 +1,63 @@
 	<div class="page-heading"><h2 class="melbourne">Leaderboards</h2></div>
         <div class="page">        
+            <div class="categories">
+				<table cellspacing="0" border="0" style="border-collapse:collapse;">
+					<tr>
+						<td><li class="active"><a href="/leaderboard?category=Salesforce.com"><span class="brown">Salesforce.com</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Google"><span class="blue">Google</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=AWS"><span class="pink">AWS</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Heroku"><span class="yellow">Heroku</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Mobile"><span class="light-blue">Mobile</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Twilio"><span class="red">Twilio</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Other"><span class="purple">Other</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Java"><span class="brown">Java</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Ruby"><span class="red">Ruby</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard?category=Cloud Foundry"><span class="green">Cloud Foundry</span></a></li></td>
+						<td><li class="active"><a href="/leaderboard" class="category-selected"><span class="category-selected">all</span></a></li></td>
+					</tr>
+				</table>
+            </div>	
         <!-- Content Wrapper -->
         <div class="challenge-content-wrapper ">
 			<%= flash_messages %>
             <!-- Leaderboards -->
             <div id="leaderboards">
                 <!-- Columns -->
-                <div class="columns">
+                <div class="columns" style="padding-top: 15px">
                     <div class="column">
                         <h3>This Month</h3>
-                        <%= render :partial => "leaderboard", :locals => { :leaders => @this_month_leaders } %>
-                        <p class="ac">
-                            <%= will_paginate @this_month_leaders, :param_name => :page_month %>
-                        </p>
+						<% if @this_month_leaders.length > 0 %>
+	                        <%= render :partial => "leaderboard", :locals => { :leaders => @this_month_leaders } %>
+	                        <p class="ac">
+	                            <%= will_paginate @this_month_leaders, :param_name => :page_month %>
+	                        </p>
+						<% else %>
+							<p style="padding-left:15px">No results found.</p>
+						<% end %>
                     </div>
 
                     <div class="column column-middle">
                         <h3>This Year</h3>
-                        <%= render :partial => "leaderboard", :locals => { :leaders => @this_year_leaders } %>
-                        <p class="ac">
-                            <%= will_paginate @this_year_leaders, :param_name => :page_year %>
-                        </p>
+						<% if @this_year_leaders.length > 0 %>
+	                        <%= render :partial => "leaderboard", :locals => { :leaders => @this_year_leaders } %>
+	                        <p class="ac">
+	                            <%= will_paginate @this_year_leaders, :param_name => :page_year %>
+	                        </p>
+						<% else %>
+							<p style="padding-left:15px">No results found.</p>
+						<% end %>
                     </div>
 
                     <div class="column">
                         <h3>All Time</h3>
-                        <%= render :partial => "leaderboard", :locals => { :leaders => @all_time_leaders } %>
-                        <p class="ac">
-                            <%= will_paginate @all_time_leaders, :param_name => :page_all %>
-                        </p>
+						<% if @this_year_leaders.length > 0 %>
+	                        <%= render :partial => "leaderboard", :locals => { :leaders => @all_time_leaders } %>
+	                        <p class="ac">
+	                            <%= will_paginate @all_time_leaders, :param_name => :page_all %>
+	                        </p>
+						<% else %>
+							<p style="padding-left:15px">No results found.</p>
+						<% end %>
                     </div>
 
                     <div class="cl">&nbsp;</div>

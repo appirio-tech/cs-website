@@ -24,14 +24,12 @@ class MembersController < ApplicationController
     
     case display_leaderboard
     when "year"
-      @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_year.iso8601(0),1)["data"])
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'year')
     when "all"
-      @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, all_time.iso8601(0),1)["data"])
+      @leaderboard = Challenges.get_leaderboard(current_access_token)
     else
-      @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month')
     end
-    p 'leaderbaord'
-    p @leaderboard
   end
 
   def show

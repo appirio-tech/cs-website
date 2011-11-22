@@ -30,7 +30,6 @@ class Challenges < Cloudspokes
   
   #this method may go away
   def self.find_by_id(access_token, id)  
-    p '========= calling challnges find by id'
     set_header_token(access_token)
     results = get(ENV['sfdc_rest_api_url']+'/challenges/'+id+'?comments=true')
   end  
@@ -64,10 +63,23 @@ class Challenges < Cloudspokes
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/participants?challengeid='+id+'&fields=id,name,has_submission__c,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=money_awarded__c%20desc')
   end
-  
-  def self.get_leaderboard(access_token, from_date, page_num)
+
+  def self.get_leaderboard(access_token, options = {:period => nil, :category => nil})
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/leaderboard?pageNum='+page_num.to_s+'&dateFormat='+from_date.to_s)
+    request_url  = ENV['sfdc_rest_api_url'] + '/leaderboard?1=1'
+    request_url += ("&period=" + options[:period]) unless options[:period].nil?
+    request_url += ("&category=" + options[:category]) unless options[:category].nil?
+    leaderboard =  get(request_url)
+    #sort by total_money
+    leaderboard.sort_by! { |key| key['total_money'].to_i }
+    # reverse the order so the largest is at the top
+    leaderboard.reverse!
+    # add a rank to each one
+    rank = 1
+    leaderboard.each do |record| 
+      record.merge!({'rank' => rank})
+      rank = rank + 1
+    end
   end
   
   def self.save_submission(access_token, participantId, link, comments, type)

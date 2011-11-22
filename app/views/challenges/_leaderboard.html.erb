@@ -1,7 +1,7 @@
 <!-- Leaders -->
 <div class="leaders">
-<ul>
-<% leaders.each do |record| %>                                        
+<ul>  	
+<% leaders.each do |record| %>                                  
 <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl">
   <%= record['rank'] %></span>
   <div class="user-box box fl">
@@ -11,8 +11,8 @@
               <div class="user-info fl">
                   <span class="counter fr">
                      <%= number_to_currency(record["total_money"], :precision => 0) %></span>
-                  <h4><a href='#'><%= record["username__c"] %></a></h4>
-                   <span class="stats"># of Wins: <%= record["numwins"] %> </span>
+                  <h4><a href='#'><%= record["username"] %></a></h4>
+                   <span class="stats"># of Wins: <%= record["wins"] %> </span>
               </div>
               <div class="cl"></div>
           </div>

@@ -167,12 +167,12 @@
                                         <div class="user-box fl">
                                             <div class="box-b">
                                                 <div class="box-t">
-                                                    <a href='<%= member_url(record["username__c"]) %>'>
+                                                    <a href='<%= member_url(record["username"]) %>'>
                                                         <img complete="complete" height="30" width="30" src='<%= record["profile_pic__c"] %>' alt='<%= record["username__c"] %>' />
                                                     </a>
                                                     <div class="user-info">
                                                         <span class="counter fr"><%= number_to_currency(record["total_money"], :precision => 0) %></span><h4>
-                                                            <a href='<%= member_url(record["username__c"]) %>' style="font-size: 14px;"><%= record["username__c"] %></a></h4>
+                                                            <a href='<%= member_url(record["username"]) %>' style="font-size: 14px;"><%= record["username"] %></a></h4>
                                                         <span class="stats"><%= record["country__c"] %></span>
                                                     </div>
                                                     <div class="cl">&nbsp;</div>

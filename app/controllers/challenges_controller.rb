@@ -139,13 +139,9 @@ class ChallengesController < ApplicationController
   end
   
   def leaderboard
-    tn = Time.now
-    this_month = Time.new(tn.year, tn.month)
-    this_year = Time.new(tn.year)
-    all_time = Time.new(2000)
-    @this_month_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])
-    @this_year_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_year.iso8601(0),1)["data"])
-    @all_time_leaders = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, all_time.iso8601(0),1)["data"])
+    @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil)
+    @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil)
+    @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil)
     # paginate!!
     @this_month_leaders = @this_month_leaders.paginate(:page => params[:page_month] || 1, :per_page => 2) 
     @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 2) 
