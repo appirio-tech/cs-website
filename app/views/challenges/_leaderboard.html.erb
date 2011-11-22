@@ -7,11 +7,11 @@
   <div class="user-box box fl">
       <div class="box-b">
           <div class="box-t">
-              <a href='#' class="fl"><img src="<%= record["profile_pic__c"] %>" <% if record['rank']==1 %>Width="48px" Height="48px"<% else %>Width="20px" Height="20px"<% end %> src="" style="border-width:0px;" /></a>
+              <a href='/members/<%= record["username"] %>' class="fl"><img src="<%= record["profile_pic__c"] %>" <% if record['rank']==1 %>Width="48px" Height="48px"<% else %>Width="20px" Height="20px"<% end %> src="" style="border-width:0px;" /></a>
               <div class="user-info fl">
                   <span class="counter fr">
                      <%= number_to_currency(record["total_money"], :precision => 0) %></span>
-                  <h4><a href='#'><%= record["username"] %></a></h4>
+                  <h4><a href='/members/<%= record["username"] %>'><%= record["username"] %></a></h4>
                    <span class="stats"># of Wins: <%= record["wins"] %> </span>
               </div>
               <div class="cl"></div>
