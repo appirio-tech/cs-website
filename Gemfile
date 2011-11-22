@@ -14,6 +14,7 @@ gem 'mongrel', '1.2.0.pre2'
 gem 'resque', :require => 'resque/server'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'flash_messages_helper'
+gem 'remote_syslog_logger'
 
 group :development, :test do
   gem 'sqlite3-ruby'
