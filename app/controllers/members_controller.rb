@@ -34,7 +34,7 @@ class MembersController < ApplicationController
 
   def show
     # Gather all required information for the page
-    @member            = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
+    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
     @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
     @total_recommendations = @recommendations.size
     @recommendations   = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
@@ -54,7 +54,7 @@ class MembersController < ApplicationController
   
   def past_challenges
     # Gather all required information for the page
-    @member            = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
+    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
     @challenges        = Members.challenges(current_access_token, :name => @member["Name"])
 
     # Gather challenges and group them depending of their end date
@@ -78,7 +78,7 @@ class MembersController < ApplicationController
   end
   
   def recommend
-    @member = Members.all(current_access_token, :select => DEFAULT_MEMBER_FIELDS,:where => params[:id]).first
+    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
   end
   
   def recommend_new
