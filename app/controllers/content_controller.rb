@@ -5,7 +5,7 @@ require 'utils'
 class ContentController < ApplicationController
   
   def home
-    
+
     ## ALL OF THIS IS TEMP -- NEED TO MOVE IT TO POSTGRES OR REDIS
     home = Utils.get_home_page(current_access_token, 'a0eJ000000005wNIAQ')
     

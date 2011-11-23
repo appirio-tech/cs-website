@@ -18,6 +18,7 @@ class SessionsController < ApplicationController
     
   # if the provider doesn't include an email, redirects them to this form
   def signup_third_party_no_email
+    logger.info "[SessionsController]==== requesting manual email address for #{session[:authsession].get_hash[:provider]} signup"
   end
   
   # once user enters email for provider, submits and CREATES a user & logs in
@@ -27,6 +28,7 @@ class SessionsController < ApplicationController
     session[:authsession].get_hash[:email] = params[:session][:email]
     # try and create the user in sfdc
     new_member_create_results = Services.new_member(current_access_token, session[:authsession].get_hash)
+    logger.info "[SessionsController]==== creating a new third party with a manual email address (#{params[:session][:email]}): #{new_member_create_results.to_yaml}"
     
     # if the user was created successfully in sfdc
     if new_member_create_results[:success].eql?('true')
@@ -43,6 +45,7 @@ class SessionsController < ApplicationController
         Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
         redirect_to session[:redirect_to_after_auth]
       else
+        logger.error "[SessionsController]==== error creating a new third party member after manually entering their email address. could not save to database."
         render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
       end
 
@@ -53,17 +56,19 @@ class SessionsController < ApplicationController
   end
   
   def callback
-    
+        
     # pass on omniauth hash and provider to our auth module
     as = AuthSession.new(request.env['omniauth.auth'], params[:provider])
+    
+    logger.info "[SessionsController]==== starting callback for #{params[:provider]} for #{as.get_hash[:username]}"
             
     # see if they exist as a member with these third party credentials
     user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], as.get_hash[:username])
-    p 'user exists?'
-    p user_exists_results
+    logger.info "[SessionsController]==== does the user exist: #{user_exists_results}"
     
     # bad session!!!
     if user_exists_results[:message].eql?('Session expired or invalid')
+      logger.error "[SessionsController]==== error starting a new session?: #{user_exists_results[:message].to_yaml}"
       render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
     else
     
@@ -104,6 +109,7 @@ class SessionsController < ApplicationController
         # log them in
         user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],as.get_hash[:username])
         if user.nil?
+          logger.error "[SessionsController]==== error logging in user: #{as.get_hash[:username]} with #{as.get_hash[:provider]}."
           flash[:error] = "Serious error loggin in!!"
         else
           sign_in user

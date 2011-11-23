@@ -17,8 +17,7 @@ class UsersController < ApplicationController
       # create the member and user in sfdc
       results = Services.new_member(current_access_token, params[:user])
     
-      p results
-      logger.info results
+      logger.info "[UsersController]==== creating a new cloudspokes user for #{params[:user][:username]} with results: #{results}"
     
       if results[:success].eql?('true')
     
@@ -30,7 +29,7 @@ class UsersController < ApplicationController
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
-          redirect_to '/challenges'
+          redirect_to challenges
         else
           # could not save the user in the database
           flash[:error] = @user.errors.full_messages
@@ -40,8 +39,7 @@ class UsersController < ApplicationController
       
       else
         # could not create the user in sfdc.
-        p '=========== could not create the user in sfdc.'
-        logger.info results
+        logger.info "[UsersController]==== counld not create user in sfdc: #{results[:message]}"
         flash[:error] = results[:message]
         @user = User.new
         render 'new'

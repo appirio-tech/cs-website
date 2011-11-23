@@ -1,6 +1,5 @@
 class Services 
   
-  require 'sitesettings'
   include HTTParty 
   format :json
   
@@ -15,8 +14,6 @@ class Services
     set_header_token(access_token)
           
     if params.has_key?(:provider)
-      
-      p '============= creating third party'
       
       # split up the name into a first and last
       names = params[:name].split
@@ -37,7 +34,7 @@ class Services
             :third_party_username__c => params[:username],
         }
       }
-      
+            
     else
 
       options = {
@@ -52,24 +49,23 @@ class Services
 
     end    
     
-    p '======= options for new user in sfdc'
-    p options     
-         
+    Rails.logger.info "[Services]==== making the call to create the user for #{options}"         
     results = post(ENV['sfdc_rest_api_url']+'/members', options)
                 
     begin
       
-      p '====== response from new member call to sfdc'
-      p results
+      Rails.logger.info "[Services]==== results from the create new user call: #{results}" 
       
       if results['Success'].eql?('true')
         return {:success => 'true', :username => results["username"], 
           :sfdc_username => results["sfdc_username"], :message => results["Message"]}
       else
+        Rails.logger.warn "[Services]==== could not create new user. sfdc replied: #{results["Message"]}" 
         return {:success => 'false', :message => results["Message"]}
       end
 
     rescue
+      Rails.logger.error "[Services]==== fatal error creating new user: #{results[0]['message']}" 
       return {:success => 'false', :message => results[0]['message']}
     end
     
@@ -86,17 +82,18 @@ class Services
       }
     }
 
-    p "========= getting sfdc_username for #{third_party_service} and #{third_party_username} and public access token #{SiteSettings.public_access_token}"
     results = get(ENV['sfdc_rest_api_url']+'/credentials', options)
             
     begin
       if results['Success'].eql?('true')
         return {:success => 'true', :username => results["Username"], :sfdc_username => results["SFusername"]}
       else
+        Rails.logger.error "[Services]==== error getting sfdc username: #{results["Message"]}" 
         return {:success => 'false', :message => results["Message"]}
       end
     # something bad.. probably expired token
     rescue Exception => exc
+      Rails.logger.error "[Services]==== fatal error getting sfdc username: #{results[0]['message']}" 
       return {:success => 'false', :message => results[0]['message']}
     end
     

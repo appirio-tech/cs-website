@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
-  require 'sitesettings'
+  require 'utils'
   require "auth"
   
   # initiliaze default fields for CloudSpokes API request
@@ -12,20 +12,18 @@ class ApplicationController < ActionController::Base
   # fetch the access token for this user or return the public access token from the database
   def current_access_token
     if current_user.nil?
-      p '======= returning the public access token'
-      return SiteSettings.public_access_token
+      return Utils.public_access_token
     else
-      p '======= returning the user access token'
             
       # if the access token is nil or the access token hasn't been updated in an hour
       if current_user.access_token.nil? || Time.now > current_user.updated_at.getlocal + (60*60)
         
-        p '======= current_user access token is nil or an hour old. fetching new access token'
+        logger.info '[ApplicationController]==== current_user access token is nil or an hour old. fetching new access token.'
         
         config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
         client = Databasedotcom::Client.new(config)
         sfdc_username = current_user.username+'@'+ENV['sfdc_username_domain']
-        puts "--- logging into salesforce with #{sfdc_username} and #{current_user.password}"
+        logger.info '[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}'
         
         begin
 
@@ -38,9 +36,8 @@ class ApplicationController < ActionController::Base
         # if we get an error, just return the public_access_token. it will check again on the
         # next call to this method until it returns the access_token successfully
         rescue Exception => exc
-          p '========= error getting the access_token for the user. returning public_access_token'
-          p exc.message
-          return SiteSettings.public_access_token
+          logger.warn "[ApplicationController]==== error getting the access_token for the user. returning public_access_token. error: #{exc.message}"
+          return Utils.public_access_token
         end
         
       else
