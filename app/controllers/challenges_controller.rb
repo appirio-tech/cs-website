@@ -46,27 +46,32 @@ class ChallengesController < ApplicationController
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
   end
   
-  def submission_file
-    begin
-      sanitized = sanitize_filename(params[:file][:file_name].original_filename)
-      complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+sanitized
-      AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id], :access => :public_read)
-      # submit the files to sfdc
-      submission_results = Challenges.save_submission(current_access_token, 
-        params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
-      if submission_results['Success'].eql?('true')
-        flash[:notice] = "File successfully submitted for this challenge."
-      else
-        flash[:error] = "There was an error submitting your File. Please check it and submit it again."
-      end
-      redirect_to(:back)
+  def submission_file_upload
+    if !params[:file].nil?
+      begin
+        sanitized = sanitize_filename(params[:file][:file_name].original_filename)
+        complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+sanitized
+        AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id], :access => :public_read)
+        # submit the files to sfdc
+        submission_results = Challenges.save_submission(current_access_token, 
+          params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
+        if submission_results['Success'].eql?('true')
+          flash[:notice] = "File successfully submitted for this challenge."
+        else
+          flash[:error] = "There was an error submitting your File. Please check it and submit it again."
+        end
+        redirect_to(:back)
       
-    rescue Exception => exc
-      render :text => "Couldn't complete the upload: #{exc.message}"
+      rescue Exception => exc
+        render :text => "Couldn't complete the upload: #{exc.message}"
+      end
+    else
+      flash[:error] = "Please ensure that you upload a valid file."
+      redirect_to(:back)
     end
   end  
   
-  def submission_url
+  def submission_url_upload
     submission_results = Challenges.save_submission(current_access_token, 
       params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
     if submission_results['Success'].eql?('true')

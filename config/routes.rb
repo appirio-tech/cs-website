@@ -48,8 +48,8 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/scorecard', :to => 'challenges#scorecard', :as => :scorecard_display
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 
   match 'challenges/:id/submission', :to => 'challenges#submission', :as => :submission
-  match 'challenges/:id/submission/url', :to => 'challenges#submission_url', :as => :submission_url
-  match 'challenges/:id/submission/file', :to => 'challenges#submission_file', :as => :submission_file
+  match 'challenges/:id/submission/url', :to => 'challenges#submission_url_upload', :as => :submission_url, :via => :post
+  match 'challenges/:id/submission/file', :to => 'challenges#submission_file_upload', :as => :submission_file, :via => :post
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
