@@ -9,7 +9,7 @@ class Cloudspokes
   include HTTParty 
   format :json
 
-  AvailableObjects = ["challenges","members","recommendations","participants","faqs","webpages","payments"]
+  AvailableObjects = ["challenges","members","recommendations","participants","faqs","webpages","payments","categories"]
   SFDC_URL         = ENV['sfdc_instance_url']+'/services/data/v20.0/sobjects/'
 
   headers 'Content-Type' => 'application/json' 

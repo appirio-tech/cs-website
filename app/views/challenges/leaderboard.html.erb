@@ -3,17 +3,12 @@
             <div class="categories">
 				<table cellspacing="0" border="0" style="border-collapse:collapse;">
 					<tr>
-						<td><li class="active"><a href="/leaderboard?category=Salesforce.com"><span class="brown">Salesforce.com</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Google"><span class="blue">Google</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=AWS"><span class="pink">AWS</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Heroku"><span class="yellow">Heroku</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Mobile"><span class="light-blue">Mobile</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Twilio"><span class="red">Twilio</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Other"><span class="purple">Other</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Java"><span class="brown">Java</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Ruby"><span class="red">Ruby</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard?category=Cloud Foundry"><span class="green">Cloud Foundry</span></a></li></td>
-						<td><li class="active"><a href="/leaderboard" class="category-selected"><span class="category-selected">all</span></a></li></td>
+						<% @categories.each do |record| %>
+						<td><li class="active"><a href="/leaderboard?category=<%= record['Name']%>">
+							<span class="<% if params[:category].eql?(record['Name']) %>category-selected<% else %><%= record['Color__c']%><% end %>"><%= record['Name'] %></span></a></li></td>
+						<% end %>
+						<td><li class="active"><a href="/leaderboard" class="category-selected">
+							<span class="<% if params[:category] %>black<% else %>category-selected<% end %>">all</span></a></li></td>
 					</tr>
 				</table>
             </div>	
