@@ -1,3 +1,122 @@
+<style type="text/css">
+    .FaceBoxPopup
+    {
+        width: 550px;
+        overflow: hidden;
+    }
+    #facebox .content
+    {
+        width: 550px;
+    }
+</style>
+<script language="javascript">
+    $().ready(function () {
+
+        function hidealldivs() {
+            $('#rolloverPopupForce').hide();
+            $('#rollOverPopupHeroku').hide();
+            $('#rolloverPopupAppengine').hide();
+            $('#rolloverPopupAmazonWebServices').hide();
+            $('#rolloverPopupHTML5').hide();
+            $('#rolloverPopupiOS').hide();
+            $('#rolloverPopupAndroid').hide();
+            $('#rolloverPopupCloudFoundry').hide();
+            
+            $('#rolloverPopupTwilio').hide();
+            $('#aForce').children().css('border', '0')
+            $('#aIOS').children().css('border', '0')
+            $('#aHTML5').children().css('border', '0')
+            $('#aAndroid').children().css('border', '0')
+            $('#aCloudFoundry').children().css('border', '0')
+            $('#aAWS').children().css('border', '0')
+            $('#aAppengine').children().css('border', '0')
+
+            $('#aTwilio').children().css('border', '0')
+        }
+
+
+        $('#aForce').hover(function () {
+            hidealldivs();
+            var href = $(this).attr('href');
+            $(href).show();
+            $(this).children().css('border', '1px solid #000000');
+        });
+
+
+        $('#aIOS').hover(function () {
+            hidealldivs();
+            var href = $(this).attr('href');
+            $(href).show();
+            $(this).children().css('border', '1px solid #000000');
+        });
+
+
+
+        $('#aHTML5').hover(function () {
+            hidealldivs();
+            var href = $(this).attr('href');
+            $(href).show();
+            $(this).children().css('border', '1px solid #000000');
+        });
+
+
+        $('#aAndroid').hover(function () {
+            hidealldivs();
+            var href = $(this).attr('href');
+            $(href).show();
+            $(this).children().css('border', '1px solid #000000');
+        });
+
+        $('#aCloudFoundry').hover(function () {
+            hidealldivs();
+            var href = $(this).attr('href');
+            $(href).show();
+            $(this).children().css('border', '1px solid #000000');
+        });
+
+        $('#aAWS').hover(function () {
+            hidealldivs();
+            $(this).children().css('border', '1px solid #000000');
+            var href = $(this).attr('href');
+            $(href).show();
+
+        });
+
+        $('#aAppengine').hover(function () {
+            hidealldivs();
+            $(this).children().css('border', '1px solid #000000');
+            var href = $(this).attr('href');
+            $(href).show();
+
+        });
+        
+        $('#aTwilio').hover(function () {
+            hidealldivs();
+            $(this).children().css('border', '1px solid #000000');
+            var href = $(this).attr('href');
+            $(href).show();
+
+        });
+
+
+        //            $('a[rel*=aIOS]').facebox({ div: '#rolloverPopupiOS' }, 'FaceBoxPopup').hover(function () { $(this).click(); });
+
+
+        $('#imggeneral').mouseover(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/spoker_mini_over.gif"); });
+        $('#imggeneral').mouseout(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/spoker_mini.gif"); });
+
+        $('#imgtech').mouseover(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/tech_mini_over.gif"); });
+        $('#imgtech').mouseout(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/tech_mini.gif"); });
+
+        $('#imgskills').mouseover(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/cook_mini_over.gif"); });
+        $('#imgskills').mouseout(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/cook_mini.gif"); });
+
+    });
+
+</script>
+
+
+
 <div class="page-heading"><h2 class="melbourne">CloudSpokes Badges</h2></div>
 
 <div id="badgesMain">
@@ -13,12 +132,12 @@
                 <table cellspacing="15" cellpadding="15" border="0" align="left">
                     <tbody>
                         <tr align="center">
-                            <td>
+                            <td style="padding-right:25px">
                                 <strong><a href="#general" class="badgesmainA">
                                     <img border="0" id="imggeneral" src="http://cloudspokes.s3.amazonaws.com/spoker_mini.gif" /><br />
                                     CloudSpokes General Badges </a></strong>
                             </td>
-                            <td>
+                            <td style="padding-right:25px">
                                 <strong><a href="#tech" class="badgesmainA">
                                     <img border="0" id="imgtech" src="http://cloudspokes.s3.amazonaws.com/tech_mini.gif" /><br />
                                     Technology Achievement Badges </a></strong>
@@ -34,7 +153,7 @@
             </div>
             <div class="cl">
             </div>
-            <hr />
+            <hr style="margin-top:20px" />
             <h2>
                 <br />
                 <a id="general" name="general"></a>CloudSpokes General Badges</h2>
@@ -89,7 +208,7 @@
             <br />
             
             
-            <div style="width: 470px; float: left;">
+            <div style="width: 425px; float: left; margin-right:25px">
                 <p>
                     Show your experience with specific technologies and CloudSpokes. These badges are
                     awarded for your participation and winning contests with specific technologies.
@@ -124,18 +243,9 @@
                     <a href="#rolloverPopupAndroid" id="aAndroid" rel="aAndroid" class="techbadgesA">
                         <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_droid.jpg" /></a>
                 </div>
-                <!---
-                <div class="technologyBadgesdiv">
-                    <a href="#rolloverPopupTwilio" id="aTwilio" rel="aTwilio" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_twilio.jpg" /></a>
-                </div>-->
                 <div class="cl">
                 </div>
             </div>
-
-
-
-            
 
             <div class="fl">
                 <div id="rolloverPopupForce" class="divBadgespopUp" style="display: block;">
