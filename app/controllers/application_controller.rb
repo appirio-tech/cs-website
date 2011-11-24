@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
         config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
         client = Databasedotcom::Client.new(config)
         sfdc_username = current_user.username+'@'+ENV['sfdc_username_domain']
-        logger.info '[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}'
+        logger.info "[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}"
         
         begin
 

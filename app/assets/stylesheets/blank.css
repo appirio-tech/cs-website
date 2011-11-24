@@ -14,11 +14,11 @@ body {
 }
 #content {
 	float:left;
-	width:430px;
+	width:400px;
 }
 #sidebar {
 	float:left;
-	width:200px;
+	width:230px;
 }
 #footer {
 	padding-top: 25px;
@@ -59,4 +59,19 @@ body {
   text-align: center;
   margin-right: 15px;
   margin-bottom: 10px;
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+.field {
+  padding-bottom:5px;
+}
+
+.hint {
+  font-size: x-small;
+  padding-left: 5px;
+  color: #A9A9A9;
+}
 }

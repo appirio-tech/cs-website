@@ -71,8 +71,6 @@ class AccountsController < ApplicationController
         @show_outstanding_section = true
       end
     end
-    p @show_paid_section
-    p @show_outstanding_section
     get_account
   end
 

@@ -15,7 +15,16 @@
 	<div id="sidebar">
 		<p>Or create a new account with CloudSpokes:</p>
 		
-		<%= form_for(@user) do |f| %>
+		<%= flash_messages %>
+		<% if @signup_form.errors.any? %>
+			<div class="error" id="flash-error">
+		    <% @signup_form.errors.full_messages.each do |msg| %>  
+		      <li><%= msg %></li>  
+		    <% end %>
+			</div>
+		<% end %>
+		
+		<%= form_for @signup_form, :url => signup_cs_create_path do |f| %>
 		  <div class="field">
 		    <%= f.label :username %><br />
 		    <%= f.text_field :username %>
@@ -27,9 +36,10 @@
 		  <div class="field">
 		    <%= f.label :password %><br />
 		    <%= f.password_field :password %>
+			<div class="hint">8 characters with letters & numbers</div>
 		  </div>
 		  <div class="field">
-		    <%= f.label :password %><br />
+		    <%= f.label :password_confirmation %><br />
 		    <%= f.password_field :password_confirmation %>
 		  </div>
 		  <div class="actions">

@@ -12,13 +12,59 @@ class SessionsController < ApplicationController
   end
   
   def signup
-    @user = User.new
+    @signup_form = SignupForm.new
     render :layout => "blank"
   end
     
   # if the provider doesn't include an email, redirects them to this form
   def signup_third_party_no_email
     logger.info "[SessionsController]==== requesting manual email address for #{session[:authsession].get_hash[:provider]} signup"
+  end
+  
+  def signup_cs_create
+    
+    @signup_form = SignupForm.new(params[:signup_form])
+    if @signup_form.valid?
+      
+      # remove the password_confirmation key from the hash
+      params[:signup_form].delete(:password_confirmation)
+                  
+      # create the member and user in sfdc
+      results = Services.new_member(current_access_token, params[:signup_form])
+    
+      logger.info "[SessionsController]==== creating a new cloudspokes user for #{params[:signup_form][:username]} with results: #{results}"
+    
+      if results[:success].eql?('true')
+    
+        # add the sfdc_username to the hash so we can insert locally
+        params[:signup_form][:sfdc_username] = results[:sfdc_username]
+        @user = User.new(params[:signup_form])
+      
+        if @user.save
+          logger.info "[SessionsController]==== successfully created cloudspokes user: #{@user}"
+          sign_in @user
+          # send the 'welcome' email
+          Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+          # render the signup_cs_create to close the window and reload the page
+        else
+          # could not save the user in the database
+          logger.error "[SessionsController]==== could not save new user to database: #{@user.errors}"
+          flash.now[:error] = @user.errors.full_messages
+          render :action => 'signup', :layout => 'blank'
+        end
+      
+      else
+        # could not create the user in sfdc.
+        logger.info "[SessionsController]==== could not create user in sfdc: #{results[:message]}"
+        flash.now[:error] = results[:message]
+        render :action => 'signup', :layout => 'blank'
+      end
+
+    else     
+      # not valid. display signup for with errors
+      render :action => 'signup', :layout => 'blank'
+    end
+    
   end
   
   # once user enters email for provider, submits and CREATES a user & logs in
@@ -134,8 +180,8 @@ class SessionsController < ApplicationController
           params[:login_form][:password])
 
       if user.nil?
-        flash[:error] = "Invalid email/password."
-        redirect_to login_url
+        flash.now[:error] = "Invalid email/password."
+        render :action => 'login', :layout => 'blank'
       else
         sign_in user
         render :layout => "blank"
@@ -176,17 +222,12 @@ class SessionsController < ApplicationController
   def public_reset_password_submit
     @reset_form = ResetPasswordForm.new(params[:reset_password_form])
     if @reset_form.valid?
-      #check to make sure their passwords match
-      if params[:reset_password_form][:new_password].eql?(params[:reset_password_form][:new_password_again])
-        results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:new_password])
-        flash[:warning] = results["Message"]
-      else
-        flash[:error] = 'Please ensure that your new passwords match.'
-      end  
-      redirect_to reset_password_url
+      results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
+      flash.now[:warning] = results["Message"]
+      render :action => 'public_reset_password', :layout => 'blank'
     else
-      flash[:error] = "Please ensure that you fill out all form fields."
-      redirect_to reset_password_url
+      # not valid. display signup for with errors
+      render :action => 'public_reset_password', :layout => 'blank'
     end
   end
 
