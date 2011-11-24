@@ -44,7 +44,14 @@ class ChallengesController < ApplicationController
     end
     @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) unless @challenges.nil?
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
-    flash.now[:warning] = 'No challenges found.' unless !@challenges.nil?
+    
+    if @challenges.nil? || @challenges.size == 0
+      @challenges_found = false
+      flash.now[:warning] = 'No challenges found.'
+    else
+      @challenges_found = true     
+    end
+
   end
   
   def submission_file_upload

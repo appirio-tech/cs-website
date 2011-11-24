@@ -53,7 +53,7 @@
             <div class="list-challenges full-width-challenges">
                 <!-- Box -->
                 <div>
-				<% if @challenges.nil? %>
+				<% if !@challenges_found %>
 					<div style="text-align:center;padding:10px">
 						<%= flash_messages %>
 					</div>
