@@ -7,7 +7,16 @@ gem 'haml'
 gem 'will_paginate'
 gem 'jquery-rails'
 gem 'httparty'
-gem 'omniauth'
+
+gem 'ruby-openid', :git => "git://github.com/mbleigh/ruby-openid.git"
+gem 'openid_active_record_store'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
+gem 'omniauth-facebook'
+gem 'omniauth-linkedin'
+gem 'omniauth-openid'
+gem 'omniauth-salesforce'
+
 gem 'redis'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'mongrel', '1.2.0.pre2'
