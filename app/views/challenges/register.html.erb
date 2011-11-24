@@ -8,7 +8,7 @@
 				<p><%= link_to "Back", challenge_path %></p>
 				<%= flash_messages %>
 				<h3>Challenge Terms and Conditions</h3>
-				<p>You must agree to the terms and conditions of this challenge before competing.</p>
+				<p>You must agree to the <%= link_to 'terms and conditions', { :controller => :content, :action => :tos }, :target => '_blank' %> of this challenge before competing.</p>
 				<%= @terms.description %>
 				
 				<p><br/><a href="<%= agree_tos_path %>" class="button"><span>Agree & Register</span></a></p>
