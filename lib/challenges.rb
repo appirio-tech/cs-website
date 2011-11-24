@@ -1,4 +1,5 @@
 require 'cloud_spokes'
+require 'cgi'
 class Challenges < Cloudspokes
   
   def self.set_participation_status(access_token, username, id, new_status) 
@@ -68,7 +69,7 @@ class Challenges < Cloudspokes
     set_header_token(access_token) 
     request_url  = ENV['sfdc_rest_api_url'] + '/leaderboard?1=1'
     request_url += ("&period=" + options[:period]) unless options[:period].nil?
-    request_url += ("&category=" + options[:category]) unless options[:category].nil?
+    request_url += ("&category=" + CGI.escape(options[:category])) unless options[:category].nil?
     leaderboard =  get(request_url)
     #sort by total_money
     leaderboard.sort_by! { |key| key['total_money'].to_i }
