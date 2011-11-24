@@ -52,10 +52,11 @@
             <!-- List Challenges -->
             <div class="list-challenges full-width-challenges">
                 <!-- Box -->
-                <%= flash_messages %>
                 <div>
 				<% if @challenges.nil? %>
-					<div style="text-align:center;padding:50px"><b> No challenges found! </b></div>
+					<div style="text-align:center;padding:10px">
+						<%= flash_messages %>
+					</div>
 				<% else %>
 					<% @challenges.each do |record| %>
 		                <div class="box">
@@ -91,9 +92,9 @@
 	                        <%= will_paginate @challenges %>
 	                    </p>
 	                </div>
+	                <a href="contests.rss" class="get-rss fl">Get RSS for thisSet</a>
+	                <div class="cl">&nbsp;</div>
 				<% end %>
-                <a href="contests.rss" class="get-rss fl">Get RSS for thisSet</a>
-                <div class="cl">&nbsp;</div>
             </div>
         </div>
     </div>
