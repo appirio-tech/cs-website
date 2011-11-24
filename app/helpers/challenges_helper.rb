@@ -1,11 +1,13 @@
 module ChallengesHelper  
   
   # 
-  # name - param name
-  # value - param value
-  # text  - link text to be displayed in the menu
+  # name         - param name
+  # value        - param value
+  # text         - link text to be displayed in the menu
   # other_params - additonal params to be perserved, such as other sorting
-  # opclass - optional class to be added to the link
+  # opts         - hash of options, currently used for setting if the item is active
+  #                by default and if there are any additional classes to keep, such
+  #                as for the down arrow
   # 
   def current_link(name, value, text, other_params, opts = {})
     cls = ""
