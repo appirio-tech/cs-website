@@ -19,10 +19,10 @@
             <div class="sort fl">
                 <ul>
                     <li>SORT BY</li>
-                    <li><a class="ddasc" href="/challenges?orderby=name">title</a></li>
+                    <li><%= current_link :orderby, 'name', 'title', :show, :class => 'ddasc', :default => true %></li>
                     <li><a  href="#">type</a></li>
-                    <li><a href="/challenges?orderby=end_date__c">due</a></li>
-                    <li><a href="/challenges?orderby=start_date__c">start date</a></li>
+                    <li><%= current_link :orderby, 'end_date__c', 'due', :show %></li>
+                    <li><%= current_link :orderby, 'start_date__c', 'start date', :show %></li>
                 </ul>
             </div>
             <!-- END Sort -->
@@ -30,8 +30,8 @@
             <div class="sort fl">
                 <ul>
                     <li>SHOW</li>
-                    <li><a href="/challenges?show=open" class="active">open</a></li>
-                    <li><a href="/challenges?show=closed">closed</a></li>
+                    <li><%= current_link :show, 'open', 'open', :orderby, :default => true %></li>
+                    <li><%= current_link :show, 'closed', 'closed', :orderby %></li>
                 </ul>
             </div>
             <!-- END Sort -->
