@@ -12,7 +12,6 @@
         .cl
         = form_tag("/account/details", :name => "form_details")
         %label
-          %span.required *
           First Name:
         %input.txt{:maxlength => 100, :name => "form_details[first_name__c]", :value => @account["First_Name__c"]}
         %label
@@ -31,41 +30,33 @@
         .cl
         %hr{:style => 'margin: 10px'}
         %label
-          %span.required *
           Address:
         %input.field{:maxlength => 100, :name => "form_details[address_line1__c]", :value => @account["Address_Line1__c"]}
         .cl
         %label
-          %span.required *
           Address:
         %input.field{:maxlength => 100, :name => "form_details[address_line2__c]", :value => @account["Address_Line2__c"]}
         .cl
         %label
-          %span.required *
           City:
         %input.txt{:maxlength => 15, :name => "form_details[city__c]", :value => @account["City__c"]}
         %label.sm
-          %span.required *
           State:
         %input.txt{:maxlength => 150, :name => "form_details[state__c]", :value => @account["State__c"]}
         %label.sm
-          %span.required *
           Zip:
         %input.txt{:maxlength => 11, :name => "form_details[zip__c]", :value => @account["Zip__c"]}
         .cl
         %label
-          %span.required *
           Country:
         = country_select(:form_details, :country__c,  @account["Country__c"] =>  @account["Country__c"] )
         .cl
         %div{:style => 'margin:10px'}
         %label
-          %span.required *
           Phone:
         %input.txt{:maxlength => 15, :name => "form_details[phone_mobile__c]", :value => @account["Phone_Mobile__c"]}
         .cl
         %label
-          %span.required *
           Time Zone:
         = time_zone_select(:form_details, :time_zone__c, nil, :default => @account["Time_Zone__c"])
         .cl
