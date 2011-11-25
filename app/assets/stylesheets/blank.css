@@ -61,6 +61,12 @@ body {
   margin-bottom: 10px;
 }
 
+.notice, .warning, .error {
+  /*Wrap long lines*/
+  white-space: pre-wrap; /* CSS 2.1 */
+  word-wrap: break-word; /* IE */
+}
+
 .field_with_errors {
   display: inline;
 }
