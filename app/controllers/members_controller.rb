@@ -1,6 +1,7 @@
 require 'will_paginate/array'
 
 class MembersController < ApplicationController
+  before_filter :require_login, :only => [:recommend_new, :recommend]
 
   def index
     # Define the default order criteria
@@ -85,5 +86,18 @@ class MembersController < ApplicationController
     results = Recommendations.save(current_access_token, params[:id], current_user.username, params[:recommendation][:comments])
     redirect_to member_path(params[:id])
   end
+  
+  private
+ 
+    def require_login
+      unless logged_in?
+        flash[:error] = 'You must be logged in to access this page.'
+        redirect_to login_required_url
+      end
+    end
+ 
+    def logged_in?
+      !!current_user
+    end  
 
 end

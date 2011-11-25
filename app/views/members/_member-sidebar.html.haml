@@ -20,7 +20,10 @@
     .actions
       %ul
         %li.recommend
-          %a{:href => recommend_member_url} Recommend
+          - if signed_in?
+            %a{:href => recommend_member_url} Recommend
+          - else
+            %a{:href => login_url, :class => 'fancy'} Recommend
       .cl
   %a{:href => "#"}
     %h3 Stats & Achievements

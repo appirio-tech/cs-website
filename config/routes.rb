@@ -6,6 +6,7 @@ CloudSpokes::Application.routes.draw do
   match '/signup_cs_create', :to => 'sessions#signup_cs_create'  
   match '/logout', :to => 'sessions#destroy'  
   match '/login', :to => 'sessions#login'  
+  match '/login_required', :to => 'sessions#login_required'  
   match '/login_cs_auth',  :to => 'sessions#login_cs_auth'
   match "/reset_password"               => "sessions#public_reset_password"
   match "/reset_password_submit"        => "sessions#public_reset_password_submit"  

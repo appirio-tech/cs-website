@@ -231,6 +231,9 @@ class SessionsController < ApplicationController
     end
   end
 
+  def login_required 
+  end
+
   def destroy 
     sign_out
     redirect_to root_path

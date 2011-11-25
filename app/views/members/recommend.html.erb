@@ -5,16 +5,12 @@
 	<div class="post-submission">
 	    <h3>Post a Recommendation</h3>
 	    <fieldset>
-			<% if signed_in? %>
-				<%= form_for :recommendation, :url => recommend_member_new_path do |f| %>
-					<div class="holder">
-					<%= f.text_area( :comments )  %>
-					</div>
-					<a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
-				<% end %>
-			<% else %>
-				Please <a href="/login" class="fancy">login</a> to post a comment.
-			<% end %>
+		<%= form_for :recommendation, :url => recommend_member_new_path do |f| %>
+			<div class="holder">
+			<%= f.text_area( :comments )  %>
+			</div>
+			<a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
+		<% end %>
 	    </fieldset>
 	</div>
   </div>

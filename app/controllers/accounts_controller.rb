@@ -161,7 +161,7 @@ class AccountsController < ApplicationController
  
     def require_login
       unless logged_in?
-        redirect_to login_url, :notice => 'You must be logged in to access this section'
+        redirect_to login_required_url, :notice => 'You must be logged in to access this section.'
       end
     end
  
