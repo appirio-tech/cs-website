@@ -75,9 +75,9 @@
                 <h3>Top 10 Leaderboard</h3>
                 <!-- Filters -->
                 <div class="filters">
-                    <span>SHOW</span><span><%= link_to "month", members_path(:period => 'month') %></span>
-                    <span><span><%= link_to "year", members_path(:period => 'year') %></span>
-                    <span><span><%= link_to "all time", members_path(:period => 'all') %></span>
+                    <span>SHOW</span><span><%= link_to "month", members_path(:period => 'month'), :class => @selected['month'] %></span>
+                    <span><span><%= link_to "year", members_path(:period => 'year'), :class => @selected['year'] %></span>
+                    <span><span><%= link_to "all time", members_path(:period => 'all'), :class => @selected['all'] %></span>
                 </div>
                 <!-- END Filters -->
                 <!-- Leaders -->

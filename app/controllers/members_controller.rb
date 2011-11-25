@@ -22,13 +22,17 @@ class MembersController < ApplicationController
     this_month = Time.new(tn.year, tn.month)
     this_year = Time.new(tn.year)
     all_time = Time.new(2000)
+    @selected = {'month'=>'', 'year'=>'', 'all'=>'' }
     
     case display_leaderboard
     when "year"
+      @selected['year'] = 'active'
       @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'year')
     when "all"
+      @selected['all'] = 'active'
       @leaderboard = Challenges.get_leaderboard(current_access_token)
     else
+      @selected['month'] = 'active'
       @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month')
     end
   end
