@@ -12,13 +12,13 @@ class Scoring
   
   def self.scorecard(access_token, participant, reviewer) 
     set_header_token(access_token) 
-    get(ENV['sfdc_rest_api_url']+'/scorecard/'+participant+'?reviewer='+reviewer)
+    get(ENV['sfdc_rest_api_url']+"/scorecard/#{esc participant}?reviewer=#{esc reviewer}")
   end
   
   def self.save_scorecard(access_token, xml, scored)
     set_header_token(access_token) 
     options = { :body => xml }
-    response = put(ENV['sfdc_rest_api_url']+'/scorecard?setScored='+scored, options)
+    response = put(ENV['sfdc_rest_api_url']+"/scorecard?setScored=#{esc scored}", options)
     return {:success => response['Success'].downcase, :message => response['Update Result']}
   end
   
