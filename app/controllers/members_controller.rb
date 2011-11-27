@@ -78,7 +78,10 @@ class MembersController < ApplicationController
     @members = @members.paginate(:page => params[:page] || 1, :per_page => 10)
     tn = Time.now
     this_month = Time.new(tn.year, tn.month)
-    @leaderboard = ActiveSupport::JSON.decode(Challenges.get_leaderboard(current_access_token, this_month.iso8601(0),1)["data"])   
+		@selected = {'month'=>'', 'year'=>'', 'all'=>'' }
+		# By default displaying leaderboard month wise
+		@leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil)		
+		@selected['month'] = 'active'
     render 'index'
   end
   
