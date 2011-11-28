@@ -7,6 +7,17 @@ GIT
       fssm (>= 0.2.7)
       sass (~> 3.1)
 
+GIT
+  remote: http://github.com/hone/resque.git
+  revision: 19b422e7c1367cf6590ace9c44f7dd8c4fad8752
+  branch: keepalive
+  specs:
+    resque (1.19.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.0.2)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -200,11 +211,6 @@ GEM
       redis (< 3.0.0)
     remote_syslog_logger (1.0.3)
       syslog_protocol
-    resque (1.19.0)
-      multi_json (~> 1.0)
-      redis-namespace (~> 1.0.2)
-      sinatra (>= 0.9.2)
-      vegas (~> 0.1.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rspec (2.6.0)
@@ -300,7 +306,7 @@ DEPENDENCIES
   recaptcha
   redis
   remote_syslog_logger
-  resque
+  resque!
   rspec-rails (~> 2.6)
   ruby-debug19
   sass-rails (~> 3.1.0)

@@ -152,6 +152,9 @@ class SessionsController < ApplicationController
       
       # user already exists. log them in
       else
+        # make sure their user in sfdc is active
+        Services.activate_user(current_access_token, as.get_hash[:username])
+        
         # log them in
         user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],as.get_hash[:username])
         if user.nil?
@@ -173,8 +176,12 @@ class SessionsController < ApplicationController
   # authenticate them against sfdc in with cloudspokes u/p
   def login_cs_auth
     
+    
     @login_form = LoginForm.new(params[:login_form])
     if @login_form.valid?
+      
+      # make sure their user in sfdc is active
+      Services.activate_user(current_access_token, params[:login_form][:username])
 
       user = User.authenticate(params[:login_form][:username],
           params[:login_form][:password])

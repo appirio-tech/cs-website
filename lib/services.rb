@@ -99,4 +99,12 @@ class Services
     
   end
   
+  # returns the username and sfdc usersname for third party credentals
+  def self.activate_user(access_token, username)  
+    set_header_token(access_token)
+    results = get(ENV['sfdc_rest_api_url']+'/activate/'+username)
+    p "========== results #{results}"
+    Rails.logger.error "[Services]==== activating user #{username}: #{results['Message']}"     
+  end
+  
 end
