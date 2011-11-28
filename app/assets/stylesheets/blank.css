@@ -20,6 +20,9 @@ body {
 	float:left;
 	width:230px;
 }
+#sidebar input, #sidebar select, #sidebar textarea {
+  max-width:220px;
+}
 #footer {
 	padding-top: 25px;
 	clear:both;
