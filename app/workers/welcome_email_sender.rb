@@ -23,7 +23,7 @@ class WelcomeEmailSender
       }
     }
     results = post('http://cs-mailchimp-mailer.herokuapp.com/sendSimpleMail', options)
-    Rails.logger.error "[Resque]==== welcome email send results for #{member_results['Email__c']}: #{results}"
+    Rails.logger.info "[Resque]==== welcome email send results for #{member_results['Email__c']}: #{results}"
     
   end
   

@@ -32,7 +32,7 @@ class NewChallengeCommentSender
         }
       }
       results = post('http://cs-mailchimp-mailer.herokuapp.com/sendSimpleMail', options)
-      p "===> email send results for #{to_address}: #{results}"
+      Rails.logger.info "[Resque]==== challenge comment email send results for #{to_address}: #{results}"
     
     }
     
