@@ -7,3 +7,23 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(function() {
+  
+  $.fn.defaultValue = function(value) {
+    var self = $(this);
+    self.focus(function() {
+      if (self.val() == value) {
+        self.val("");
+      }
+    });
+    self.blur(function() {
+      if (self.val() == "") {
+        self.val(value);
+      }
+    });
+  }
+  
+  $(".members-search").defaultValue('search members');
+  $(".challenges-search").defaultValue('search challenges');
+});

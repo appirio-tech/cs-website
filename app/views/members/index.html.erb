@@ -19,7 +19,7 @@
             <div id="search">
                 <fieldset>
 					<%= form_for :search, :url => members_search_path do |f| %>
-					<input type="text" value="search members" onclick="this.value=''" title="search members" class="field blink" name="query">	
+					<input type="text" value="search members" title="search members" class="field blink members-search" name="query">	
                     <input type="submit" value="go" onclick="alert('clicked')" />
 					<% end %>
                 </fieldset>
