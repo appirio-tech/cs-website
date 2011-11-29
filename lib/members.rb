@@ -20,7 +20,7 @@ class Members < Cloudspokes
           :image => pic
       }
     }
-    results = post('http://cs-image-service.appspot.com/upload', options)
+    results = post('http://csimage123.appspot.com/upload', options)
     p "====== post results: #{results}"
     
   end
