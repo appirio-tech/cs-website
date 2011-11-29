@@ -502,7 +502,7 @@ span.job, span.stats {
     font-style: italic;
     height: 16px;
     padding: 5px 8px;
-    width: 219px;
+    width: 200px;
 }
 #search .submit {
     background: none repeat scroll 0 0 transparent;
@@ -510,6 +510,7 @@ span.job, span.stats {
     float: left;
     height: 26px;
     width: 30px;
+    opacity: 0;
 }
 /*
     Categories
