@@ -7,3 +7,17 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(function() {
+  $("#search .field").focus(function() {
+    var self = $(this);
+    if (self.val() == "search challenges") {
+      self.val("");
+    }
+  }).blur(function() {
+    var self = $(this);
+    if (self.val() == "") {
+      self.val("search challenges");
+    }
+  });
+});
