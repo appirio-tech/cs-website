@@ -106,7 +106,6 @@ class AccountsController < ApplicationController
   # School & Work info tab
   def public_profile
     if params["form_profile"]
-=begin      
       p '========== checking for profile pic upload'
       if !params["form_profile"]["Profile_Pic__c"].nil?
         p '====== uploading'
@@ -116,8 +115,7 @@ class AccountsController < ApplicationController
         p img
         Members.upload_profile_pic(img) 
       end
-      p params
-=end      
+      p params   
       Members.update(current_access_token, @current_user.username, params["form_profile"])
       flash.now[:notice] = "Your profile information has been updated."
     end
