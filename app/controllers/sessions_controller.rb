@@ -170,7 +170,9 @@ class SessionsController < ApplicationController
 
   end
   def callback_failure
-      render :text =>  request.env["omniauth"].to_yaml
+    logger.error "authentication via omniauth failed:"
+    logger.error request.env["omniauth"].to_yaml
+    redirect_to root_url
   end
     
   # authenticate them against sfdc in with cloudspokes u/p
