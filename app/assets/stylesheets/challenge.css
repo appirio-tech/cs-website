@@ -472,10 +472,19 @@ span.job, span.stats {
     padding-left: 11px;
 }
 .help-nav .sort ul li a.ddasc {
+    /* 
+      this needs to have a version with #7D837D for when the menu item isn't active
+      and use it here instead
+     */
     background: url("http://cloudspokes.s3.amazonaws.com/bullet-2.gif") no-repeat scroll 0 center transparent;
-    color: #000000;
     padding-left: 11px;
 }
+/* and then uncomment this to use the original black image */
+/*
+.help-nav .sort ul li a.ddasc.active {
+    background: url("http://cloudspokes.s3.amazonaws.com/bullet-2.gif") no-repeat scroll 0 center transparent;    
+}
+*/
 .help-nav .sort ul li a.active, .help-nav .sort ul li a:hover {
     color: #000000;
     text-decoration: none;
