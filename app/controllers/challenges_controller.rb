@@ -93,7 +93,7 @@ class ChallengesController < ApplicationController
   def submission_url_delete
     submission_results = Challenges.delete_submission(current_access_token, params[:submissionId])
     if submission_results['Success'].eql?('true')
-      flash[:notice] = "URL successfully deleted."
+      flash[:notice] = "File deleted successfully."
     else
       flash[:error] = "There was an error deleting your URL. Please try again."
     end
