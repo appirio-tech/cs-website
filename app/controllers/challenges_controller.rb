@@ -2,6 +2,7 @@ require 'challenges'
 require 'time'
 require 'settings'
 require 'will_paginate/array'
+require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
@@ -80,12 +81,16 @@ class ChallengesController < ApplicationController
   end  
   
   def submission_url_upload
-    submission_results = Challenges.save_submission(current_access_token, 
-      params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
-    if submission_results['Success'].eql?('true')
-      flash[:notice] = "URL successfully submitted for this challenge."
+    if uri?(params[:url_submission][:link])
+      submission_results = Challenges.save_submission(current_access_token, 
+        params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
+      if submission_results['Success'].eql?('true')
+        flash[:notice] = "URL successfully submitted for this challenge."
+      else
+        flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
+      end
     else
-      flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
+      flash[:error] = "Please enter a valid URL."
     end
     redirect_to(:back)
   end  
@@ -93,9 +98,9 @@ class ChallengesController < ApplicationController
   def submission_url_delete
     submission_results = Challenges.delete_submission(current_access_token, params[:submissionId])
     if submission_results['Success'].eql?('true')
-      flash[:notice] = "File deleted successfully."
+      flash[:notice] = "Successfully deleted."
     else
-      flash[:error] = "There was an error deleting your URL. Please try again."
+      flash[:error] = "There was an error deleting your URL or File. Please try again."
     end
     redirect_to(:back)
   end
@@ -210,6 +215,13 @@ class ChallengesController < ApplicationController
     def sanitize_filename(file_name)
         just_filename = File.basename(file_name)
         just_filename.sub(/[^\w\.\-]/,'_')
+    end
+    
+    def uri?(string)
+      uri = URI.parse(string)
+      %w( http https ).include?(uri.scheme)
+    rescue URI::BadURIError
+      false
     end
   
 end
