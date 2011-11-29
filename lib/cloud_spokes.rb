@@ -4,6 +4,8 @@
 #   object.find
 #   object.update
 
+require 'uri'
+
 class Cloudspokes 
 
   include HTTParty 
@@ -12,7 +14,11 @@ class Cloudspokes
   AvailableObjects = ["challenges","members","recommendations","participants","faqs","webpages","payments","categories"]
   SFDC_URL         = ENV['sfdc_instance_url']+'/services/data/v20.0/sobjects/'
 
-  headers 'Content-Type' => 'application/json' 
+  headers 'Content-Type' => 'application/json'
+
+  def self.esc(str)
+    URI.escape(str)
+  end
   
   def self.set_header_token(access_token)
     headers 'Authorization' => "OAuth #{access_token}" 
@@ -21,10 +27,10 @@ class Cloudspokes
   # generic get with given options
   def self.get_sobjects(options)
     if AvailableObjects.include?(self.to_s.downcase)
-      request_url  = ENV['sfdc_rest_api_url'] + '/' + self.to_s.downcase + "?fields=" + options[:select]
-      request_url += ("&orderby=" + options[:order_by]) unless options[:order_by].nil?
-      request_url += ("&search=" + options[:where]) unless options[:where].nil?
-      request_url += ("&limit=" + options[:limit]) unless options[:limit].nil?
+      request_url  = ENV['sfdc_rest_api_url'] + "/#{self.to_s.downcase}?fields=#{esc options[:select]}"
+      request_url += ("&orderby=#{esc options[:order_by]}") unless options[:order_by].nil?
+      request_url += ("&search=#{esc options[:where]}") unless options[:where].nil?
+      request_url += ("&limit=#{esc options[:limit]}") unless options[:limit].nil?
       get(request_url)
     end
   end
