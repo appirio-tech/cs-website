@@ -18,7 +18,9 @@ $(document).ready(function(){
 		 'height' : 450,
 		 'autoScale' : false,
 		 'hideOnOverlayClick' : true,
-		 'type' : 'iframe'
+		 'type' : 'iframe',
+		 'onStart': function() { $('.column iframe').css('visibility', 'hidden'); },
+		 'onClosed': function() { $('.column iframe').css('visibility', 'visible'); }
 	 });
 });
 </script>
