@@ -7,3 +7,22 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+$(function() {
+  // CHANGE THIS TO REQUIRED LENGTH
+  var SEARCH_CHARACTER_LIMIT = 30;
+  
+  $.fn.limit = function(max_length) {
+      var self = $(this);
+      
+      self.keydown(function(e) {      
+      text = self.val();
+      if (text.length >= max_length) {
+        self.val(text.substr(0, max_length));
+      }
+    });
+  };
+  
+  $("#search .field").limit(SEARCH_CHARACTER_LIMIT);
+
+});
