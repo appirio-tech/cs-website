@@ -9,17 +9,6 @@
 //= require_tree .
 
 $(function() {
-  $("#search .field").focus(function() {
-    var self = $(this);
-    if (self.val() == "search challenges") {
-      self.val("");
-    }
-  }).blur(function() {
-    var self = $(this);
-    if (self.val() == "") {
-      self.val("search challenges");
-    }
-  });
 
   // CHANGE THIS TO REQUIRED LENGTH
   var SEARCH_CHARACTER_LIMIT = 30;
@@ -36,5 +25,22 @@ $(function() {
   };
   
   $("#search .field").limit(SEARCH_CHARACTER_LIMIT);
+  
+  $.fn.defaultValue = function(value) {
+    var self = $(this);
+    self.focus(function() {
+      if (self.val() == value) {
+        self.val("");
+      }
+    });
+    self.blur(function() {
+      if (self.val() == "") {
+        self.val(value);
+      }
+    });
+  }
+  
+  $(".members-search").defaultValue('search members');
+  $(".challenges-search").defaultValue('search challenges');
 
 });
