@@ -3,17 +3,23 @@ require 'services'
 
 class SessionsController < ApplicationController
   
-  def login
+  # first time users login they will use the popup
+  def login_popup
     session[:redirect_to_after_auth] = request.env['HTTP_REFERER']
+    @login_form = LoginForm.new
+    render :layout => "blank"
+  end  
+  
+  # if any errors during login they will see this page
+  def login
+    p '====== login called'
     # delete the session from their last login attempt
     session.delete(:authsession) unless session[:authsession].nil?
     @login_form = LoginForm.new
-    render :layout => "blank"
   end
   
   def signup
     @signup_form = SignupForm.new
-    render :layout => "blank"
   end
     
   # if the provider doesn't include an email, redirects them to this form
@@ -40,29 +46,30 @@ class SessionsController < ApplicationController
         params[:signup_form][:sfdc_username] = results[:sfdc_username]
         @user = User.new(params[:signup_form])
       
+        # success!!
         if @user.save
           logger.info "[SessionsController]==== successfully created cloudspokes user: #{@user}"
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
-          # render the signup_cs_create to close the window and reload the page
+          redirect_to challenges_path
         else
           # could not save the user in the database
           logger.error "[SessionsController]==== could not save new user to database: #{@user.errors}"
           flash.now[:error] = @user.errors.full_messages
-          render :action => 'signup', :layout => 'blank'
+          render :action => 'signup'
         end
       
       else
         # could not create the user in sfdc.
         logger.info "[SessionsController]==== could not create user in sfdc: #{results[:message]}"
         flash.now[:error] = results[:message]
-        render :action => 'signup', :layout => 'blank'
+        render :action => 'signup'
       end
 
     else     
-      # not valid. display signup for with errors
-      render :action => 'signup', :layout => 'blank'
+      # not valid. display signup for with errors from validations
+      render :action => 'signup'
     end
     
   end
@@ -110,7 +117,7 @@ class SessionsController < ApplicationController
             
     # see if they exist as a member with these third party credentials
     user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], as.get_hash[:username])
-    logger.info "[SessionsController]==== does the user exist: #{user_exists_results}"
+    logger.info "[SessionsController]==== does the user #{as.get_hash[:username]} exist: #{user_exists_results}"
     
     # bad session!!!
     if user_exists_results[:message].eql?('Session expired or invalid')
@@ -146,7 +153,8 @@ class SessionsController < ApplicationController
         
           # they can't login - taken username or email address?
           else
-            redirect_to login_url, :notice => new_member_create_results[:message]
+            flash[:error] = new_member_create_results[:message]
+            redirect_to login_url
           end
         end
       
@@ -159,7 +167,7 @@ class SessionsController < ApplicationController
         user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],as.get_hash[:username])
         if user.nil?
           logger.error "[SessionsController]==== error logging in user: #{as.get_hash[:username]} with #{as.get_hash[:provider]}."
-          flash[:error] = "Serious error loggin in!!"
+          flash[:error] = "Sorry... we were not able to log you in. Something really bad happened."
         else
           sign_in user
           redirect_to session[:redirect_to_after_auth]
@@ -177,8 +185,7 @@ class SessionsController < ApplicationController
     
   # authenticate them against sfdc in with cloudspokes u/p
   def login_cs_auth
-    
-    
+    p '====== login_cs_auth called'
     @login_form = LoginForm.new(params[:login_form])
     if @login_form.valid?
       
@@ -190,21 +197,21 @@ class SessionsController < ApplicationController
 
       if user.nil?
         flash.now[:error] = "Invalid email/password."
-        render :action => 'login', :layout => 'blank'
+        render :action => 'login'
       else
         sign_in user
-        render :layout => "blank"
+        redirect_to challenges_path
       end
 
     else
-      redirect_to login_url
+      # show the error message
+      render :action => 'login'
     end
     
   end
   
   # Send a passcode by mail for password reset
   def public_forgot_password
-    render :layout => "blank"
   end
   
   # Send a passcode by mail for password reset
@@ -224,7 +231,6 @@ class SessionsController < ApplicationController
   # Check the passwode et new password and update it
   def public_reset_password
     @reset_form = ResetPasswordForm.new
-    render :layout => "blank"
   end
   
   # Check the passwode et new password and update it
@@ -233,10 +239,10 @@ class SessionsController < ApplicationController
     if @reset_form.valid?
       results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
       flash.now[:warning] = results["Message"]
-      render :action => 'public_reset_password', :layout => 'blank'
+      render :action => 'public_reset_password'
     else
       # not valid. display signup for with errors
-      render :action => 'public_reset_password', :layout => 'blank'
+      render :action => 'public_reset_password'
     end
   end
 

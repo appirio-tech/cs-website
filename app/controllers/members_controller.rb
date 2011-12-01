@@ -87,6 +87,7 @@ class MembersController < ApplicationController
   
   def recommend
     @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
+    flash.now[:error] = 'You cannot recomment yourself.' unless params[:id] != current_user.username
   end
   
   def recommend_new

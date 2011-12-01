@@ -1,17 +1,27 @@
-<div id="container">
-	<div id="header">
-		<img src="assets/cloudspokes-logo-hor.png" height="50">
-		<div id="header_right"><a href="/signup">New to CloudSpokes? Sign up now!</a></div>
-	</div>
-	<div id="content">
-		<h1>Login Quickly and Easily Using</h1>
+<div class="page-heading"><h2 class="melbourne">Login</h2></div>
+
+<div style="margin:35px">
+	
+	<div style="float:left; width:550px">
+		<h1 style="padding-bottom:10px">Login Quickly and Easily Using</h1>
 		<a href="/auth/twitter" target="_parent" class="auth_provider"><%= image_tag "twitter_64.png", :size => "64x64", :alt => "Twitter" %></a>
 		<a href="/auth/github" target="_parent" class="auth_provider"><%= image_tag "github_64.png", :size => "64x64", :alt => "GitHub" %></a>
 		<a href="/auth/facebook" target="_parent" class="auth_provider"><%= image_tag "facebook_64.png", :size => "64x64", :alt => "Facebook" %></a>		
 	</div>
-	<div id="sidebar">
+	
+	<div style="float:left;width:350px;">
 		<p>Have a CloudSpokes username<br/> and password?</p>
+		
 		<%= flash_messages %>
+		
+		<% if @login_form.errors.any? %>
+			<div class="error" id="flash-error">
+		    <% @login_form.errors.full_messages.each do |msg| %>  
+		      <li><%= msg %></li>  
+		    <% end %>
+			</div>
+		<% end %>
+		
 		<%= form_for @login_form, :url => login_cs_auth_url do |f| %>
 		  <div class="field">
 		    <%= f.label :username %><br />
@@ -22,14 +32,12 @@
 		    <%= f.password_field :password, :style => "width: 125px" %>
 		  </div>
 		  <div class="actions">
-		    <%= f.submit "Login" %>
+		    <%= f.submit "Login", :class => 'formsubmit' %>
 		  </div>
 		<% end %>
 
-		<p><%= link_to 'Forgot Password?', forgot_password_url %></p>
+		<p style="padding-top: 10px"><%= link_to 'Forgot Password?', forgot_password_url %></p>
 		
 	</div>
-	<div id="footer">
-		<p>By logging in, you state that you agree to the <a href="/tos" target="_blank">Terms & Conditions</a> of this website.</p>
-	</div>
+
 </div>
