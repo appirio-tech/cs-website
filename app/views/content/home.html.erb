@@ -158,6 +158,7 @@
             <div class="box">
                 <div class="box-b">
                     <div class="box-t">
+						<% if @leaders.size > 0 %>
                         <div class="leaders">
                             <ul style="padding: 0px">
 								<% @leaders.take(3).each do |record| %> 
@@ -183,6 +184,9 @@
                                 <% end %>                                    
                             </ul>
                         </div>
+						<% else %>
+							<p>No leaderboard results yet for this time month.</p>
+						<% end %>
                     </div>
                     <div style="padding:10px"><%= link_to 'View leaderboards', leaderboards_path %> by month, year and all time.</div>
                 </div>

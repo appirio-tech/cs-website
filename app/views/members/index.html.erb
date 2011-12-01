@@ -81,7 +81,7 @@
                 </div>
                 <!-- END Filters -->
                 <!-- Leaders -->
-                
+                	<% if @leaderboard.size > 0 %>
                         <div class="leaders">
                             <ul style="padding: 0px">
                                 
@@ -110,6 +110,9 @@
       
                             </ul>
                         </div>
+					<% else %>
+						<p style="padding-top: 10px">No leaderboard results yet for this time month.</p>
+					<% end %>
                     
                 <!-- END Leaders -->
             </div>
