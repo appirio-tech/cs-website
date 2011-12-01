@@ -18,10 +18,10 @@
             <!-- Search -->
             <div id="search">
                 <fieldset>
-					<%= form_for :search, :url => members_search_path do |f| %>
-					<input type="text" value="search members" title="search members" class="field blink members-search" name="query">	
-                    <input type="submit" value="go" onclick="alert('clicked')" />
-					<% end %>
+					<form method="get" action="/members/search">
+                    <input type="text" class="field blink members-search" title="search members" value="search members" name="keyword"/>
+                    <input type="submit" value="" class="submit notext" />
+					</form>
                 </fieldset>
             </div>
             <!-- END Search -->

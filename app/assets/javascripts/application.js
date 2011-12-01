@@ -40,7 +40,7 @@ $(function() {
     });
   }
   
-  $(".members-search").defaultValue('search members');
   $(".challenges-search").defaultValue('search challenges');
+  $(".members-search").defaultValue('search members');
 
 });
