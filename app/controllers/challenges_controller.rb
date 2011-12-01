@@ -35,11 +35,12 @@ class ChallengesController < ApplicationController
 
   def index  
     show_open = false
-    show_open = true unless params[:show].eql?('closed')
-    orderby = params[:orderby].nil? ? 'name' : params[:orderby]
-        
+    show_open = true unless params[:show].eql?('closed')    
+    @current_order_by = params[:orderby].nil? ? 'name' : params[:orderby]
+    @current_order_by_dir = params[:orderby_dir].nil? ? 'asc' : params[:orderby_dir]
+            
     if params[:keyword].nil?
-      @challenges = Challenges.get_challenges(current_access_token, show_open, orderby, params[:category])
+      @challenges = Challenges.get_challenges(current_access_token, show_open, @current_order_by+'+'+@current_order_by_dir, params[:category])
     else 
       @challenges = Challenges.get_challenges_by_keyword(current_access_token, params[:keyword])
     end
