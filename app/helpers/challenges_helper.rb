@@ -10,6 +10,7 @@ module ChallengesHelper
   #                as for the down arrow
   # 
   def current_link(name, value, text, other_params, opts = {})
+    #p "========== name:#{name} - value:#{value} - text:#{text} - other_params:#{other_params} - opts:#{opts}"
     cls = ""
     if params[name] == value 
       cls = "active"
@@ -24,7 +25,15 @@ module ChallengesHelper
     [*other_params].each do |p|
       params_hash[p] = params[p] 
     end
+    
+    # add the category if present
+    params_hash[:category] = params[:category] unless params[:category].nil?
+    
+    # add the search keyword if present
+    params_hash[:keyword] = params[:keyword] unless params[:keyword].nil?
+    
     final_params = params_hash.merge(name => value)    
+    #p "========= done #{challenges_path(final_params)}"
     link_to text, challenges_path(final_params), :class => cls
   end
 end

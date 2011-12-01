@@ -44,7 +44,7 @@ class Challenges < Cloudspokes
   def self.get_challenges(access_token, show_open, orderby, category)
     qry_open = show_open ? '&open=true' : '&open=false'
     qry_orderby = "&orderby=#{esc orderby}"
-    qry_category = category.nil? ? '' : "&category=#{esc category}"
+    qry_category = category.nil? ? '' : "&category=#{esc category}"    
     set_header_token(access_token) 
     get(ENV['sfdc_rest_api_url']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c,License__c'+qry_orderby+qry_open+qry_category)
   end
