@@ -4,7 +4,7 @@
 #   object.find
 #   object.update
 
-require 'uri'
+require 'uri' 
 
 class Cloudspokes 
 
