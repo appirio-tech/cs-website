@@ -50,7 +50,7 @@ class Services
     end    
     
     Rails.logger.info "[Services]==== making the call to create the user for #{options}"         
-    results = post(ENV['sfdc_rest_api_url']+'/members', options)
+    results = post(ENV['SFDC_REST_API_URL']+'/members', options)
                 
     begin
       
@@ -82,7 +82,7 @@ class Services
       }
     }
 
-    results = get(ENV['sfdc_rest_api_url']+'/credentials', options)
+    results = get(ENV['SFDC_REST_API_URL']+'/credentials', options)
             
     begin
       if results['Success'].eql?('true')
@@ -102,7 +102,7 @@ class Services
   # returns the username and sfdc usersname for third party credentals
   def self.activate_user(access_token, username)  
     set_header_token(access_token)
-    results = get(ENV['sfdc_rest_api_url']+'/activate/'+username)
+    results = get(ENV['SFDC_REST_API_URL']+'/activate/'+username)
     p "========== results #{results}"
     Rails.logger.error "[Services]==== activating user #{username}: #{results['Message']}"     
   end

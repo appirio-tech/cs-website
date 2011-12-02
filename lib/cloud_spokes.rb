@@ -12,7 +12,7 @@ class Cloudspokes
   format :json
 
   AvailableObjects = ["challenges","members","recommendations","participants","faqs","webpages","payments","categories"]
-  SFDC_URL         = ENV['sfdc_instance_url']+'/services/data/v20.0/sobjects/'
+  SFDC_URL         = ENV['SFDC_INSTANCE_URL']+'/services/data/v20.0/sobjects/'
 
   headers 'Content-Type' => 'application/json'
 
@@ -27,7 +27,7 @@ class Cloudspokes
   # generic get with given options
   def self.get_sobjects(options)
     if AvailableObjects.include?(self.to_s.downcase)
-      request_url  = ENV['sfdc_rest_api_url'] + "/#{self.to_s.downcase}?fields=#{esc options[:select]}"
+      request_url  = ENV['SFDC_REST_API_URL'] + "/#{self.to_s.downcase}?fields=#{esc options[:select]}"
       request_url += ("&orderby=#{esc options[:order_by]}") unless options[:order_by].nil?
       request_url += ("&search=#{esc options[:where]}") unless options[:where].nil?
       request_url += ("&limit=#{esc options[:limit]}") unless options[:limit].nil?
@@ -39,7 +39,7 @@ class Cloudspokes
   def self.update(access_token, id, params)
     set_header_token(access_token)
     if AvailableObjects.include?(self.to_s.downcase)      
-      request_url  = ENV['sfdc_rest_api_url'] + '/' + self.to_s.downcase + "/" + id
+      request_url  = ENV['SFDC_REST_API_URL'] + '/' + self.to_s.downcase + "/" + id
       put(request_url,:query => params)
     end
   end
@@ -64,7 +64,7 @@ class Cloudspokes
   AvailableObjects.each do |sobject|
     class_eval <<-EOS
       def self.get_#{sobject}
-        request_url = ENV['sfdc_rest_api_url'] + '/' + '#{sobject}'
+        request_url = ENV['SFDC_REST_API_URL'] + '/' + '#{sobject}'
         get(request_url)
       end
     EOS

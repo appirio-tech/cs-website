@@ -87,7 +87,7 @@ class SessionsController < ApplicationController
     if new_member_create_results[:success].eql?('true')
       
       user = User.new(:username => new_member_create_results[:username], :sfdc_username => new_member_create_results[:sfdc_username], 
-        :password => ENV['third_party_password'])
+        :password => ENV['THIRD_PARTY_PASSWORD'])
       
       if user.save
         # delete the session var that stored the auth variables
@@ -140,7 +140,7 @@ class SessionsController < ApplicationController
 
             user = User.new(:username => new_member_create_results[:username], 
               :sfdc_username => new_member_create_results[:sfdc_username], 
-              :password => ENV['third_party_password'])
+              :password => ENV['THIRD_PARTY_PASSWORD'])
           
             if user.save
               sign_in user

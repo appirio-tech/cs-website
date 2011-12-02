@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
       user = find_by_username(username)
       user.destroy unless user.nil?
       # create the new user in the database
-      user = User.new(:username => username, :sfdc_username => username+ENV['sfdc_username_domain'], 
+      user = User.new(:username => username, :sfdc_username => username+ENV['SFDC_USERNAME_DOMAIN'], 
         :password => password, :access_token => login_results[:access_token])
       user.save
       return user
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     if results[:success].eql?('true')
       
       # not make sure their credentials are correct and get their access token
-      login_results = sfdc_login(results[:username], ENV['third_party_password'])
+      login_results = sfdc_login(results[:username], ENV['THIRD_PARTY_PASSWORD'])
       
       # if they logged in successfully, then they are golden
       if login_results[:success].eql?('true')
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
         # TODO - change this so that access token is persisted each time
         if user.nil?
           user = User.new(:username => results[:username], :sfdc_username => results[:sfdc_username], 
-            :password => ENV['third_party_password'], :access_token => login_results[:access_token])
+            :password => ENV['THIRD_PARTY_PASSWORD'], :access_token => login_results[:access_token])
           user.save
         end
         return user
@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
     
     config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
     client = Databasedotcom::Client.new(config)
-    sfdc_username = username+'@'+ENV['sfdc_username_domain']
+    sfdc_username = username+'@'+ENV['SFDC_USERNAME_DOMAIN']
     logger.info "[User]==== logging into salesforce with #{sfdc_username} and #{password}"
 
     # log into sfdc with their credentials to return their access token

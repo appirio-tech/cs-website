@@ -15,11 +15,11 @@ class Utils
       
       config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
       client = Databasedotcom::Client.new(config)
-      Rails.logger.info "[Utils]==== logging into salesforce with #{ENV['sfdc_username']} and #{ENV['sfdc_password']}"
+      Rails.logger.info "[Utils]==== logging into salesforce with #{ENV['SFDC_USERNAME']} and #{ENV['SFDC_PASSWORD']}"
 
       # log into sfdc with their credentials to return their access token
       begin
-        access_token = client.authenticate :username => ENV['sfdc_username'], :password => ENV['sfdc_password']
+        access_token = client.authenticate :username => ENV['SFDC_USERNAME'], :password => ENV['SFDC_PASSWORD']
         # delete the existing token in the database
         s.destroy
         # add the new record
