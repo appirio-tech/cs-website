@@ -4,6 +4,8 @@ sfdc_setup = lambda do |env|
   env['omniauth.strategy'].options[:client_options][:site] = 'https://test.salesforce.com' if ENV['SANDBOX']
 end
 
+OmniAuth.config.on_failure{|env| raise env['omniauth.error'] if env['omniauth.error'] }
+
 Rails.application.config.middleware.use OmniAuth::Builder do
   require 'openid/store/filesystem'
   provider :twitter, ENV['TWITTER_OAUTH_KEY'], ENV['TWITTER_OAUTH_SECRET']

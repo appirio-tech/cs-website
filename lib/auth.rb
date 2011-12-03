@@ -11,7 +11,7 @@ class AuthSession
         elsif provider == 'github'
             authhash['info']['email'] ? @authhash[:email] =  authhash['info']['email'] : @authhash[:email] = ''
             authhash['info']['name'] ? @authhash[:name] =  authhash['info']['name'] : @authhash[:name] = ''
-            authhash['extra']['user_hash']['id'] ? @authhash[:uid] =  authhash['extra']['user_hash']['id'].to_s : @authhash[:uid] = ''
+            authhash['uid'] ? @authhash[:uid] =  authhash['uid'].to_s : @authhash[:uid] = ''
             authhash['provider'] ? @authhash[:provider] =  authhash['provider'] : @authhash[:provider] = '' 
             authhash['info']['nickname'] ? @authhash[:username] =  authhash['info']['nickname'] : @authhash[:username] = '' 
         elsif ['google','twitter','linked_in','salesforce'].index(provider) != nil
