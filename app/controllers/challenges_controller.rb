@@ -2,6 +2,7 @@ require 'challenges'
 require 'time'
 require 'settings'
 require 'will_paginate/array'
+require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
@@ -34,16 +35,25 @@ class ChallengesController < ApplicationController
 
   def index  
     show_open = false
-    show_open = true unless params[:show].eql?('closed')
-    orderby = params[:orderby].nil? ? 'name' : params[:orderby]
-        
+    show_open = true unless params[:show].eql?('closed')    
+    @current_order_by = params[:orderby].nil? ? 'name' : params[:orderby]
+    @current_order_by_dir = params[:orderby_dir].nil? ? 'asc' : params[:orderby_dir]
+            
     if params[:keyword].nil?
-      @challenges = Challenges.get_challenges(current_access_token, show_open, orderby, params[:category])
+      @challenges = Challenges.get_challenges(current_access_token, show_open, @current_order_by+'+'+@current_order_by_dir, params[:category])
     else 
       @challenges = Challenges.get_challenges_by_keyword(current_access_token, params[:keyword])
     end
     @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) unless @challenges.nil?
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
+    
+    if @challenges.nil? || @challenges.size == 0
+      @challenges_found = false
+      flash.now[:warning] = 'No challenges found.'
+    else
+      @challenges_found = true     
+    end
+
   end
   
   def submission_file_upload
@@ -72,12 +82,16 @@ class ChallengesController < ApplicationController
   end  
   
   def submission_url_upload
-    submission_results = Challenges.save_submission(current_access_token, 
-      params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
-    if submission_results['Success'].eql?('true')
-      flash[:notice] = "URL successfully submitted for this challenge."
+    if uri?(params[:url_submission][:link])
+      submission_results = Challenges.save_submission(current_access_token, 
+        params[:url_submission][:participantId], params[:url_submission][:link], params[:url_submission][:comments], 'URL')
+      if submission_results['Success'].eql?('true')
+        flash[:notice] = "URL successfully submitted for this challenge."
+      else
+        flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
+      end
     else
-      flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
+      flash[:error] = "Please enter a valid URL."
     end
     redirect_to(:back)
   end  
@@ -85,9 +99,9 @@ class ChallengesController < ApplicationController
   def submission_url_delete
     submission_results = Challenges.delete_submission(current_access_token, params[:submissionId])
     if submission_results['Success'].eql?('true')
-      flash[:notice] = "URL successfully deleted."
+      flash[:notice] = "Successfully deleted."
     else
-      flash[:error] = "There was an error deleting your URL. Please try again."
+      flash[:error] = "There was an error deleting your URL or File. Please try again."
     end
     redirect_to(:back)
   end
@@ -124,15 +138,23 @@ class ChallengesController < ApplicationController
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
-  def new_comment
+  def new_comment    
+    # capture their comments so we can show them again if recaptcha error
+    session[:captcha_comments] = params[:discussion][:comments]
     if verify_recaptcha
-      post_results = Comments.save(current_access_token, current_user.username, params)
-      if post_results['Success'].eql?('true')
-        # send an email to all registered and watching members of the new comment post
-        Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
-          current_user.username, params[:discussion][:comments]) unless ENV['MAILER_ENABLED'].eql?('false')
-      else
-        flash[:error] = "There was an error posting your comments. Please try again."
+      if params[:discussion][:comments].length > 500
+        flash[:error] = "Comments cannot be longer than 500 characters. Please try again."        
+      else  
+        post_results = Comments.save(current_access_token, current_user.username, params)
+        if post_results['Success'].eql?('true')
+          # delete their comments in the session if it exists for a failed attempt
+          session.delete(:captcha_comments)
+          # send an email to all registered and watching members of the new comment post
+          Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
+            current_user.username, params[:discussion][:comments]) unless ENV['MAILER_ENABLED'].eql?('false')
+        else
+          flash[:error] = "There was an error posting your comments. Please try again."
+        end
       end
       redirect_to(:back)
       
@@ -198,6 +220,13 @@ class ChallengesController < ApplicationController
     def sanitize_filename(file_name)
         just_filename = File.basename(file_name)
         just_filename.sub(/[^\w\.\-]/,'_')
+    end
+    
+    def uri?(string)
+      uri = URI.parse(string)
+      %w( http https ).include?(uri.scheme)
+    rescue URI::BadURIError
+      false
     end
   
 end

@@ -19,10 +19,9 @@
             <div class="sort fl">
                 <ul>
                     <li>SORT BY</li>
-                    <li><a class="ddasc" href="/challenges?orderby=name">title</a></li>
-                    <li><a  href="#">type</a></li>
-                    <li><a href="/challenges?orderby=end_date__c">due</a></li>
-                    <li><a href="/challenges?orderby=start_date__c">start date</a></li>
+                    <li><%= current_link @current_order_by, @current_order_by_dir, :orderby, 'name', 'title', :show, :default => true %></li>
+                    <li><%= current_link @current_order_by, @current_order_by_dir,:orderby, 'end_date__c', 'due', :show %></li>
+                    <li><%= current_link @current_order_by, @current_order_by_dir,:orderby, 'start_date__c', 'start date', :show %></li>
                 </ul>
             </div>
             <!-- END Sort -->
@@ -30,8 +29,8 @@
             <div class="sort fl">
                 <ul>
                     <li>SHOW</li>
-                    <li><a href="/challenges?show=open" class="active">open</a></li>
-                    <li><a href="/challenges?show=closed">closed</a></li>
+                    <li><%= current_link '', '', :show, 'open', 'open', :orderby, :default => true %></li>
+                    <li><%= current_link '', '', :show, 'closed', 'closed', :orderby %></li>
                 </ul>
             </div>
             <!-- END Sort -->
@@ -39,7 +38,7 @@
             <div id="search">
                 <fieldset>
 					<form method="get" action="/challenges">
-                    <input type="text" class="field blink" title="search challenges" value="search challenges" name="keyword"/>
+                    <input type="text" class="field blink challenges-search" title="search challenges" value="<% if params[:keyword] %><%= params[:keyword] %><% else %>search challenges<% end %>" name="keyword"/>
                     <input type="submit" value="" class="submit notext" />
 					</form>
                 </fieldset>
@@ -52,10 +51,11 @@
             <!-- List Challenges -->
             <div class="list-challenges full-width-challenges">
                 <!-- Box -->
-                <%= flash_messages %>
                 <div>
-				<% if @challenges.nil? %>
-					<div style="text-align:center;padding:50px"><b> No challenges found! </b></div>
+				<% if !@challenges_found %>
+					<div style="text-align:center;padding:10px">
+						<%= flash_messages %>
+					</div>
 				<% else %>
 					<% @challenges.each do |record| %>
 		                <div class="box">
@@ -63,7 +63,7 @@
 		                        <div class="box-t">
 		                            <div class="col-left fl">
 		                                <h4><%= link_to "#{record["Name"]}", challenge_url(record['ID__c']) %></h4>
-		                                <p><%= truncate(record["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ') %></p>
+		                                <p><%= raw(truncate(record["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')) %></p>
 		                            </div>
 		                            <div class="col-right fr">
 		                                <p>
@@ -91,9 +91,9 @@
 	                        <%= will_paginate @challenges %>
 	                    </p>
 	                </div>
+	                <a href="contests.rss" class="get-rss fl">Get RSS for thisSet</a>
+	                <div class="cl">&nbsp;</div>
 				<% end %>
-                <a href="contests.rss" class="get-rss fl">Get RSS for thisSet</a>
-                <div class="cl">&nbsp;</div>
             </div>
         </div>
     </div>

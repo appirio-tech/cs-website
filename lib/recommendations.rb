@@ -11,7 +11,7 @@ class Recommendations < Cloudspokes
       }
     }
     
-    post(ENV['sfdc_rest_api_url']+'/recommendations', options)
+    post(ENV['SFDC_REST_API_URL']+'/recommendations', options)
   end
 
 end

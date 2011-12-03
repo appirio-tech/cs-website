@@ -58,7 +58,7 @@ class AccountsController < ApplicationController
       results = Members.update(current_access_token, @current_user.username, params["form_payment"])
       #check for errors!!
       if results["Success"].eql?('false')
-        flash[:error] = results["Message"]
+        flash.now[:error] = results["Message"]
       else
         flash.now[:notice] = "Your payment information has been updated."
       end
@@ -71,8 +71,6 @@ class AccountsController < ApplicationController
         @show_outstanding_section = true
       end
     end
-    p @show_paid_section
-    p @show_outstanding_section
     get_account
   end
 
@@ -83,9 +81,9 @@ class AccountsController < ApplicationController
       #check for errors!!
       if results["Success"].eql?('false')
         if results["Message"].index('Email__c duplicates').nil?
-          flash[:error] = results["Message"]
+          flash.now[:error] = results["Message"]
         else
-          flash[:error] = 'Duplicate email address found! The email address that you specified is already in use.'
+          flash.now[:error] = 'Duplicate email address found! The email address that you specified is already in use.'
         end
       else
         flash.now[:notice] = "Your account information has been updated."
@@ -108,6 +106,7 @@ class AccountsController < ApplicationController
   # School & Work info tab
   def public_profile
     if params["form_profile"]
+=begin      
       p '========== checking for profile pic upload'
       if !params["form_profile"]["Profile_Pic__c"].nil?
         p '====== uploading'
@@ -118,7 +117,8 @@ class AccountsController < ApplicationController
         Members.upload_profile_pic(img) 
       end
       p params
-      #Members.update(current_access_token, @current_user.username, params["form_profile"])
+=end      
+      Members.update(current_access_token, @current_user.username, params["form_profile"])
       flash.now[:notice] = "Your profile information has been updated."
     end
     # get the updated account
@@ -132,7 +132,7 @@ class AccountsController < ApplicationController
       if results['Success'].eql?('true')
         redirect_to password_reset_url, :notice => results["Message"]
       else 
-        flash[:notice] = results["Message"]
+        flash.now[:notice] = results["Message"]
       end
     end
     get_account
@@ -146,9 +146,9 @@ class AccountsController < ApplicationController
       #check to make sure their passwords match
       if params[:form_reset_password][:new_password].eql?(params[:form_reset_password][:new_password_again])
         results = Password.update(current_user.username, params[:form_reset_password][:passcode], params[:form_reset_password][:new_password])
-        flash[:notice] = results["Message"]
+        flash.now[:notice] = results["Message"]
       else
-        flash[:notice] = 'Please ensure that your passwords match.'
+        flash.now[:notice] = 'Please ensure that your passwords match.'
       end
     end
   end
@@ -161,7 +161,7 @@ class AccountsController < ApplicationController
  
     def require_login
       unless logged_in?
-        redirect_to login_url, :notice => 'You must be logged in to access this section'
+        redirect_to login_required_url, :notice => 'You must be logged in to access this section.'
       end
     end
  

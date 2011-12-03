@@ -15,11 +15,11 @@ class Utils
       
       config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
       client = Databasedotcom::Client.new(config)
-      Rails.logger.info "[Utils]==== logging into salesforce with #{ENV['sfdc_username']} and #{ENV['sfdc_password']}"
+      Rails.logger.info "[Utils]==== logging into salesforce with #{ENV['SFDC_USERNAME']} and #{ENV['SFDC_PASSWORD']}"
 
       # log into sfdc with their credentials to return their access token
       begin
-        access_token = client.authenticate :username => ENV['sfdc_username'], :password => ENV['sfdc_password']
+        access_token = client.authenticate :username => ENV['SFDC_USERNAME'], :password => ENV['SFDC_PASSWORD']
         # delete the existing token in the database
         s.destroy
         # add the new record
@@ -42,16 +42,5 @@ class Utils
     Rails.logger.info "[Utils]==== sending welcome email to #{params[:email]}"
     Resque.enqueue(WelcomeEmailSender, params[:email], params[:name], params[:subject], params[:content])    
   end
-  
-  def self.get_home_page(access_token, id)
-    
-    format :json
-    headers 'Content-Type' => 'application/json'
-    headers 'Authorization' => "OAuth #{access_token}"  
-    request_url  = ENV['sfdc_instance_url']+'/services/data/v20.0/sobjects/home_page__c/' + id + '?fields=Featured_Challenge__r.Id__c,Featured_Challenge__r.Name,Featured_Challenge__r.Top_Prize__c,Featured_Challenge__r.Description__c,Featured_Member__r.Name,Featured_Member__r.Profile_Pic__c,Featured_Member__r.Total_Wins__c,Featured_Member__r.Active_Challenges__c,Featured_Member__r.Total_Money__c,Open_Challenges__c,Won_Challenges__c,Money_Up_for_Grabs__c,Money_Pending__c,Entries_Submitted__c,Members__c'
-    page = get(request_url)
-  end
-  
-  
   
 end

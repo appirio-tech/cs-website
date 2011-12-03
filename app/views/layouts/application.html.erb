@@ -15,10 +15,12 @@
 $(document).ready(function(){
 	$(".fancy").fancybox({
 		 'width' : 650,
-		 'height' : 400,
+		 'height' : 450,
 		 'autoScale' : false,
 		 'hideOnOverlayClick' : true,
-		 'type' : 'iframe'
+		 'type' : 'iframe',
+		 'onStart': function() { $('.column iframe').css('visibility', 'hidden'); },
+		 'onClosed': function() { $('.column iframe').css('visibility', 'visible'); }
 	 });
 });
 </script>
@@ -32,7 +34,7 @@ $(document).ready(function(){
         <li><%= link_to "Challenges", "/challenges" %></li>
         <li><%= link_to "Badges", "/badges" %></li>
         <% if current_user.nil? %>
-			<li><%= link_to "Account", "/login", :class => "fancy" %></li>
+			<li><%= link_to "Account", "/login_popup", :class => "fancy" %></li>
 		<% else %>
 			<li><%= link_to "Account", "/account" %></li>
 		<% end %>
@@ -42,7 +44,7 @@ $(document).ready(function(){
         <li><%= link_to "Blog", "http://blog.cloudspokes.com/" %></li>
         <li><%= link_to "FAQ", "/faq" %></li>
         <% if current_user.nil? %>
-			<li><%= link_to "Login", "/login", :class => "fancy" %></li>
+			<li><%= link_to "Login", "/login_popup", :class => "fancy" %></li>
 		<% else %>
 			<li><%= link_to "Logout", "/logout" %></li>
 		<% end %>

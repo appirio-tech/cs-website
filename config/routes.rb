@@ -1,12 +1,13 @@
 CloudSpokes::Application.routes.draw do
-  
-  resources :users
 
   match '/signup',  :to => 'sessions#signup'
   match '/signup_complete', :to => 'sessions#signup_third_party_no_email'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
+  match '/signup_cs_create', :to => 'sessions#signup_cs_create'  
   match '/logout', :to => 'sessions#destroy'  
-  match '/login', :to => 'sessions#login'  
+  match '/login', :to => 'sessions#login' 
+  match '/login_popup', :to => 'sessions#login_popup'  
+  match '/login_required', :to => 'sessions#login_required'  
   match '/login_cs_auth',  :to => 'sessions#login_cs_auth'
   match "/reset_password"               => "sessions#public_reset_password"
   match "/reset_password_submit"        => "sessions#public_reset_password_submit"  

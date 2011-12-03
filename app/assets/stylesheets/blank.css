@@ -14,11 +14,14 @@ body {
 }
 #content {
 	float:left;
-	width:430px;
+	width:400px;
 }
 #sidebar {
 	float:left;
-	width:200px;
+	width:230px;
+}
+#sidebar input, #sidebar select, #sidebar textarea {
+  max-width:220px;
 }
 #footer {
 	padding-top: 25px;
@@ -59,4 +62,24 @@ body {
   text-align: center;
   margin-right: 15px;
   margin-bottom: 10px;
+}
+
+.notice, .warning, .error {
+  /*Wrap long lines*/
+  white-space: pre-wrap; /* CSS 2.1 */
+  word-wrap: break-word; /* IE */
+}
+
+.field_with_errors {
+  display: inline;
+}
+
+.field {
+  padding-bottom:5px;
+}
+
+.hint {
+  font-size: x-small;
+  padding-left: 5px;
+  color: #A9A9A9;
 }

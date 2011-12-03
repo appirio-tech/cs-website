@@ -18,10 +18,10 @@
             <!-- Search -->
             <div id="search">
                 <fieldset>
-					<%= form_for :search, :url => members_search_path do |f| %>
-					<input type="text" value="search members" onclick="this.value=''" title="search members" class="field blink" name="query">	
-                    <input type="submit" value="go" onclick="alert('clicked')" />
-					<% end %>
+					<form method="get" action="/members/search">
+                    <input type="text" class="field blink members-search" title="search members" value="search members" name="keyword"/>
+                    <input type="submit" value="" class="submit notext" />
+					</form>
                 </fieldset>
             </div>
             <!-- END Search -->
@@ -75,13 +75,13 @@
                 <h3>Top 10 Leaderboard</h3>
                 <!-- Filters -->
                 <div class="filters">
-                    <span>SHOW</span><span><%= link_to "month", members_path(:period => 'month') %></span>
-                    <span><span><%= link_to "year", members_path(:period => 'year') %></span>
-                    <span><span><%= link_to "all time", members_path(:period => 'all') %></span>
+                    <span>SHOW</span><span><%= link_to "month", members_path(:period => 'month'), :class => @selected['month'] %></span>
+                    <span><span><%= link_to "year", members_path(:period => 'year'), :class => @selected['year'] %></span>
+                    <span><span><%= link_to "all time", members_path(:period => 'all'), :class => @selected['all'] %></span>
                 </div>
                 <!-- END Filters -->
                 <!-- Leaders -->
-                
+                	<% if @leaderboard.size > 0 %>
                         <div class="leaders">
                             <ul style="padding: 0px">
                                 
@@ -110,6 +110,9 @@
       
                             </ul>
                         </div>
+					<% else %>
+						<p style="padding-top: 10px">No leaderboard results yet for this time month.</p>
+					<% end %>
                     
                 <!-- END Leaders -->
             </div>

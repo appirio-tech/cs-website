@@ -13,12 +13,12 @@ class Comments < Cloudspokes
       }
     }
     
-    results = post(ENV['sfdc_rest_api_url']+'/comments', options)
+    results = post(ENV['SFDC_REST_API_URL']+'/comments', options)
   end
   
   def self.find_by_challenge(access_token, id)
     set_header_token(access_token) 
-    comments = get(ENV['sfdc_rest_api_url']+'/comments/'+id)
+    comments = get(ENV['SFDC_REST_API_URL']+'/comments/'+id)
   end
 
 end

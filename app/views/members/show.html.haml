@@ -1,11 +1,11 @@
 .content-wrapper.two-cols-bg
   .widecolumn.fl
     .list-challenges
+      = flash_messages
       %h3= pluralize(@active_challenges.size, "active challenge")
       - @active_challenges[0..2].each do |active_challenge|
         = render "challenge", :challenge => active_challenge
 
-    = flash_messages
     .list-challenges
       - if @past_challenges.size > 0
         %a.fr{:href => "/members/#{@member["Name"]}/past_challenges"}

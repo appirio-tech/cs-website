@@ -1,21 +1,30 @@
-<div id="container">
-	<div id="header">
-		<img src="assets/cloudspokes-logo-hor.png" height="50">
-		<div id="header_right"><a href="/login">Existing User? Login here!</a></div>
-	</div>
-	<div id="content">
-		<h1>Use your existing account from...</h1>
+<div class="page-heading"><h2 class="melbourne">Signup</h2></div>
+
+<div style="margin:35px">
+	
+	<div style="float:left; width:575px">
+		<h1 style="padding-bottom:10px">Use your existing account from...</h1>
 		<a href="/auth/twitter" target="_parent" class="auth_provider"><%= image_tag "twitter_64.png", :size => "64x64", :alt => "Twitter" %></a>
 		<a href="/auth/github" target="_parent" class="auth_provider"><%= image_tag "github_64.png", :size => "64x64", :alt => "GitHub" %></a>
 		<a href="/auth/facebook" target="_parent" class="auth_provider"><%= image_tag "facebook_64.png", :size => "64x64", :alt => "Facebook" %></a>
 		
-		<p>Using an existing account is quick and easy. Select the account<br/>you would like to use and we'll do the rest for you.</p>
-		
+		<p style="padding-top:25px">Using an existing account is quick and easy. Select the account<br/>you would like to use and we'll do the rest for you.</p>
 	</div>
-	<div id="sidebar">
+
+	<div style="float:left;width:325px;">	
+
 		<p>Or create a new account with CloudSpokes:</p>
 		
-		<%= form_for(@user) do |f| %>
+		<%= flash_messages %>
+		<% if @signup_form.errors.any? %>
+			<div class="error" id="flash-error">
+		    <% @signup_form.errors.full_messages.each do |msg| %>  
+		      <li><%= msg %></li>  
+		    <% end %>
+			</div>
+		<% end %>
+		
+		<%= form_for @signup_form, :url => signup_cs_create_path do |f| %>
 		  <div class="field">
 		    <%= f.label :username %><br />
 		    <%= f.text_field :username %>
@@ -27,18 +36,24 @@
 		  <div class="field">
 		    <%= f.label :password %><br />
 		    <%= f.password_field :password %>
+			<div class="hint">8 characters with letters & numbers</div>
 		  </div>
 		  <div class="field">
-		    <%= f.label :password %><br />
+		    <%= f.label :password_confirmation %><br />
 		    <%= f.password_field :password_confirmation %>
 		  </div>
 		  <div class="actions">
-		    <%= f.submit "Sign up" %>
+		    <%= f.submit "Sign up", :class => 'formsubmit' %>
 		  </div>
 		<% end %>
 		
+		<p style="padding-top:25px;font-size: 8pt">By signing up, you state that you agree to the <a href="/tos" target="_blank">Terms & Conditions</a> of this website.</p>
+		
+		<div style="margin:25px"></div>
+				
 	</div>
-	<div id="footer">
-		<p>By signing in, you state that you agree to the <a href="/tos" target="_blank">Terms & Conditions</a> of this website.</p>
-	</div>
-</div>
+	
+	
+		
+</div>		
+
