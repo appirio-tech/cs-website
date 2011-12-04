@@ -30,6 +30,7 @@ class ApplicationController < ActionController::Base
           access_token = client.authenticate :username => sfdc_username, :password => current_user.password
           current_user.access_token = access_token
           current_user.save
+          logger.info "[ApplicationController]==== returning new access token from authentication"
           return current_user.access_token
 
         # seem to get this error for brand new users after they are created

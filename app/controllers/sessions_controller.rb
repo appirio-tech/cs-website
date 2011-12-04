@@ -157,7 +157,7 @@ class SessionsController < ApplicationController
         else
           # try and create the user in sfdc
           new_member_create_results = Services.new_member(current_access_token, as.get_hash)
-        
+          logger.info "[SessionsController]==== tried creating a user in sfdc: #{new_member_create_results}"
           if new_member_create_results[:success].eql?('true')
 
             user = User.new(:username => new_member_create_results[:username], 
@@ -166,10 +166,12 @@ class SessionsController < ApplicationController
           
             if user.save
               sign_in user
+              logger.info "[SessionsController]==== #{results[:sfdc_username]} created and signed in successfully. redirecting..."
               # send the 'welcome' email
               Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
               redirect_to session[:redirect_to_after_auth]
             else
+              logger.error "[SessionsController]==== error saving new #{results[:sfdc_username]} member to database: #{user.errors.full_messages} "
               render :inline => user.errors.full_messages
             end
         
