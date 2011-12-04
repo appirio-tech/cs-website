@@ -12,7 +12,6 @@ class SessionsController < ApplicationController
   
   # if any errors during login they will see this page
   def login
-    p '====== login called'
     # delete the session from their last login attempt
     session.delete(:authsession) unless session[:authsession].nil?
     @login_form = LoginForm.new

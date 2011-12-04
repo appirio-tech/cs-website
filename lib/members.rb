@@ -13,14 +13,15 @@ class Members < Cloudspokes
     get(ENV['SFDC_REST_API_URL']+"/members/#{esc username}?fields=#{esc fields.gsub(' ','').downcase}")
   end
   
-  def self.upload_profile_pic(pic)
+  def self.upload_profile_pic(url, pic)
     
     options = {
       :body => {
           :image => pic
       }
     }
-    results = post('http://csimage123.appspot.com/upload', options)
+    results = post(url, options)
+    p "====== posting image to: #{url}"
     p "====== post results: #{results}"
     
   end
