@@ -1,7 +1,7 @@
 CloudSpokes::Application.routes.draw do
 
   match '/signup',  :to => 'sessions#signup'
-  match '/signup_complete', :to => 'sessions#signup_third_party_no_email'  
+  match '/signup_complete', :to => 'sessions#signup_complete'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
   match '/signup_cs_create', :to => 'sessions#signup_cs_create'  
   match '/logout', :to => 'sessions#destroy'  

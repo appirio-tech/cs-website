@@ -20,11 +20,65 @@ class SessionsController < ApplicationController
   def signup
     @signup_form = SignupForm.new
   end
-    
-  # if the provider doesn't include an email, redirects them to this form
-  def signup_third_party_no_email
-    logger.info "[SessionsController]==== requesting manual email address for #{session[:authsession].get_hash[:provider]} signup"
+  
+  # this action if third party with no email or username from callback
+  def signup_complete
+    if params[:signup_complete_form]
+      @signup_complete_form = SignupCompleteForm.new(params[:signup_complete_form])
+      @username_read_only = session[:blank_username] ? false : true
+
+      if @signup_complete_form.valid?
+        # try and create the member in sfdc
+        new_member_create_results = Services.new_member(current_access_token, params[:signup_complete_form])
+        logger.info "[SessionsController]==== creating a new third party with a manual email address (#{@signup_complete_form.email}): #{new_member_create_results.to_yaml}"
+        
+        # if the user was created successfully in sfdc
+        if new_member_create_results[:success].eql?('true')
+          
+          user = User.new(:username => new_member_create_results[:username], :sfdc_username => new_member_create_results[:sfdc_username], 
+            :password => ENV['THIRD_PARTY_PASSWORD'])
+
+          if user.save
+            p "==== user saved successfully"
+            # delete the session that stored the field to display
+            session.delete(:blank_username) unless session[:blank_username].nil?
+            # sign the user in
+            sign_in user
+            p "==== signed userin"
+            # send the 'welcome' email
+            Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            p "==== redirecting user back"
+            redirect_to session[:redirect_to_after_auth]
+          else
+            logger.error "[SessionsController]==== error creating a new third party member after manually entering their email address. Could not save to database."
+            render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
+          end  
+          
+        # display the error to them in the flash
+        else  
+          p "======= error"
+          p new_member_create_results
+          flash.now[:error] = new_member_create_results[:message]
+        end
+      end
+    else
+      # first time through -- prepopulate the form from the session
+      @signup_complete_form = SignupCompleteForm.new(session[:authsession].get_hash)
+      logger.info "[SessionsController]==== requesting manual email address for #{session[:authsession].get_hash[:provider]} signup"
+      
+      if @signup_complete_form.username.blank?
+        session[:blank_username] = true
+        @username_read_only = false
+      else 
+        @username_read_only = true 
+      end
+
+      # delete the sessions so we don't get errors
+      session.delete(:authsession) unless session[:authsession].nil?
+    end
   end
+  
+  
   
   def signup_cs_create
     
@@ -73,40 +127,6 @@ class SessionsController < ApplicationController
     
   end
   
-  # once user enters email for provider, submits and CREATES a user & logs in
-  def signup_third_party_create
-    
-    # add the email to the session hash
-    session[:authsession].get_hash[:email] = params[:session][:email]
-    # try and create the user in sfdc
-    new_member_create_results = Services.new_member(current_access_token, session[:authsession].get_hash)
-    logger.info "[SessionsController]==== creating a new third party with a manual email address (#{params[:session][:email]}): #{new_member_create_results.to_yaml}"
-    
-    # if the user was created successfully in sfdc
-    if new_member_create_results[:success].eql?('true')
-      
-      user = User.new(:username => new_member_create_results[:username], :sfdc_username => new_member_create_results[:sfdc_username], 
-        :password => ENV['THIRD_PARTY_PASSWORD'])
-      
-      if user.save
-        # delete the session var that stored the auth variables
-        session.delete(:authsession)
-        # sign the user in
-        sign_in user
-        # send the 'welcome' email
-        Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
-        redirect_to session[:redirect_to_after_auth]
-      else
-        logger.error "[SessionsController]==== error creating a new third party member after manually entering their email address. could not save to database."
-        render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
-      end
-
-    else
-      flash[:error] = new_member_create_results[:message]
-      redirect_to signup_complete_url
-    end
-  end
-  
   def callback
         
     # pass on omniauth hash and provider to our auth module
@@ -127,8 +147,11 @@ class SessionsController < ApplicationController
       # if no user was returned, then create them
       if user_exists_results[:success].eql?('false')
       
-        # if the provider does not send us an email, redirect them
-        if ['twitter','github'].include?(params[:provider])
+        # if the provider does not send us an email or username, redirect them
+        if as.get_hash[:username].empty? || as.get_hash[:email].empty?
+          #session.delete(:blank_username) unless session[:blank_username].nil?
+          #as.get_hash[:username] = ''
+          #as.get_hash[:email] = 'jeff@jeffdouglas.com'
           session[:authsession] = as
           redirect_to signup_complete_url
         else
@@ -184,7 +207,6 @@ class SessionsController < ApplicationController
     
   # authenticate them against sfdc in with cloudspokes u/p
   def login_cs_auth
-    p '====== login_cs_auth called'
     @login_form = LoginForm.new(params[:login_form])
     if @login_form.valid?
       
