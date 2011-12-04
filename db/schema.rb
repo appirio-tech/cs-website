@@ -11,7 +11,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111104092021) do
+ActiveRecord::Schema.define(:version => 20111124022540) do
+
+  create_table "openid_associations", :force => true do |t|
+    t.datetime "issued_at"
+    t.integer  "lifetime"
+    t.string   "assoc_type"
+    t.text     "handle"
+    t.binary   "secret"
+    t.string   "target"
+    t.text     "server_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "openid_nonces", :force => true do |t|
+    t.integer  "timestamp"
+    t.string   "salt"
+    t.string   "target"
+    t.text     "server_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "settings", :force => true do |t|
     t.string   "access_token"

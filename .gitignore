@@ -1,6 +1,8 @@
 .bundle
+db/*.sqlite3
 log/*.log
 tmp/
 .sass-cache/
 .DS_Store
+.powenv
 config/initializers/development_settings.rb
