@@ -63,6 +63,9 @@ class Services
         Rails.logger.warn "[Services]==== could not create new user. sfdc replied: #{results["Message"]}" 
         return {:success => 'false', :message => results["Message"]}
       end
+      
+      # sleep for 3 seconds to give sfdc time to create the user before logging in
+      sleep(3)
 
     rescue
       Rails.logger.error "[Services]==== fatal error creating new user: #{results[0]['message']}" 
