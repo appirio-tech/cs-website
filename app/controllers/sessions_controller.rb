@@ -170,10 +170,10 @@ class SessionsController < ApplicationController
             if user.save
               sign_in user
               p "==== 172"
-              p "[SessionsController]==== #{results[:sfdc_username]} created and signed in successfully. redirecting..."
-              #logger.info "[SessionsController]==== #{results[:sfdc_username]} created and signed in successfully. redirecting..."
+              p "[SessionsController]==== #{new_member_create_results[:sfdc_username]} created and signed in successfully. redirecting..."
+              #logger.info "[SessionsController]==== #{new_member_create_results[:sfdc_username]} created and signed in successfully. redirecting..."
               # send the 'welcome' email
-              Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+              Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
               p "==== 177"
               redirect_to session[:redirect_to_after_auth]
             else
