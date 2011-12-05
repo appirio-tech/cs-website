@@ -22,7 +22,8 @@ class User < ActiveRecord::Base
       return user
     else
       # TODO pass the error back from login_results - 'message'
-      logger.error "[User]==== could not authenticate user in sfdc: #{login_results.to_yaml}"
+      p "[User]==== could not authenticate user in sfdc: #{login_results.to_yaml}"
+      #logger.error "[User]==== could not authenticate user in sfdc: #{login_results.to_yaml}"
       return nil
     end
   end
@@ -64,14 +65,16 @@ class User < ActiveRecord::Base
     config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
     client = Databasedotcom::Client.new(config)
     sfdc_username = username+'@'+ENV['SFDC_USERNAME_DOMAIN']
-    logger.info "[User]==== logging into salesforce with #{sfdc_username} and #{password}"
+    p "[User]==== logging into salesforce with #{sfdc_username} and #{password}"
+    #logger.info "[User]==== logging into salesforce with #{sfdc_username} and #{password}"
 
     # log into sfdc with their credentials to return their access token
     begin
       access_token = client.authenticate :username => sfdc_username, :password => password
       return {:success => 'true', :message => 'Successful sfdc login.', :access_token => access_token}
     rescue Exception => exc
-      logger.error "[User]==== using gem to authenticate to get access_token: #{exc.message}"
+      p "[User]==== using gem to authenticate to get access_token: #{exc.message}"
+      #logger.error "[User]==== using gem to authenticate to get access_token: #{exc.message}"
       return {:success => 'false', :message => exc.message}
     end
 

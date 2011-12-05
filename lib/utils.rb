@@ -11,11 +11,13 @@ class Utils
     # if the settings are older than an hour, fetch a new access token from sfdc
     if Time.now > 60.minutes.since(s.created_at.getlocal)
       
-      Rails.logger.info "[Utils]==== public_access_token has expired. fetching a new one." 
+      p "[Utils]==== public_access_token has expired. fetching a new one." 
+      #Rails.logger.info "[Utils]==== public_access_token has expired. fetching a new one." 
       
       config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
       client = Databasedotcom::Client.new(config)
-      Rails.logger.info "[Utils]==== logging into salesforce with #{ENV['SFDC_USERNAME']} and #{ENV['SFDC_PASSWORD']}"
+      p "[Utils]==== logging into salesforce with #{ENV['SFDC_USERNAME']} and #{ENV['SFDC_PASSWORD']}"
+      #Rails.logger.info "[Utils]==== logging into salesforce with #{ENV['SFDC_USERNAME']} and #{ENV['SFDC_PASSWORD']}"
 
       # log into sfdc with their credentials to return their access token
       begin
@@ -28,7 +30,8 @@ class Utils
         return s.access_token 
       rescue Exception => exc
         p exc.message
-        Rails.logger.error "[Utils]==== Utils could not authentiate with gem for access_token: #{exc.message}"
+        p "[Utils]==== Utils could not authentiate with gem for access_token: #{exc.message}"
+        #Rails.logger.error "[Utils]==== Utils could not authentiate with gem for access_token: #{exc.message}"
         return nil
       end
       

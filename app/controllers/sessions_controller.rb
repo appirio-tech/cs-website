@@ -132,15 +132,18 @@ class SessionsController < ApplicationController
     # pass on omniauth hash and provider to our auth module
     as = AuthSession.new(request.env['omniauth.auth'], params[:provider])
     
-    logger.info "[SessionsController]==== starting callback for #{params[:provider]} for #{as.get_hash[:username]}"
+    p "[SessionsController]==== starting callback for #{params[:provider]} for #{as.get_hash[:username]}"
+    #logger.info "[SessionsController]==== starting callback for #{params[:provider]} for #{as.get_hash[:username]}"
             
     # see if they exist as a member with these third party credentials
     user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], as.get_hash[:username])
-    logger.info "[SessionsController]==== does the user #{as.get_hash[:username]} exist: #{user_exists_results}"
+    p "[SessionsController]==== does the user #{as.get_hash[:username]} exist: #{user_exists_results}"
+    #logger.info "[SessionsController]==== does the user #{as.get_hash[:username]} exist: #{user_exists_results}"
     
     # bad session!!!
     if user_exists_results[:message].eql?('Session expired or invalid')
-      logger.error "[SessionsController]==== error starting a new session?: #{user_exists_results[:message].to_yaml}"
+      p "[SessionsController]==== error starting a new session?: #{user_exists_results[:message].to_yaml}"
+      #logger.error "[SessionsController]==== error starting a new session?: #{user_exists_results[:message].to_yaml}"
       render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
     else
     
@@ -157,7 +160,8 @@ class SessionsController < ApplicationController
         else
           # try and create the user in sfdc
           new_member_create_results = Services.new_member(current_access_token, as.get_hash)
-          logger.info "[SessionsController]==== tried creating a user in sfdc: #{new_member_create_results}"
+          p "[SessionsController]==== tried creating a user in sfdc: #{new_member_create_results}"
+          #logger.info "[SessionsController]==== tried creating a user in sfdc: #{new_member_create_results}"
           if new_member_create_results[:success].eql?('true')
 
             user = User.new(:username => new_member_create_results[:username], 
@@ -166,12 +170,14 @@ class SessionsController < ApplicationController
           
             if user.save
               sign_in user
-              logger.info "[SessionsController]==== #{results[:sfdc_username]} created and signed in successfully. redirecting..."
+              p "[SessionsController]==== #{results[:sfdc_username]} created and signed in successfully. redirecting..."
+              #logger.info "[SessionsController]==== #{results[:sfdc_username]} created and signed in successfully. redirecting..."
               # send the 'welcome' email
               Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
               redirect_to session[:redirect_to_after_auth]
             else
-              logger.error "[SessionsController]==== error saving new #{results[:sfdc_username]} member to database: #{user.errors.full_messages} "
+              p "[SessionsController]==== error saving new #{results[:sfdc_username]} member to database: #{user.errors.full_messages} "
+              #logger.error "[SessionsController]==== error saving new #{results[:sfdc_username]} member to database: #{user.errors.full_messages} "              
               render :inline => user.errors.full_messages
             end
         
