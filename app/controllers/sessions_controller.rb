@@ -163,6 +163,8 @@ class SessionsController < ApplicationController
           p "==== 163"
           if new_member_create_results[:success].eql?('true')
             p "====165"
+            # delete the user if they already exisrt
+            User.delete(User.find_by_username(new_member_create_results[:username]))
             user = User.new(:username => new_member_create_results[:username], 
               :sfdc_username => new_member_create_results[:sfdc_username], 
               :password => ENV['THIRD_PARTY_PASSWORD'])
@@ -177,6 +179,7 @@ class SessionsController < ApplicationController
               p "==== 177"
               redirect_to session[:redirect_to_after_auth]
             else
+              p "==== 180"
               p "[SessionsController]==== error saving new #{new_member_create_results[:sfdc_username]} member to database: #{user.errors.full_messages} "
               #logger.error "[SessionsController]==== error saving new #{new_member_create_results[:sfdc_username]} member to database: #{user.errors.full_messages} "              
               render :inline => user.errors.full_messages
