@@ -176,8 +176,8 @@ class SessionsController < ApplicationController
               Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
               redirect_to session[:redirect_to_after_auth]
             else
-              p "[SessionsController]==== error saving new #{results[:sfdc_username]} member to database: #{user.errors.full_messages} "
-              #logger.error "[SessionsController]==== error saving new #{results[:sfdc_username]} member to database: #{user.errors.full_messages} "              
+              p "[SessionsController]==== error saving new #{new_member_create_results[:sfdc_username]} member to database: #{user.errors.full_messages} "
+              #logger.error "[SessionsController]==== error saving new #{new_member_create_results[:sfdc_username]} member to database: #{user.errors.full_messages} "              
               render :inline => user.errors.full_messages
             end
         
