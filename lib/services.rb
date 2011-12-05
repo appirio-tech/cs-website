@@ -54,9 +54,9 @@ class Services
                 
     begin
       
-      # sleep for 3 seconds to give sfdc time to create the user before logging in
-      p "[Services]==== sleeping for 3 seconds"
-      sleep(3)
+      # sleep for 3 seconds to give sfdc time to provision the user before logging in
+      p "[Services]==== sleeping for 2 seconds"
+      sleep(2)
       
       Rails.logger.info "[Services]==== results from the create new user call: #{results}" 
       
