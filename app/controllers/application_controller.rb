@@ -39,8 +39,8 @@ class ApplicationController < ActionController::Base
         # if we get an error, just return the public_access_token. it will check again on the
         # next call to this method until it returns the access_token successfully
         rescue Exception => exc
-          p "[ApplicationController]==== error getting the access_token for the user. returning public_access_token. error: #{exc.message}"
-          #logger.warn "[ApplicationController]==== error getting the access_token for the user. returning public_access_token. error: #{exc.message}"
+          p "[ApplicationController]==== error getting the access_token for the user. returning public_access_token instead. sfdc returned error: #{exc.message}"
+          #logger.warn "[ApplicationController]==== error getting the access_token for the user. returning public_access_token instead. sfdc returned error: #{exc.message}"
           return Utils.public_access_token
         end
         
