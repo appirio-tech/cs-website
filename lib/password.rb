@@ -5,7 +5,6 @@ class Password < Cloudspokes
 
   # sends the reset email
   def self.reset(name)
-    p "===== making sfdc request to change password"
     request_url  = ENV['SFDC_REST_API_URL'] + "/password/reset?username=#{name}"
     post(request_url,:body => {})
   end

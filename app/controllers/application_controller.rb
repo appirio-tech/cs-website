@@ -23,24 +23,21 @@ class ApplicationController < ActionController::Base
         config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
         client = Databasedotcom::Client.new(config)
         sfdc_username = current_user.username+'@'+ENV['SFDC_USERNAME_DOMAIN']
-        p "[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}"
-        #logger.info "[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}"
+        logger.info "[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}"
         
         begin
 
           access_token = client.authenticate :username => sfdc_username, :password => current_user.password
           current_user.access_token = access_token
           current_user.save
-          p "[ApplicationController]==== returning new access token from authentication"
-          #logger.info "[ApplicationController]==== returning new access token from authentication"          
+          logger.info "[ApplicationController]==== returning new access token from authentication"
           return current_user.access_token
 
         # seem to get this error for brand new users after they are created
         # if we get an error, just return the public_access_token. it will check again on the
         # next call to this method until it returns the access_token successfully
         rescue Exception => exc
-          p "[ApplicationController]==== error getting the access_token for the user. returning public_access_token instead. sfdc returned error: #{exc.message}"
-          #logger.warn "[ApplicationController]==== error getting the access_token for the user. returning public_access_token instead. sfdc returned error: #{exc.message}"
+          logger.warn "[ApplicationController]==== error getting the access_token for the user. returning public_access_token instead. sfdc returned error: #{exc.message}"
           return Utils.public_access_token
         end
         
