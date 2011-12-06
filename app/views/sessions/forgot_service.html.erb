@@ -1,0 +1,39 @@
+<div class="page-heading"><h2 class="melbourne">Forgot Your Login Service?</h2></div>
+
+<div style="margin:35px">
+	
+	<div style="float:left;width:450px;padding-bottom:25px">
+		
+	<%= flash_messages %>
+
+	<p>Just enter your CloudSpokes username and we'll let you know what service you used to login with.</p>
+
+	<%= form_for :form_forgot_service, :url => "/forgot_service" do |f| %>
+	<div class="field">Username: <%= f.text_field :username %></div>
+	<div class="actions"><%= f.submit "Submit", :class => 'formsubmit' %></div>
+	<% end %>
+	
+	</div>
+	
+	<div style="float:left;width:50px">&nbsp;</div>
+	
+	<div style="float:left;width:350px;padding-bottom:25px">
+		<% if !@login_service.nil? %>
+			
+			<% if @login_service.eql?('CloudSpokes')%>
+				<p>CloudSpokes is managing your login. You can <%= link_to 'login with your credentials', login_path %> or <%= link_to 'request a password reset', forgot_password_path %>.</p>
+				
+				<%= image_tag "cloudspokes-logo-hor.png", :alt => 'CloudSpokes' %>
+				
+			<% else %>
+				<p>Your CloudSpokes login is managed by <%= @login_service %>. Click the icon below to login using your <%= @login_service %> account.</p>
+				<a href="/auth/<%= @login_service.downcase %>"><%= image_tag "#{@login_service.downcase}_128.png", :size => "128x128", :alt => @login_service %></a>
+			<% end %>	
+
+		<% end %>
+	</div>
+	
+	
+	
+</div>		
+		

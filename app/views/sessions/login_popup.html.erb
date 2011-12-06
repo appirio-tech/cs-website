@@ -14,6 +14,8 @@
 	    <a href="/auth/linked_in" target="_parent" class="auth_provider"><%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
 	    <a href="/auth/salesforce" target="_parent" class="auth_provider"><%= image_tag "salesforce_64.png", :size => "64x64", :alt => "Force.com" %></a>
 	    <a href="/auth/openid" target="_parent" class="auth_provider"><%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %></a>
+
+		<p style="padding-top:25px">Can't remember which service you use to login with? <%= link_to 'We can help', forgot_service_path %>.</p>
   </div>
 	<div id="sidebar">
 		<p>Have a CloudSpokes username<br/> and password?</p>
@@ -34,8 +36,5 @@
 
 		<p><%= link_to 'Forgot Password?', forgot_password_path, :target => '_parent' %></p>
 		
-	</div>
-	<div id="footer">
-		<p>By logging in, you state that you agree to the <%= link_to 'Terms & Conditions', tos_path, :target => '_blank' %> of this website.</p>
 	</div>
 </div>

@@ -227,6 +227,21 @@ class SessionsController < ApplicationController
     
   end
   
+  def forgot_service
+    if params[:form_forgot_service]
+      if !params[:form_forgot_service][:username].empty?
+        account = Members.find_by_username(current_access_token, params[:form_forgot_service][:username], 'Login_Managed_By__c')[0]
+        if account.nil?
+          flash.now[:error] = "Could not find a member with the CloudSpokes username '#{params[:form_forgot_service][:username]}'"
+        else
+          @login_service = "#{account["Login_Managed_By__c"]}"
+        end
+      else
+        flash.now[:error] = 'Please enter a CloudSpokes username.'
+      end
+    end
+  end
+  
   # Send a passcode by mail for password reset
   def public_forgot_password
   end

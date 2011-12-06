@@ -13,6 +13,7 @@ CloudSpokes::Application.routes.draw do
   match "/reset_password_submit"        => "sessions#public_reset_password_submit"  
   match "/forgot_password"              => "sessions#public_forgot_password"
   match "/forgot_password_send"         => "sessions#public_forgot_password_send"
+  match "/forgot_service"               => "sessions#forgot_service"
   resources :sessions
   
   match "/members/order_by_name"        => "members#index", :defaults => { :order_by => 'name' }

@@ -11,6 +11,8 @@
 	    <a href="/auth/linked_in" class="auth_provider"><%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
 	    <a href="/auth/salesforce" class="auth_provider"><%= image_tag "salesforce_64.png", :size => "64x64", :alt => "Force.com" %></a>
 	    <a href="/auth/openid" class="auth_provider"><%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %></a>
+	
+		<p style="padding-top:25px">Can't remember which service you use to login with? <%= link_to 'We can help', forgot_service_path %>.</p>
   </div>
 	
 	<div style="float:left;width:350px;">
