@@ -15,7 +15,7 @@
 	    <a href="/auth/salesforce" target="_parent" class="auth_provider"><%= image_tag "salesforce_64.png", :size => "64x64", :alt => "Force.com" %></a>
 	    <a href="/auth/openid" target="_parent" class="auth_provider"><%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %></a>
 
-		<p style="padding-top:25px">Can't remember which service you use to login with? <%= link_to 'We can help', forgot_service_path %>.</p>
+		<p style="padding-top:25px">Can't remember which service you use to login with? <%= link_to 'We can help', forgot_service_path, :target => '_parent' %>.</p>
   </div>
 	<div id="sidebar">
 		<p>Have a CloudSpokes username<br/> and password?</p>
