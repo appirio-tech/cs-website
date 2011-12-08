@@ -1,8 +1,10 @@
-OmniAuth.config.full_host = ENV['OMNIAUTH_FULL_HOST'] 
+OmniAuth.config.full_host = ENV['OMNIAUTH_FULL_HOST']
 
 sfdc_setup = lambda do |env|
-  env['omniauth.strategy'].options[:client_options][:site] = 'https://test.salesforce.com' if ENV['SANDBOX']
+  env['omniauth.strategy'].options[:client_options][:site] = 'https://test.salesforce.com' if ENV['SFDC_INSTANCE_URL'].eql?('https://cs10.salesforce.com')
 end
+
+OmniAuth.config.on_failure{|env| raise env['omniauth.error'] if env['omniauth.error'] }
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   require 'openid/store/filesystem'

@@ -54,6 +54,9 @@ class Services
                 
     begin
       
+      # sleep for 2 seconds to give sfdc time to provision the user before logging in
+      sleep(2)
+      
       Rails.logger.info "[Services]==== results from the create new user call: #{results}" 
       
       if results['Success'].eql?('true')
@@ -103,7 +106,6 @@ class Services
   def self.activate_user(access_token, username)  
     set_header_token(access_token)
     results = get(ENV['SFDC_REST_API_URL']+'/activate/'+username)
-    p "========== results #{results}"
     Rails.logger.error "[Services]==== activating user #{username}: #{results['Message']}"     
   end
   

@@ -106,19 +106,13 @@ class AccountsController < ApplicationController
   # School & Work info tab
   def public_profile
     if params["form_profile"]
-=begin      
-      p '========== checking for profile pic upload'
       if !params["form_profile"]["Profile_Pic__c"].nil?
-        p '====== uploading'
         img = params["form_profile"]["Profile_Pic__c"]
         img.rewind
         img.read
-        p img
-        Members.upload_profile_pic(img) 
+        Members.upload_profile_pic(params['postUrl'], img) 
       end
-      p params
-=end      
-      Members.update(current_access_token, @current_user.username, params["form_profile"])
+      #Members.update(current_access_token, @current_user.username, params["form_profile"])
       flash.now[:notice] = "Your profile information has been updated."
     end
     # get the updated account
@@ -142,13 +136,19 @@ class AccountsController < ApplicationController
   end
   
   def password_reset
-    if params[:form_reset_password]
-      #check to make sure their passwords match
-      if params[:form_reset_password][:new_password].eql?(params[:form_reset_password][:new_password_again])
-        results = Password.update(current_user.username, params[:form_reset_password][:passcode], params[:form_reset_password][:new_password])
-        flash.now[:notice] = results["Message"]
+    @reset_form = ResetPasswordAccountForm.new
+    if params[:reset_password_account_form]
+      @reset_form = ResetPasswordAccountForm.new(params[:reset_password_account_form])
+      if @reset_form.valid?
+        results = Password.update(current_user.username, params[:reset_password_account_form][:passcode], 
+          params[:reset_password_account_form][:password])
+        if results["Success"].eql?('false')
+          flash.now[:error] = results["Message"]
+        else
+          flash.now[:notice] = results["Message"]
+        end
       else
-        flash.now[:notice] = 'Please ensure that your passwords match.'
+        # display the validation messages
       end
     end
   end

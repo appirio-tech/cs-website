@@ -6,8 +6,10 @@ class NewChallengeCommentSender
       
     # fetch the challenge to get all of the participants
     challenge = Challenges.find_by_id(access_token, id)[0]
+    # fetch the member so we can user the profile pic
+    member = Members.find_by_username(access_token, username, 'id,profile_pic__c').first
     # create the actual email
-    mail = MemberMailer.new_challenge_comment(id, challenge["Name"], username, comments)
+    mail = MemberMailer.new_challenge_comment(id, challenge["Name"], username, member['Profile_Pic__c'], comments)
     # create an array to hold all of the addresses
     addresses = Array.new
     # add the owner of the challenge

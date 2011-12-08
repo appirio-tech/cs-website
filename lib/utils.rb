@@ -27,7 +27,6 @@ class Utils
         s.save
         return s.access_token 
       rescue Exception => exc
-        p exc.message
         Rails.logger.error "[Utils]==== Utils could not authentiate with gem for access_token: #{exc.message}"
         return nil
       end

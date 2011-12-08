@@ -1,3 +1,14 @@
+<script type="text/javascript">
+	$(function(){
+		$.getJSON("http://csimage123.appspot.com/getuploadurl.jsp", null, function (result) {
+			//alert(result.url);
+			$('#posturl').val(result.url);
+		}).error(function(response) {
+			showErrorMessage("Failed to update upload URL, refresh your browser");
+		});
+	});
+</script>
+
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
 		<div class="sidebar fl">
@@ -15,6 +26,8 @@
 
 			<div id="profile">
 				<%= form_for "/account/public_profile", :name => "form_profile", :method => "post", :html => { :multipart => true } do |f| %>
+				<!-- this is the app engine url we are posting to -->
+				<input type="hidden" name="postUrl" id="posturl">
 				
 				<label>Photo:</label>
 				<div class="holder">

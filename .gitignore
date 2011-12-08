@@ -6,3 +6,4 @@ tmp/
 .DS_Store
 .powenv
 config/initializers/development_settings.rb
+db/development.sqlite3

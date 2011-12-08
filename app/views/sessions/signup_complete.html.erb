@@ -1,0 +1,47 @@
+<div class="page-heading"><h2 class="melbourne">Complete the Signup Process</h2></div>
+
+<div style="margin:5px">
+	
+	<div style="float:left; width:150px;padding-left:25px;padding-bottom:100px;padding-top:25px">
+		<img src="assets/<%= @signup_complete_form.provider %>_128.png">
+	</div>
+	
+	<div style="float:left;width:500px;;padding-top:25px">
+
+		<p>Unfortunately <b><%= @signup_complete_form.provider %></b> doesn't provide us with all of your information during the signup process. Please enter your info to complete the signup process and create your account.</p>
+		
+		<%= flash_messages %>
+		<% if @signup_complete_form.errors.any? %>
+			<div class="error" id="flash-error" style="margin-top:0px">
+		    <% @signup_complete_form.errors.full_messages.each do |msg| %>  
+		      <li><%= msg %></li>  
+		    <% end %>
+			</div>
+		<% end %>
+		
+		<div id="profile">
+			<%= form_for @signup_complete_form, :url => signup_complete_path do |f| %>
+			<%= f.hidden_field :uid %>
+			<%= f.hidden_field :provider %>
+			
+			<label style="width:100px">Name:</label>
+			<%= f.text_field :name, :class => 'display' %>
+			<div class="spacer" style="width: 500px"></div>
+		
+			<label style="width:100px">Username:</label>
+			<%= f.text_field :username, :class => 'display', :readonly => @username_read_only %>
+			<div class="spacer" style="width: 500px"></div>
+		
+			<label style="width:100px">Email:</label>
+			<%= f.text_field :email, :class => 'display'  %>
+			<div class="spacer" style="width: 500px"></div>
+		
+			<div id="button-container" style="padding-left:5px;margin-bottom:100px">
+				<a class="button" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+			</div>
+			<% end %>
+		</div>
+
+	</div>
+
+<div>

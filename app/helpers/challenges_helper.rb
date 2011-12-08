@@ -10,7 +10,6 @@ module ChallengesHelper
   #                as for the down arrow
   # 
   def current_link(selected, selected_order, name, value, text, other_params, opts = {})
-    p "========== selected:#{selected} - selected_order:#{selected_order} - name:#{name} - value:#{value} - text:#{text} - other_params:#{other_params} - opts:#{opts}"
     cls = ""
     if params[name] == value 
       cls = "active"

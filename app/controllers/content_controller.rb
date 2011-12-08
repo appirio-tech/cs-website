@@ -7,7 +7,6 @@ class ContentController < ApplicationController
   def home
     
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'home')
-    p "==== #{@page}"
     
     @featured_member_username = @page['featured_member_username']
     @featured_member_pic = @page['featured_member_pic']

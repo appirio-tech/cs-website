@@ -11,13 +11,17 @@
 	</tr>
 	</table>
     <p>
-		A new comment has been posted by <a href="http://<%= ENV['OMNIAUTH_FULL_HOST'] %>/members/<%= @username %>"><%= @username %></a> for this challenge that you are either registered for or watching:
+		A new comment has been posted by <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/members/<%= @username %>"><%= @username %></a> for this challenge that you are either registered for or watching:
     </p>
-	<blockquote>
-		<em>"<%= @comments %>"</em>
-	</blockquote>
+	<table cellpadding="5" cellspacing="5">
+	<tr>
+		<td>&nbsp;</td>
+		<td><img src="<%= @profile_pic %>" width="75"></a></td>
+		<td><em>"<%= @comments %>"</em></td>
+	</tr>	
+	</table>
 	<p><br/>
-		You can <a href="http://<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">reply to this comment</a> or <a href="http://<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
+		You can <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">reply to this comment</a> or <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
 	</p>
 	
 	<p><br>Regards,<br/>The CloudSpokes Team<br/><em>...where the rubber meets the code!</em></p>
