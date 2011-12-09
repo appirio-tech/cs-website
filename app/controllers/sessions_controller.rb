@@ -79,7 +79,7 @@ class SessionsController < ApplicationController
             
     # see if they exist as a member with these third party credentials
     user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], thirdparty_username(as.get_hash))
-    logger.info "[SessionsController]==== does the user #{as.get_hash[:username]} exist: #{user_exists_results}"
+    logger.info "[SessionsController]==== does the user #{thirdparty_username(as.get_hash)} for #{as.get_hash[:provider]} exist: #{user_exists_results}"
     
     # bad session!!!
     if user_exists_results[:message].eql?('Session expired or invalid')
@@ -97,9 +97,9 @@ class SessionsController < ApplicationController
         Services.activate_user(current_access_token, as.get_hash[:username])
         
         # log them in
-        user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],as.get_hash[:username])
+        user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],thirdparty_username(as.get_hash))
         if user.nil?
-          logger.error "[SessionsController]==== error logging in user: #{as.get_hash[:username]} with #{as.get_hash[:provider]}."
+          logger.error "[SessionsController]==== error logging in user: #{thirdparty_username(as.get_hash)} with #{as.get_hash[:provider]}."
           flash[:error] = "Sorry... we were not able to log you in. Something really bad happened."
         else
           sign_in user
