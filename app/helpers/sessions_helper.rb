@@ -1,4 +1,12 @@
 module SessionsHelper
+  
+  def thirdparty_username(as.get_hash)
+    if ['github','twitter'].include?(as.get_hash[:provider]) 
+      as.get_hash[:username]
+    else
+      as.get_hash[:email]
+    end
+  end
     
   def sign_in(user)
     cookies.permanent.signed[:remember_token] = [user.id]

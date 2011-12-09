@@ -78,7 +78,7 @@ class SessionsController < ApplicationController
     logger.info "[SessionsController]==== starting callback for #{params[:provider]} for #{as.get_hash[:username]}"
             
     # see if they exist as a member with these third party credentials
-    user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], as.get_hash[:username])
+    user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], thirdparty_username(as.get_hash))
     logger.info "[SessionsController]==== does the user #{as.get_hash[:username]} exist: #{user_exists_results}"
     
     # bad session!!!
