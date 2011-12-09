@@ -10,7 +10,7 @@
 	    <a href="/auth/openid?openid_url=https://www.google.com/accounts/o8/id" class="auth_provider"><%= image_tag "google_64.png", :size => "64x64", :alt => "Google" %></a>
 	    <a href="/auth/linked_in" class="auth_provider"><%= image_tag "linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
 	    <a href="/auth/salesforce" class="auth_provider"><%= image_tag "salesforce_64.png", :size => "64x64", :alt => "Force.com" %></a>
-	    <a href="/auth/openid" class="auth_provider"><%= image_tag "openid_64.png", :size => "64x64", :alt => "OpenID" %></a>
+	    <a href="/auth/openid" class="auth_provider"><%= image_tag "open_id_64.png", :size => "64x64", :alt => "OpenID" %></a>
 		
 		<p style="padding-top:25px">Using an existing account is quick and easy. Select the account<br/>you would like to use and we'll do the rest for you.</p>
 	</div>
@@ -46,12 +46,13 @@
 		    <%= f.label :password_confirmation %><br />
 		    <%= f.password_field :password_confirmation %>
 		  </div>
+			<div style="padding-bottom:5px">
+			<%= f.check_box(:terms_of_service) %> I agree to the <%= link_to 'terms of service', tos_path, :target => '_blank' %>.*
+			</div>
 		  <div class="actions">
 		    <%= f.submit "Sign up", :class => 'formsubmit' %>
 		  </div>
 		<% end %>
-		
-		<p style="padding-top:25px;font-size: 8pt">By signing up, you state that you agree to the <a href="/tos" target="_blank">Terms & Conditions</a> of this website.</p>
 		
 		<div style="margin:25px"></div>
 				

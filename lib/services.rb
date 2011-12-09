@@ -15,13 +15,19 @@ class Services
           
     if params.has_key?(:provider)
       
-      # split up the name into a first and last
-      names = params[:name].split
-      first_name = names[0]
-      if names.length > 1
-        last_name = names[1]
+      # if the name if blank
+      if params[:name].empty?
+        first_name = params[:username]
+        last_name = params[:username]
       else
-        last_name = first_name
+        # split up the name into a first and last
+        names = params[:name].split
+        first_name = names[0]
+        if names.length > 1
+          last_name = names[1]
+        else
+          last_name = first_name
+        end
       end
       
       options = {
@@ -31,7 +37,7 @@ class Services
             :first_name__c => first_name,
             :last_name__c => last_name,
             :third_party_account__c => params[:provider],
-            :third_party_username__c => params[:username],
+            :third_party_username__c => params[:provider_username],
         }
       }
             
