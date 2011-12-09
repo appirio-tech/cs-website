@@ -1,10 +1,10 @@
 module SessionsHelper
   
-  def thirdparty_username(as.get_hash)
-    if ['github','twitter'].include?(as.get_hash[:provider]) 
-      as.get_hash[:username]
+  def thirdparty_username(auth)
+    if ['github','twitter'].include?(auth[:provider]) 
+      auth[:username]
     else
-      as.get_hash[:email]
+      auth[:email]
     end
   end
     
