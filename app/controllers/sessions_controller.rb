@@ -41,11 +41,17 @@ class SessionsController < ApplicationController
           if user.save
             # delete the session that stored the field to display
             session.delete(:blank_username) unless session[:blank_username].nil?
+            # delete the user if they already exisrt
+            User.delete(User.find_by_username(new_member_create_results[:username]))
             # sign the user in
             sign_in user
             # send the 'welcome' email
             Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
-            redirect_to session[:redirect_to_after_auth]
+            if session[:redirect_to_after_auth].nil?
+              redirect_to challenges_path
+            else
+              redirect_to session[:redirect_to_after_auth] 
+            end
           else
             logger.error "[SessionsController]==== error creating a new third party member after manually entering their email address. Could not save to database."
             render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
