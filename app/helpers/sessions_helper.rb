@@ -1,9 +1,13 @@
 module SessionsHelper
   
   def thirdparty_username(auth)
+    p "==== #{auth}"
+    p "==== #{auth[:provider]}"
     if ['github','twitter'].include?(auth[:provider]) 
+      p "==== #{auth[:username]}"
       auth[:username]
     else
+      p "==== #{auth[:email]}"
       auth[:email]
     end
   end
