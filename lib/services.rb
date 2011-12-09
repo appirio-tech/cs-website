@@ -94,12 +94,12 @@ class Services
       if results['Success'].eql?('true')
         return {:success => 'true', :username => results["Username"], :sfdc_username => results["SFusername"]}
       else
-        Rails.logger.error "[Services]==== error getting sfdc username: #{results["Message"]}" 
+        Rails.logger.error "[Services]==== error getting sfdc username for '#{third_party_service}' and '#{third_party_username}': #{results["Message"]}" 
         return {:success => 'false', :message => results["Message"]}
       end
     # something bad.. probably expired token
     rescue Exception => exc
-      Rails.logger.error "[Services]==== fatal error getting sfdc username: #{results[0]['message']}" 
+      Rails.logger.error "[Services]==== fatal error getting sfdc username for '#{third_party_service}' and '#{third_party_username}': #{results[0]['message']}" 
       return {:success => 'false', :message => results[0]['message']}
     end
     
