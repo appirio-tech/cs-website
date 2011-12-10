@@ -90,10 +90,11 @@ class SessionsController < ApplicationController
       # if no user was returned, send them to the signup page
       if user_exists_results[:success].eql?('false')      
         session[:auth] = {:email => as.get_hash[:email], :name => as.get_hash[:name], :username => as.get_hash[:username], :provider => as.get_hash[:provider]}
-        redirect_to signup_complete_url   
+        redirect_to signup_complete_url 
+          
       # user already exists. log them in
       else
-        # make sure their user in sfdc is active
+        # make sure their user in sfdc is active ---- THIS MAY NOT BE THE CORRECT USERNAME???
         Services.activate_user(current_access_token, as.get_hash[:username])
         
         # log them in
@@ -103,7 +104,11 @@ class SessionsController < ApplicationController
           flash[:error] = "Sorry... we were not able to log you in. Something really bad happened."
         else
           sign_in user
-          redirect_to session[:redirect_to_after_auth]
+          if session[:redirect_to_after_auth].nil?
+            redirect_to challenges_path
+          else
+            redirect_to session[:redirect_to_after_auth] 
+          end
         end
       end
       
