@@ -11,7 +11,7 @@ class Cloudspokes
   include HTTParty 
   format :json
 
-  AvailableObjects = ["challenges","members","recommendations","participants","faqs","webpages","payments","categories"]
+  AvailableObjects = ["challenges","members","recommendations","participants","faqs","webpages","payments","categories","terms_of_service"]
   SFDC_URL         = ENV['SFDC_INSTANCE_URL']+'/services/data/v20.0/sobjects/'
 
   headers 'Content-Type' => 'application/json'
@@ -50,6 +50,7 @@ class Cloudspokes
     set_header_token(access_token)    
     if AvailableObjects.include?(self.to_s.downcase)
       request_url  = SFDC_URL + self.to_s.singularize.capitalize + "__c/" + id
+      p "==== request_url: #{request_url}"
       get(request_url)
     end
   end

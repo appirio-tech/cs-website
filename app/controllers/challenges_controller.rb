@@ -10,14 +10,15 @@ class ChallengesController < ApplicationController
   # TODO - rework this section. move into the challenge module
   def register
     @challenge_detail = current_challenge
-    #see if we need to show them tos different than standard ones
-    if @challenge_detail["Terms__c"].eql?('Standard Terms & Conditions')
+    #see if we need to show them tos different than the default standard ones
+    if @challenge_detail['Terms_of_Service__r']['Default_TOS__c'].eql?(true)
       Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
       redirect_to(:back)
     # challenge has it's own terms. show and make them register
     else
+      # @challenge_detail['Terms_of_Service__r']['Id']
       @participation_status = signed_in? ? challenge_participation_status : nil
-      @terms = Term.find_by_name(@challenge_detail["Terms__c"])
+      @terms = Terms_of_Service.find(current_access_token, @challenge_detail['Terms_of_Service__r']['Id'])
     end
   end
   
@@ -115,7 +116,7 @@ class ChallengesController < ApplicationController
   end
   
   def show
-    @challenge_detail = current_challenge
+    @challenge_detail = current_challenge 
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
