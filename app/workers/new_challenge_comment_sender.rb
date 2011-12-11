@@ -12,11 +12,9 @@ class NewChallengeCommentSender
     mail = MemberMailer.new_challenge_comment(id, challenge["Name"], username, member['Profile_Pic__c'], comments)
     # create an array to hold all of the addresses
     addresses = Array.new
-    # add the owner of the challenge
-    addresses.push(challenge["Owner"]["Email"])
-    # add everyone that is registered or watching
-    challenge["Challenge_Participants__r"]["records"].each do |record|
-      addresses.push(record["Member__r"]["Email__c"])
+    notifiers = Comments.notifiers(current_access_token, id)
+    notifiers.each do |email|
+      addresses.push(email)
     end
 
     addresses.each { |to_address| 

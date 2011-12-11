@@ -8,6 +8,7 @@ class AccountsController < ApplicationController
   
   def outstanding_reviews
     @challenges = Scoring.outstanding_scorecards(current_access_token)
+    p "==== #{@challenges}"
   end
   
   def scorecard
