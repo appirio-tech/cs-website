@@ -55,20 +55,12 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
-  # tests
-  get "test/index"
-  get "test/service_sfdc_username"
-  get "test/service_new_member_cloudsppokes"
-  get "test/get_current_access_token"
-  get "test/auth_cloudspokes"
-  get "test/auth_thirdparty"
-  get "test/display_users"
-  get "test/display_settings"
-  get "test/dump_env"
-  get "test/s3"
-  get "test/send_mail"
-  get "test/profile_pic"
-  post "test/profile_pic"  
+  match '/admin',  :to => 'admin#index'
+  get "admin/index"
+  get "admin/display_users"
+  get "admin/display_settings"
+  get "admin/send_mail"
+  get "admin/refresh_token"
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  
