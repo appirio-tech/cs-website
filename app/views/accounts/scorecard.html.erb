@@ -5,6 +5,7 @@
  }
  .question_group h3 {
      color: #456078;
+	 padding-top: 25px;
  }
  .question_group .head_outer {
      background: #456078;
@@ -60,9 +61,11 @@
      color: #456078;
      padding: 5px;
      height:100%;
+	padding-top: 10px;
  }
  .question .has_weight {
      margin-left: 60px;
+	 padding-top: 10px;
  }
  .question .question_description  {
      padding-right: 7px;
@@ -71,6 +74,7 @@
  .q_numeric .question_answer {
      float: right;
      width: 40%;
+	 padding-top: 10px;
  }
  .q_text .question_answer {
      float: right;
@@ -90,6 +94,11 @@
  .button {
      cursor: pointer;
      margin: 10px;
+ }
+ .scorecard {
+    color: #666666;
+    font-size: 14px;
+    padding: 6px 5px;
  }
  .button, .button span {
      float: left;
@@ -266,9 +275,12 @@
 var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfully\',\'id\': \'a0OU00000000KvhMAE\',\'name\': \'QSS-000590\',\'scored__c\': \'false\'}":  <%= @json %>}';
 </script>
 
+<div class="page-heading"><h2 class="melbourne">Scorecard</h2></div>
+<div style="margin:25px">
+
 <% if @scored %><h1>This scorecard has been scored and is not updateable.</h1><% end %>
 <div id="scorecard"></div>
-<form id="scorecard_form" action="<%= ENV['OMNIAUTH_FULL_HOST'] %>/account/scorecard_save" method="post">
+<form id="scorecard_form" action="<%= scorecard_save_path %>" method="post">
 <input type="hidden" name="set_as_scored" id="hidden_scored" value="">
 <input type="hidden" name="xml" id="hiddenxml" value="">
 <% if !@scored %><a class="button" onClick="doSubmit('false')"><span>Save for Later</span></a><% end %>

@@ -8,7 +8,6 @@ class AccountsController < ApplicationController
   
   def outstanding_reviews
     @challenges = Scoring.outstanding_scorecards(current_access_token)
-    p "==== #{@challenges}"
   end
   
   def scorecard
@@ -24,7 +23,7 @@ class AccountsController < ApplicationController
   def scorecard_save
     save_results = Scoring.save_scorecard(current_access_token, params[:xml],params[:set_as_scored])
     if save_results[:success].eql?('true')
-      redirect_to '/account/outstanding_reviews'
+      redirect_to outstanding_reviews_path
     else
       flash[:error] = save_results[:message]
       redirect_to(:back)
