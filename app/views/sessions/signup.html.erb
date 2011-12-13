@@ -31,7 +31,7 @@
 		<%= form_for @signup_form, :url => signup_cs_create_path do |f| %>
 		  <div class="field">
 		    <%= f.label :username %><br />
-		    <%= f.text_field :username %>
+		    <%= f.text_field :username, :maxlength => 25 %>
 		  </div>
 		  <div class="field">
 		    <%= f.label :email %><br />
