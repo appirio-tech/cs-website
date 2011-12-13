@@ -46,7 +46,7 @@ class SessionsController < ApplicationController
       
         # success!!
         if @user.save
-          logger.info "[SessionsController]==== successfully created cloudspokes user: #{@user}"
+          logger.info "[SessionsController]==== successfully created cloudspokes user: #{params[:signup_form][:username]}"
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
@@ -92,7 +92,7 @@ class SessionsController < ApplicationController
       # if no user was returned, send them to the signup page
       if user_exists_results[:success].eql?('false')      
         session[:auth] = {:email => as.get_hash[:email], :name => as.get_hash[:name], :username => as.get_hash[:username], :provider => as.get_hash[:provider]}
-        redirect_to signup_complete_url 
+        redirect_to signup_complete_path 
           
       # user already exists. log them in
       else
@@ -179,7 +179,7 @@ class SessionsController < ApplicationController
   end  
   
   def callback_failure
-    logger.error "authentication via omniauth failed:"
+    logger.error "[SessionsController]==== authentication via omniauth failed:"
     logger.error request.env["omniauth"].to_yaml
     redirect_to root_url
   end
