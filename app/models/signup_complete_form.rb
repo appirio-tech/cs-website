@@ -7,6 +7,7 @@ class SignupCompleteForm
   validates_acceptance_of :terms_of_service
   validates_format_of :email, :with => /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
   validates_format_of :username, :without => /\s/, :message => 'cannot contain spaces'
+  validates_length_of :username, :maximum => 25
   
   def initialize(attributes = {})
     attributes.each do |name, value|

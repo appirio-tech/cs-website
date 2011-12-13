@@ -31,7 +31,7 @@
 		<%= form_for @login_form, :url => login_cs_auth_url do |f| %>
 		  <div class="field">
 		    <%= f.label :username %><br />
-		    <%= f.text_field :username, :style => "width: 125px" %>
+		    <%= f.text_field :username, :style => "width: 125px", :maxlength => 25 %>
 		  </div>
 		  <div class="field">
 		    <%= f.label :password %><br />
