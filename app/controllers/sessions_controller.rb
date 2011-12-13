@@ -214,7 +214,7 @@ class SessionsController < ApplicationController
     if params[:form_forgot_service]
       if !params[:form_forgot_service][:username].empty?
         account = Members.find_by_username(current_access_token, params[:form_forgot_service][:username], 'Login_Managed_By__c')[0]
-        if account.nil?
+        if account.nil? || account['errorCode']
           flash.now[:error] = "Could not find a member with the CloudSpokes username '#{params[:form_forgot_service][:username]}'"
         else
           @login_service = "#{account["Login_Managed_By__c"]}"
