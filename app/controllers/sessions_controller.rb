@@ -40,6 +40,8 @@ class SessionsController < ApplicationController
     
         # add the sfdc_username to the hash so we can insert locally
         params[:signup_form][:sfdc_username] = results[:sfdc_username]
+        # remove the terms_of_service key from the hash
+        params[:signup_form].delete(:terms_of_service)
         @user = User.new(params[:signup_form])
       
         # success!!
