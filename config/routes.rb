@@ -66,7 +66,6 @@ CloudSpokes::Application.routes.draw do
   match '/auth/failure', :to => 'sessions#callback_failure'  
   
   #content -- eventually will be siteforce
-  #match "/:id", to: "content#show", as: "content"
   match "/about", to: "content#about"
   match "/faq", to: "content#faq"
   match "/privacy", to: "content#privacy"
@@ -75,6 +74,9 @@ CloudSpokes::Application.routes.draw do
   match "/contact", to: "content#contact"
   match "/contact_send", to: "content#contact_send"
   root to: 'content#home'
+  
+  # 404 errors
+  match '*a', :to => 'errors#routing'
 
   mount Resque::Server, :at => "/resque"
 end

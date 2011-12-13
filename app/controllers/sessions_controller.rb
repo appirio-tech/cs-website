@@ -115,7 +115,9 @@ class SessionsController < ApplicationController
       end
       
     end
-
+    
+    rescue OAuth::Unauthorized => e
+      logger.error e.response.inspect
   end
   
   # agree to the tos and complete the signup
@@ -196,7 +198,7 @@ class SessionsController < ApplicationController
           params[:login_form][:password])
 
       if user.nil?
-        flash.now[:error] = "Invalid email/password."
+        flash.now[:error] = "Invalid username/password combination."
         render :action => 'login'
       else
         sign_in user
