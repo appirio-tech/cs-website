@@ -52,7 +52,7 @@ class MembersController < ApplicationController
     @challenges.each do |challenge|
       if challenge["End_Date__c"].to_date > Time.now.to_date
         @active_challenges << challenge
-      elsif challenge["Has_Submission__c"]
+      elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
         @past_challenges << challenge
       end
     end
@@ -67,7 +67,7 @@ class MembersController < ApplicationController
     # Gather challenges and group them depending of their end date
     @past_challenges   = []
     @challenges.each do |challenge|
-      if challenge["End_Date__c"].to_date < Time.now.to_date
+      if challenge["End_Date__c"].to_date < Time.now.to_date && challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
         @past_challenges << challenge
       end
     end
