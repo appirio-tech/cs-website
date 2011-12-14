@@ -37,6 +37,7 @@ group :development, :test do
   gem 'rb-fsevent'
   gem 'ruby-debug19'
   gem 'heroku'
+  gem 'spork'
 end
 
 group :test do
