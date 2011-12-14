@@ -112,7 +112,7 @@ class AccountsController < ApplicationController
         img.read
         Members.upload_profile_pic(params['postUrl'], img) 
       end
-      #Members.update(current_access_token, @current_user.username, params["form_profile"])
+      Members.update(current_access_token, @current_user.username, params["form_profile"])
       flash.now[:notice] = "Your profile information has been updated."
     end
     # get the updated account
