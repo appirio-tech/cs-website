@@ -27,13 +27,13 @@ class MembersController < ApplicationController
     case display_leaderboard
     when "year"
       @selected['year'] = 'active'
-      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'year')
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'year', :limit => 10)
     when "all"
       @selected['all'] = 'active'
-      @leaderboard = Challenges.get_leaderboard(current_access_token)
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :limit => 10)
     else
       @selected['month'] = 'active'
-      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month')
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month', :limit => 10)
     end
   end
 
@@ -44,6 +44,7 @@ class MembersController < ApplicationController
     @total_recommendations = @recommendations.size
     @recommendations   = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
     @challenges        = Members.challenges(current_access_token, :name => @member["Name"])
+    @challenges = @challenges.reverse
 
     # Gather challenges and group them depending of their end date
     @active_challenges = []
@@ -60,7 +61,8 @@ class MembersController < ApplicationController
   def past_challenges
     # Gather all required information for the page
     @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
-    @challenges        = Members.challenges(current_access_token, :name => @member["Name"])
+    @challenges = Members.challenges(current_access_token, :name => @member["Name"])
+    @challenges = @challenges.reverse
 
     # Gather challenges and group them depending of their end date
     @past_challenges   = []

@@ -66,11 +66,12 @@ class Challenges < Cloudspokes
     get(ENV['SFDC_REST_API_URL']+"/participants?challengeid=#{id}&fields=id,name,has_submission__c,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=money_awarded__c%20desc")
   end
 
-  def self.get_leaderboard(access_token, options = {:period => nil, :category => nil})
+  def self.get_leaderboard(access_token, options = {:period => nil, :category => nil, :limit => nil})
     set_header_token(access_token) 
     request_url  = ENV['SFDC_REST_API_URL'] + '/leaderboard?1=1'
     request_url += ("&period=#{esc options[:period]}") unless options[:period].nil?
     request_url += ("&category=#{esc options[:category]})") unless options[:category].nil?
+    request_url += ("&limit=#{options[:limit]}") unless options[:limit].nil?
     leaderboard =  get(request_url)
     #sort by total_money
     leaderboard.sort_by! { |key| key['total_money'].to_i }
