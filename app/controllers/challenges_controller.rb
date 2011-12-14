@@ -45,7 +45,7 @@ class ChallengesController < ApplicationController
     else 
       @challenges = Challenges.get_challenges_by_keyword(current_access_token, params[:keyword])
     end
-    @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 5) unless @challenges.nil?
+    @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 10) unless @challenges.nil?
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
     
     if @challenges.nil? || @challenges.size == 0
