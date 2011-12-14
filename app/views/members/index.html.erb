@@ -85,7 +85,7 @@
                         <div class="leaders">
                             <ul style="padding: 0px">
                                 
-						<% @leaderboard.each do |record| %>
+						<% @leaderboard[0..9].each do |record| %>
                         <li class="leader"><span class="num<% if record['rank']==1 %> num-gold<% elsif record['rank']==2 %> num-silver<% elsif record['rank']==3 %> num-bronze<% end %> fl"><%= record['rank'] %></span>
                             <div class="user-box box fl">
                                 <div class="box-b">

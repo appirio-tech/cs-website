@@ -27,13 +27,13 @@ class MembersController < ApplicationController
     case display_leaderboard
     when "year"
       @selected['year'] = 'active'
-      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'year', :limit => 10)
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'year')
     when "all"
       @selected['all'] = 'active'
-      @leaderboard = Challenges.get_leaderboard(current_access_token, :limit => 10)
+      @leaderboard = Challenges.get_leaderboard(current_access_token)
     else
       @selected['month'] = 'active'
-      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month', :limit => 10)
+      @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month')
     end
   end
 
