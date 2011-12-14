@@ -42,8 +42,8 @@ class MembersController < ApplicationController
     @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
     @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
     @total_recommendations = @recommendations.size
-    @recommendations   = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
-    @challenges        = Members.challenges(current_access_token, :name => @member["Name"])
+    @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
+    @challenges = Members.challenges(current_access_token, :name => @member["Name"])
     @challenges = @challenges.reverse
 
     # Gather challenges and group them depending of their end date
@@ -52,7 +52,7 @@ class MembersController < ApplicationController
     @challenges.each do |challenge|
       if challenge["End_Date__c"].to_date > Time.now.to_date
         @active_challenges << challenge
-      else
+      elsif challenge["Has_Submission__c"]
         @past_challenges << challenge
       end
     end
