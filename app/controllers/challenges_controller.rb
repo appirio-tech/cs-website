@@ -172,9 +172,9 @@ class ChallengesController < ApplicationController
     @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil)
     @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil)
     # paginate!!
-    @this_month_leaders = @this_month_leaders.paginate(:page => params[:page_month] || 1, :per_page => 2) 
-    @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 2) 
-    @all_time_leaders = @all_time_leaders.paginate(:page => params[:page_all] || 1, :per_page => 2) 
+    @this_month_leaders = @this_month_leaders.paginate(:page => params[:page_month] || 1, :per_page => 10) 
+    @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 10) 
+    @all_time_leaders = @all_time_leaders.paginate(:page => params[:page_all] || 1, :per_page => 10) 
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
   end
   
