@@ -1,0 +1,60 @@
+[
+   {
+      "attributes":{
+         "type":"Challenge__c",
+         "url":"/services/data/v22.0/sobjects/Challenge__c/a0GJ0000001cB5iMAE"
+      },
+      "Name":"Stream Realtime Salesforce Support Status with Jetstream",
+      "End_Date__c":"2011-11-25T02:08:00.000+0000",
+      "Challenge_Categories__r":{
+         "totalSize":1,
+         "done":true,
+         "records":[
+            {
+               "attributes":{
+                  "type":"Challenge_Category__c",
+                  "url":"/services/data/v22.0/sobjects/Challenge_Category__c/a08J0000000B3fjIAC"
+               },
+               "Display_Name__c":"salesforce.com",
+               "Id":"a08J0000000B3fjIAC",
+               "Challenge__c":"a0GJ0000001cB5iMAE"
+            }
+         ]
+      },
+      "Registered_Members__c":2,
+      "Top_Prize__c":"1000",
+      "Id":"a0GJ0000001cB5iMAE",
+      "Is_Open__c":"true",
+      "Description__c":"Be to ?cool kid on the block? by being one of the first to work with salesforce.com?s new toolkit for the Force.com Streaming API: Jetstream.",
+      "ID__c":"2"
+   },
+   {
+      "attributes":{
+         "type":"Challenge__c",
+         "url":"/services/data/v22.0/sobjects/Challenge__c/a0GJ0000001iR1xMAE"
+      },
+      "Name":"Instant Pulse Check for Google App Engine",
+      "End_Date__c":"2011-12-21T19:17:00.000+0000",
+      "Challenge_Categories__r":{
+         "totalSize":1,
+         "done":true,
+         "records":[
+            {
+               "attributes":{
+                  "type":"Challenge_Category__c",
+                  "url":"/services/data/v22.0/sobjects/Challenge_Category__c/a08J0000000B4zLIAS"
+               },
+               "Display_Name__c":"AWS",
+               "Id":"a08J0000000B4zLIAS",
+               "Challenge__c":"a0GJ0000001iR1xMAE"
+            }
+         ]
+      },
+      "Registered_Members__c":2,
+      "Top_Prize__c":"$1000",
+      "Id":"a0GJ0000001iR1xMAE",
+      "Is_Open__c":"true",
+      "Description__c":"Ever have a quick question you wanted to ask your team, peers or company? The normal approach is to send out an email or post a message and let people respond. But this makes it hard to get structured feedback, and creating a survey feels to heavyweight. The instant pulse check app solves all that. It?s great for structured feedback to the quick question and can be used to get quick feedback from a group of people and show the results changing in real time (e.g. polling a room full of people on a presentation).",
+      "ID__c":"3"
+   }
+]
