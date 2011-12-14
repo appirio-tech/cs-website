@@ -42,6 +42,9 @@ end
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+
+  gem 'webmock'
+  gem 'simplecov'
 end
 
 group :production do

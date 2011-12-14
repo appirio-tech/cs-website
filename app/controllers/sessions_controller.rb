@@ -166,7 +166,7 @@ class SessionsController < ApplicationController
               redirect_to session[:redirect_to_after_auth]
             else
               logger.error "[SessionsController]==== error saving new #{new_member_create_results[:sfdc_username]} member to database: #{user.errors.full_messages} "
-              render :inline => user.errors.full_messages
+              render :inline => user.errors.full_messages[0]
             end
         
           # they can't login - taken username or email address?
@@ -186,6 +186,7 @@ class SessionsController < ApplicationController
         if user.nil?
           logger.error "[SessionsController]==== error logging in user: #{as.get_hash[:username]} with #{as.get_hash[:provider]}."
           flash[:error] = "Sorry... we were not able to log you in. Something really bad happened."
+          redirect_to login_url
         else
           sign_in user
           redirect_to session[:redirect_to_after_auth]

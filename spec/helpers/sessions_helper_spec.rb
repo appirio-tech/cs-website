@@ -11,5 +11,11 @@ require 'spec_helper'
 #   end
 # end
 describe SessionsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let (:user) { stub_model(User, :id => 1, :username => 'kerdosa', :password => "kerdosa01")}
+  
+  it "should set remember_token in sign_in" do
+    # helper.sign_in(user)
+    helper.current_user = user
+    helper.current_user.should == user
+  end
 end
