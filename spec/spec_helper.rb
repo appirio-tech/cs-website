@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'spork'
 
+require 'simplecov'
+SimpleCov.start 'rails'
+
 Spork.prefork do
 
   # This file is copied to spec/ when you run 'rails generate rspec:install'
@@ -25,11 +28,14 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  # TODO - add factories and their reloading
-  # require 'factory_girl_rails'
 
   # reload all the models
   Dir["#{Rails.root}/app/models/**/*.rb"].each do |model|
+    load model
+  end
+
+  # reload lib
+  Dir["#{Rails.root}/lib/**/*.rb"].each do |model|
     load model
   end
 
