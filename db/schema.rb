@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124022540) do
+ActiveRecord::Schema.define(:version => 20111215102914) do
 
   create_table "openid_associations", :force => true do |t|
     t.datetime "issued_at"
@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(:version => 20111124022540) do
     t.string   "username"
     t.string   "email"
     t.string   "password"
-    t.string   "third_party_service"
     t.string   "third_party_username"
     t.datetime "created_at"
     t.datetime "updated_at"
