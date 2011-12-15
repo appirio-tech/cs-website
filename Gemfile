@@ -40,6 +40,7 @@ group :development, :test do
   gem 'spork'
   gem 'fabrication'
   gem 'simplecov'
+  gem 'faker'
 end
 
 group :test do

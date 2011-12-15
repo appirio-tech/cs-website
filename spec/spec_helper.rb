@@ -40,5 +40,6 @@ Spork.each_run do
   end
 
   CloudSpokes::Application.reload_routes!
+  Fabrication.clear_definitions
 end
 
