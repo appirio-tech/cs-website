@@ -1,5 +1,13 @@
 require 'spec_helper'
 
+Fabricator(:signup_complete_form) do
+  email { Faker::Internet.email }
+  name { Faker::Name.name }
+  username { Faker::Name.name.downcase }
+  uid { sequence(:uid) }
+  provider { Faker::Name.name }
+end
+
 describe SignupCompleteForm do
   it "has a valid factory" do
     Fabricate(:signup_complete_form).should be_valid
