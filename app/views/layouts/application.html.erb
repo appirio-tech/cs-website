@@ -7,12 +7,12 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
-<script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 
-<script type="text/javascript">
-$(document).ready(function(){
+  <script type="text/javascript">
+  $(document).ready(function(){
 	$(".fancy").fancybox({
 		 'width' : 650,
 		 'height' : 400,
@@ -22,8 +22,9 @@ $(document).ready(function(){
 		 'onStart': function() { $('.column iframe').css('visibility', 'hidden'); },
 		 'onClosed': function() { $('.column iframe').css('visibility', 'visible'); }
 	 });
-});
-</script>
+  });
+  </script>
+  <link rel="shortcut icon" type="image/x-icon" href="http://cloudspokes.s3.amazonaws.com/favicon.ico" />
 </head>
 <body id="<%= controller.controller_name %>_<%= controller.action_name %>" class="<%= controller.controller_name %>">
   <div id='wrapper'>
