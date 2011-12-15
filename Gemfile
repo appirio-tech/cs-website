@@ -38,6 +38,8 @@ group :development, :test do
   gem 'ruby-debug19'
   gem 'heroku'
   gem 'spork'
+  gem 'fabrication'
+  gem 'simplecov'
 end
 
 group :test do
