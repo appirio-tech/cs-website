@@ -92,7 +92,7 @@ class Services
             
     begin
       if results['Success'].eql?('true')
-        return {:success => 'true', :username => results["Username"], :sfdc_username => results["SFusername"]}
+        return {:success => 'true', :username => results["Username"], :sfdc_username => results["SFusername"], :profile_pic => results["Profile_Pic"]}
       else
         Rails.logger.error "[Services]==== error getting sfdc username for '#{third_party_service}' and '#{third_party_username}': #{results["Message"]}" 
         return {:success => 'false', :message => results["Message"]}

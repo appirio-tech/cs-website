@@ -6,18 +6,19 @@ class User < ActiveRecord::Base
   validates :password, :presence => true
   validates :sfdc_username, :presence => true
   
-  def self.authenticate(username, password)
+  def self.authenticate(access_token, username, password)
         
     # make sure their sfdc credentials are correct
     login_results = sfdc_login(username, password)
     
     if login_results[:success].eql?('true')
+      # get their member record and profile_pic
+      member = Members.find_by_username(access_token, username, 'id,profile_pic__c').first      
       # check for an existing record in the database and delete it
-      user = find_by_username(username)
-      user.destroy unless user.nil?
+      User.delete(User.find_by_username(username))
       # create the new user in the database
       user = User.new(:username => username, :sfdc_username => username+ENV['SFDC_USERNAME_DOMAIN'], 
-        :password => password, :access_token => login_results[:access_token])
+        :password => password, :access_token => login_results[:access_token], :profile_pic => member['Profile_Pic__c'])
       user.save
       return user
     else
@@ -39,14 +40,14 @@ class User < ActiveRecord::Base
       
       # if they logged in successfully, then they are golden
       if login_results[:success].eql?('true')
-      
-        user = find_by_username(results[:username])
-        # TODO - change this so that access token is persisted each time
-        if user.nil?
-          user = User.new(:username => results[:username], :sfdc_username => results[:sfdc_username], 
-            :password => ENV['THIRD_PARTY_PASSWORD'], :access_token => login_results[:access_token])
-          user.save
-        end
+        
+        # delete the user if they already exists in pg
+        User.delete(User.find_by_username(results[:username]))
+        # save the user
+        user = User.new(:username => results[:username], :sfdc_username => results[:sfdc_username], 
+            :password => ENV['THIRD_PARTY_PASSWORD'], :access_token => login_results[:access_token],
+            :profile_pic => results[:profile_pic])
+        user.save
         return user
         
       else

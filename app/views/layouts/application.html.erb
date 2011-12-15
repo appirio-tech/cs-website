@@ -48,6 +48,13 @@
 			<li><%= link_to "Login", "/login_popup", :class => "fancy" %></li>
 		<% else %>
 			<li><%= link_to "Logout", "/logout" %></li>
+			<li id='profile_pic'><a href="/account">
+			<% if current_user.profile_pic.nil? %>
+				<img src="http://cloudspokes.s3.amazonaws.com/Cloud_th_100.jpg" height="20" width="20" alt="<%= current_user.username %>" />
+			<% else %>
+				<img src="<%= current_user.profile_pic %>" height="20" width="20" alt="<%= current_user.username %>" />
+			<% end %></a>
+			</li>
 		<% end %>
       </ul></nav>
     </header>

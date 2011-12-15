@@ -194,7 +194,7 @@ class SessionsController < ApplicationController
       # make sure their user in sfdc is active
       Services.activate_user(current_access_token, params[:login_form][:username])
 
-      user = User.authenticate(params[:login_form][:username],
+      user = User.authenticate(current_access_token, params[:login_form][:username],
           params[:login_form][:password])
 
       if user.nil?
