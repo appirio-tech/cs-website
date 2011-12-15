@@ -145,6 +145,8 @@ class AccountsController < ApplicationController
         if results["Success"].eql?('false')
           flash.now[:error] = results["Message"]
         else
+          current_user.password = params[:reset_password_account_form][:password]
+          current_user.save
           flash.now[:notice] = results["Message"]
         end
       else
