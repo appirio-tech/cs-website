@@ -58,6 +58,7 @@ CloudSpokes::Application.routes.draw do
   match '/admin',  :to => 'admin#index'
   get "admin/index"
   get "admin/display_users"
+  get "admin/delete_all_users"
   get "admin/display_settings"
   get "admin/send_mail"
   get "admin/refresh_token"

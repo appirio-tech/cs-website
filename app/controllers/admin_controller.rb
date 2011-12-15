@@ -23,6 +23,11 @@ class AdminController < ApplicationController
     @results = User.all
   end
   
+  def delete_all_users
+    User.delete_all
+    render :inline => "All users deleted from PG and logged off from the site"
+  end
+  
   def display_settings
     @results = Settings.all
   end  
