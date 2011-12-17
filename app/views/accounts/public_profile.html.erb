@@ -9,6 +9,15 @@
 	});
 </script>
 
+<style type="text/css">
+.profile_pic {
+  max-width: 100px;
+  max-height: 100px;
+  width: expression(this.width > 100 ? "100px" : true);
+  height: expression(this.height > 100 ? "100px" : true);
+}
+</style>
+
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
 		<div class="sidebar fl">
@@ -29,11 +38,11 @@
 				<!-- this is the app engine url we are posting to -->
 				<input type="hidden" name="postUrl" id="posturl">
 				
-				<label>Photo:</label>
+				<label>Profile Photo:</label>
 				<div class="holder">
 					<table>
 					<tr>
-						<td><img src="<%= @account["Profile_Pic__c"]%>"></td>
+						<td><img src="<%= @account["Profile_Pic__c"]%>" class="profile_pic"></td>
 						<td><%= file_field 'form_profile', 'Profile_Pic__c', :class => 'file' %></td>
 					</tr>
 					</table>
