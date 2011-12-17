@@ -74,6 +74,7 @@ CloudSpokes::Application.routes.draw do
   match "/badges", to: "content#badges"
   match "/contact", to: "content#contact"
   match "/contact_send", to: "content#contact_send"
+  match "/login_help", to: "content#login_help"
   root to: 'content#home'
   
   # 404 errors

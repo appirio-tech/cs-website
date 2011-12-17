@@ -19,6 +19,8 @@
 
 		<p>Please enter your info to complete the signup process and create your account.</p>
 		
+		<p><b style="color:red">Please note:</b> If you think you already have an account with us and are not able to login, it is probably because we can't locate it correctly. On 12/17/2011 we rolled out our new site on Heroku and migrated data to Database.com. If you having problems logging in, <a href="/login_help">please read this page</a> so that we can correct your account before creating a new account.</p>
+		
 		<div id="profile">
 			<%= form_for @signup_complete_form, :url => signup_complete_path do |f| %>
 			<%= f.hidden_field :provider %>
