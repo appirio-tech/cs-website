@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   DEFAULT_CHALLENGE_FIELDS      = "id,name,createddate,description__c" 
   
   def redirect_to_ssl
-    redirect_to :protocol => "https://" unless Rails.env.development?
+    redirect_to :protocol => "https://" unless (@request.ssl? or Rails.env.development?)
   end 
     
   # fetch the access token for this user or return the public access token from the database
