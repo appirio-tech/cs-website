@@ -3,9 +3,9 @@ require 'services'
 
 class SessionsController < ApplicationController
   
-  before_filter :redirect_to_ssl, :only => ["login_popup","login","signup"]
+  before_filter :redirect_to_https, :only => ["login_popup","login","signup","callback"]
   
-  def redirect_to_ssl
+  def redirect_to_https
     redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development?)
   end
   
