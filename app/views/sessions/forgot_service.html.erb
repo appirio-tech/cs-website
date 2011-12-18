@@ -27,7 +27,7 @@
 				<%= image_tag "cloudspokes-logo-hor.png", :alt => 'CloudSpokes' %>
 			<% else %>
 				<p>Your CloudSpokes login is managed by <%= @login_service %>. Click the icon below to login using your <%= @login_service %> account.</p>
-				<<% if @login_service.downcase.eql?('google')%>
+				<% if @login_service.downcase.eql?('google')%>
 					<a href="/auth/open_id?openid_url=https://www.google.com/accounts/o8/id"><%= image_tag "#{@login_service.downcase}_128.png", :size => "128x128", :alt => @login_service %></a>
 				<% else %>
 					<a href="/auth/<%= @login_service.downcase %>"><%= image_tag "#{@login_service.downcase}_128.png", :size => "128x128", :alt => @login_service %></a>
