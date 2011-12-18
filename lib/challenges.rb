@@ -37,7 +37,7 @@ class Challenges < Cloudspokes
   
   def self.find_by_sql_id(access_token, id) 
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/challengesqlid/#{id}")[0]
+    get(ENV['SFDC_REST_API_URL']+"/challengesqlid/#{id}")
   end
 
   def self.recent(access_token)  
