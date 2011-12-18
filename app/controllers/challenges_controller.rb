@@ -39,6 +39,11 @@ class ChallengesController < ApplicationController
     show_open = true unless params[:show].eql?('closed')    
     @current_order_by = params[:orderby].nil? ? 'name' : params[:orderby]
     @current_order_by_dir = params[:orderby_dir].nil? ? 'asc' : params[:orderby_dir]
+    # default closed challenge sorting
+    if show_open == false && params[:orderby].nil?
+      @current_order_by = 'end_date__c'
+      @current_order_by_dir = 'desc'
+    end
             
     if params[:keyword].nil?
       @challenges = Challenges.get_challenges(current_access_token, show_open, @current_order_by+'+'+@current_order_by_dir, params[:category])
