@@ -3,6 +3,12 @@ require 'services'
 
 class SessionsController < ApplicationController
   
+  before_filter :redirect_to_ssl, :only => ["login_popup","login","signup"]
+  
+  def redirect_to_ssl
+    redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development?)
+  end
+  
   # first time users login they will use the popup
   def login_popup
     session[:redirect_to_after_auth] = request.env['HTTP_REFERER']
