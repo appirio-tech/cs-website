@@ -18,6 +18,8 @@
               %th{:scope => "col"}
                 Submitted
               %th{:scope => "col"}
+                Score
+              %th{:scope => "col"}
                 Review
               %tbody
                 - @challenges.each do |record|
@@ -28,6 +30,8 @@
                       =record["Challenge_Participant__r"]["Member__r"]["Name"]
                     %td
                       =Time.parse(record["Challenge_Participant__r"]["Submitted_Date__c"]).strftime("%b. %d at %I:%M %p")
+                    %td
+                      =record["Challenge_Participant__r"]["Score__c"]
                     %td
                       =link_to("Review", "/account/scorecard/"+record["Challenge_Participant__c"])
         - else
