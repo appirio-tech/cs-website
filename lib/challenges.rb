@@ -75,7 +75,7 @@ class Challenges < Cloudspokes
     set_header_token(access_token) 
     request_url  = ENV['SFDC_REST_API_URL'] + '/leaderboard?1=1'
     request_url += ("&period=#{esc options[:period]}") unless options[:period].nil?
-    request_url += ("&category=#{esc options[:category]})") unless options[:category].nil?
+    request_url += ("&category=#{esc options[:category]}") unless options[:category].nil?
     request_url += ("&limit=#{options[:limit]}") unless options[:limit].nil?
     leaderboard =  get(request_url)
     #sort by total_money
