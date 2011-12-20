@@ -13,7 +13,6 @@ class AccountsController < ApplicationController
   
   def scorecard
     scorecard = Scoring.scorecard(current_access_token, params[:id], current_user.username).to_json
-    
     # get the 'message' potion of the string
     message = scorecard[0,scorecard.index('[')].gsub('\\','')
     # see if the scorecard has been scored
@@ -21,7 +20,6 @@ class AccountsController < ApplicationController
     # set the json results to be html safe are usable in the javascript
     @json = scorecard[scorecard.index('['),scorecard.length].gsub(']}',']').html_safe
     @current_submissions = Challenges.current_submissions(current_access_token, params[:id])
-    p "==== submissions: #{@current_submissions}"
   end
   
   def scorecard_save
