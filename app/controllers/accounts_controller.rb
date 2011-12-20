@@ -8,16 +8,20 @@ class AccountsController < ApplicationController
   
   def outstanding_reviews
     @challenges = Scoring.outstanding_scorecards(current_access_token)
+    p "==== challenges: #{@challenges}"
   end
   
   def scorecard
     scorecard = Scoring.scorecard(current_access_token, params[:id], current_user.username).to_json
+    
     # get the 'message' potion of the string
     message = scorecard[0,scorecard.index('[')].gsub('\\','')
     # see if the scorecard has been scored
     @scored = message.index('"scored__c": "true"').nil? ? false : true
     # set the json results to be html safe are usable in the javascript
     @json = scorecard[scorecard.index('['),scorecard.length].gsub(']}',']').html_safe
+    @current_submissions = Challenges.current_submissions(current_access_token, params[:id])
+    p "==== submissions: #{@current_submissions}"
   end
   
   def scorecard_save

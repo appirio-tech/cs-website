@@ -277,6 +277,28 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 
 <div class="page-heading"><h2 class="melbourne">Scorecard</h2></div>
 <div style="margin:25px">
+	
+<h3>Submitted Assets</h3>	
+<% if @current_submissions.length > 0 %>
+	<table id="submissions-current" style="width:925px">
+	    <thead>
+	    	<tr>
+	        	<th scope="col">Media</th>
+	            <th scope="col">Comments</th>
+	            <th scope="col">Type</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+			<% @current_submissions.each do |record| %>
+	    	<tr>
+	        	<td><a href="<%= record['URL__c']%>" target="_blank"><%= record['URL__c'].split('/').last %></a></td>
+	            <td><%= record['Comments__c']%></td>
+	            <td><%= record['Type__c']%></td>
+	        </tr>
+			<% end %>
+	    </tbody>
+	</table>
+<% end %>	
 
 <% if @scored %><h1>This scorecard has been scored and is not updateable.</h1><% end %>
 <div id="scorecard"></div>
