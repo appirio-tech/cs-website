@@ -55,10 +55,10 @@ class Challenges < Cloudspokes
   end
   
   #this method may go away
-  def self.get_challenges_by_keyword(access_token, keyword)  
+  def self.get_challenges_by_keyword(access_token, keyword, show_open)  
     set_header_token(access_token)
     keyword.gsub!(/'/) { |c| "\\#{c}" }
-    get(ENV['SFDC_REST_API_URL']+"/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c&search=#{esc keyword}")
+    get(ENV['SFDC_REST_API_URL']+"/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c&search=#{esc keyword}&open=#{show_open}")
   end
       
   def self.registrants(access_token, id)
