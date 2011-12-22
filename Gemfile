@@ -7,6 +7,7 @@ gem 'haml'
 gem 'will_paginate'
 gem 'jquery-rails'
 gem 'httparty'
+gem 'newrelic_rpm'
 
 gem 'ruby-openid', :git => "git://github.com/mbleigh/ruby-openid.git"
 gem 'openid_active_record_store'
@@ -21,7 +22,9 @@ gem 'redis'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'mongrel', '1.2.0.pre2'
 # gem 'resque', :require => 'resque/server'
+# ---jeffd's version gem 'resque', :git => 'http://github.com/hone/resque.git', :branch => 'keepalive', :require => 'resque/server'
 gem 'resque', :git => 'http://github.com/hone/resque.git', :branch => 'keepalive', :require => 'resque/server'
+# gem 'resque'
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'flash_messages_helper'
 gem 'remote_syslog_logger'
