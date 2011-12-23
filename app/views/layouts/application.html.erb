@@ -25,6 +25,8 @@
   });
   </script>
   <link rel="shortcut icon" type="image/x-icon" href="http://cloudspokes.s3.amazonaws.com/favicon.ico" />
+  <%= auto_discovery_link_tag :atom, "/feed" %>
+  <%= auto_discovery_link_tag :rss, "/feed.rss" %>
 </head>
 <body id="<%= controller.controller_name %>_<%= controller.action_name %>" class="<%= controller.controller_name %>">
   <div id='wrapper'>

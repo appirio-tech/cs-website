@@ -7,7 +7,25 @@ require 'uri'
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
   
-  # TODO - rework this section. move into the challenge module
+  def feed
+    show_open = false
+    show_open = true unless params[:show].eql?('closed')                
+    challenges = Challenges.get_challenges(current_access_token, show_open, 'name+asc', params[:category])  
+    
+    @feed_title = "All Open CloudSpokes Challenges"
+    @feed_items = Array.new    
+    challenges.each do |challenge|
+      entry = AtomEntry.new(:id => challenge['ID__c'], :title => challenge['Name'], :content => challenge['Description__c'])
+      @feed_items.push(entry)
+    end
+
+    respond_to do |format|
+      format.atom { render :layout => false }
+      # we want the RSS feed to redirect permanently to the ATOM feed
+      format.rss { redirect_to feed_path(:format => :atom), :status => :moved_permanently }
+    end
+  end  
+  
   def register
     @challenge_detail = current_challenge
     #see if we need to show them tos different than the default standard ones
