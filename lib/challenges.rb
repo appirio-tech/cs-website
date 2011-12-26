@@ -51,7 +51,7 @@ class Challenges < Cloudspokes
     qry_orderby = "&orderby=#{esc orderby}"
     qry_category = category.nil? ? '' : "&category=#{esc category}"    
     set_header_token(access_token) 
-    get(ENV['SFDC_REST_API_URL']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,End_Date__c,Is_Open__c,License__c'+qry_orderby+qry_open+qry_category)
+    get(ENV['SFDC_REST_API_URL']+'/challengesearch?fields=Id,ID__c,Name,Description__c,Top_Prize__c,Registered_Members__c,Start_Date__c,End_Date__c,Is_Open__c,License__c'+qry_orderby+qry_open+qry_category)
   end
   
   #this method may go away
