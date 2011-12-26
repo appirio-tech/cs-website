@@ -4,7 +4,7 @@
       .box-t
         .col-left.fl
           %h4
-            %a{:href => challenge_url(challenge["ID__c"])}= challenge["Name"]
+            %a{:href => challenge_url(challenge["Challenge_Id__c"])}= challenge["Name"]
           %p= "#{truncate(challenge["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
         .col-right.fr
           %p
@@ -18,11 +18,11 @@
             %br
             %br 
             - if type.eql?('watching')
-              = link_to('Register' , challenge_url(challenge["ID__c"]))
+              = link_to('Register' , challenge_url(challenge["Challenge_Id__c"]))
               %br
               = format_close_date_time(challenge['End_Date__c'])
             - elsif type.eql?('active')
-              = link_to('Submit' , '/challenges/'+challenge['ID__c']+'/submission')
+              = link_to('Submit' , '/challenges/'+challenge['Challenge_Id__c']+'/submission')
               %br
               = format_close_date_time(challenge['End_Date__c'])
         .cl  

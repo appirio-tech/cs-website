@@ -35,7 +35,7 @@
                     <h3>Submission Details</h3>
                     <p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
 					<% end %>
-					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["ID__c"]) %>.</p> 
+					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.</p> 
 
 					<% if !@challenge_detail["Additional_Info__c"].nil? %>
                     <h3>Additional Info</h3>
@@ -46,12 +46,12 @@
 						<% if signed_in? %>
 		                    <div>
 							<% if @participation_status[:status].eql?('Not Registered') %>
-		                        <a class="button fl" href="<%= register_url(@challenge_detail["ID__c"]) %>"><span>Register</span></a>
-		                        <a class="button fl" href="<%= watch_url(@challenge_detail["ID__c"]) %>"><span>Add to Watch List</span></a>    
+		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
 							<% elsif @participation_status[:status].eql?('Watching') %>
-		                        <a class="button fl" href="<%= register_url(@challenge_detail["ID__c"]) %>"><span>Register</span></a>
+		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 							<% elsif @participation_status[:status].eql?('Registered') %>
-		                        <a class="button fl" href="<%= submission_url(@challenge_detail["ID__c"]) %>"><span>Submit Your Entry</span></a>
+		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
 							<% end %>                    
 		                    </div>
 						<% else %>

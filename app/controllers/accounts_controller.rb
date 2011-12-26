@@ -8,7 +8,6 @@ class AccountsController < ApplicationController
   
   def outstanding_reviews
     @challenges = Scoring.outstanding_scorecards(current_access_token)
-    p "==== challenges: #{@challenges}"
   end
   
   def scorecard
@@ -65,7 +64,7 @@ class AccountsController < ApplicationController
         flash.now[:notice] = "Your payment information has been updated."
       end
     end
-    @payments = Payments.all(current_access_token, :select => 'id,name,challenge__r.name,challenge__r.id__c,money__c,place__c,reason__c,status__c,type__c,Reference_Number__c,payment_sent__c', :where => current_user.username)
+    @payments = Payments.all(current_access_token, :select => 'id,name,challenge__r.name,challenge__r.challenge_id__c,money__c,place__c,reason__c,status__c,type__c,Reference_Number__c,payment_sent__c', :where => current_user.username)
     @payments.each do |record| 
       if record['Status__c'].eql?('Paid')
         @show_paid_section = true

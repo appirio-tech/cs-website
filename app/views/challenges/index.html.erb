@@ -62,7 +62,7 @@
 		                    <div class="box-b">
 		                        <div class="box-t">
 		                            <div class="col-left fl">
-		                                <h4><%= link_to "#{record["Name"]}", challenge_url(record['ID__c']) %></h4>
+		                                <h4><%= link_to "#{record["Name"]}", challenge_url(record['Challenge_Id__c']) %></h4>
 		                                <p><%= raw(truncate(record["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')) %></p>
 		                            </div>
 		                            <div class="col-right fr">
@@ -71,7 +71,7 @@
 		                                    <br />
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
 		                                    <br />
-											<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['ID__c']) %>
+											<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['Challenge_Id__c']) %>
 											<% if !record["License__c"].nil? %>
 		                                    	<br /><span><%= record["License__c"] %> license
 											<% end %>

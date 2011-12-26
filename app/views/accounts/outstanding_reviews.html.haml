@@ -18,7 +18,7 @@
               %th{:scope => "col"}
                 Submitted
               %th{:scope => "col"}
-                Score
+                Raw Score
               %th{:scope => "col"}
                 Review
               %tbody
@@ -31,7 +31,7 @@
                     %td
                       =Time.parse(record["Challenge_Participant__r"]["Submitted_Date__c"]).strftime("%b. %d at %I:%M %p")
                     %td
-                      =record["Challenge_Participant__r"]["Score__c"]
+                      =record["Total_Raw_Score__c"]
                     %td
                       =link_to("Review", "/account/scorecard/"+record["Challenge_Participant__c"])
         - else
