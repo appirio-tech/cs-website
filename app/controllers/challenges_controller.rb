@@ -121,7 +121,8 @@ class ChallengesController < ApplicationController
   end
   
   def show
-    @challenge_detail = current_challenge 
+    @challenge_detail = current_challenge
+    p "==== #{@challenge_detail}" 
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
