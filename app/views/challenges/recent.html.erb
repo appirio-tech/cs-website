@@ -20,7 +20,7 @@
 									<%= Time.parse(record["End_Date__c"]).strftime("%b. %d, %Y") %>
 									<br/><strong>Top Prize: <%= record["Top_Prize__c"] %></strong>
 									<br/><span><%= category_display(record['Challenge_Categories__r']) %></span>
-									<br/><span><%= record["Challenge_Participants__r"]["totalSize"]%> Participants &middot; <%= link_to "View the Winners", results_url(record['ID__c']) %></span>
+									<br/><span><%= pluralize(record["Challenge_Participants__r"]["totalSize"], 'Participant') %> &middot; <%= link_to "View the Winners", results_url(record['ID__c']) %></span>
 									<% if !record["License__c"].nil? %>
 										<br/><span><%= record["License__c"] %> license</span>
 									<% end %>

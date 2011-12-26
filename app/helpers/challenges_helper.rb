@@ -47,6 +47,7 @@ module ChallengesHelper
     
     link_to text, challenges_path(final_params), :class => cls
   end
+  
 end
 
 

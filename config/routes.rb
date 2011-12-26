@@ -40,8 +40,8 @@ CloudSpokes::Application.routes.draw do
   #challenges
   get "challenges/index"
   match 'challenges', :to => 'challenges#index', :as => :challenges
-  match '/challenges/feed' => 'challenges#feed', :as => :feed, :defaults => { :format => 'atom' }    
-  match '/challenges/feed.atom', :to => 'challenges#index', :as => 'atom_entries' # needed to generate url in atom feed correctly  
+  match 'challenges/feed', :to => 'challenges#feed', :as => :feed, :defaults => { :format => 'atom' }
+  match 'challenges/feed/recent', :to => 'challenges#feed_recent', :as => :feed_recent, :defaults => { :format => 'atom' }
   match 'challenges/recent', :to => 'challenges#recent'
   match 'challenges/:id', :to => 'challenges#show', :as => :challenge
   match 'challenges/:id/registrants', :to => 'challenges#registrants', :as => :registrants
