@@ -29,13 +29,14 @@ CloudSpokes::Application.routes.draw do
   match "/account/challenges"           => "accounts#challenges"
   match "/account/school"               => "accounts#school"
   match "/account/details"              => "accounts#details"
-  match "/account/payments"              => "accounts#payments"
+  match "/account/payments"             => "accounts#payments"
   match "/account/public_profile"       => "accounts#public_profile"  
   match "/account/password"             => "accounts#password"
   match "/account/password_reset"       => "accounts#password_reset", :as => :password_reset
   match "/account/outstanding_reviews"  => "accounts#outstanding_reviews" , :as => :outstanding_reviews
   match '/account/scorecard/:id'        => 'accounts#scorecard'
-  match '/account/scorecard_save'        => 'accounts#scorecard_save', :as => :scorecard_save
+  match '/account/scorecard_save'       => 'accounts#scorecard_save', :as => :scorecard_save
+  match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic  
 
   #challenges
   get "challenges/index"

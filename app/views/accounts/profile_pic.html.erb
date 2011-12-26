@@ -1,0 +1,117 @@
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://s3.amazonaws.com/cs-misc/jquery.json-2.2.js"></script>
+<script src="https://s3.amazonaws.com/cs-misc/jquery-ui.js"></script>
+<script src="https://s3.amazonaws.com/cs-misc/jquery.form.js"></script>
+<script src="https://s3.amazonaws.com/cs-misc/jquery-timers.js"></script>
+
+<link rel="stylesheet" href="https://s3.amazonaws.com/cs-misc/jquery-ui-1.8.12.custom.css" type="text/css"/>
+<link rel="stylesheet" href="https://s3.amazonaws.com/cs-misc/style.css" type="text/css" />
+
+<script>
+    $(document).ready(function() {
+    	
+    	
+    	//Define receive Message function
+        if(navigator.appName == "Microsoft Internet Explorer") {
+            window.attachEvent("onmessage", receiveMessage);
+          }
+          else {
+            window.addEventListener("message", receiveMessage, false);
+          }
+        
+      //Show the Image Uploader which works in a iFrame and is hosted on GAE	
+       $('#profilepic').click(function () {
+   	       alert("profile picture clicked");
+   	       Show_Popup();
+   		});	
+      
+   	$('#submitForm').submit(function() {
+   		alert("Inside submit function");
+		var options = { 
+				
+		        success:    onUploadResponse, 
+		        iframe: true,
+		        dataType:  	'json',        // 'xml', 'script', or 'json' (expected server response type) 
+		    };
+	    $(this).ajaxSubmit(options);
+	    return false;
+	});
+
+      
+    });
+    
+    function onUploadResponse(response, statusText, xhr, $form) {
+    	if (!response.success) {
+    		alert("Failed to upload image: " + response.message);
+    	} else {
+    		alert("Image URL Submitted successfully.");
+    		$form.resetForm();
+    		//Be silent or show a message
+    	}
+    }
+
+    function receiveMessage(e) {
+      //Got a Message from the iFrame about the Image ServingURL
+      if(e.origin == "http://csimage123.appspot.com") { 
+    	  //important for security
+          alert("Image URL : " + e.data);
+    	  //Set the Hidden Form Field for the Image URL
+          $('#imageURL').attr("value", e.data);
+    	  //Do some additional checks if needed before submitting and closing the iframe
+    	  Close_Popup();
+    	  alert("Submitting the following Image URL : " + e.data);
+    	  //Submit the Form
+    	  $('#submitForm').submit();
+      }
+    }
+</script>
+
+<script type="text/javascript">
+	function Show_Popup(action, userid) {
+		$('#popup').fadeIn('fast');
+		$('#window').fadeIn('fast');
+		$("#someIframe").attr('src', "http://csimage123.appspot.com");
+	}
+	function Close_Popup() {
+		$('#popup').fadeOut('fast');
+		$('#window').fadeOut('fast');
+	}
+</script>
+
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "edit_public_profile"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Edit Profile Pic</h3>
+			<%= flash_messages %>
+
+
+			<div id="profile">
+				
+			    <!-- Main sections (Upload and preview) -->
+			    <div id="main-sections">
+			        <h3><a href="#" id="profilepic">Profile Picture Link</a></h3>
+			     </div>
+			    <!-- Hidden Form -->
+				<div id="hidden-form" style="background-color: yellow; display:none">
+			        <form method="post" id="submitForm" action="submitimage.jsp">
+			            <input id="imageURL" value="" name="imageURL" type="hidden"/>
+			            <input id="submitButton" name="submitButton" type="submit" value="Submit Image URL">
+			        </form>
+			    </div>     
+			    <div id="popup" style="display: none;"></div>
+					<div id="window" style="display: none;">
+						<iframe src="" id="someIframe" style="height:300; width:600">
+					        <p>Your browser does not support iframes.</p>
+					    </iframe>
+					</div>
+				
+			</div>
+
+		</div>
+
+	</div>
+</div>
