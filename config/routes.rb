@@ -81,8 +81,8 @@ CloudSpokes::Application.routes.draw do
   match "/login_help", to: "content#login_help"
   root to: 'content#home'
   
+  mount Resque::Server, :at => "/resque"
+  
   # 404 errors
   match '*a', :to => 'errors#routing'
-
-  mount Resque::Server, :at => "/resque"
 end
