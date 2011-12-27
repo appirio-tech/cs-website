@@ -1,14 +1,3 @@
-<script type="text/javascript">
-	$(function(){
-		$.getJSON("http://csimage123.appspot.com/getuploadurl.jsp", null, function (result) {
-			//alert(result.url);
-			$('#posturl').val(result.url);
-		}).error(function(response) {
-			showErrorMessage("Failed to update upload URL, refresh your browser");
-		});
-	});
-</script>
-
 <style type="text/css">
 .profile_pic {
   max-width: 100px;
@@ -17,6 +6,44 @@
   height: expression(this.height > 100 ? "100px" : true);
 }
 </style>
+
+<script>
+    $(document).ready(function() {
+		//Define receive Message function
+	    if(navigator.appName == "Microsoft Internet Explorer") {
+	        window.attachEvent("onmessage", receiveMessage);
+	    } else {
+	        window.addEventListener("message", receiveMessage, false);
+	    }	
+    });
+    
+	// first one called
+    function onUploadResponse(response, statusText, xhr, $form) {
+    	if (!response.success) {
+    		alert("Failed to upload image: " + response.message);
+    	} else {
+    		//alert("Clicked Close button. Image URL Submitted successfully.");
+    		//$form.resetForm();
+    		//Be silent or show a message
+    	}
+    }
+
+	// second one called
+    function receiveMessage(e) {
+      //Got a Message from the iFrame about the Image ServingURL
+      if(e.origin == "http://cs-image-service.appspot.com") { 
+    	  //important for security
+          //alert("Image URL : " + e.data);
+    	  //Set the Hidden Form Field for the Image URL
+          $('#imageURL').attr("value", e.data);
+		  $("#current_pic").attr({ src: e.data });
+		  $("#someIframe").css("display","none");
+    	  // alert("Submitting the following Image URL : " + e.data);
+    	  //Submit the Form
+    	  //$('#submitForm').submit();
+      }
+    }
+</script>
 
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
@@ -34,16 +61,21 @@
             can see it. Including your boss.</p>
 
 			<div id="profile">
-				<%= form_for "/account/public_profile", :name => "form_profile", :method => "post", :html => { :multipart => true } do |f| %>
+				<%= form_for "/account/public_profile", :name => "form_profile", :method => "post", 
+					:html => { :multipart => true, :id => 'submitForm' } do |f| %>
 				<!-- this is the app engine url we are posting to -->
-				<input type="hidden" name="postUrl" id="posturl">
+				<input type="hidden" name="form_profile[Profile_Pic__c]" id="imageURL">
 				
 				<label>Profile Photo:</label>
 				<div class="holder">
 					<table>
 					<tr>
-						<td><img src="<%= @account["Profile_Pic__c"]%>" class="profile_pic"></td>
-						<td><!--<%= file_field 'form_profile', 'Profile_Pic__c', :class => 'file' %>--></td>
+						<td valign="top"><img src="<%= @account["Profile_Pic__c"]%>" class="profile_pic" id="current_pic"></td>
+						<td height="128"><!--<%= file_field 'form_profile', 'Profile_Pic__c', :class => 'file' %>-->
+							<iframe src="http://cs-image-service.appspot.com" id="someIframe" width="400" height="125" frameborder="0">
+						        <p>Your browser does not support iframes.</p>
+						    </iframe>	
+						</td>
 					</tr>
 					</table>
 				</div>

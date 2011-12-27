@@ -91,8 +91,7 @@
 	                        <%= will_paginate @challenges %>
 	                    </p>
 	                </div>
-	                <!-- ><a href="contests.rss" class="get-rss fl">Get RSS for thisSet</a>
-	                <div class="cl">&nbsp;</div> -->
+	    			<br><%= link_to 'Subscribe to the feed for this set of challenges', feed_path(:category => params[:category], :show => params[:show]), :class => 'get-rss fl' %>
 				<% end %>
             </div>
         </div>

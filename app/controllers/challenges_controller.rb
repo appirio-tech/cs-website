@@ -34,7 +34,8 @@ class ChallengesController < ApplicationController
     redirect_to(:back)
   end
 
-  def index  
+  def index 
+    p "==== #{params}" 
     show_open = false
     show_open = true unless params[:show].eql?('closed')    
     @current_order_by = params[:orderby].nil? ? 'name' : params[:orderby]
@@ -122,7 +123,6 @@ class ChallengesController < ApplicationController
   
   def show
     @challenge_detail = current_challenge
-    p "==== #{@challenge_detail}" 
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
