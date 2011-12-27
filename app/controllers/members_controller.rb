@@ -2,6 +2,11 @@ require 'will_paginate/array'
 
 class MembersController < ApplicationController
   before_filter :require_login, :only => [:recommend_new, :recommend]
+  before_filter :redirect_to_http
+  
+  def redirect_to_http
+    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
 
   def index
     # Define the default order criteria

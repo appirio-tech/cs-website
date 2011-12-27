@@ -4,10 +4,15 @@ require 'utils'
 
 class ContentController < ApplicationController
   
+  before_filter :redirect_to_http
+  
+  def redirect_to_http
+    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
+  
   def home
     
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'home')
-    p "==== #{@webpage}"
     
     @featured_member_username = @page['featured_member_username']
     @featured_member_pic = @page['featured_member_pic']

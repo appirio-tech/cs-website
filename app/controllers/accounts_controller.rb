@@ -1,6 +1,11 @@
 class AccountsController < ApplicationController
   before_filter :require_login, :except => ["public_forgot_password","public_reset_password"]
   before_filter :get_account, :except => ["public_forgot_password","public_reset_password"]
+  before_filter :redirect_to_http
+  
+  def redirect_to_http
+    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
   
   def index
     redirect_to '/account/challenges'

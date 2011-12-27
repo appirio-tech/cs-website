@@ -7,6 +7,11 @@ require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
+  before_filter :redirect_to_http
+  
+  def redirect_to_http
+    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
   
   def register
     @challenge_detail = current_challenge
@@ -35,7 +40,6 @@ class ChallengesController < ApplicationController
   end
 
   def index 
-    p "==== #{params}" 
     show_open = false
     show_open = true unless params[:show].eql?('closed')    
     @current_order_by = params[:orderby].nil? ? 'name' : params[:orderby]
