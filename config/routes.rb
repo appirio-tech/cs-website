@@ -79,6 +79,7 @@ CloudSpokes::Application.routes.draw do
   match "/contact", to: "content#contact"
   match "/contact_send", to: "content#contact_send"
   match "/login_help", to: "content#login_help"
+  match "/welcome2cloudspokes", :to => "content#welcome"
   root to: 'content#home'
   
   mount Resque::Server, :at => "/resque"

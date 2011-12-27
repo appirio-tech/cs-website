@@ -35,6 +35,10 @@ class ContentController < ApplicationController
     @leaders = Challenges.get_leaderboard(current_access_token, :period => 'month')
   end
   
+  def welcome
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'welcome')
+  end
+  
   def login_help
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_help')
   end
