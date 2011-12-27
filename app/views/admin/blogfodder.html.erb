@@ -1,0 +1,34 @@
+<div class="page-heading">
+    <h2 class="melbourne">Blog Post Fodder</h2>
+</div>
+
+<div class="page-padding">
+	
+<% if !@challenge.nil? %>
+		
+	<p><%= link_to @challenge['Name'], challenge_url %></p>
+
+	<p>Top Prize: <%= @challenge['Top_Prize__c'] %></p>
+
+	<p><%= raw(@challenge['Description__c']) %></p>
+
+	<table cellspacing="5" cellpadding="5">
+	<% @winners.each do |record| %>
+		<% if !record["Place__c"].nil? %>
+		<tr>
+			<td><a href='http://<%= request.env["HTTP_HOST"] %>/members/<%= record["Member__r"]["Name"] %>'><img class="member-pic" src="<%= record["Member__r"]["Profile_Pic__c"] %>" width="75" /></a></td>
+			<td>
+				<a href='http://<%= request.env["HTTP_HOST"] %>/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a><br>
+				Place: <%= record["Place__c"] %><br>
+				Money: $<%= record["Money_Awarded__c"].to_i %><br>
+			</td>
+		</tr>
+		<% end %>
+	<% end %>
+	</table>
+
+<% else %>
+	<h3>Enter a valid challenge id in the URL.</h3>
+<% end %>
+	
+</div>

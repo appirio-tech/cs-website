@@ -4,6 +4,11 @@ class AdminController < ApplicationController
   def index
   end
   
+  def blogfodder
+    @challenge = Challenges.find_by_id(current_access_token, params[:id])[0]
+    @winners = Challenges.winners(current_access_token, params[:id])
+  end
+  
   def refresh_token
     
     logger.info "[AdminController]==== refreshing the settting table with a new access token for #{ENV['SFDC_USERNAME']}"
