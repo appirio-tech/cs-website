@@ -4,7 +4,7 @@
 				<table cellspacing="0" border="0" style="border-collapse:collapse;">
 					<tr>
 						<% @categories.each do |record| %>
-						<td><li class="active"><a href="/challenges?category=<%= record['Name']%>">
+						<td><li class="active"><a href="/challenges?category=<%= record['Name']%><% if params[:show]%>&show=<%= params[:show]%><% end %>">
 							<span class="<% if params[:category].eql?(record['Name']) %>category-selected<% else %><%= record['Color__c']%><% end %>"><%= record['Name'] %></span></a></li></td>
 						<% end %>
 						<td><li class="active"><a href="/challenges" class="category-selected">

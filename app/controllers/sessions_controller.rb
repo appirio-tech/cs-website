@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
-          redirect_to challenges_path
+          redirect_to welcome2cloudspokes_path
         else
           # could not save the user in the database
           logger.error "[SessionsController]==== could not save new user to database: #{@user.errors}"
@@ -157,11 +157,7 @@ class SessionsController < ApplicationController
             logger.info "[SessionsController]==== #{@signup_complete_form.email} successfully signed in"
             # send the 'welcome' email
             Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
-            if session[:redirect_to_after_auth].nil?
-              redirect_to challenges_path
-            else
-              redirect_to session[:redirect_to_after_auth] 
-            end
+            redirect_to welcome2cloudspokes_path
           else
             logger.error "[SessionsController]==== error creating a new third party member after manually entering their email address. Could not save to database."
             render :inline => "Whoops! An error occured during the authorization process. Please hit the back button and try again."
