@@ -13,7 +13,7 @@ class ContentController < ApplicationController
   def home
     
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'home')
-    
+    p "==== #{@page}"
     @featured_member_username = @page['featured_member_username']
     @featured_member_pic = @page['featured_member_pic']
     @featured_member_money = @page['featured_member_money']
@@ -32,7 +32,7 @@ class ContentController < ApplicationController
     @featured_challenge_prize = @page['featured_challenge_prize']
     @featured_challenge_details = @page['featured_challenge_details']
     
-    @leaders = Challenges.get_leaderboard(current_access_token, :period => 'month')
+    @leaders = Challenges.get_leaderboard(current_access_token, :period => 'all')
   end
   
   def welcome
