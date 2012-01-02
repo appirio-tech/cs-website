@@ -71,8 +71,8 @@ class ChallengesController < ApplicationController
     if !params[:file].nil?
       begin
         sanitized = sanitize_filename(params[:file][:file_name].original_filename)
-        complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+sanitized
-        AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id], :access => :public_read)
+        complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+current_user.username+'/'+sanitized
+        AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+current_user.username, :access => :public_read)
         # submit the files to sfdc
         submission_results = Challenges.save_submission(current_access_token, 
           params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
