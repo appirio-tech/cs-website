@@ -80,6 +80,8 @@ GEM
     databasedotcom (1.2.5)
       json
       multipart-post (~> 1.1)
+    databasedotcom-rails (1.0.0)
+      databasedotcom
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.2.9)
@@ -272,6 +274,7 @@ DEPENDENCIES
   coffee-rails (~> 3.1.0)
   compass!
   databasedotcom
+  databasedotcom-rails
   flash_messages_helper
   growl
   guard

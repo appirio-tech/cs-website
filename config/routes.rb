@@ -1,5 +1,9 @@
 CloudSpokes::Application.routes.draw do
 
+  match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
+  get "hackathons/results"
+  get "hackathons/page"
+
   match '/signup',  :to => 'sessions#signup'
   match '/signup_complete', :to => 'sessions#signup_complete'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
