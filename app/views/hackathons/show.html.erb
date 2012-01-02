@@ -1,0 +1,73 @@
+<div class="page-heading"><h2 class="melbourne"><%= @hack['Name'] %></h2></div>
+
+<div class="content-wrapper">
+	
+	<div style="width:625px;float:left">
+	
+		<img src="<%= @hack['Logo__c']%>" align="left" width="200" style="padding-right:10px"><%= @hack['About__c']%> 
+		<div style="padding-bottom:15px"></div> 
+		
+		<br clear="all">
+		
+		<h3 style="padding-top:25px"><%= pluralize(@challenges.size, "category") %> to compete in!</h3>
+		<div style="padding-bottom:15px"></div>
+		
+		<% @challenges.each do |record| %>
+			<h4 style="margin-bottom:5px"><%= link_to "#{record["Name"]}", challenge_url(record['Challenge_Id__c']) %></h4>
+			<p><%= raw(truncate(record["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 400, :separator => ' ')) %></p>
+			<a class="button fl" href="<%= challenge_url(record['Challenge_Id__c']) %>"><span>View Contest Details</span></a>
+			<div style="padding-top:50px"></div>
+		<% end %>
+		
+		<h3 style="padding-top:25px">Hackathon Links of Interest</h3>
+		
+		<% @links.each do |link| %>
+			<a href="<%= link['URL__c']%>" target="_blank"><%= link['Name']%></a> - <%= link['Description__c']%><br>
+		<% end %>
+	
+	</div>
+	
+	<div style="width:50px; float:left">&nbsp;</div>
+
+	<div style="width:225px; float:left">
+		
+		<h3><%= @hack['Start_Date__c'].strftime("%B %e, %Y")%></h3>		
+		Submissions <%= format_close_date_time(@challenges[0]['End_Date__c'].strftime()) %>
+		<div style="padding-bottom:15px"></div>
+		<a class="button fl" href="/hackathons/<%= params[:id] %>"><span>Submit Your Entry</span></a>
+
+		<h3 style="padding-top:50px">Prizes</h3>
+		Over $<%= @prize_total.to_i %> in cash and prizes up for grabs. See the complete list of prizes for details.
+		<div style="padding-bottom:15px"></div>
+		
+		<h3>Sponsors</h3>
+		
+		<% @sponsors.each do |sponsor| %>
+			<a href="<%= sponsor['Home_Page__c']%>" target="_blank"><img src="<%= sponsor['Logo__c']%>" width="150" alt="<%= sponsor['Name']%>"></a><br>
+		<% end %>
+		
+		<h3 style="padding-top:25px">Location</h3>    
+
+		<%= @hack['Location__c']%><br>
+		<%= @hack['Location_Address__c']%><br>
+		<%= @hack['Location_City__c']%>, <%= @hack['Location_State__c']%> <%= @hack['Location_Zip__c']%> (<a href="http://maps.google.com/maps?q=<%= @hack['Location_Address__c']%>%20<%= @hack['Location_City__c']%>%20<%= @hack['Location_State__c']%>%20<%= @hack['Location_Zip__c']%>" target="_blank">map</a>)<br>
+		<div style="padding-bottom:15px"></div>
+		
+		<h3>Share</h3>
+  		<!-- AddThis Button BEGIN -->
+		<div class="addthis_toolbox addthis_default_style ">
+		<a class="addthis_button_preferred_1"></a>
+		<a class="addthis_button_preferred_2"></a>
+		<a class="addthis_button_preferred_3"></a>
+		<a class="addthis_button_preferred_4"></a>
+		<a class="addthis_button_compact"></a>
+		<a class="addthis_counter addthis_bubble_style"></a>
+		</div>
+		<script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4ee9c6ae01a87600"></script>
+		<!-- AddThis Button END -->
+		<div class="cl">&nbsp;</div>
+
+	</div>
+
+</div>
+
