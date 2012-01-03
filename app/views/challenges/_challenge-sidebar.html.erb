@@ -6,6 +6,8 @@
 		<li><h3>Time Left For Submission</h3><h2><span><%= format_close_date_time(@challenge_detail['End_Date__c']) %></span></h2></li>
 	<% end %>
 	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
+	
+	<% if @challenge_detail["Challenge_Prizes__r"] %>
 	<li><h3>Prizes</h3>
 		<ul>
 			<% @challenge_detail["Challenge_Prizes__r"]["records"].each do |record| %>                
@@ -13,6 +15,8 @@
 			<% end %>
 		</ul>
 	</li>
+	<% end %>
+	
 	<li><h3>Winner Announced</h3><strong><span>
 	<% if @challenge_detail["Status__c"].eql?("Winner Selected") %>
 		<%= link_to "View the Winners", results_path %></span></strong>
