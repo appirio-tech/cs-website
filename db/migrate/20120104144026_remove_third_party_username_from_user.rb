@@ -4,6 +4,6 @@ class RemoveThirdPartyUsernameFromUser < ActiveRecord::Migration
   end
 
   def down
-    add_column :users, :third_party_username, :string
+    add_column :users, :third_party_username, :string 
   end
 end
