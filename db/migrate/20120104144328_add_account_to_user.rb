@@ -1,5 +1,5 @@
 class AddAccountToUser < ActiveRecord::Migration
   def change
-    add_column :users, :accountid, :string 
+    add_column :user, :accountid, :string 
   end
 end
