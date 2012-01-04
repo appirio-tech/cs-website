@@ -52,6 +52,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/watch', :to => 'challenges#watch', :as => :watch
   match 'challenges/:id/scorecard', :to => 'challenges#scorecard', :as => :scorecard_display
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 
+  match 'challenges/:id/all_submissions', :to => 'challenges#all_submissions', :as => :submissions
   match 'challenges/:id/submission', :to => 'challenges#submission', :as => :submission
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url_upload', :as => :submission_url, :via => :post
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file_upload', :as => :submission_file, :via => :post

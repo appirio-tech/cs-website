@@ -63,7 +63,7 @@ class Challenges < Cloudspokes
       
   def self.registrants(access_token, id)
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/participants?challengeid=#{id}&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c,Member__r.summary_bio__c,Status__c")
+    get(ENV['SFDC_REST_API_URL']+"/participants?challengeid=#{id}&fields=Member__r.Profile_Pic__c,Member__r.Name,Member__r.Total_Wins__c,Member__r.summary_bio__c,Status__c,has_submission__c")
   end
   
   def self.winners(access_token, id)
@@ -113,6 +113,11 @@ class Challenges < Cloudspokes
   def self.current_submissions(access_token, participantId)
     set_header_token(access_token) 
     get(ENV['SFDC_REST_API_URL']+"/submissions?participantid=#{esc participantId}")
+  end
+  
+  def self.all_submissions(access_token, challengeId)
+    set_header_token(access_token) 
+    get(ENV['SFDC_REST_API_URL']+"/submissions?challengeid=#{challengeId}&orderby=username__c")
   end
   
   def self.scorecard_questions(access_token, id)

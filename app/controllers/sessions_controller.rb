@@ -102,7 +102,6 @@ class SessionsController < ApplicationController
           
       # user already exists. log them in
       else
-        # make sure their user in sfdc is active ---- THIS MAY NOT BE THE CORRECT USERNAME???
         Services.activate_user(current_access_token, as.get_hash[:username])
         
         # log them in

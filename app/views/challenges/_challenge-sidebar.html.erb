@@ -5,6 +5,13 @@
 	<% else %>
 		<li><h3>Time Left For Submission</h3><h2><span><%= format_close_date_time(@challenge_detail['End_Date__c']) %></span></h2></li>
 	<% end %>
+	
+	<% if signed_in? && (current_user.email? && current_user.email.include?('@appirio.com') || current_user.accountid? && current_user.accountid.eql?(@challenge_detail['Account__c'])) %>
+		<!-- if an appirio member or a member assigned to the challenge sponsor, then show this link -->
+		<li><h3>Admin Only</h3><strong>
+		<span><%= link_to "View all submission files", submissions_path %></span></strong></li>
+	<% end %>
+	
 	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
 	
 	<% if @challenge_detail["Challenge_Prizes__r"] %>
@@ -25,8 +32,7 @@
 	<% end %></span></strong></li>
 		
 	<% if signed_in? %>
-	<li><h3>Your Status</h3><strong>
-		<span><%= @participation_status[:status] %></span></strong></li>
+		<li><h3>Your Status</h3><strong><span><%= @participation_status[:status] %></span></strong></li>
 	<% end %>
 
 	<li style="display:block;"><h3>Participants</h3>

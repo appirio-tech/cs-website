@@ -13,16 +13,16 @@ class User < ActiveRecord::Base
     
     if login_results[:success].eql?('true')
       # get their member record and profile_pic
-      member = Members.find_by_username(access_token, username, 'id,profile_pic__c').first      
+      member = Members.find_by_username(access_token, username, 'id,profile_pic__c,email__c,account__c').first      
       # check for an existing record in the database and delete it
       User.delete(User.find_by_username(username))
       # create the new user in the database
       user = User.new(:username => username, :sfdc_username => username+ENV['SFDC_USERNAME_DOMAIN'], 
-        :password => password, :access_token => login_results[:access_token], :profile_pic => member['Profile_Pic__c'])
+        :password => password, :access_token => login_results[:access_token], 
+        :profile_pic => member['Profile_Pic__c'], :email => member['Email__c'], :accountid => member['Account__c'])
       user.save
       return user
     else
-      # TODO pass the error back from login_results - 'message'
       logger.error "[User]==== could not authenticate user in sfdc: #{login_results.to_yaml}"
       return nil
     end
@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
         # save the user
         user = User.new(:username => results[:username], :sfdc_username => results[:sfdc_username], 
             :password => ENV['THIRD_PARTY_PASSWORD'], :access_token => login_results[:access_token],
-            :profile_pic => results[:profile_pic])
+            :profile_pic => results[:profile_pic], :email => results[:email], :accountid => results[:accountid])
         user.save
         return user
         

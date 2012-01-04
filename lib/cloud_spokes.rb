@@ -50,7 +50,6 @@ class Cloudspokes
     set_header_token(access_token)    
     if AvailableObjects.include?(self.to_s.downcase)
       request_url  = SFDC_URL + self.to_s.singularize.capitalize + "__c/" + id
-      p "==== request_url: #{request_url}"
       get(request_url)
     end
   end

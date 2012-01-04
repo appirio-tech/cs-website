@@ -7,6 +7,7 @@ require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
+  before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
   def redirect_to_http
@@ -123,6 +124,11 @@ class ChallengesController < ApplicationController
     redirect_to(challenge_url) unless @challenge_detail["Is_Open__c"].eql?('true')
     @participation_status = challenge_participation_status
     @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
+  end
+  
+  # private appirio page
+  def all_submissions
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   
   def show
@@ -246,6 +252,21 @@ class ChallengesController < ApplicationController
       if Time.parse(current_challenge["Start_Date__c"]) > Time.now
         redirect_to '/challenges'
       end
+    end
+  end
+  
+  # must have an @appirio.com email address or be in the same account as the challenge sponsor
+  def admin_only
+    if !current_user.email.nil?
+      appirio = current_user.email.include?('@appirio.com') ? true : false
+    end
+        
+    if !current_user.accountid.nil?
+      sponsor = current_user.accountid.eql?(current_challenge['Account__c']) ? true : false
+    end
+      
+    if !appirio && !sponsor
+      redirect_to challenge_path
     end
   end
   
