@@ -1,0 +1,37 @@
+<div class="page one-cols-bg">
+  <!-- Widecolumn -->
+  <div>
+				<span style="font-size:Small;font-weight:bold;"></span>
+      <div class="challenge-information">
+          <h3>All Submission Resources</h3>
+
+		<% if @all_submissions.length > 0 %>
+		<table id="submissions-current" style="width:925px">
+		    <thead>
+		    	<tr>
+					<th scope="col" style="width: 150px">Member</th>
+		        	<th scope="col">Media</th>
+		  			<th scope="col">Comments</th>
+		  			<th scope="col" style="width: 50px">Type</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+				<% @all_submissions.each do |record| %>
+		    	<tr>
+					<td><%= link_to record['Username__c'], member_path(record['Username__c']), :target => '_blank' %></td>
+		        	<td><a href="<%= record['URL__c']%>" target="_blank"><%= record['URL__c'].split('/').last %></a></td>
+		  			<td><%= record['Comments__c']%></td>
+		  			<td><%= record['Type__c']%></td>
+		        </tr>
+				<% end %>
+		    </tbody>
+		</table>
+		<% else %>
+			<p style="padding-bottom:200px">There are no submissions for this challenge.</p>
+		<% end %>
+					
+      </div>
+
+      <!-- END Challenge Information -->
+  </div>
+</div>
