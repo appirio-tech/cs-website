@@ -25,9 +25,9 @@
                 - @challenges.each do |record|
                   %tr
                     %td
-                      =record["Challenge_Participant__r"]["Challenge__r"]["Name"]	
+                      %a{:href => challenge_path(record["Challenge_Participant__r"]["Challenge__r"]["Challenge_Id__c"]), :target => '_blank'}= record["Challenge_Participant__r"]["Challenge__r"]["Name"]
                     %td
-                      =record["Challenge_Participant__r"]["Member__r"]["Name"]
+                      %a{:href => member_url(record["Challenge_Participant__r"]["Member__r"]["Name"]), :target => '_blank'}= record["Challenge_Participant__r"]["Member__r"]["Name"]
                     %td
                       =Time.parse(record["Challenge_Participant__r"]["Submitted_Date__c"]).strftime("%b. %d at %I:%M %p")
                     %td
