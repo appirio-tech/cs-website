@@ -1,5 +1,7 @@
 require 'spec_helper'
 
 describe Settings do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "requires access token" do
+    Settings.new(:access_token => nil).should_not be_valid
+  end
 end

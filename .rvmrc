@@ -1,2 +1,2 @@
-rvm use 1.9.2@cs-website
+rvm use 1.9.3@cs-website
 rvm_gemset_create_on_use_flag=1
