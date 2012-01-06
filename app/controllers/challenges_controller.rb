@@ -255,19 +255,23 @@ class ChallengesController < ApplicationController
     end
   end
   
-  # must have an @appirio.com email address or be in the same account as the challenge sponsor
+  # if signed in, must have an @appirio.com email address or be in the same account as the challenge sponsor
   def admin_only
-    if !current_user.email.nil?
-      appirio = current_user.email.include?('@appirio.com') ? true : false
-    end
+    if signed_in?
+      if !current_user.email.nil?
+        appirio = current_user.email.include?('@appirio.com') ? true : false
+      end
         
-    if !current_user.accountid.nil?
-      sponsor = current_user.accountid.eql?(current_challenge['Account__c']) ? true : false
-    end
+      if !current_user.accountid.nil?
+        sponsor = current_user.accountid.eql?(current_challenge['Account__c']) ? true : false
+      end
       
-    if !appirio && !sponsor
-      redirect_to challenge_path
+      if !appirio && !sponsor
+        redirect_to challenge_path
+      end
     end
+  else
+    redirect_to challenge_path
   end
   
   def current_challenge
