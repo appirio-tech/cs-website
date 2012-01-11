@@ -110,7 +110,12 @@ class Services
   def self.activate_user(access_token, username)  
     set_header_token(access_token)
     results = get(ENV['SFDC_REST_API_URL']+'/activate/'+username)
-    Rails.logger.error "[Services]==== activating user #{username}: #{results}"     
+    Rails.logger.error "[Services]==== activating user #{username}: #{results}"
+    if results['Success'].eql?('true')  
+      return true
+    else 
+      return false
+    end
   end
   
 end

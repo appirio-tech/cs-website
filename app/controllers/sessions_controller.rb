@@ -102,20 +102,25 @@ class SessionsController < ApplicationController
           
       # user already exists. log them in
       else
-        Services.activate_user(current_access_token, as.get_hash[:username])
+
+        if Services.activate_user(current_access_token, as.get_hash[:username])
         
-        # log them in
-        user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],thirdparty_username(as.get_hash))
-        if user.nil?
-          logger.error "[SessionsController]==== error logging in user: #{thirdparty_username(as.get_hash)} with #{as.get_hash[:provider]}."
-          flash[:error] = "Sorry... we were not able to log you in. Something really bad happened."
-        else
-          sign_in user
-          if session[:redirect_to_after_auth].nil?
-            redirect_to challenges_path
+          # log them in
+          user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],thirdparty_username(as.get_hash))
+          if user.nil?
+            logger.error "[SessionsController]==== error logging in user: #{thirdparty_username(as.get_hash)} with #{as.get_hash[:provider]}."
+            flash[:error] = "Sorry... we were not able to log you in. Something really bad happened."
           else
-            redirect_to session[:redirect_to_after_auth] 
+            sign_in user
+            if session[:redirect_to_after_auth].nil?
+              redirect_to challenges_path
+            else
+              redirect_to session[:redirect_to_after_auth] 
+            end
           end
+        
+        else
+          redirect_to login_denied_path
         end
       end
       
@@ -193,17 +198,21 @@ class SessionsController < ApplicationController
     if @login_form.valid?
       
       # make sure their user in sfdc is active
-      Services.activate_user(current_access_token, params[:login_form][:username])
+      if Services.activate_user(current_access_token, params[:login_form][:username])
 
-      user = User.authenticate(current_access_token, params[:login_form][:username],
-          params[:login_form][:password])
+        user = User.authenticate(current_access_token, params[:login_form][:username],
+            params[:login_form][:password])
 
-      if user.nil?
-        flash.now[:error] = "Invalid username/password combination."
-        render :action => 'login'
+        if user.nil?
+          flash.now[:error] = "Invalid username/password combination."
+          render :action => 'login'
+        else
+          sign_in user
+          redirect_to challenges_path
+        end
+      
       else
-        sign_in user
-        redirect_to challenges_path
+        redirect_to login_denied_path
       end
 
     else

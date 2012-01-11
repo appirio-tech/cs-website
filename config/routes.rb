@@ -1,5 +1,9 @@
 CloudSpokes::Application.routes.draw do
 
+  match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
+  get "hackathons/results"
+  get "hackathons/page"
+
   match '/signup',  :to => 'sessions#signup'
   match '/signup_complete', :to => 'sessions#signup_complete'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
@@ -81,6 +85,7 @@ CloudSpokes::Application.routes.draw do
   match "/contact_send", to: "content#contact_send"
   match "/login_help", to: "content#login_help"
   match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes
+  match "/login_denied", to: "content#login_denied", :as => :login_denied
   root to: 'content#home'
   
   mount Resque::Server, :at => "/resque"

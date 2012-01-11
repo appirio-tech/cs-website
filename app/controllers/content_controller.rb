@@ -58,5 +58,9 @@ class ContentController < ApplicationController
   def tos
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'tos')
   end
+  
+  def login_denied
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_denied')
+  end
 
 end
