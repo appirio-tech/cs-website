@@ -8,7 +8,11 @@
 			<h3>Payment Info</h3>
 			<%= flash_messages %>
 			<p>
-            If you've won money from a CloudSpokes challenge here is how you get it. Make sure you check here often to ensure we are not waiting on something from you. Payments are paid on the 20th of each month via the method that you define below. You can also check the status of your payments below. If you have any questions, please contact us at <a href="mailto:info@cloudspokes.com">info@cloudspokes.com</a>.</p>
+            If you've won money from a CloudSpokes challenge here is how you get it. Make sure you check here often to ensure we are not waiting on something from you. 
+			Payments are paid on the 20th of each month via the method that you define below. You can also check the status of your payments below. If you have any questions, 
+			please contact us at <a href="mailto:info@cloudspokes.com">info@cloudspokes.com</a>. Please see the 
+			<a href="http://www.google.com/calendar/embed?src=appirio.com_bhga3musitat85mhdrng9035jg%40group.calendar.google.com&ctz=America/New_York" target="_blank">CloudSpokes calendar</a> 
+			for specific payment dates.</p>
 
 			<div id="profile">
 				<%= form_for "/account/payments", :name => "form_payment", :method => "post", :html => { :multipart => true } do |f| %>
