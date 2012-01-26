@@ -57,8 +57,15 @@
       - "Twitter__c,LinkedIn__c,Facebook__c,Github__c".split(',').each do |social|
         - if @member[social]
           %li
-            %a{:href => @member[social], :target => "_blank"}
-              = image_tag social[0..-4].downcase + ".gif"
+            - if social.eql?('Twitter__c')
+              %a{:href => 'http://www.twitter.com/' + @member[social], :target => "_blank"}
+                = image_tag social[0..-4].downcase + ".gif"
+            - elsif social.eql?('Github__c')
+              %a{:href => 'http://www.github.com/' + @member[social], :target => "_blank"}
+                = image_tag social[0..-4].downcase + ".gif"
+            - else
+              %a{:href => @member[social], :target => "_blank"}
+                = image_tag social[0..-4].downcase + ".gif"
   .cl
   - if @member["Website__c"]
     .website
