@@ -1,0 +1,282 @@
+<style type="text/css">
+ body {
+     font-family: arial;
+     font-size: small;
+ }
+ .question_group h3 {
+     color: #456078;
+	 padding-top: 25px;
+ }
+ .question_group .head_outer {
+     background: #456078;
+     color: #fff;
+ }
+ .head_inner {
+     margin-left: auto;
+     margin-right: 0;
+     width: 39%;
+     padding: 5px;
+ }
+ .head_inner .head_right {
+     float:right;
+     padding-right: 10px;
+ }
+ .head_inner span {
+     font-size: x-small;
+     font-weight: bold;
+ }
+ .question_group_content {
+     border: 1px solid #e7edea;
+     padding: 8px;
+ }
+ .question_outer {
+     padding-top: 7px;
+     padding-bottom: 7px;
+ }
+ .q_numeric {
+     border: 1px solid #e7edea;
+     border-radius: 5px;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     background-color: #e7edea;
+ }
+ .question .question_content {
+     min-height: 60px;
+ }
+ .q_numeric .question_content {
+     border: 1px solid #fff;
+     background-color: #fff;
+     margin-right:40%;
+     border-radius: 5px;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+ }
+ .q_text .question_content{
+     margin-right: 60%;
+ }
+ .question .question_weight {
+     float:left;
+     font-size: 110%;
+     font-weight: bold;
+     color: #456078;
+     padding: 5px;
+     height:100%;
+	padding-top: 10px;
+ }
+ .question .has_weight {
+     margin-left: 60px;
+	 padding-top: 10px;
+ }
+ .question .question_description  {
+     padding-right: 7px;
+     padding-bottom: 4px;
+ }
+ .q_numeric .question_answer {
+     float: right;
+     width: 40%;
+	 padding-top: 10px;
+ }
+ .q_text .question_answer {
+     float: right;
+     width: 60%;
+ }
+ .q_numeric .question_answer table {
+     width:100%;
+     text-align:center;
+ }
+ .q_text .question_answer textarea {
+     width: 98%;
+     height: 80px;
+ }
+ .clear {
+     clear: both;
+ }
+ .button {
+     cursor: pointer;
+     margin: 10px;
+ }
+ .scorecard {
+    color: #666666;
+    font-size: 14px;
+    padding: 6px 5px;
+ }
+ .button, .button span {
+     float: left;
+     display: inline;
+     height: 26px;
+     line-height: 26px;
+     font-size: 14px;
+     color: #fff;
+     padding-left: 44px;
+     background: url(http://cloudspokes.s3.amazonaws.com/button-1.gif) no-repeat 0 0;
+ }
+ .button span {
+     padding-left: 0;
+     padding-right: 44px;
+     background-position: right 0;
+ }
+ .button:hover, .button:hover span {
+     text-decoration: none;
+     background-position: 0 -26px;
+ }
+ .button:hover span {
+     background-position: right -26px;
+ }
+ </style>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+	/**
+	* This function takes as input the json string and returns the array of question group objects
+	* with questions containing all the information required for rendering.
+   */
+	function process_json(input_str) {
+		input = $.parseJSON(input_str);
+		var key;
+		var question_groups = {};
+		for (var p in input) {
+			key = p;
+		}
+		input = input[key];
+		for (q in input) {
+	        // for each question in the input json
+			var question = input[q];
+			var qs_grp_no = question["Question__r"]["QwikScore_Question_Group__r"]["Sequence_Number__c"];
+			if (question_groups[qs_grp_no] === undefined) {
+	            // create a question group if the question group is seen for the first time
+	            // also store the necessary information for rendering the question group
+				var qs_grp = question["Question__r"]["QwikScore_Question_Group__r"];
+				question_groups[qs_grp_no] = {"name": qs_grp["Name"], "weight": qs_grp["Group_Weight__c"], "questions": {}};
+			}
+	        // group questions and store the required information for rendering based on the question group they belong to,
+	        // ordering them as per sequence number
+			question_groups[qs_grp_no]["questions"][question["Question__r"]["Sequence_Number__c"]]
+				= {"text": question["Question__r"]["Question_Text__c"],
+					"weight": question["Question__r"]["Question_Weight__c"],
+					"type": question["Question__r"]["Question_Type__c"],
+					"min": question["Question__r"]["Minimum_Value__c"],
+					"max": question["Question__r"]["Maximum_Value__c"],
+					"answer_value": question["Answer_Value__c"],
+					"answer_text": question["Answer_Text__c"],
+					"isanswered": question["IsAnswered__c"],
+					"id": question["Id"]
+				};
+		}
+		return question_groups;
+	}
+
+	/**
+	* Render each question group into the div.
+   */
+	function scorecard_render(question_groups, container) {
+	    container = "#"+container;
+	     for (q in question_groups) {
+	        // for each question group, render it, and append it to the div container
+	        $(container).append(question_group_render(question_groups[q]));
+	    }
+	}
+
+	function question_group_render(ques_grp) {
+	    // question group boiler plate template
+	    ques_grp_dom = $('<div class="question_group">'+
+	        '   <h3>' + ques_grp["name"] + ' - '+ ques_grp["weight"] + '%</h3>'+
+	        '   <div class="head_outer">'+
+	        '      <div class="head_inner">'+
+	        '          <span>Unsatisfactory</span>'+
+	        '          <span class="head_right">Exceeded Expectations</span>'+
+	        '      </div>'+
+	        '   </div>'+
+	        '   <div class="question_group_content">'+
+	        '   </div>'+
+	        '</div>');
+	    for (q in ques_grp["questions"]) {
+	        // for each question in the question group, render it and append it to the question group
+	        ques_grp_dom.children(":last").append(question_render(ques_grp['questions'][q]));
+	    }
+	    return ques_grp_dom;
+	}
+
+	function question_render(question) {
+	    if (question["type"] == "Text") {
+			var answer_text = question["answer_text"] != undefined ? question["answer_text"] : '';
+	        // if question type is Text, render a textarea
+	        question_class = "q_text";
+	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'">'+decodeURIComponent(answer_text.replace(/\+/g,  " "))+'</textarea>';
+	    } else {
+	        // else render the radio buttons
+	        question_class = "q_numeric";
+	        question_answer_dom = "<table><tr>";
+	        for (var i=question["min"];i<=question["max"];i++) {
+				if ((question["isanswered"] == "1") && (question["answer_value"] == i)) {
+	            	question_answer_dom += '<td><input class="scorecard" type="radio" name="'+question["id"]+'" value="' +i+ '" checked><br>'+i+'</td>';
+				} else {
+					question_answer_dom += '<td><input class="scorecard" type="radio" name="'+question["id"]+'" value="' +i+ '"><br>'+i+'</td>';
+				}
+	        }
+	        question_answer_dom += "</tr></table>";
+	    }
+	    var has_weight;
+	    // the weight percentage of the question is to be shown only if its not 0 (which is the case with Text questions)
+	    if (question["weight"] != 0) {
+	        has_weight = " has_weight";
+	        has_weight_dom = '<div class="question_weight">'+ question["weight"] +'%</div>';
+	    } else {
+	        has_weight = "";
+	        has_weight_dom = "";
+	    }
+	    // question boiler plate template
+	    ques_dom = $('<div class="question_outer">'+
+	        '   <div class="question '+ question_class +'">'+
+	        '       <div class="question_answer">'+ question_answer_dom +
+	        '       </div>'+
+	        '       <div class="question_content">'+ has_weight_dom +
+	        '           <div class="question_description' + has_weight +'">' + question["text"] +'</div>'+
+	        '       </div>'+
+	        '       <div class="clear"></div>'+
+	        '   </div>'+
+	        '</div>');
+	    return ques_dom;
+	}
+	
+
+
+	$(document).ready(function() {
+	    // In the current code, we stored the sample JSON in INPUT_JSON variable,
+	    // during deployment change it to the appropriate variable containing the json.
+		scorecard_render(process_json(INPUT_JSON),"scorecard");
+	});
+
+
+var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfully\',\'id\': \'a0OU00000000KvhMAE\',\'name\': \'QSS-000590\',\'scored__c\': \'false\'}":  <%= @json %>}';
+</script>
+
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl">
+                <span></span>
+				<p><%= link_to "Back to Challenge Results", results_path %></p>
+				<h3>Scorecard for <%= link_to params[:username], member_path(params[:username]), :target => '_blank' %></h3>
+				Reviewer: <%= link_to params[:reviewer], member_path(params[:reviewer]), :target => '_blank' %>
+
+				<div id="scorecard"></div>
+				<div class="cl"></div>
+				
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+				<%= render "challenge-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>
