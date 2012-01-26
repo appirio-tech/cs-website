@@ -201,7 +201,7 @@
 			var answer_text = question["answer_text"] != undefined ? question["answer_text"] : '';
 	        // if question type is Text, render a textarea
 	        question_class = "q_text";
-	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'">'+answer_text+'</textarea>';
+	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'">'+decodeURIComponent(answer_text.replace(/\+/g,  " "))+'</textarea>';
 	    } else {
 	        // else render the radio buttons
 	        question_class = "q_numeric";

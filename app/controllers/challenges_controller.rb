@@ -144,21 +144,17 @@ class ChallengesController < ApplicationController
   
   def results
     @challenge_detail = current_challenge
-    @winners = Challenges.winners(current_access_token, params[:id])
-    @participation_status = signed_in? ? challenge_participation_status : nil
-  end
-  
-  def scorecards
-    @challenge_detail = current_challenge
-    p "==== #{@challenge_detail}"
     @participants = Challenges.scorecards(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil    
+    @has_submission = signed_in? ? challenge_submission_status : false
   end  
   
   def participant_submissions
     @challenge_detail = current_challenge
+    @participation_status = signed_in? ? challenge_participation_status : nil    
+    # if the current user did not submit for the challenge, they cannot see this page
+    redirect_to challenge_path unless challenge_submission_status
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
-    @participation_status = signed_in? ? challenge_participation_status : nil
     @all_submissions.each do |participant| 
       if participant['Challenge_Participant__c'].eql?(params[:participant])
         @participant_name = participant['Username__c']
@@ -170,8 +166,9 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @participants = Challenges.scorecards(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
-    scorecard = Scoring.scorecard(current_access_token, params[:scorecard], current_user.username).to_json
-    p "scorecard #{scorecard}"
+    scorecard = Scoring.scorecard(current_access_token, params[:scorecard], params[:reviewer]).to_json
+    # set the json results to be html safe are usable in the javascript
+    @json = scorecard[scorecard.index('['),scorecard.length].gsub(']}',']').html_safe
   end
   
   def scorecard    
@@ -317,6 +314,20 @@ class ChallengesController < ApplicationController
         end
       end
       return status
+    end
+    
+    # iterate through all participants and see if the current user has a submission
+    def challenge_submission_status
+      has_submission = false
+      if @challenge_detail["Challenge_Participants__r"]
+        @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
+          if record["Member__r"]["Name"].eql?(current_user.username) 
+            has_submission = record['Has_Submission__c']
+            break
+          end
+        end
+      end
+      return has_submission
     end
   
     def signed_in?

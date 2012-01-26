@@ -53,9 +53,8 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/register', :to => 'challenges#register', :as => :register
   match 'challenges/:id/agree_to_tos', :to => 'challenges#register_agree_to_tos', :as => :agree_tos
   match 'challenges/:id/results', :to => 'challenges#results', :as => :results
-  match 'challenges/:id/scorecards', :to => 'challenges#scorecards', :as => :scorecards
   match 'challenges/:id/submissions/:participant', :to => 'challenges#participant_submissions', :as => :participant_submissions
-  match 'challenges/:id/scorecard/:scorecard', :to => 'challenges#participant_scorecard', :as => :participant_scorecard
+  match 'challenges/:id/scorecard/:scorecard/:reviewer/:username', :to => 'challenges#participant_scorecard', :as => :participant_scorecard
   match 'challenges/:id/watch', :to => 'challenges#watch', :as => :watch
   match 'challenges/:id/scorecard', :to => 'challenges#scorecard', :as => :scorecard_display
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 

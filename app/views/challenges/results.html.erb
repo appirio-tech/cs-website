@@ -6,39 +6,45 @@
                 <!-- Challenge Registrants -->
                 <span></span>
 				<p><%= link_to "Back to Challenge Details", challenge_path %></p>
-				<%= flash_messages %>
-				<% if @winners.size == 0 %>
+				<h3>Results</h3>
+				<% if @participants.size == 0 %>
 					<div style="text-align: center; padding:50px"><b>No winners found for this challenge.</b></div>
 				<% else %>
-					<h3>Winners</h3>
-					<!-- List Members -->
-	                <div class="list-members">
-						<% @winners.each do |record| %>
-							<% if record["Has_Submission__c"] %>
-							<div class="box">
-								<div class="box-b">
-									<div class="box-t">
-										<div class="user-info fl">
-		                             		<a href='/members/<%= record["Member__r"]["Name"] %>'><img class="member-pic" src="<%= record["Member__r"]["Profile_Pic__c"] %>" style="height:48px;width:48px;border-width:0px;" /></a>
-											<div class="text-holder">
-												<h4><a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a></h4>
-												<% if !record["Place__c"].nil? %><span class="stats">Place: <%= record["Place__c"].to_i.ordinalize %></span><% end %>
-												<span class="stats">Money: $<%= record["Money_Awarded__c"].to_i %></span>
-												<span class="stats">Points: <%= record["Points_Awarded__c"] %></span>
-											</div>
-											<div class="cl"></div>
-										</div>
-										<div class="user-desc fr">
-											<p><strong>About Me:</strong>
-											<%= record["Member__r"]["Summary_Bio__c"] %>
-											<a href='/members/<%= record["Member__r"]["Name"] %>'>View Profile</a></p>
-										</div>
-										<div class="cl"></div>
-									</div>
-								</div>
-							</div>
+					<table  id="submissions-current" style="width:100%">
+					    <thead>
+					    	<tr>
+								<th scope="col">Member</th>
+					            <th scope="col">Place</th>
+								<th scope="col">Prize</th>
+								<th scope="col">Score</th>
+								<th scope="col">View</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+						<% @participants.each do |participant| %>
+					    	<tr>	
+								<td><%= link_to participant['Member__r']['Name'], member_path(participant['Member__r']['Name']), :target => '_blank' %></td>
+								<td><% if participant['Place__c'].to_i > 0 %><%= participant['Place__c'].to_i.ordinalize %><% end %></td>
+								<td><% if participant['Money_Awarded__c'] > 0 %><%= number_to_currency(participant['Money_Awarded__c'], :precision => 0) %><% end %></td>
+								<td><%= participant['Score__c']%></td>
+								<td><% if @has_submission %><%= link_to 'Submissions', participant_submissions_path(params[:id], participant['Id']) %><% end %></td>
+					        </tr>
+							<% if participant['Scorecard__r'] %>
+								<% participant['Scorecard__r']['records'].each do |scorecard| %>
+								<tr>
+									<td><div style="padding-left:25px"><%= link_to scorecard['Reviewer__r']['Name'], member_path(scorecard['Reviewer__r']['Name'],), :target => '_blank' %></div></td>
+									<td colspan="2"></td>
+									<td><%= scorecard['Final_Score__c'] %></td>
+									<td><%= link_to 'Scorecard', participant_scorecard_path(params[:id], participant['Id'], scorecard['Reviewer__r']['Name'], participant['Member__r']['Name']) %></td>								
+								</tr>
+								<% end %>
 							<% end %>
-						<% end %>            
+						<% end %>
+					    </tbody>
+					</table>
+					
+					
+					      
 	                    <div class="cl"></div>
 	                </div>
 					
