@@ -8,7 +8,7 @@
           %p= "#{truncate(challenge["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
         .col-right.fr
           %p
-            %strong= challenge['Challenge_Participants__r']['records'].first['Place__c'].toi.ordinalize 
+            %strong= member_challenge_place(challenge['Challenge_Participants__r']['records'].first['Place__c'])
             %br
             = "$#{challenge['Challenge_Participants__r']['records'].first['Money_Awarded__c'].round} for"
             %br
