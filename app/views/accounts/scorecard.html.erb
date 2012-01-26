@@ -305,7 +305,12 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 <form id="scorecard_form" action="<%= scorecard_save_path %>" method="post">
 <input type="hidden" name="set_as_scored" id="hidden_scored" value="">
 <input type="hidden" name="xml" id="hiddenxml" value="">
-<% if !@scored %><a class="button" onClick="doSubmit('false')"><span>Save for Later</span></a><% end %>
-<% if !@scored %><a class="button" onClick="doSubmit('true')"><span>Submit</span></a><% end %>
+<input type="hidden" name="participantId" id="participantId" value="<%= params[:id] %>">
+<% if !@scored %>
+<a class="button" onClick="doSubmit('false')"><span>Save for Later</span></a>
+<a class="button" onClick="doSubmit('true')"><span>Submit</span></a>
+<p><br><span style="padding-left:50px"><input type="checkbox" value="true" name="delete_participant_submission"> Not a valid scorecard. Delete it without scoring.</span></p>
+<% end %>
 </form>
+
 </div>

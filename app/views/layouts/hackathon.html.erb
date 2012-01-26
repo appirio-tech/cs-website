@@ -34,9 +34,9 @@
       <h1 id='logo'><%= link_to "CloudSpokes", "/" %></h1>
       <nav id='menu'><ul>
         <li><%= link_to "Hackathon", hackathon_path %></li>
-        <li><%= link_to "Judges & Prizes", "/challenges" %></li>
-		<li><%= link_to "Schedule", "/badges" %></li>
-        <li><%= link_to "Sponsors", "/badges" %></li>
+		<% @pages.each do |page| %>
+			<li><%= link_to page['Name'], "/challenges" %></li>
+		<% end %>
         <% if current_user.nil? %>
 			<li><%= link_to "Account", "/login_popup", :class => "fancy" %></li>
 		<% else %>

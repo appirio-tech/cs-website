@@ -27,7 +27,7 @@ class AccountsController < ApplicationController
   end
   
   def scorecard_save
-    save_results = Scoring.save_scorecard(current_access_token, params[:xml],params[:set_as_scored])
+    save_results = Scoring.save_scorecard(current_access_token,params[:participantId],params[:xml],params[:set_as_scored],params[:delete_participant_submission])
     if save_results[:success].eql?('true')
       redirect_to outstanding_reviews_path
     else
