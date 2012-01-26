@@ -5,7 +5,7 @@
             <div class="widecolumn fl">
                 <!-- Challenge Registrants -->
                 <span></span>
-				<p><%= link_to "Back", challenge_path %></p>
+				<p><%= link_to "Back to Challenge Details", challenge_path %></p>
 				<%= flash_messages %>
 				<% if @winners.size == 0 %>
 					<div style="text-align: center; padding:50px"><b>No winners found for this challenge.</b></div>
@@ -22,7 +22,7 @@
 		                             		<a href='/members/<%= record["Member__r"]["Name"] %>'><img class="member-pic" src="<%= record["Member__r"]["Profile_Pic__c"] %>" style="height:48px;width:48px;border-width:0px;" /></a>
 											<div class="text-holder">
 												<h4><a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a></h4>
-												<% if !record["Place__c"].nil? %><span class="stats">Place: <%= record["Place__c"] %></span><% end %>
+												<% if !record["Place__c"].nil? %><span class="stats">Place: <%= record["Place__c"].to_i.ordinalize %></span><% end %>
 												<span class="stats">Money: $<%= record["Money_Awarded__c"].to_i %></span>
 												<span class="stats">Points: <%= record["Points_Awarded__c"] %></span>
 											</div>

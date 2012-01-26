@@ -64,7 +64,7 @@
 					    	<tr>
 								<td><%= record['Name'] %></td>
 								<td><%= record['Challenge__r']['Name'] %></td>
-								<td><%= record['Place__c'] %></td>
+								<td><%= record['Place__c'].to_i.ordinalize %></td>
 								<td><%= number_to_currency(record["Money__c"], :precision => 0) %></td>
 								<td><%= record['Reason__c'] %></td>
 								<td><%= record['Type__c'] %></td>
@@ -102,7 +102,7 @@
 					    	<tr>	
 								<td><%= record['Name'] %></td>
 								<td><%= record['Challenge__r']['Name'] %></td>
-								<td><%= record['Place__c'] %></td>
+								<td><%= record['Place__c'].to_i.ordinalize %></td>
 								<td><%= number_to_currency(record["Money__c"], :precision => 0) %></td>
 								<td><%= record['Reason__c'] %></td>
 								<td><%= record['Type__c'] %></td>

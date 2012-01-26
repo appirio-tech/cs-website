@@ -22,7 +22,6 @@ class ChallengesController < ApplicationController
       redirect_to(:back)
     # challenge has it's own terms. show and make them register
     else
-      # @challenge_detail['Terms_of_Service__r']['Id']
       @participation_status = signed_in? ? challenge_participation_status : nil
       @terms = Terms_of_Service.find(current_access_token, @challenge_detail['Terms_of_Service__r']['Id'])
     end
@@ -147,6 +146,32 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @winners = Challenges.winners(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+  end
+  
+  def scorecards
+    @challenge_detail = current_challenge
+    p "==== #{@challenge_detail}"
+    @participants = Challenges.scorecards(current_access_token, params[:id])
+    @participation_status = signed_in? ? challenge_participation_status : nil    
+  end  
+  
+  def participant_submissions
+    @challenge_detail = current_challenge
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
+    @participation_status = signed_in? ? challenge_participation_status : nil
+    @all_submissions.each do |participant| 
+      if participant['Challenge_Participant__c'].eql?(params[:participant])
+        @participant_name = participant['Username__c']
+      end 
+    end
+  end
+  
+  def participant_scorecard
+    @challenge_detail = current_challenge
+    @participants = Challenges.scorecards(current_access_token, params[:id])
+    @participation_status = signed_in? ? challenge_participation_status : nil
+    scorecard = Scoring.scorecard(current_access_token, params[:scorecard], current_user.username).to_json
+    p "scorecard #{scorecard}"
   end
   
   def scorecard    

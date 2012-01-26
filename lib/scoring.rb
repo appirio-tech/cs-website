@@ -15,10 +15,11 @@ class Scoring
     get(ENV['SFDC_REST_API_URL']+"/scorecard/#{participant}?reviewer=#{reviewer}")
   end
   
-  def self.save_scorecard(access_token, xml, scored)
+  def self.save_scorecard(access_token, participantId, xml, scored, delete_participant_submission)
     set_header_token(access_token) 
     options = { :body => xml }
-    response = put(ENV['SFDC_REST_API_URL']+"/scorecard?setScored=#{scored}", options)
+    response = put(ENV['SFDC_REST_API_URL']+"/scorecard?participantId=#{participantId}&setScored=#{scored}&deleteSubmission=#{delete_participant_submission}", options)
+    Rails.logger.info "[Scoring]==== returned from score card response #{response}"
     return {:success => response['Success'].downcase, :message => response['Update Result']}
   end
   

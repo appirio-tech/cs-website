@@ -9,7 +9,7 @@
 	<% if signed_in? && (current_user.email? && current_user.email.include?('@appirio.com') || current_user.accountid? && current_user.accountid.eql?(@challenge_detail['Account__c'])) %>
 		<!-- if an appirio member or a member assigned to the challenge sponsor, then show this link -->
 		<li><h3>Admin Only</h3><strong>
-		<span><%= link_to "View all submission files", submissions_path %></span></strong></li>
+		<span><%= link_to "View all submission files", all_submissions_path %></span></strong></li>
 	<% end %>
 	
 	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
@@ -18,7 +18,7 @@
 	<li><h3>Prizes</h3>
 		<ul>
 			<% @challenge_detail["Challenge_Prizes__r"]["records"].each do |record| %>                
-    		<li><span><%= record["Place__c"] %>. <%= record["Prize__c"] %></span><br /></li>
+    		<li><span><%= record["Place__c"].to_i.ordinalize %> <%= record["Prize__c"] %></span><br /></li>
 			<% end %>
 		</ul>
 	</li>

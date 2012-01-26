@@ -50,7 +50,7 @@
 		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
 							<% elsif @participation_status[:status].eql?('Watching') %>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
-							<% elsif @participation_status[:status].eql?('Registered') %>
+							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
 		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
 							<% end %>                    
 		                    </div>

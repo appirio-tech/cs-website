@@ -70,6 +70,11 @@ class Challenges < Cloudspokes
     set_header_token(access_token) 
     get(ENV['SFDC_REST_API_URL']+"/participants?challengeid=#{id}&fields=id,name,has_submission__c,place__c,score__c,member__r.name,status__c,money_awarded__c,points_awarded__c,member__r.profile_pic__c,member__r.summary_bio__c&orderby=money_awarded__c%20desc")
   end
+  
+  def self.scorecards(access_token, id) 
+    set_header_token(access_token)
+    results = get(ENV['SFDC_REST_API_URL']+"/challenges/#{id}/scorecards")
+  end
 
   def self.get_leaderboard(access_token, options = {:period => nil, :category => nil, :limit => nil})
     set_header_token(access_token) 
