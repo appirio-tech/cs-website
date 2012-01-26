@@ -103,7 +103,7 @@ class SessionsController < ApplicationController
       # user already exists. log them in
       else
 
-        if Services.activate_user(current_access_token, thirdparty_username(as.get_hash))
+        if Services.activate_user(current_access_token, as.get_hash[:username])
         
           # log them in
           user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],thirdparty_username(as.get_hash))
