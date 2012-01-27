@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
         user = User.new(:username => results[:username], :sfdc_username => results[:sfdc_username], 
             :password => ENV['THIRD_PARTY_PASSWORD'], :access_token => login_results[:access_token],
             :profile_pic => results[:profile_pic], :email => results[:email], :accountid => results[:accountid])
-        user.save
+        logger.error "[User]==== could not save user to database: #{user.errors.full_messages}" unless user.save
         return user
         
       else
