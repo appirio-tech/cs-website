@@ -32,7 +32,7 @@ module ApplicationHelper
   end
   
   def format_close_date(end_date)
-    
+
     end_time = Time.parse(end_date)
     if end_time.past?
         display = "closed"
@@ -41,7 +41,7 @@ module ApplicationHelper
         if (secs > 86400)
             display = "due in " + pluralize((secs/86400).floor, 'day')
         else
-            display = "due in " + pluralize((secs/3600).floor, 'hour') + "  " + pluralize((secs/60).round, 'minute')
+            display = "due in " + pluralize((secs/3600).floor, 'hour') + "  " + pluralize(((secs%3600)/60).round, 'minute')
         end
     end
 
