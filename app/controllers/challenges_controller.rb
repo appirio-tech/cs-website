@@ -134,6 +134,7 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+    p "==== #{@participation_status}"
   end
   
   def registrants    
@@ -307,7 +308,7 @@ class ChallengesController < ApplicationController
       status =  {:status => 'Not Registered', :participantId => nil}
       if @challenge_detail["Challenge_Participants__r"]
         @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
-          if record["Member__r"]["Name"].eql?(current_user.username) 
+          if record["Member__r"]["Name"].downcase.eql?(current_user.username.downcase) 
             status = {:status => record['Status__c'], :participantId => record['Id']}
             break
           end
@@ -321,7 +322,7 @@ class ChallengesController < ApplicationController
       has_submission = false
       if @challenge_detail["Challenge_Participants__r"]
         @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
-          if record["Member__r"]["Name"].eql?(current_user.username) 
+          if record["Member__r"]["Name"].downcase.eql?(current_user.username.downcase) 
             has_submission = record['Has_Submission__c']
             break
           end
