@@ -1,0 +1,54 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl">
+				<span style="font-size:Small;font-weight:bold;"></span>
+                <div class="challenge-information">
+                    <h3>Your Challenge Submission</h3>
+
+					<% if @current_submissions.length > 0 %>
+						<p><br>These are the files, URLs and other links that we have for your challenge submission.</p>
+
+						<table id="submissions-current">
+						    <thead>
+						    	<tr>
+						        	<th scope="col">Media</th>
+						            <th scope="col">Comments</th>
+						            <th scope="col">Type</th>
+									<th scope="col"></th>
+						        </tr>
+						    </thead>
+						    <tbody>
+								<% @current_submissions.each do |record| %>
+						    	<tr>
+						        	<td><a href="<%= record['URL__c']%>" target="_blank"><%= record['URL__c'].split('/').last %></a></td>
+						            <td><%= record['Comments__c']%></td>
+						            <td><%= record['Type__c']%></td>
+									<td><%= link_to "Delete", submission_delete_path(:submissionId => record['Id']) %></td>
+						        </tr>
+								<% end %>
+						    </tbody>
+						</table>
+					<% end %>
+					
+                </div>
+
+                <!-- END Challenge Information -->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+				<%= render "challenge-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>

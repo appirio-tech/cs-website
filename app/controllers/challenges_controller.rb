@@ -125,6 +125,12 @@ class ChallengesController < ApplicationController
     @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
   end
   
+  def submission_view_only
+    @challenge_detail = current_challenge
+    @participation_status = challenge_participation_status
+    @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
+  end
+  
   # private appirio page
   def all_submissions
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])

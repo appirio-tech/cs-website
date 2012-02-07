@@ -60,6 +60,8 @@
 		                        <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                        
 		                    </div>
 						<% end %>
+					<% else %>
+						<a class="button fl" href="<%= submission_view_only_url(@challenge_detail["Challenge_Id__c"]) %>"><span>View Your Submission</span></a>
 					<% end %>
 
                 </div><br/><br/>
