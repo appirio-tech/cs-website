@@ -1,16 +1,16 @@
 ---
 cs-website/application/cpu_time:
-  value: 16.479999999999997
+  value: 18.309999999999995
 cs-website/application/cpu_time/by_date/2012:
-  value: 34.25
+  value: 36.08
 cs-website/application/cpu_time/by_date/2012/02:
-  value: 33.510000000000005
+  value: 35.34
 cs-website/application/cpu_time/by_date/2012/02/08:
-  value: 10.379999999999999
+  value: 12.209999999999997
 cs-website/application/cpu_time/by_date/2012/02/08/15:
-  value: 33.510000000000005
+  value: 35.34
 cs-website/application/cpu_time/hourly/15:
-  value: 15.739999999999998
+  value: 17.569999999999997
 cs-website/requests:
   value: 15
 cs-website/requests/by_date/2012:
