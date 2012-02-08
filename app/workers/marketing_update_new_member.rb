@@ -10,7 +10,7 @@ class MarketingUpdateNewMember
       'Campaign_Medium__c' =>  marketing_hash[:campaign_medium], 
       'Campaign_Name__c' =>  marketing_hash[:campaign_name] }
     
-    results = Members.update(current_access_token, username, update_hash)
+    results = Members.update(access_token, username, update_hash)
     
     Rails.logger.info "[Resque]==== results from updating marketing info for #{username}: #{results}"
         
