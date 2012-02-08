@@ -18,4 +18,32 @@
 	</dif>
   </div>
 
+<div class="bv_playerProfile" bv_options='{"showActivities":true,"showRewards":true}' style=""></div>
+  <script>
+    window.BadgevilleAsynchInit = function() {
+      Badgeville.extend( Badgeville.Settings, {
+        key: 'c9ba95594b056538ec1aada661dfadb8',
+        domain: 'appirio.com'
+        // Add other Badgeville.Settings changes
+
+      });
+      // Call Badgeville.setPlayer, bind to events, configure Badgeville.Defaults, etc.
+
+      Badgeville.setPlayer({
+ 		email: 'kathi@appirio.com.full'}
+	  );
+
+      Badgeville.ready(function() {
+        // Display any Gears or other chores that require Badgeville to be initialized
+        
+      });
+    };
+    (function() {
+      var s = document.createElement( 'script' );
+      s.async = true;
+      s.src =  'http://sandbox.v2.badgeville.com/v3/badgeville-current.js';
+      document.body.appendChild( s );
+    }());
+  </script>
+
 <%= render "member-sidebar" %>
