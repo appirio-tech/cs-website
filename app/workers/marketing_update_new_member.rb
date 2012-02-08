@@ -11,8 +11,6 @@ class MarketingUpdateNewMember
       'Campaign_Name__c' =>  marketing_hash['campaign_name'] }
     
     results = Members.update(access_token, username, update_hash)
-    
-    Rails.logger.info "[Resque]==== results from updating marketing info for #{username}: #{results}"
         
   end
   

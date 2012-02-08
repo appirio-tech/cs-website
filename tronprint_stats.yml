@@ -12,15 +12,18 @@ cs-website/application/cpu_time/by_date/2012/02/08/15:
 cs-website/application/cpu_time/hourly/15:
   value: 50.209999999999994
 cs-website/requests:
-  value: 53
+  value: 89
 cs-website/requests/by_date/2012:
-  value: 36
+  value: 72
 cs-website/requests/by_date/2012/02:
-  value: 54
+  value: 90
 cs-website/requests/by_date/2012/02/08:
-  value: 1
+  value: 37
 cs-website/requests/by_date/2012/02/08/15:
   value: 160
 cs-website/requests/hourly/15:
   value: 135
- value: 134
+cs-website/requests/by_date/2012/02/08/16:
+  value: 36
+cs-website/requests/hourly/16:
+  value: 36
