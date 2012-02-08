@@ -22,7 +22,7 @@
             $('#rolloverPopupAndroid').hide();
             $('#rolloverPopupCloudFoundry').hide();
             
-            $('#rolloverPopupTwilio').hide();
+            $('#rolloverPopupBox').hide();
             $('#aForce').children().css('border', '0')
             $('#aIOS').children().css('border', '0')
             $('#aHTML5').children().css('border', '0')
@@ -31,7 +31,7 @@
             $('#aAWS').children().css('border', '0')
             $('#aAppengine').children().css('border', '0')
 
-            $('#aTwilio').children().css('border', '0')
+            $('#aBox').children().css('border', '0')
         }
 
 
@@ -90,7 +90,7 @@
 
         });
         
-        $('#aTwilio').hover(function () {
+        $('#aBox').hover(function () {
             hidealldivs();
             $(this).children().css('border', '1px solid #000000');
             var href = $(this).attr('href');
@@ -187,7 +187,7 @@
             <div class="developSkillbadgetextdiv">
                 <p>
                     <strong>CloudSpokes Adventurer</strong><br>
-                    You can thrive and conquer any journey! Awarded for winning at least five contests</p>
+                    You can thrive and conquer any journey! Awarded for winning at least five contests.</p>
                     
             </div>
             <div class="developSkillbadgeimgdiv">
@@ -243,6 +243,10 @@
                     <a href="#rolloverPopupAndroid" id="aAndroid" rel="aAndroid" class="techbadgesA">
                         <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_droid.jpg" /></a>
                 </div>
+                <div class="technologyBadgesdiv">
+                    <a href="#rolloverPopupBox" id="aBox" rel="aBox" class="techbadgesA">
+                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/box.png" /></a>
+                </div>
                 <div class="cl">
                 </div>
             </div>
@@ -250,8 +254,7 @@
             <div class="fl">
                 <div id="rolloverPopupForce" class="divBadgespopUp" style="display: block;">
                     <div>
-                        <strong>Force.com</strong> - Leading cloud platform for business apps from <a href="http://salesforce.com">
-                            salesforce.com</a> .
+                        <strong>Force.com</strong> - Leading cloud platform for business apps from salesforce.com.
                     </div>
                     <div style="float: left; width: 150px;">
                         <img src="http://cloudspokes.s3.amazonaws.com/force_spoker.gif">
@@ -260,8 +263,7 @@
                         <p>
                             <strong>Force.com Follower</strong> - Begin your journey to “use the force” to make
                             the impossible real. Awarded for  submitting an acceptable
-                            entry (at least 70% score) on a challenge using or related to <a href="http://force.com">
-                                force.com.</a>
+                            entry (at least 70% score) on a challenge using or related to force.com.
                         </p>
                     </div>
                     <div class="cl">
@@ -272,7 +274,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>Force.com Traveler</strong> - Awarded for placing in at least one contest
-                            involving or using <a href="http://force.com">force.com.</a></p>
+                            involving or using force.com.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -281,7 +283,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Force.com Adventurer</strong> - Awarded for winning at least five contests.</p>
+                            <strong>Force.com Adventurer</strong> - Awarded for winning at least five contests involving or using force.com.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -290,8 +292,8 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Force.com Ninja</strong> - You are not to be trifled with ! Awarded for
-                            winning at least ten contests.</p>
+                            <strong>Force.com Ninja</strong> - You are not to be trifled with!  Awarded for
+                            winning at least ten contests involving or using force.com.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -316,7 +318,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Heroku Traveler</strong> - Awarded for placing in at least one contest  involving or using Heroku.</p>
+                            <strong>Heroku Traveler</strong> - Awarded for placing in at least one contest involving or using Heroku.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -325,7 +327,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Heroku Adventurer</strong> - Awarded for winning at least five contests .</p>
+                            <strong>Heroku Adventurer</strong> - Awarded for winning at least five contests involving or using Heroku.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -334,8 +336,8 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Heroku Ninja</strong> - There is nothing silent about your skills ! Awarded
-                            for winning at least ten contests.</p>
+                            <strong>Heroku Ninja</strong> - There is nothing silent about your skills!  Awarded
+                            for winning at least ten contests involving or using Heroku.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -371,7 +373,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Appengine Adventurer</strong> - Awarded for winning at least five contests.</p>
+                            <strong>Appengine Adventurer</strong> - Awarded for winning at least five contests involving or using Appengine.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -381,7 +383,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>Appengine Ninja</strong> - With your skills you’re sneaking up on no one!
-                            Awarded for winning at least ten contests.</p>
+                            Awarded for winning at least ten contests involving or using Appengine.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -397,7 +399,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>Beanstalker </strong>- Your climbing up to take down the giant and reap
-                            the rewards of cloud greatness ! Awarded for  submitting
+                            the rewards of cloud greatness!  Awarded for  submitting
                             an acceptable entry (at least 70% score) on a challenge using or related to AWS.</p>
                     </div>
                     <div class="cl">
@@ -416,7 +418,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>AWS Adventurer</strong> - Awarded for winning at least five contests .</p>
+                            <strong>AWS Adventurer</strong> - Awarded for winning at least five contests involving or using AWS.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -425,8 +427,8 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>AWS Ninja</strong> - Your use of many weapons is most impressive. Awarded
-                            for winning at least ten contests.</p>
+                            <strong>AWS Ninja</strong> - Your use of many weapons is most impressive.  Awarded
+                            for winning at least ten contests involving or using AWS.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -442,7 +444,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>UI Zen</strong> - Seeing the Feng shui of user experience is a noble goal.
-                            Awarded for  submitting an acceptable entry (at least
+                            Awarded for submitting an acceptable entry (at least
                             70% score) on a challenge using or related to HTML5/JS.</p>
                     </div>
                     <div class="cl">
@@ -461,7 +463,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>UI Adventurer</strong> - Awarded for winning in at least five contests  substantially using HTML5 and/or Javascript.</p>
+                            <strong>UI Adventurer</strong> - Awarded for winning in at least five contests substantially using HTML5 and/or Javascript.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -470,8 +472,8 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>UI Ninja</strong> - You are amongst the rarest of a lost but resurgent art.
-                            Awarded for winning at least ten contests.</p>
+                            <strong>UI Ninja</strong> - You are amongst the rarest of a lost but resurgent art. 
+                            Awarded for winning at least ten contests substantially using HTML5 and/or Javascript.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -487,7 +489,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>“Eye” Everything </strong>- You can see the power to consumer style enjoyment
-                            to enterprise mobile. Awarded for  submitting an acceptable
+                            to enterprise mobile. Awarded for submitting an acceptable
                             entry (at least 70% score) on a challenge using or related to iOS.</p>
                     </div>
                     <div class="cl">
@@ -497,8 +499,8 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Apple I Traveler</strong> - Awarded for  submitting
-                            an acceptable entry (at least 70% score) on a challenge using or related to iOS.</p>
+                            <strong>Apple I Traveler</strong> - Awarded for placing in at least one contest
+                             using or related to iOS.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -518,7 +520,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>Apple I Ninja</strong> - You bring together the steak and sizzle to change
-                            the lives of users everywhere. Awarded for winning at least ten contests.</p>
+                            the lives of users everywhere.  Awarded for winning at least ten contests using or related to iOS.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -534,7 +536,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>DroidHead</strong> - Trick out your device and get ready to rumble with
-                            the coolest technologies. Awarded for  submitting an
+                            the coolest technologies. Awarded for submitting an
                             acceptable entry (at least 70% score) on a challenge using or related to Android.</p>
                     </div>
                     <div class="cl">
@@ -544,7 +546,7 @@
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Android Traveler</strong> - warded for  submitting
+                            <strong>Android Traveler</strong> - Awarded for submitting
                             an acceptable entry (at least 70% score) on a challenge using or related to Android.</p>
                     </div>
                     <div class="cl">
@@ -565,58 +567,56 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>Android Ninja</strong> - Even at the geek conferences your skills standout
-                            ! Awarded for winning at least ten contests.</p>
+                            !  Awarded for winning at least ten contests using or related to Android.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
-				<!--
-                <div id="rolloverPopupTwilio" class="divBadgespopUp">
+
+                <div id="rolloverPopupBox" class="divBadgespopUp">
                     <div>
-                        <strong>Twilio </strong>- Twilio is an API based telephony stack providing voice and SMS protocols over a simple REST interface.
+                        <strong>Box</strong>- The Box platform allows you to integrate, customize, and build innovative apps on Box.
                     </div>
                     <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/twilio.gif">
+                        <img src="http://cloudspokes.s3.amazonaws.com/boxer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Twilio Talker</strong> - You really know how to get the word out! Awarded for submitting an
-                            acceptable entry (at least 70% score) on a challenge using or related to Twilio.</p>
+                            <strong>Boxer</strong> - You're ready to build knock-out apps! Awarded for creating a Box account and creating a Box API Key.</p>
                     </div>
                     <div class="cl">
                     </div>
                     <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/twilio_traveler.gif">
+                        <img src="http://cloudspokes.s3.amazonaws.com/box-traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Twilio Traveler</strong> - warded for and submitting
-                            an acceptable entry (at least 70% score) on a challenge using or related to Twilio.</p>
+                            <strong>Box Traveler</strong> - Awarded for placing in at least one contest
+                             using or related to Box.</p>
                     </div>
                     <div class="cl">
                     </div>
                     <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/twilio_adventurer.gif">
+                        <img src="http://cloudspokes.s3.amazonaws.com/box-adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Twilio Adventurer</strong> - Awarded for winning in at least five contests
-                             using or related to Twilio.</p>
+                            <strong>Box Adventurer</strong> - Awarded for winning at least five contests
+                             using or related to Box.</p>
                     </div>
                     <div class="cl">
                     </div>
                     <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/twilio_ninja.gif">
+                        <img src="http://cloudspokes.s3.amazonaws.com/box-ninja.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Twilio Ninja</strong> - In a connected world, you really know how to communicate
-                            ! Awarded for winning at least ten contests.</p>
+                            <strong>Box Ninja</strong> - You have mastered the art of Box-Fu!  Awarded for winning at least ten contests.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
-				-->
+
                 <div id="rolloverPopupCloudFoundry" class="divBadgespopUp">
                     <div>
                         <strong>Cloud Foundry </strong>- Open platform as a service project initiated by
@@ -628,7 +628,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>CloudSmith </strong>- Knights and Ninjas appreciate your desire to forge
-                            our future tools ! Awarded for  submitting an acceptable
+                            our future tools!  Awarded for  submitting an acceptable
                             entry (at least 70% score) on a challenge using or related to Cloud Foundry.</p>
                     </div>
                     <div class="cl">
@@ -659,7 +659,7 @@
                     <div class="divBadgePopupText">
                         <p>
                             <strong>Cloud Foundry Ninja</strong> - Your code cuts through things like a throwing
-                            star! Awarded for winning at least ten contests.</p>
+                            star!  Awarded for winning at least ten contests.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -750,7 +750,7 @@
                         <strong>Cloud Foundry Blacksmith </strong>
                         <br />
                         Get this badge by completing a real world programming exercise that uses multiple
-                        features of Cloud Foundry, incorporates third party libraries and connects to various
+                        features of Cloud Foundry, incorporates third party libraries, and connects to various
                         social networks.</p>
                 </div>
                 <div class="cl">
