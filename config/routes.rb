@@ -60,6 +60,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/new_comment', :to => 'challenges#new_comment', :as => :challenge_comment 
   match 'challenges/:id/all_submissions', :to => 'challenges#all_submissions', :as => :all_submissions
   match 'challenges/:id/submission', :to => 'challenges#submission', :as => :submission
+  match 'challenges/:id/submission_view_only', :to => 'challenges#submission_view_only', :as => :submission_view_only
   match 'challenges/:id/submission/url', :to => 'challenges#submission_url_upload', :as => :submission_url, :via => :post
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file_upload', :as => :submission_file, :via => :post
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete

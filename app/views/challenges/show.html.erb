@@ -22,24 +22,29 @@
 					<%= flash_messages %>
 
 					<% if !@challenge_detail["Description__c"].nil? %>
-                    <h3>Overview</h3>
-                    <p><%= raw(@challenge_detail["Description__c"])%></p>
+                    	<h3>Overview</h3>
+                    	<p><%= raw(@challenge_detail["Description__c"])%></p>
 					<% end %>
 
 					<% if !@challenge_detail["Requirements__c"].nil? %>
-                    <h3>Challenge Requirements</h3>
-                    <p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
+                    	<h3>Challenge Requirements</h3>
+                    	<p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
 					<% end %>
 
-					<% if !@challenge_detail["Submission_Details__c"].nil? %>
                     <h3>Submission Details</h3>
-                    <p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
+					<% if !@challenge_detail["Submission_Details__c"].nil? %>
+                    	<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
 					<% end %>
 					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.</p> 
 
 					<% if !@challenge_detail["Additional_Info__c"].nil? %>
-                    <h3>Additional Info</h3>
-                    <p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
+                    	<h3>Additional Info</h3>
+                    	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
+					<% end %>
+					
+					<!-- show if they are registered or submitted and if not nil -->
+					<% if !@challenge_detail["Post_Reg_Info__c"].nil? && @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
+                    	<p><%= raw(@challenge_detail["Post_Reg_Info__c"]) %></p>
 					<% end %>
 
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
@@ -60,6 +65,8 @@
 		                        <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                        
 		                    </div>
 						<% end %>
+					<% else %>
+						<a class="button fl" href="<%= submission_view_only_url(@challenge_detail["Challenge_Id__c"]) %>"><span>View Your Submission</span></a>
 					<% end %>
 
                 </div><br/><br/>
