@@ -41,6 +41,13 @@
                     	<h3>Additional Info</h3>
                     	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
 					<% end %>
+					
+					<!-- show if they are registered or submitted and signed in -->
+					<% if signed_in? %>
+						<% if !@challenge_detail["Post_Reg_Info__c"].nil? && @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
+	                    	<p><%= raw(@challenge_detail["Post_Reg_Info__c"]) %></p>
+						<% end %>
+					<% end %>
 
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 						<% if signed_in? %>
