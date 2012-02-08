@@ -25,6 +25,12 @@ class SessionsController < ApplicationController
   
   # signup with cs u/p
   def signup
+    # save the google ad tracking to a marketing hash in the sessino
+    if params[:utm_source]
+      marketing = { :campaign_source => params[:utm_source], :campaign_medium => params[:utm_medium], 
+        :utm_campaign => params[:utm_campaign] }
+      session[:marketing] = marketing
+    end
     @signup_form = SignupForm.new
   end
   
@@ -56,6 +62,7 @@ class SessionsController < ApplicationController
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+          Resque.enqueue(MarketingUpdateNewMember, current_access_token, results[:sfdc_username], session[:marketing]) unless session.include?(:marketing).nil?
           redirect_to welcome2cloudspokes_path
         else
           # could not save the user in the database
