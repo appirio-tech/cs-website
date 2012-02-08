@@ -28,7 +28,7 @@ class SessionsController < ApplicationController
     # save the google ad tracking to a marketing hash in the sessino
     if params[:utm_source]
       marketing = { :campaign_source => params[:utm_source], :campaign_medium => params[:utm_medium], 
-        :utm_campaign => params[:utm_campaign] }
+        :campaign_name => params[:utm_campaign] }
       session[:marketing] = marketing
     end
     @signup_form = SignupForm.new
