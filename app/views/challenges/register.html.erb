@@ -9,7 +9,7 @@
 				<%= flash_messages %>
 				<h3>Challenge Terms and Conditions</h3>
 				<p>You must agree to the terms and conditions of this challenge before competing.</p>
-				<%= @terms['Terms__c'] %>
+				<%= raw(@terms['Terms__c']) %>
 				
 				<p><br/><a href="<%= agree_tos_path %>" class="button"><span>Agree & Register</span></a></p>
 
