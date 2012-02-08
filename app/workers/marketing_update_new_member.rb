@@ -6,9 +6,9 @@ class MarketingUpdateNewMember
     
     Rails.logger.info "[Resque]==== updating new user #{username} with: #{marketing_hash}"
     
-    update_hash = { 'Campaign_Source__c' =>  marketing_hash[:campaign_source], 
-      'Campaign_Medium__c' =>  marketing_hash[:campaign_medium], 
-      'Campaign_Name__c' =>  marketing_hash[:campaign_name] }
+    update_hash = { 'Campaign_Source__c' =>  marketing_hash['campaign_source'], 
+      'Campaign_Medium__c' =>  marketing_hash['campaign_medium'], 
+      'Campaign_Name__c' =>  marketing_hash['campaign_name'] }
     
     results = Members.update(access_token, username, update_hash)
     
