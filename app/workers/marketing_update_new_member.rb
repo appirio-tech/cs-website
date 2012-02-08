@@ -1,4 +1,4 @@
-class WelcomeEmailSender
+class MarketingUpdateNewMember
   include HTTParty 
   
   @queue = :marketing_update_queue
