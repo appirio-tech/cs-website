@@ -188,7 +188,6 @@ class ChallengesController < ApplicationController
     @participation_status = signed_in? ? challenge_participation_status : nil
     if params["survey"]
       post_results = Surveys.save(current_access_token, params[:id], params["survey"])
-      p "===== post_results : #{post_results}"
       flash[:notice] = "Thanks for completing the survey!" 
       redirect_to challenge_path     
     end

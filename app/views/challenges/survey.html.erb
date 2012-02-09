@@ -11,7 +11,7 @@
 
 					<p>Thank you for participating in this challenge! 
 						We are trying to gather feedback about the challenge process to continue to make it better 
-						for everyone. Your answers are anonymous.</p>
+						for everyone. <% if signed_in? %>If you wish to remain anonymous, simply logout before filling out this survey.<% end %></p>
 						
 						<div id="survey">
 							<%= form_for survey_path, :name => "survey", :method => "post" do |f| %>

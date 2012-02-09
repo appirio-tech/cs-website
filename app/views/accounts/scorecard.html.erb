@@ -126,11 +126,19 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript">
+	function limitText(limitField, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+			alert('Comments are limited to 255 characters.');
+		}
+	}
+
 	/**
 	* This function takes as input the json string and returns the array of question group objects
 	* with questions containing all the information required for rendering.
    */
 	function process_json(input_str) {
+		totalRadioQuestions = 0;
 		input = $.parseJSON(input_str);
 		var key;
 		var question_groups = {};
@@ -201,8 +209,9 @@
 			var answer_text = question["answer_text"] != undefined ? question["answer_text"] : '';
 	        // if question type is Text, render a textarea
 	        question_class = "q_text";
-	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'">'+decodeURIComponent(answer_text.replace(/\+/g,  " "))+'</textarea>';
+	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'" onKeyDown="limitText(this,255);" onKeyUp="limitText(this,255);">'+decodeURIComponent(answer_text.replace(/\+/g,  " "))+'</textarea><div class="hint">Limit 255 characters</div>';
 	    } else {
+			totalRadioQuestions = totalRadioQuestions + 1;
 	        // else render the radio buttons
 	        question_class = "q_numeric";
 	        question_answer_dom = "<table><tr>";
@@ -249,6 +258,8 @@
 	* set the xml as the value of a hidden input and submit the form.
    */
 	function doSubmit(scored) {
+		 var allTextareasCompleted = true;
+		 var totalRadioQuestionsAnswered = 0;
 	     var xml = '<?xml version="1.0" encoding="utf-8"?>'+
 	                        '<Objects>';
 	    $("input.scorecard,textarea.scorecard").each(function() {
@@ -256,19 +267,25 @@
 	            if (this.checked) {
 	                // for each radio box in scorecard, capture the value of the radio box thats checked
 	                xml += '<Object type="QwikScore_Question_Answer__c" id="'+this.name+'"><field id="Answer_Text__c">'+this.value+'</field></Object>';
+					totalRadioQuestionsAnswered = totalRadioQuestionsAnswered + 1;
 	            }
 	        } else {
 	            // for each textarea in scorecard, capture the text filled in
-	            xml += '<Object type="QwikScore_Question_Answer__c" id="'+this.name+'"><field id="Answer_Text__c">'+this.value+'</field></Object>';
+	            if (this.value.length == 0) { allTextareasCompleted = false; }
+	            xml += '<Object type="QwikScore_Question_Answer__c" id="'+this.name+'"><field id="Answer_Text__c">'+encodeURIComponent(this.value.replace(/\+/g,  " "))+'</field></Object>';
 	        }
 	    });
 	    xml += "</Objects>";
-		// set the value of scored
-		$('#hidden_scored').val(scored);
-	    // The generated xml is added as the value of a hidden input of the form
-	    $('#hiddenxml').val(xml);
-	    // and the form is submitted
-	    $('#scorecard_form').submit();
+		if (allTextareasCompleted && (totalRadioQuestionsAnswered == totalRadioQuestions)) {
+			// set the value of scored
+			$('#hidden_scored').val(scored);
+		    // The generated xml is added as the value of a hidden input of the form
+		    $('#hiddenxml').val(xml);
+		    // and the form is submitted
+		    $('#scorecard_form').submit();
+		} else {
+			alert('Looks like you missed something! Please complete all questions and enter text for all comment fields.')
+		}
 	}
 
 
