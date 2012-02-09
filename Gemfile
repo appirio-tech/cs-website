@@ -9,7 +9,6 @@ gem 'will_paginate'
 gem 'jquery-rails'
 gem 'httparty'
 gem 'newrelic_rpm'
-gem 'tronprint'
 gem 'refinerycms' 
 
 gem 'ruby-openid', :git => "git://github.com/mbleigh/ruby-openid.git"

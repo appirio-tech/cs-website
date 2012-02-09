@@ -51,6 +51,8 @@
         = number_to_currency(@member["Total_Money__c"], :precision => 0)
         %strong Total Money
   .achievements
+    = render "badgeProfile"
+
   %h3 Social
   .socials
     %ul
