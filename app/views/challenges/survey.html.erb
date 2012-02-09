@@ -1,0 +1,101 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl">
+				<span style="font-size:Small;font-weight:bold;"></span>
+                <div class="challenge-information">
+					<p><%= link_to "Back to Challenge Details", challenge_path %></p>
+                    <h3>Post Challenge Survey</h3>
+					<%= flash_messages %>
+
+					<p>Thank you for participating in this challenge! 
+						We are trying to gather feedback about the challenge process to continue to make it better 
+						for everyone. Your answers are anonymous.</p>
+						
+						<div id="survey">
+							<%= form_for survey_path, :name => "survey", :method => "post" do |f| %>
+							
+							<label>1. Were the challenge requirements clearly stated and achievable?</label>
+							<div class="holder">
+							<input type="radio" name="survey[requirements]" value="Yes" />
+							<%= label_tag("Yes") %><br/>
+							<input type="radio" name="survey[requirements]" value="No" />
+							<%= label_tag("No") %><br/>
+							<input type="radio" name="survey[requirements]" value="Could have been better." />
+							<%= label_tag("Could have been better.") %><br/>
+							<input type="radio" name="survey[requirements]" value="Do you guys know what you are doing?" />
+							<%= label_tag("Do you guys know what you are doing?") %>
+							</div>
+							<div class="spacer"></div>
+							
+							<label>2. Were the challenge requirements clearly stated and achievable?</label>
+							<div class="holder">
+							<input type="radio" name="survey[timeframe]" value="Yes" />
+							<%= label_tag("Yes") %><br/>
+							<input type="radio" name="survey[timeframe]" value="No" />
+							<%= label_tag("No") %><br/>
+							<input type="radio" name="survey[timeframe]" value="Too much time. I am super-fast." />
+							<%= label_tag("Too much time. I am super-fast.") %>
+							</div>
+							<div class="spacer"></div>
+							
+							<label>3. Was the prize money adequate for the effort involved?</label>
+							<div class="holder">
+							<input type="radio" name="survey[prize_money]" value="Prize money was perfect!" />
+							<%= label_tag("Prize money was perfect!") %><br/>
+							<input type="radio" name="survey[prize_money]" value="Not enough money for my effort." />
+							<%= label_tag("Not enough money for my effort.") %><br/>
+							<input type="radio" name="survey[prize_money]" value="You guys are giving away too much money! I'd like less." />
+							<%= label_tag("You guys are giving away too much money! I'd like less.") %>
+							</div>
+							<div class="spacer"></div>
+
+							<label>4. If you were registered or watching a challenge and DID NOT SUBMIT an entry, can you tell us why?</label>
+							<div class="holder"><textarea name="survey[why_no_submission]" rows="8" cols="40"></textarea></div>
+							<div class="spacer"></div>
+							
+							<label>5. How likely are you to compete in another challenge?</label>
+							<div class="holder">
+							<input type="radio" name="survey[compete_again]" value="Yes, Definitely" />
+							<%= label_tag("Yes, Definitely") %><br/>
+							<input type="radio" name="survey[compete_again]" value="Most Likely" />
+							<%= label_tag("Most Likely") %><br/>
+							<input type="radio" name="survey[compete_again]" value="Perhaps" />
+							<%= label_tag("Perhaps") %><br/>
+							<input type="radio" name="survey[compete_again]" value="Probably Not" />
+							<%= label_tag("Probably Not") %>
+							</div>
+							<div class="spacer"></div>
+							
+							<label>6. How could we have made this challenge or CloudSpokes better?</label>
+							<div class="holder"><textarea name="survey[improvements]" rows="8" cols="40"></textarea></div>
+						
+							<% end %>
+
+							<a class="button" style="margin-left:25px; margin-top:10px" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+
+						</div>
+
+
+					
+                </div>
+
+                <!-- END Challenge Information -->
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+				<%= render "challenge-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>
