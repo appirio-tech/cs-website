@@ -202,7 +202,6 @@ GEM
     redis (2.2.2)
     redis-namespace (1.0.3)
       redis (< 3.0.0)
-    refinerycms (0.9.7.15)
     remote_syslog_logger (1.0.3)
       syslog_protocol
     rest-client (1.6.7)
@@ -299,7 +298,6 @@ DEPENDENCIES
   rb-fsevent
   recaptcha
   redis
-  refinerycms
   remote_syslog_logger
   resque!
   rspec-rails (~> 2.6)

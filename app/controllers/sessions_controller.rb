@@ -25,6 +25,14 @@ class SessionsController < ApplicationController
   
   # signup with cs u/p
   def signup
+    # save the google ad tracking to a marketing hash in the session -- delete a session if exist
+    session.delete(:marketing) unless session[:marketing].nil?
+    # check for google marketing info to store for the member
+    if params[:utm_source]
+      marketing = { :campaign_source => params[:utm_source], :campaign_medium => params[:utm_medium], 
+        :campaign_name => params[:utm_campaign] }
+      session[:marketing] = marketing
+    end
     @signup_form = SignupForm.new
   end
   
@@ -56,6 +64,12 @@ class SessionsController < ApplicationController
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+          unless session[:marketing].nil?
+            # update their info in sfdc with the marketing data
+            Resque.enqueue(MarketingUpdateNewMember, current_access_token, params[:signup_form][:username], session[:marketing]) 
+            # delete the marketing session hash
+            session.delete(:marketing) unless session[:marketing].nil?
+          end
           redirect_to welcome2cloudspokes_path
         else
           # could not save the user in the database
@@ -161,6 +175,12 @@ class SessionsController < ApplicationController
             logger.info "[SessionsController]==== #{@signup_complete_form.email} successfully signed in"
             # send the 'welcome' email
             Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            unless session[:marketing].nil?
+              # update their info in sfdc with the marketing data
+              Resque.enqueue(MarketingUpdateNewMember, current_access_token, new_member_create_results[:username], session[:marketing]) 
+              # delete the marketing session hash
+              session.delete(:marketing) unless session[:marketing].nil?
+            end
             redirect_to welcome2cloudspokes_path
           else
             logger.error "[SessionsController]==== error creating a new third party member after manually entering their email address. Could not save to database."

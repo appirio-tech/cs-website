@@ -6,7 +6,7 @@ require 'will_paginate/array'
 require 'uri'
 
 class ChallengesController < ApplicationController
-  before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register]
+  before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
@@ -181,6 +181,16 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+  end
+  
+  def survey    
+    @challenge_detail = current_challenge
+    @participation_status = signed_in? ? challenge_participation_status : nil
+    if params["survey"]
+      post_results = Surveys.save(current_access_token, params[:id], params["survey"])
+      flash[:notice] = "Thanks for completing the survey!" 
+      redirect_to challenge_path     
+    end
   end
   
   def new_comment    
