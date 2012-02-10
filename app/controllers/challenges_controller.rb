@@ -7,6 +7,7 @@ require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
+  before_filter :must_be_signed_in, :only => [:submission, :submission_view_only]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
@@ -119,16 +120,29 @@ class ChallengesController < ApplicationController
   
   def submission
     @challenge_detail = current_challenge
-    # do not let them see this page is the challenge has closed
-    redirect_to(challenge_url) unless @challenge_detail["Is_Open__c"].eql?('true')
-    @participation_status = challenge_participation_status
-    @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
+    if @challenge_detail["Is_Open__c"].eql?('true')
+      @participation_status = challenge_participation_status
+      # if they've not register for the challenge send them to the detail page
+      if @participation_status[:participantId].nil?
+        redirect_to(challenge_url)
+      else
+        @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
+      end
+    # if it is closed send them to the view only page
+    else
+      redirect_to(submission_view_only_url)
+    end
   end
   
   def submission_view_only
     @challenge_detail = current_challenge
     @participation_status = challenge_participation_status
-    @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
+    # if they've not register for the challenge send them to the detail page
+    if @participation_status[:participantId].nil?
+      redirect_to(challenge_url)
+    else
+      @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])  
+    end
   end
   
   # private appirio page
@@ -290,6 +304,13 @@ class ChallengesController < ApplicationController
       if Time.parse(current_challenge["Start_Date__c"]) > Time.now
         redirect_to '/challenges'
       end
+    end
+  end
+  
+  # if signed in, then send them back to the challenge page
+  def must_be_signed_in
+    if !signed_in?
+      redirect_to challenge_path
     end
   end
   
