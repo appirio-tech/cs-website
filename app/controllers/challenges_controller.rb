@@ -7,12 +7,27 @@ require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:submission, :submission_view_only]
+  before_filter :must_be_signed_in, :only => [:submission, :submission_view_only, :quickquiz, :quickquiz_answer]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
   def redirect_to_http
     redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
+  
+  def quickquiz
+    
+  end
+  
+  def quickquiz_answer
+    question = QuickQuizes.find_answer_by_id(current_access_token, params["question_id"])[0]
+    if params["answer"].eql?(question["Answer__c"])
+      params["correct"] = "true"
+    else
+      params["correct"] = "false"
+    end
+    #post_results = QuickQuizes.save_answer(current_access_token, current_user.username, params)
+    #p "==== post_results #{post_results}"
   end
   
   def register

@@ -45,6 +45,8 @@ CloudSpokes::Application.routes.draw do
   #challenges
   get "challenges/index"
   match 'challenges', :to => 'challenges#index', :as => :challenges
+  match 'challenges/quickquiz', :to => 'challenges#quickquiz', :as => :quickquiz
+  match 'challenges/quickquiz_answer', :to => 'challenges#quickquiz_answer'
   match 'challenges/feed', :to => 'challenges#feed', :as => :feed, :defaults => { :format => 'atom' }
   match 'challenges/feed/recent', :to => 'challenges#feed_recent', :as => :feed_recent, :defaults => { :format => 'atom' }
   match 'challenges/recent', :to => 'challenges#recent'
