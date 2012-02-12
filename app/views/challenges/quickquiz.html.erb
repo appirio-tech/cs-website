@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="/assets/quickquiz/main.css" />
+<link rel="stylesheet" href="/assets/quickquiz/jquery-ui-1.8.17.custom/css/redmond/jquery-ui-1.8.17.custom.css" />
+<link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.css" />
+<link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/theme/eclipse.css" />
+
+<div class="page-heading"><h2 class="melbourne">Quick Quiz</h2></div>
+<!-- Content Wrapper -->
+<div class="challenge-content-wrapper ">
+
+<div class="editPane">
+    <div id="editor"></div>
+</div>
+<div class="infoPane">
+    Question <span data-bind="text:curr() + 1"></span> of <span data-bind="text: totalSize"></span><br/><br/>
+    <span data-bind="text:language"></span><br/><br/><br/>
+    Time This Question<br/>
+    <div id="clock" class="stopwatch">
+		<div class="display">
+			<span class="hr">00</span>:<span class="min">00</span>:<span class="sec">00</span> <span class="total">00</span>
+            <!-- These are hidden -->
+            <input type="button" class="start" value="Start">
+            <input type="button" class="stop" value="Stop">
+            <input type="button" class="reset" value="Reset">
+		</div>
+	</div>
+	<button data-bind="click: submit">Submit Answer</button>
+</div>
+<div class="clear"></div>
+
+<script type="text/javascript" src="/assets/quickquiz/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/knockout-2.0.0.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/xml/xml.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/javascript/javascript.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/clike/clike.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/ruby/ruby.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/css/css.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/htmlmixed/htmlmixed.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/jquery.stopwatch.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/Quiz.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/MockDataService.js"></script>
+<script type="text/javascript">
+
+	var editor = CodeMirror(document.getElementById("editor"), {
+	    mode:  "text/html",
+	    lineNumbers: true
+	});
+
+	$('button').button();
+	$("#clock").stopwatch();
+
+	 var data = MockDataService.getMockData();
+	 ko.applyBindings(new Quiz(data, {editor:editor}));
+
+//        The MockDataService.getMockData() function simply returns the json as an object literal. The jquery equivalent
+//        for loading that data and initializing the Quiz object would be something like this:
+//
+//        $.getJSON('/some/url', function(data){
+//            ko.applyBindings(new Quiz(data, {editor:editor}));
+//        })
+
+</script>
+
+
+</div>
+<!-- END Content Wrapper -->
+
+

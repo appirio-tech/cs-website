@@ -1,0 +1,50 @@
+/* css for quick quiz code editor*/
+
+.clear{
+    clear:both;
+}
+
+.editPane{
+    width:640px;
+    float:left;
+    padding:20px;
+}
+
+.editPane button{
+    float:right;
+    font-size:1em;
+}
+
+#editor{
+    background-color:#f7f7f7;
+    border:solid 1px #e2e2e2;
+    margin:10px 0px;
+    font-size:1.1em;
+    min-height:300px;
+}
+
+.stopwatch {
+	padding-top:8px;
+	padding-bottom:25px;
+}
+
+.stopwatch input[type="button"]{
+    visibility:hidden;
+}
+
+.CodeMirror-scroll {
+    height: auto !important;
+    overflow-y: hidden !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+}
+
+.infoPane{
+    width:260px;
+    float:left;
+	margin-top: 25px;
+    padding:20px;
+    color:#999;
+    font-size:1.6em;
+}
+
