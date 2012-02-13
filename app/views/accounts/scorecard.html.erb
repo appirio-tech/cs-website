@@ -276,7 +276,11 @@
 	        }
 	    });
 	    xml += "</Objects>";
-		if (allTextareasCompleted && (totalRadioQuestionsAnswered == totalRadioQuestions)) {
+		// deleteing this scorecard
+		if (document.getElementById("deleteSubmissionCheckbox").checked) {
+			$('#scorecard_form').submit();
+		// submitting the scores -- if all questiosn and textareas are completed
+		} else if (allTextareasCompleted && (totalRadioQuestionsAnswered == totalRadioQuestions)) {
 			// set the value of scored
 			$('#hidden_scored').val(scored);
 		    // The generated xml is added as the value of a hidden input of the form
@@ -326,7 +330,7 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 <% if !@scored %>
 <a class="button" onClick="doSubmit('false')"><span>Save for Later</span></a>
 <a class="button" onClick="doSubmit('true')"><span>Submit</span></a>
-<p><br><span style="padding-left:50px"><input type="checkbox" value="true" name="delete_participant_submission"> Not a valid scorecard. Delete it without scoring.</span></p>
+<p><br><span style="padding-left:50px"><input type="checkbox" value="true" id="deleteSubmissionCheckbox" name="delete_participant_submission"> Not a valid scorecard. Delete it without scoring.</span></p>
 <% end %>
 </form>
 
