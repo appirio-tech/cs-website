@@ -5,7 +5,7 @@ class LoginForm
   attr_accessor :username, :password
   validates_presence_of :username, :password
   validates_length_of :username, :maximum => 25
-  validates_format_of :username, :without => /@/, :message => 'cannot contain "@". Your username is not an email address.'
+  validates_format_of :username, :without => /[@\s\.]/, :message => 'cannot contain spaces, periods or @.'
   
   def initialize(attributes = {})
     attributes.each do |name, value|
