@@ -7,7 +7,7 @@ require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:submission, :submission_view_only]
+  before_filter :must_be_signed_in, :only => [:submission, :submission_view_only, :new_comment]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
@@ -64,6 +64,10 @@ class ChallengesController < ApplicationController
       flash.now[:warning] = 'No challenges found.'
     else
       @challenges_found = true     
+      respond_to do |format|
+        format.html
+        format.json { render :json => @challenges }
+      end
     end
 
   end
@@ -154,12 +158,20 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+    respond_to do |format|
+      format.html
+      format.json { render :json => @challenge_detail }
+    end
   end
   
   def registrants    
     @challenge_detail = current_challenge
     @registrants = Challenges.registrants(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+    respond_to do |format|
+      format.html
+      format.json { render :json => @registrants }
+    end
   end
   
   def results
@@ -167,6 +179,10 @@ class ChallengesController < ApplicationController
     @participants = Challenges.scorecards(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil    
     @has_submission = signed_in? ? challenge_submission_status : false
+    respond_to do |format|
+      format.html
+      format.json { render :json => @participants }
+    end
   end  
   
   def participant_submissions
@@ -244,10 +260,18 @@ class ChallengesController < ApplicationController
     @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 10) 
     @all_time_leaders = @all_time_leaders.paginate(:page => params[:page_all] || 1, :per_page => 10) 
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
+    respond_to do |format|
+      format.html
+      format.json { render :json => @all_time_leaders }
+    end
   end
   
   def recent
     @challenges = Challenges.recent(current_access_token)
+    respond_to do |format|
+      format.html
+      format.json { render :json => @challenges }
+    end
   end
   
   def feed

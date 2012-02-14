@@ -40,11 +40,15 @@ class MembersController < ApplicationController
       @selected['month'] = 'active'
       @leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month')
     end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @members }
+    end
   end
 
   def show
     # Gather all required information for the page
-    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
+    @member = Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
     if @member.nil?
       render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
     else
@@ -65,6 +69,10 @@ class MembersController < ApplicationController
         end
       end
     end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @member }
+    end
   end
   
   def past_challenges
@@ -79,6 +87,10 @@ class MembersController < ApplicationController
       if challenge["End_Date__c"].to_date < Time.now.to_date && challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
         @past_challenges << challenge
       end
+    end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @past_challenges }
     end
   end
 
