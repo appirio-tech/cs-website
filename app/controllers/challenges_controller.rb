@@ -112,7 +112,7 @@ class ChallengesController < ApplicationController
       else
         flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
       end
-    else
+    elseall 
       flash[:error] = "Please enter a valid URL."
     end
     redirect_to(:back)
@@ -159,7 +159,6 @@ class ChallengesController < ApplicationController
   
   # private appirio page
   def all_submissions
-    determine_page_title("[ADMIN] All submissions for #{@challenge_detail['Name']}")
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   
