@@ -7,7 +7,7 @@ require 'uri'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:submission, :submission_view_only, :new_comment]
+  before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
