@@ -9,6 +9,7 @@ class MembersController < ApplicationController
   end
 
   def index
+    @page_title = "Members and Top 10 Leaderboard"
     # Define the default order criteria
     order_by  = params[:order_by] || "total_wins__c"
     display_leaderboard  = params[:period] || "month"
@@ -52,6 +53,7 @@ class MembersController < ApplicationController
     if @member.nil?
       render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
     else
+      @page_title = "Member Profile: #{@member['Name']}"
       @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
       @total_recommendations = @recommendations.size
       @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
@@ -95,6 +97,7 @@ class MembersController < ApplicationController
   end
 
   def search
+    @page_title = "Member Search Results"
     @members = Members.all(current_access_token, 
       :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,challenges_submitted__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c', 
       :where => params[:keyword])
@@ -110,6 +113,7 @@ class MembersController < ApplicationController
   
   def recommend
     @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
+    @page_title = "Recommendation for #{@member['Name']}"
     flash.now[:error] = 'You cannot recomment yourself.' unless params[:id] != current_user.username
   end
   

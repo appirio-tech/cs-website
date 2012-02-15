@@ -11,7 +11,7 @@ class ContentController < ApplicationController
   end
   
   def home
-    
+    @page_title = "A unique cloud development community, focused on mobile technologies and public cloud platforms."
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'home')
 
     @featured_member_username = @page['featured_member_username']
@@ -36,30 +36,37 @@ class ContentController < ApplicationController
   end
   
   def welcome
+    @page_title = "A unique development community, focused on mobile technologies and public cloud platforms."
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'welcome')
   end
   
   def login_help
+    @page_title = "Need Help Loggin In?"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_help')
   end
   
   def faq
+    @page_title = "FAQs"
     @faqs = FAQs.all(current_access_token, :select => 'name,answer__c', :orderby => 'Display_Order__c')
   end
   
   def about
+    @page_title = "How CloudSpokes Works"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about')
   end
   
   def privacy
+    @page_title = "Privacy Policy"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'privacy')
   end
   
   def tos
+    @page_title = "Terms of Service"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'tos')
   end
   
   def login_denied
+    @page_title = "Login Denied"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_denied')
   end
 

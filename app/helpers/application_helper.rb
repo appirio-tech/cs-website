@@ -47,4 +47,14 @@ module ApplicationHelper
 
   end
   
+  # Return a title on a per-page basis.
+  def title
+    base_title = "CloudSpokes Coding Challenges"
+    if @page_title.nil?
+      base_title
+    else
+      "#{base_title} - #{@page_title}"
+    end
+  end
+  
 end

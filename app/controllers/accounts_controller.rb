@@ -12,6 +12,7 @@ class AccountsController < ApplicationController
   end
   
   def outstanding_reviews
+    @page_title = "Outstanding Reviews"
     @challenges = Scoring.outstanding_scorecards(current_access_token)
   end
   
@@ -37,6 +38,7 @@ class AccountsController < ApplicationController
   end
 
   def challenges
+    @page_title = "Your Challenges"
     # Gather challenges for sorting
     @challenges          = Members.challenges(current_access_token, :name => @current_user.username)
 
@@ -77,6 +79,7 @@ class AccountsController < ApplicationController
         @show_outstanding_section = true
       end
     end
+    @page_title = "Your Payments and Payment Info"
     get_account
   end
 
@@ -95,6 +98,7 @@ class AccountsController < ApplicationController
         flash.now[:notice] = "Your account information has been updated."
       end
     end
+    @page_title = "Account Details"
     # get the updated account
     get_account
   end
@@ -105,6 +109,7 @@ class AccountsController < ApplicationController
       Members.update(current_access_token, @current_user.username, params["form_school"])
       flash.now[:notice] = "Your school and work information has been updated."      
     end
+    @page_title = "Account Details"
     # get the updated account
     get_account
   end
@@ -115,6 +120,7 @@ class AccountsController < ApplicationController
       Members.update(current_access_token, @current_user.username, params["form_profile"])
       flash.now[:notice] = "Your profile information has been updated."
     end
+    @page_title = "Public Profile"
     # get the updated account
     get_account
   end
@@ -129,6 +135,7 @@ class AccountsController < ApplicationController
         flash.now[:notice] = results["Message"]
       end
     end
+    @page_title = "Change Your Password"
     get_account
     if !@account["Login_Managed_By__c"].eql?('CloudSpokes')
       flash.now[:warning] = "You are logging into CloudSpokes with your #{@account["Login_Managed_By__c"]} account. You will need to change your password at #{@account["Login_Managed_By__c"]}"

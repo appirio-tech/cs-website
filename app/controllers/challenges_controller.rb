@@ -17,6 +17,7 @@ class ChallengesController < ApplicationController
   
   def register
     @challenge_detail = current_challenge
+    determine_page_title
     #see if we need to show them tos different than the default standard ones
     if @challenge_detail['Terms_of_Service__r']['Default_TOS__c'].eql?(true)
       Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
@@ -40,9 +41,14 @@ class ChallengesController < ApplicationController
     redirect_to(:back)
   end
 
-  def index 
-    show_open = false
-    show_open = true unless params[:show].eql?('closed')    
+  def index     
+    if params[:show].eql?('closed')
+      show_open = false
+      determine_page_title('Closed Challenges')
+    else
+      show_open = true
+      determine_page_title('Open Challenges')
+    end
     @current_order_by = params[:orderby].nil? ? 'name' : params[:orderby]
     @current_order_by_dir = params[:orderby_dir].nil? ? 'asc' : params[:orderby_dir]
     # default closed challenge sorting
@@ -130,6 +136,7 @@ class ChallengesController < ApplicationController
       if @participation_status[:participantId].nil?
         redirect_to(challenge_url)
       else
+        determine_page_title("Your entry for #{@challenge_detail['Name']}")
         @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])
       end
     # if it is closed send them to the view only page
@@ -145,17 +152,20 @@ class ChallengesController < ApplicationController
     if @participation_status[:participantId].nil?
       redirect_to(challenge_url)
     else
+      determine_page_title("Your entry for #{@challenge_detail['Name']}")
       @current_submissions = Challenges.current_submissions(current_access_token, @participation_status[:participantId])  
     end
   end
   
   # private appirio page
   def all_submissions
+    determine_page_title("[ADMIN] All submissions for #{@challenge_detail['Name']}")
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   
   def show
     @challenge_detail = current_challenge
+    determine_page_title
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
     respond_to do |format|
@@ -166,6 +176,7 @@ class ChallengesController < ApplicationController
   
   def registrants    
     @challenge_detail = current_challenge
+    determine_page_title("Registrants for #{@challenge_detail['Name']}")
     @registrants = Challenges.registrants(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
     respond_to do |format|
@@ -176,6 +187,7 @@ class ChallengesController < ApplicationController
   
   def results
     @challenge_detail = current_challenge
+    determine_page_title("Results for #{@challenge_detail['Name']}")
     @participants = Challenges.scorecards(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil    
     @has_submission = signed_in? ? challenge_submission_status : false
@@ -187,6 +199,7 @@ class ChallengesController < ApplicationController
   
   def participant_submissions
     @challenge_detail = current_challenge
+    determine_page_title
     @participation_status = signed_in? ? challenge_participation_status : nil    
     # if the current user did not submit for the challenge, they cannot see this page
     redirect_to challenge_path unless challenge_submission_status
@@ -200,6 +213,7 @@ class ChallengesController < ApplicationController
   
   def participant_scorecard
     @challenge_detail = current_challenge
+    determine_page_title
     @participants = Challenges.scorecards(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
     scorecard = Scoring.scorecard(current_access_token, params[:scorecard], params[:reviewer]).to_json
@@ -209,12 +223,14 @@ class ChallengesController < ApplicationController
   
   def scorecard    
     @challenge_detail = current_challenge
+    determine_page_title("Scorecard for #{@challenge_detail['Name']}")
     @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
   end
   
   def survey    
     @challenge_detail = current_challenge
+    determine_page_title
     @participation_status = signed_in? ? challenge_participation_status : nil
     if params["survey"]
       post_results = Surveys.save(current_access_token, params[:id], params["survey"])
@@ -252,6 +268,7 @@ class ChallengesController < ApplicationController
   end
   
   def leaderboard
+    determine_page_title('Challenge Leaderboard')
     @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil)
     @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil)
     @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil)
@@ -267,6 +284,7 @@ class ChallengesController < ApplicationController
   end
   
   def recent
+    determine_page_title('Recently Completed Challenges')
     @challenges = Challenges.recent(current_access_token)
     respond_to do |format|
       format.html
@@ -359,6 +377,17 @@ class ChallengesController < ApplicationController
   
   def current_challenge
     @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id])[0]
+  end
+  
+  # most of the time the title will be the challenge name but be flexible
+  def determine_page_title(title=nil)
+    if title.nil?
+      unless @challenge_detail.nil?
+        @page_title = @challenge_detail["Name"]
+      end
+    else
+      @page_title = title
+    end  
   end
   
   private
