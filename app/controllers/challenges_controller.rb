@@ -16,7 +16,8 @@ class ChallengesController < ApplicationController
   end
   
   def quickquiz
-    
+    @questions = QuickQuizes.fetch_10_questions
+    #render :inline => "#{@questions}"
   end
   
   def quickquiz_answer

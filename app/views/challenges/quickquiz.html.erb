@@ -49,8 +49,10 @@
 	$('button').button();
 	$("#clock").stopwatch();
 
-	 var data = MockDataService.getMockData();
-	 ko.applyBindings(new Quiz(data, {editor:editor}));
+	var data = MockDataService.getMockData();
+	var obj = $.parseJSON('<%= @questions.to_json.html_safe.gsub('|', '\/') %>');
+	//alert(obj);
+	ko.applyBindings(new Quiz(data, {editor:editor}));
 
 //        The MockDataService.getMockData() function simply returns the json as an object literal. The jquery equivalent
 //        for loading that data and initializing the Quiz object would be something like this:
