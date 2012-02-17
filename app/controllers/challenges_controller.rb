@@ -17,7 +17,6 @@ class ChallengesController < ApplicationController
   
   def quickquiz
     @questions = QuickQuizes.fetch_10_questions
-    #render :inline => "#{@questions}"
   end
   
   def quickquiz_answer
@@ -27,8 +26,10 @@ class ChallengesController < ApplicationController
     else
       params["correct"] = "false"
     end
+    p "==== my answer: #{params["answer"]}"
+    p "==== sfdc answer: #{question}"
     #post_results = QuickQuizes.save_answer(current_access_token, current_user.username, params)
-    #p "==== post_results #{post_results}"
+    p "==== #{params}"
   end
   
   def register
