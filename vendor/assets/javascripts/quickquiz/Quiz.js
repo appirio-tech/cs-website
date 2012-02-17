@@ -1,4 +1,6 @@
-function Quiz(data, components){
+function Quiz(data, components, url){
+
+	alert(url);
 
     var self = data;
     var editor = components.editor;
@@ -35,8 +37,9 @@ function Quiz(data, components){
 
     self.loadQuestion = function(n){
 
+		// redirect to this location after all questions are answered
         if(self.curr() === self.records.length){
-            window.location = 'http://www.cloudspokes.com';
+            window.location = url;
         }
 
         self.language(self.records[self.curr()].Type__c);
@@ -76,7 +79,7 @@ function Quiz(data, components){
 		var dataString = 'question_id='+ q.id + '&time=' + q.time + '&answer='+encodeURIComponent(q.answer);
 		$.ajax({
 		  type: 'POST',
-		  url: 'http://127.0.0.1:3000/challenges/quickquiz_answer',
+		  url: url+'/challenges/quickquiz_answer',
 		  data: dataString
 		});
 

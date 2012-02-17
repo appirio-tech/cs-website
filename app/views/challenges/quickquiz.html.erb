@@ -45,8 +45,9 @@
 	    lineNumbers: true
 	});
 	
-	function fnGetDomain(url) {
-	   return url.match(/:\/\/(.[^/]+)/)[1];
+	function fnGetUrl(url) {
+		var domain = document.URL.match(/:\/\/(.[^/]+)/)[1];
+		return 'http://' + domain;
 	}
 
 	$('button').button();
@@ -56,8 +57,7 @@
 	var data = new Object();
 	data.records = $.parseJSON('<%= @questions.to_json.html_safe %>');
 	data.totalSize = data.records.length;
-	ko.applyBindings(new Quiz(data, {editor:editor}));
-	alert(fnGetDomain('http://127.0.0.1:3000'));
+	ko.applyBindings(new Quiz(data, {editor:editor}, fnGetUrl()));
 </script>
 
 
