@@ -1,7 +1,5 @@
 function Quiz(data, components, url){
 
-	alert(url+'/challenges/quickquiz_answer');
-
     var self = data;
     var editor = components.editor;
     var EDITOR_MIN_LINES = 20;
