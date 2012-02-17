@@ -4,6 +4,7 @@ require 'settings'
 require 'atomentry'
 require 'will_paginate/array'
 require 'uri'
+require 'json'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
@@ -19,16 +20,18 @@ class ChallengesController < ApplicationController
     @questions = QuickQuizes.fetch_10_questions
   end
   
+  # ---- need to move this to resque ----
   def quickquiz_answer
-    question = QuickQuizes.find_answer_by_id(current_access_token, params["question_id"])[0]
-    if params["answer"].eql?(question["Answer__c"])
+    # get the question's answer from redis
+    answer = JSON.parse($redis.get("question:#{params["question_id"]}"))
+    # check to see if the answer they submitted matches what's in redis
+    if params["answer"].eql?(CGI.unescape(answer["Answer__c"]))
       params["correct"] = "true"
     else
       params["correct"] = "false"
     end
-    p "==== my answer: #{params["answer"]}"
-    p "==== sfdc answer: #{question}"
-    #post_results = QuickQuizes.save_answer(current_access_token, current_user.username, params)
+    # save their answer to sfdc
+    QuickQuizes.save_answer(current_access_token, current_user.username, params)
     p "==== #{params}"
   end
   
