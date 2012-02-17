@@ -44,6 +44,10 @@
 	    mode:  "text/html",
 	    lineNumbers: true
 	});
+	
+	function fnGetDomain(url) {
+	   return url.match(/:\/\/(.[^/]+)/)[1];
+	}
 
 	$('button').button();
 	$("#clock").stopwatch();
@@ -53,6 +57,7 @@
 	data.records = $.parseJSON('<%= @questions.to_json.html_safe %>');
 	data.totalSize = data.records.length;
 	ko.applyBindings(new Quiz(data, {editor:editor}));
+	alert(fnGetDomain('http://127.0.0.1:3000'));
 </script>
 
 

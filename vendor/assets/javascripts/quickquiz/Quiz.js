@@ -5,7 +5,6 @@ function Quiz(data, components){
     var EDITOR_MIN_LINES = 20;
     var syntax = {'javascript': 'javascript', 'ruby':'ruby','java':'text/x-java', 'mixed':'text/html'};
 
-
     self.curr = ko.observable(0);
     self.language = ko.observable('');
 
