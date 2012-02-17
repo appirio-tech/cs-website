@@ -70,10 +70,10 @@ class MembersController < ApplicationController
           @past_challenges << challenge
         end
       end
-    end
-    respond_to do |format|
-      format.html
-      format.json { render :json => @member }
+      respond_to do |format|
+        format.html
+        format.json { render :json => @member }
+      end
     end
   end
   
