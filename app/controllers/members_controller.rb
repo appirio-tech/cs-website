@@ -80,19 +80,23 @@ class MembersController < ApplicationController
   def past_challenges
     # Gather all required information for the page
     @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
-    @challenges = Members.challenges(current_access_token, :name => @member["Name"])
-    @challenges = @challenges.reverse
+    if @member.nil?
+      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
+    else
+      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
+      @challenges = @challenges.reverse
 
-    # Gather challenges and group them depending of their end date
-    @past_challenges   = []
-    @challenges.each do |challenge|
-      if challenge["End_Date__c"].to_date < Time.now.to_date && challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
-        @past_challenges << challenge
+      # Gather challenges and group them depending of their end date
+      @past_challenges   = []
+      @challenges.each do |challenge|
+        if challenge["End_Date__c"].to_date < Time.now.to_date && challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
+          @past_challenges << challenge
+        end
       end
-    end
-    respond_to do |format|
-      format.html
-      format.json { render :json => @past_challenges }
+      respond_to do |format|
+        format.html
+        format.json { render :json => @past_challenges }
+      end
     end
   end
 
@@ -113,8 +117,12 @@ class MembersController < ApplicationController
   
   def recommend
     @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
-    @page_title = "Recommendation for #{@member['Name']}"
-    flash.now[:error] = 'You cannot recomment yourself.' unless params[:id] != current_user.username
+    if @member.nil?
+      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
+    else
+      @page_title = "Recommendation for #{@member['Name']}"
+      flash.now[:error] = 'You cannot recomment yourself.' unless params[:id] != current_user.username
+    end
   end
   
   def recommend_new
