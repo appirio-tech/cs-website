@@ -1,6 +1,6 @@
 function Quiz(data, components, url){
 
-	alert(url);
+	alert(url+'/challenges/quickquiz_answer');
 
     var self = data;
     var editor = components.editor;
@@ -77,6 +77,7 @@ function Quiz(data, components, url){
 		**/
 		//alert('{ question_id: "'+q.id+'", time: '+q.time+', answer: "'+q.answer+'" }')
 		var dataString = 'question_id='+ q.id + '&time=' + q.time + '&answer='+encodeURIComponent(q.answer);
+		
 		$.ajax({
 		  type: 'POST',
 		  url: url+'/challenges/quickquiz_answer',
