@@ -40,7 +40,6 @@
 <script type="text/javascript" src="/assets/quickquiz/Quiz.js"></script>
 <script type="text/javascript" src="/assets/quickquiz/MockDataService.js"></script>
 <script type="text/javascript">
-
 	var editor = CodeMirror(document.getElementById("editor"), {
 	    mode:  "text/html",
 	    lineNumbers: true
@@ -49,22 +48,13 @@
 	$('button').button();
 	$("#clock").stopwatch();
 
-	var data = MockDataService.getMockData();
-	var obj = $.parseJSON('<%= @questions.to_json.html_safe.gsub('|', '\/') %>');
-	//alert(obj);
+	//var data = MockDataService.getMockData();
+	var data = new Object();
+	data.records = $.parseJSON('<%= @questions.to_json.html_safe %>');
+	data.totalSize = data.records.length;
 	ko.applyBindings(new Quiz(data, {editor:editor}));
-
-//        The MockDataService.getMockData() function simply returns the json as an object literal. The jquery equivalent
-//        for loading that data and initializing the Quiz object would be something like this:
-//
-//        $.getJSON('/some/url', function(data){
-//            ko.applyBindings(new Quiz(data, {editor:editor}));
-//        })
-
 </script>
 
 
 </div>
 <!-- END Content Wrapper -->
-
-

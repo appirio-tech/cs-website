@@ -40,12 +40,10 @@ function Quiz(data, components){
             window.location = 'http://www.cloudspokes.com';
         }
 
-        self.language(self.records[self.curr()].Language__c);
+        self.language(self.records[self.curr()].Type__c);
         var lang = self.language().toLowerCase();
-        var question = self.records[self.curr()].Question__c;
-        if(question.indexOf("<script") != -1){
-            lang = 'mixed';
-        }
+        var question = self.records[self.curr()].Question__c.replace(/\+/g,' ');
+		question = unescape(question);
 
         editor.setOption("mode",syntax[lang]);
         editor.setValue(question);
