@@ -112,7 +112,7 @@ class ChallengesController < ApplicationController
       else
         flash[:error] = "There was an error submitting your URL. Please check it and submit it again."
       end
-    elseall 
+    else
       flash[:error] = "Please enter a valid URL."
     end
     redirect_to(:back)
