@@ -27,7 +27,6 @@
 </div>
 <div class="clear"></div>
 
-<script type="text/javascript" src="/assets/quickquiz/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js"></script>
 <script type="text/javascript" src="/assets/quickquiz/knockout-2.0.0.js"></script>
 <script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.js"></script>
 <script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/xml/xml.js"></script>
@@ -38,7 +37,6 @@
 <script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/htmlmixed/htmlmixed.js"></script>
 <script type="text/javascript" src="/assets/quickquiz/jquery.stopwatch.js"></script>
 <script type="text/javascript" src="/assets/quickquiz/Quiz.js"></script>
-<script type="text/javascript" src="/assets/quickquiz/MockDataService.js"></script>
 <script type="text/javascript">
 	var editor = CodeMirror(document.getElementById("editor"), {
 	    mode:  "text/html",
@@ -53,7 +51,6 @@
 	$('button').button();
 	$("#clock").stopwatch();
 
-	//var data = MockDataService.getMockData();
 	var data = new Object();
 	data.records = $.parseJSON('<%= @questions.to_json.html_safe %>');
 	data.totalSize = data.records.length;
