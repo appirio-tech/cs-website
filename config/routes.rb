@@ -25,6 +25,7 @@ CloudSpokes::Application.routes.draw do
   match "/members/order_by_active"      => "members#index", :defaults => { :order_by => 'challenges_entered__c' }
   match "/members/search"               => "members#search", :as => :members_search
   match "/members/:id/past_challenges"  => "members#past_challenges"
+  match "/members/:id/active_challenges"  => "members#active_challenges"  
   match "/members/:id/recommend"        => "members#recommend", :as => :recommend_member
   match "/members/:id/recommend_new"    => "members#recommend_new", :as => :recommend_member_new
   resources :members

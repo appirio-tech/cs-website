@@ -99,6 +99,29 @@ class MembersController < ApplicationController
       end
     end
   end
+  
+  def active_challenges
+    # Gather all required information for the page
+    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
+    if @member.nil?
+      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
+    else
+      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
+      @challenges = @challenges.reverse
+
+      # Gather challenges and group them depending of their end date
+      @active_challenges   = []
+      @challenges.each do |challenge|
+        if challenge["End_Date__c"].to_date > Time.now.to_date
+          @active_challenges << challenge
+        end
+      end
+      respond_to do |format|
+        format.html
+        format.json { render :json => @active_challenges }
+      end
+    end
+  end
 
   def search
     @page_title = "Member Search Results"
