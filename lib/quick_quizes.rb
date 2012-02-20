@@ -7,16 +7,18 @@ class QuickQuizes < Cloudspokes
   end
   
   def self.save_answer(access_token, username, params)
+    set_header_token(access_token)
     
     Rails.logger.info "[QuickQuizes]==== saving the following prams to sfdc #{params}"
+    Rails.logger.info "[QuickQuizes]==== access_token #{access_token}"
         
     options = {
       :body => {
           :username => username,
-          :answer__c => params[:answer],
-          :is_correct__c => params[:correct],
-          :time__c => params[:time],
-          :quick_quiz_question__c => params[:question_id]
+          :answer__c => params[answer],
+          :is_correct__c => params[correct],
+          :time__c => params[time],
+          :quick_quiz_question__c => params[question_id]
       }
     }
     
@@ -28,10 +30,12 @@ class QuickQuizes < Cloudspokes
   end
   
   def self.find_answer_by_id(access_token, id)
+    set_header_token(access_token)
     get(ENV['SFDC_REST_API_URL']+"/quickquiz?questionId=#{id}")
   end
   
   def self.winners_today(access_token)
+    set_header_token(access_token)
     get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/today")
   end
 
