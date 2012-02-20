@@ -17,6 +17,11 @@ class ChallengesController < ApplicationController
   end
   
   def quickquiz
+    # need to determine if user is registered to challenge
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @participation_status = challenge_participation_status
+    # if they are not registered for the challenge, then send them back to that page
+    redirect_to challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID']) unless @participation_status[:status].eql?('Registered')
     @questions = QuickQuizes.fetch_10_questions
   end
   
@@ -174,11 +179,17 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+    
+    # grab some extra data for quickquizes
+    if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')    
+      @todays_results = QuickQuizes.winners_today(current_access_token);
+    end
+    
     respond_to do |format|
       if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')
-        render "show_quickquiz"
+        format.html { render "show_quickquiz" }
       else
-        format.html
+        format.html 
       end
       format.json { render :json => @challenge_detail }
     end

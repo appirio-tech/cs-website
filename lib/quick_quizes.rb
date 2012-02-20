@@ -24,6 +24,10 @@ class QuickQuizes < Cloudspokes
   def self.find_answer_by_id(access_token, id)
     get(ENV['SFDC_REST_API_URL']+"/quickquiz?questionId=#{id}")
   end
+  
+  def self.winners_today(access_token)
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/today")
+  end
 
 end
 

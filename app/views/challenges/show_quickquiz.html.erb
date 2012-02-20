@@ -6,7 +6,7 @@
                 <!-- Challenge Information -->
                 <div class="challenge-information">
                     <span style="font-size:Small;font-weight:bold;"></span>
-                    <h3>Quick Quiz</h3>
+                    <h3>Technologies</h3>
                     <div class="list-technologies">
                         <ul>
                             <table cellspacing="0" border="0" style="border-collapse:collapse;">
@@ -31,12 +31,6 @@
                     	<p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
 					<% end %>
 
-                    <h3>Submission Details</h3>
-					<% if !@challenge_detail["Submission_Details__c"].nil? %>
-                    	<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
-					<% end %>
-					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.</p> 
-
 					<% if !@challenge_detail["Additional_Info__c"].nil? %>
                     	<h3>Additional Info</h3>
                     	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
@@ -53,12 +47,11 @@
 						<% if signed_in? %>
 		                    <div>
 							<% if @participation_status[:status].eql?('Not Registered') %>
-		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
-		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
+		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>   
 							<% elsif @participation_status[:status].eql?('Watching') %>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
-		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
+		                        <a class="button fl" href="<%= quickquiz_url %>"><span>Submit Your Entry</span></a>
 							<% end %>                    
 		                    </div>
 						<% else %>
@@ -167,7 +160,7 @@
                 
 				<!-- Challenge Sidebar -->
 				<div class="challenge-sidebar">
-				<%= render "challenge-sidebar" %>
+				<%= render "quickquiz-sidebar" %>
 				</div>
 				<!-- END Challenge Sidebar -->
 
