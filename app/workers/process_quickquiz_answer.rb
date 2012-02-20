@@ -1,7 +1,7 @@
 class ProcessQuickQuizAnswer
   include HTTParty 
   
-  @queue = :process_quickquiz_answer_queue
+  @queue = :quickquiz_answer_queue
   def self.perform(access_token, username, params)
 
     Rails.logger.info "[Resque]==== in the worker"
