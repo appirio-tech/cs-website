@@ -8,15 +8,7 @@ class QuickQuizes < Cloudspokes
   
   def self.save_answer(access_token, username, params)
     set_header_token(access_token)
-    
-    Rails.logger.info "[QuickQuizes]==== saving parms to sfdc: #{params}"
-    
-    Rails.logger.info "[QuickQuizes]==== username: #{username}"
-    Rails.logger.info "[QuickQuizes]==== :answer: #{params[:answer]}"
-    Rails.logger.info "[QuickQuizes]==== :correct: #{params[:correct]}"
-    Rails.logger.info "[QuickQuizes]==== :time: #{params[:time]}"
-    Rails.logger.info "[QuickQuizes]==== :question_id: #{params[:question_id]}"    
-        
+            
     options = {
       :body => {
           :username => username,
@@ -27,10 +19,9 @@ class QuickQuizes < Cloudspokes
       }
     }
     
-    Rails.logger.info "[QuickQuizes]==== saving options to sfdc: #{options}"
+    # Rails.logger.info "[QuickQuizes]==== saving options to sfdc: #{options}"
     
     results = post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
-    Rails.logger.info "[QuickQuizes]==== results from the save #{results}"
   end
   
   def self.find_answer_by_id(access_token, id)
