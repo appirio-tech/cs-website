@@ -1,0 +1,179 @@
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl dvbulletedlist">
+                <!-- Challenge Information -->
+                <div class="challenge-information">
+                    <span style="font-size:Small;font-weight:bold;"></span>
+                    <h3>Quick Quiz</h3>
+                    <div class="list-technologies">
+                        <ul>
+                            <table cellspacing="0" border="0" style="border-collapse:collapse;">
+								<tr>
+									<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
+									<td><li><a href="/challenges?category=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a></li></td>
+									<% end %>                                
+								</tr>
+							</table>
+                        </ul>
+                    </div>
+
+					<%= flash_messages %>
+
+					<% if !@challenge_detail["Description__c"].nil? %>
+                    	<h3>Overview</h3>
+                    	<p><%= raw(@challenge_detail["Description__c"])%></p>
+					<% end %>
+
+					<% if !@challenge_detail["Requirements__c"].nil? %>
+                    	<h3>Challenge Requirements</h3>
+                    	<p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
+					<% end %>
+
+                    <h3>Submission Details</h3>
+					<% if !@challenge_detail["Submission_Details__c"].nil? %>
+                    	<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
+					<% end %>
+					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.</p> 
+
+					<% if !@challenge_detail["Additional_Info__c"].nil? %>
+                    	<h3>Additional Info</h3>
+                    	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
+					<% end %>
+					
+					<!-- show if they are registered or submitted and signed in -->
+					<% if signed_in? %>
+						<% if !@challenge_detail["Post_Reg_Info__c"].nil? && @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
+	                    	<p><%= raw(@challenge_detail["Post_Reg_Info__c"]) %></p>
+						<% end %>
+					<% end %>
+
+					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
+						<% if signed_in? %>
+		                    <div>
+							<% if @participation_status[:status].eql?('Not Registered') %>
+		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
+							<% elsif @participation_status[:status].eql?('Watching') %>
+		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
+		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
+							<% end %>                    
+		                    </div>
+						<% else %>
+	 	                   <div>
+		                        <h3><span>Please login to submit for this challenge</span></h3>
+		                        <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                        
+		                    </div>
+						<% end %>
+					<% else %>
+						<% if signed_in? && @participation_status[:status].eql?('Submitted')%>
+							<a class="button fl" href="<%= submission_view_only_url(@challenge_detail["Challenge_Id__c"]) %>"><span>View Your Submission</span></a>
+						<% end %>
+					<% end %>
+
+                </div><br/><br/>
+
+                <!-- END Challenge Information -->
+
+                <!-- Discussion -->
+                <div class="discussion recommendations">
+                    <h2>Discussion</h2>
+                    <!-- Box -->
+					<% @comments.each do |record| %> 
+						<% if record["Reply_To__c"].nil? %>
+							<!-- Box -->
+							<div class="box">
+							    <div class="box-b">
+							        <div class="box-t" id="commentdiv">
+							            <a href='/members/<%= record["Member__r"]["Name"] %>' class="fl">
+							                <img src="<%= record["Member__r"]["Profile_Pic__c"] %>" id="ctl00_Body_rptComment_ctl00_imgUser" width="50" height="50" alt="<%= record["Member__r"]["Name"] %>" /></a>
+							            <div class="text-holder fr">
+							                <div style="width: 480px; overflow-x: auto; overflow-y: hidden"><p style="padding-bottom: 15px"><%= raw(record["Comment__c"]) %></p></div>
+							                <span>
+												<a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a>, <%= Time.parse(record["CreatedDate"]).strftime("%b. %d, %Y at %I:%M %p") %>&nbsp;&nbsp;
+							                    <a href="<%= challenge_path %>?reply_to=<%= record["Id"] %>#comment">Reply</a>
+											</span>
+							            </div>
+							            <div class="cl">
+							                &nbsp;</div>
+							        </div>
+							    </div>
+							</div>
+							<!-- END Box -->
+							
+		                    <!-- Replies -->
+							<% if !record["Challenge_Comments__r"].nil? %>
+								<% record["Challenge_Comments__r"]["records"].each do |reply| %> 
+				                    <!-- Reply Post -->
+									<div class="reply-post">
+									    <div class="box">
+									        <div class="box-b">
+									            <div class="box-t">
+									                <a href='/members/<%= reply["Member__r"]["Name"] %>' class="fl">
+									                    <img src="<%= reply["Member__r"]["Profile_Pic__c"] %>" width="50" height="50" alt="<%= reply["Member__r"]["Name"] %>"/></a>
+									                <div class="text-holder fr">
+									                    <div style="width: 450px; overflow-x: auto; overflow-y: hidden"><p style="padding-bottom: 15px"><%= raw(reply["Comment__c"]) %></p></div>
+									                    <span><a href='/members/<%= reply["Member__r"]["Name"] %>'><%= reply["Member__r"]["Name"] %></a>, <%= Time.parse(reply["CreatedDate"]).strftime("%b. %d, %Y at %I:%M %p") %> 
+									                </div>
+									                <div class="cl">&nbsp;</div>
+									            </div>
+									        </div>
+									    </div>
+									</div>
+				                    <!-- END Reply Post -->
+								<% end %>
+							<% end %>
+		                    <!-- END Replies -->
+							
+						<% end %>
+					<% end %>
+
+                    <div style="text-align: center"></div>
+                    <!-- END Box -->
+                    <!-- Post Comment -->
+					<a name="comment"></a>
+					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
+	                    <div class="post-comment">
+	                        <h3>Post a Comment</h3>
+	                        <fieldset>
+								<% if signed_in? %>
+									<%= form_for :discussion, :url => challenge_comment_path, :name => 'new_comment' do |f| %>
+										<div class="holder">
+										<%= f.text_area( :comments, :cols => "80", :rows => "8", :value => session[:captcha_comments] )  %>
+										</div>
+										<%= f.hidden_field :reply_to, :value => params[:reply_to] %>
+										<%= recaptcha_tags %>
+									  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
+									<% end %>
+								<% else %>
+									Please <a href="/login_popup" class="fancy">login</a> to post a comment.
+								<% end %>
+	                        </fieldset>
+	                    </div>
+					<% else %>
+						<p>The discussion board is closed for this challenge.</p>
+					<% end %>
+                    <!-- END Post Comment -->
+                </div>
+                <!-- END Discussion -->
+
+
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+				<%= render "challenge-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+</div>

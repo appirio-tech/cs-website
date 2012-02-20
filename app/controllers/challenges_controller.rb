@@ -174,6 +174,14 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = signed_in? ? challenge_participation_status : nil
+    respond_to do |format|
+      if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')
+        render "show_quickquiz"
+      else
+        format.html
+      end
+      format.json { render :json => @challenge_detail }
+    end
   end
   
   def registrants    
