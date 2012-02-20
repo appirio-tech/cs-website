@@ -27,8 +27,8 @@ class ChallengesController < ApplicationController
   
   def quickquiz_answer
     logger.info "[ChallengesController]==== pushing answer to redis with #{params}"
-    Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, 'jeffdonthemic@m.cloudspokes.com.sandbox')
-    logger.info "[ChallengesController]==== done pushing answer to redis: #{resque_results}"
+    Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
+    logger.info "[ChallengesController]==== done pushing answer to redis"
     render :nothing => true
   end
   

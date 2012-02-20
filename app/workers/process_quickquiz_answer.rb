@@ -1,31 +1,27 @@
 class ProcessQuickQuizAnswer
   include HTTParty 
   
-  @queue = :quickquiz_answer_queue
-  def self.perform(access_token, username)
+  @queue = :process_quickquiz_answer_queue
+  def self.perform(access_token, username, params)
 
-    # fetch the member's email address from sfdc
-    member_results = Members.find_by_username(access_token, username,'Email__c')[0]
+    Rails.logger.info "[Resque]==== in the worker"
     
-    # generate the mail to send
-    mail = MemberMailer.welcome_email(username)
-
-    options = {
-      :body => {
-          :mailUsername => ENV['MAILER_USERNAME'],
-          :mailPassword => ENV['MAILER_PASSWORD'],
-          :toAddress  => member_results['Email__c'],
-          :toAddressName => username,
-          :fromAddress => 'support@cloudspokes.com',
-          :fromAddressName => 'CloudSpokes Team', 
-          :subject => mail.subject.to_s,
-          :content => mail.body.to_s  
-      }
-    }
-    results = post('http://cs-mailchimp-mailer.herokuapp.com/sendSimpleMail', options)
-    Rails.logger.info "[Resque]==== welcome email send results for #{member_results['Email__c']}: #{results}"
+    Rails.logger.info "[Resque]==== answer params: #{params}"
+    Rails.logger.info "[Resque]==== redis: #{$redis}"
     
-
+    # get the question's answer from redis
+    answer = JSON.parse($redis.get("question:#{params["question_id"]}"))
+    
+    Rails.logger.info "[Resque]==== answer from redis: #{answer}"
+    
+    # check to see if the answer they submitted matches what's in redis
+    if params["answer"].eql?(CGI.unescape(answer["Answer__c"]))
+      params["correct"] = "true"
+    else
+      params["correct"] = "false"
+    end
+    # save their answer to sfdc
+    QuickQuizes.save_answer(access_token, username, params)
         
   end
   
