@@ -10,11 +10,6 @@ class QuickQuizes < Cloudspokes
     set_header_token(access_token)
     
     Rails.logger.info "[QuickQuizes]==== saving parms to sfdc: #{params}"
-    Rails.logger.info "[QuickQuizes]==== username: #{username}"
-    Rails.logger.info "[QuickQuizes]==== answer: #{params[answer]}"
-    Rails.logger.info "[QuickQuizes]==== correct: #{params[correct]}"
-    Rails.logger.info "[QuickQuizes]==== time: #{params[time]}"
-    Rails.logger.info "[QuickQuizes]==== question_id: #{params[question_id]}"
     
     Rails.logger.info "[QuickQuizes]==== username: #{username}"
     Rails.logger.info "[QuickQuizes]==== :answer: #{params[:answer]}"
@@ -25,10 +20,10 @@ class QuickQuizes < Cloudspokes
     options = {
       :body => {
           :username => username,
-          :answer__c => params[answer],
-          :is_correct__c => params[correct],
-          :time__c => params[time],
-          :quick_quiz_question__c => params[question_id]
+          :answer__c => params[:answer],
+          :is_correct__c => params[:correct],
+          :time__c => params[:time],
+          :quick_quiz_question__c => params[:question_id]
       }
     }
     
