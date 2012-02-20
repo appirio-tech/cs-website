@@ -37,7 +37,6 @@ class Cloudspokes
 
   # update a given object
   def self.update(access_token, id, params)
-    p "======= updating with values: #{params}"
     set_header_token(access_token)
     if AvailableObjects.include?(self.to_s.downcase)      
       request_url  = ENV['SFDC_REST_API_URL'] + '/' + self.to_s.downcase + "/" + id

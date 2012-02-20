@@ -7,6 +7,8 @@ class QuickQuizes < Cloudspokes
   end
   
   def self.save_answer(access_token, username, params)
+    
+    Rails.logger.info "[QuickQuizes]==== saving the following prams to sfdc #{params}"
         
     options = {
       :body => {
@@ -18,7 +20,10 @@ class QuickQuizes < Cloudspokes
       }
     }
     
-    post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
+    Rails.logger.info "[QuickQuizes]==== saving the following options to sfdc #{options}"
+    
+    results = post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
+    Rails.logger.info "[QuickQuizes]==== results from the save #{results}"
   end
   
   def self.find_answer_by_id(access_token, id)

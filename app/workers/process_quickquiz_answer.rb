@@ -21,7 +21,11 @@ class ProcessQuickQuizAnswer
       params["correct"] = "false"
     end
     # save their answer to sfdc
-    QuickQuizes.save_answer(access_token, username, params)
+    results = QuickQuizes.save_answer(access_token, username, params)
+
+    Rails.logger.info "[Resque]==== done saving answer"
+    
+    Rails.logger.info "[Resque]==== save_answer results: #{results}"
         
   end
   
