@@ -25,19 +25,11 @@ class ChallengesController < ApplicationController
     @questions = QuickQuizes.fetch_10_questions
   end
   
-  # ---- need to move this to resque ----
   def quickquiz_answer
-    # get the question's answer from redis
-    answer = JSON.parse($redis.get("question:#{params["question_id"]}"))
-    # check to see if the answer they submitted matches what's in redis
-    if params["answer"].eql?(CGI.unescape(answer["Answer__c"]))
-      params["correct"] = "true"
-    else
-      params["correct"] = "false"
-    end
-    # save their answer to sfdc
-    QuickQuizes.save_answer(current_access_token, current_user.username, params)
-    p "==== #{params}"
+    logger.info "[ChallengesController]==== pushing answer to redis with #{params}"
+    Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, 'jeffdonthemic@m.cloudspokes.com.sandbox')
+    logger.info "[ChallengesController]==== done pushing answer to redis: #{resque_results}"
+    render :nothing => true
   end
   
   def register
