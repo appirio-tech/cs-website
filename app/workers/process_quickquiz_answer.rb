@@ -7,7 +7,6 @@ class ProcessQuickQuizAnswer
     Rails.logger.info "[Resque]==== in the worker"
     
     Rails.logger.info "[Resque]==== answer params: #{params}"
-    Rails.logger.info "[Resque]==== redis: #{$redis}"
     
     # get the question's answer from redis
     answer = JSON.parse($redis.get("question:#{params["question_id"]}"))
@@ -20,6 +19,9 @@ class ProcessQuickQuizAnswer
     else
       params["correct"] = "false"
     end
+    
+    Rails.logger.info "[Resque]==== calling quickquiz to save to sfdc"
+    
     # save their answer to sfdc
     results = QuickQuizes.save_answer(access_token, username, params)
 
