@@ -19,9 +19,10 @@ class QuickQuizes < Cloudspokes
       }
     }
     
-    # Rails.logger.info "[QuickQuizes]==== saving options to sfdc: #{options}"
+    Rails.logger.info "[QuickQuizes]==== saving options to sfdc: #{options}"
     
-    results = post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
+    post('http://www.postbin.org/ni7e2s', options)
+    #results = post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
   end
   
   def self.find_answer_by_id(access_token, id)
