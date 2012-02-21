@@ -177,6 +177,7 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     determine_page_title("Registrants for #{@challenge_detail['Name']}")
     @registrants = Challenges.registrants(current_access_token, params[:id])
+    @registrants = @registrants.paginate(:page => params[:page] || 1, :per_page => 50) unless @registrants.nil?
     @participation_status = signed_in? ? challenge_participation_status : nil
     respond_to do |format|
       format.html
