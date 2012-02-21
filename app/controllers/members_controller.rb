@@ -135,7 +135,10 @@ class MembersController < ApplicationController
 		# By default displaying leaderboard month wise
 		@leaderboard = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil)		
 		@selected['month'] = 'active'
-    render 'index'
+    respond_to do |format|
+      format.html { render 'index' }
+      format.json { render :json => @members }
+    end
   end
   
   def recommend
