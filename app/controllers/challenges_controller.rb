@@ -296,19 +296,21 @@ class ChallengesController < ApplicationController
     show_open = false
     show_open = true unless params[:show].eql?('closed')                
     challenges = Challenges.get_challenges(current_access_token, show_open, 'name+asc', params[:category])  
-    
+    @feed_items = Array.new  
+        
     if show_open == false
       @feed_title = params[:category].nil? ? "Closed CloudSpokes Challenges" : "Closed #{params[:category]} CloudSpokes Challenges"
     else  
       @feed_title = params[:category].nil? ? "Open CloudSpokes Challenges" : "Open #{params[:category]} CloudSpokes Challenges"
     end
     
-    @feed_items = Array.new    
-    challenges.each do |challenge|
-      entry = AtomEntry.new(:id => challenge['Challenge_Id__c'], :title => challenge['Name'], 
-        :content => challenge['Description__c'], :start_date => challenge['Start_Date__c'],
-        :end_date => challenge['End_Date__c'], :top_prize => challenge['Top_Prize__c'], :categories => challenge['Challenge_Categories__r'])
-      @feed_items.push(entry)
+    unless challenges.nil?      
+      challenges.each do |challenge|
+        entry = AtomEntry.new(:id => challenge['Challenge_Id__c'], :title => challenge['Name'], 
+          :content => challenge['Description__c'], :start_date => challenge['Start_Date__c'],
+          :end_date => challenge['End_Date__c'], :top_prize => challenge['Top_Prize__c'], :categories => challenge['Challenge_Categories__r'])
+        @feed_items.push(entry)
+      end
     end
 
     respond_to do |format|
