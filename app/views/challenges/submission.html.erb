@@ -3,21 +3,8 @@
         <div class="challenge-content-wrapper">
             <!-- Widecolumn -->
             <div class="widecolumn fl">
-				<span style="font-size:Small;font-weight:bold;"></span>
-                <div class="challenge-information">
-                    <h3>Submit Your Entry</h3>
-                    <div class="list-technologies">
-                        <ul>
-                            <table cellspacing="0" border="0" style="border-collapse:collapse;">
-								<tr>
-									<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
-									<td><li><a href="/challenges?category=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a></li></td>
-									<% end %>                              
-								</tr>
-							</table>
-                        </ul>
-                    </div>
-
+                	<span></span>
+					<p><%= link_to "Back to Challenge Details", challenge_path %></p>
 					<%= flash_messages %>
 
 					<% if @current_submissions.length > 0 %>

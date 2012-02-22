@@ -24,7 +24,7 @@ class ChallengesController < ApplicationController
       redirect_to(:back)
     # challenge has it's own terms. show and make them register
     else
-      @participation_status = signed_in? ? challenge_participation_status : nil
+      @participation_status = challenge_participation_status
       @terms = Terms_of_Service.find(current_access_token, @challenge_detail['Terms_of_Service__r']['Id'])
     end
   end
@@ -166,7 +166,7 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     determine_page_title
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
-    @participation_status = signed_in? ? challenge_participation_status : nil
+    @participation_status = challenge_participation_status
     respond_to do |format|
       format.html
       format.json { render :json => @challenge_detail }
@@ -178,7 +178,7 @@ class ChallengesController < ApplicationController
     determine_page_title("Registrants for #{@challenge_detail['Name']}")
     @registrants = Challenges.registrants(current_access_token, params[:id])
     @registrants = @registrants.paginate(:page => params[:page] || 1, :per_page => 50) unless @registrants.nil?
-    @participation_status = signed_in? ? challenge_participation_status : nil
+    @participation_status = challenge_participation_status
     respond_to do |format|
       format.html
       format.json { render :json => @registrants }
@@ -189,8 +189,8 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     determine_page_title("Results for #{@challenge_detail['Name']}")
     @participants = Challenges.scorecards(current_access_token, params[:id])
-    @participation_status = signed_in? ? challenge_participation_status : nil    
-    @has_submission = signed_in? ? challenge_submission_status : false
+    @participation_status = challenge_participation_status    
+    @has_submission = signed_in? ? @participation_status[:has_submission] : false
     respond_to do |format|
       format.html
       format.json { render :json => @participants }
@@ -200,9 +200,9 @@ class ChallengesController < ApplicationController
   def participant_submissions
     @challenge_detail = current_challenge
     determine_page_title
-    @participation_status = signed_in? ? challenge_participation_status : nil    
+    @participation_status = challenge_participation_status    
     # if the current user did not submit for the challenge, they cannot see this page
-    redirect_to challenge_path unless challenge_submission_status
+    redirect_to challenge_path unless @participation_status[:has_submission]
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
     @all_submissions.each do |participant| 
       if participant['Challenge_Participant__c'].eql?(params[:participant])
@@ -215,7 +215,7 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     determine_page_title
     @participants = Challenges.scorecards(current_access_token, params[:id])
-    @participation_status = signed_in? ? challenge_participation_status : nil
+    @participation_status = challenge_participation_status
     scorecard = Scoring.scorecard(current_access_token, params[:scorecard], params[:reviewer]).to_json
     # set the json results to be html safe are usable in the javascript
     @json = scorecard[scorecard.index('['),scorecard.length].gsub(']}',']').html_safe
@@ -225,13 +225,13 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     determine_page_title("Scorecard for #{@challenge_detail['Name']}")
     @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id])
-    @participation_status = signed_in? ? challenge_participation_status : nil
+    @participation_status = challenge_participation_status
   end
   
   def survey    
     @challenge_detail = current_challenge
     determine_page_title
-    @participation_status = signed_in? ? challenge_participation_status : nil
+    @participation_status = challenge_participation_status
     if params["survey"]
       post_results = Surveys.save(current_access_token, params[:id], params["survey"])
       flash[:notice] = "Thanks for completing the survey!" 
@@ -392,32 +392,18 @@ class ChallengesController < ApplicationController
   
   private
     
-    # iterate through all participants and see if the current user is one of them & get status
     def challenge_participation_status
-      status =  {:status => 'Not Registered', :participantId => nil}
-      if @challenge_detail["Challenge_Participants__r"]
-        @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
-          if record["Member__r"]["Name"].downcase.eql?(current_user.username.downcase) 
-            status = {:status => record['Status__c'], :participantId => record['Id']}
-            break
-          end
+      if signed_in?      
+        participation = Challenges.participant_status(current_access_token, current_user.username, params[:id])[0]
+        if participation.nil?
+          status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false}
+        else
+          status =  {:status => participation["Status__c"], :participantId => participation["Id"], 
+            :has_submission => participation["Has_Submission__c"]}
         end
+      else 
+        status =  nil
       end
-      return status
-    end
-    
-    # iterate through all participants and see if the current user has a submission
-    def challenge_submission_status
-      has_submission = false
-      if @challenge_detail["Challenge_Participants__r"]
-        @challenge_detail["Challenge_Participants__r"]["records"].each do |record|
-          if record["Member__r"]["Name"].downcase.eql?(current_user.username.downcase) 
-            has_submission = record['Has_Submission__c']
-            break
-          end
-        end
-      end
-      return has_submission
     end
   
     def signed_in?

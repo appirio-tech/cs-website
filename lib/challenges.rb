@@ -2,6 +2,12 @@ require 'cloud_spokes'
 require 'cgi'
 class Challenges < Cloudspokes
   
+  def self.participant_status(access_token, username, id) 
+    set_header_token(access_token)
+    # get the current status of the user
+    current_status = get(ENV['SFDC_REST_API_URL']+"/participants/#{esc username}?challengeId=#{id}")
+  end
+  
   def self.set_participation_status(access_token, username, id, new_status) 
     
     set_header_token(access_token)
