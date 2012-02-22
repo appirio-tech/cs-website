@@ -29,6 +29,19 @@
   <%= auto_discovery_link_tag :rss, "/feed.rss" %>
 <!-- start Mixpanel --><script type="text/javascript">var mpq=[];mpq.push(["init","b2f8f6ea498387f89802a573ddc97a02"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
 </script><!-- end Mixpanel -->
+<!-- start Google analytics -->
+<script type="text/javascript">
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-21388828-1']);
+ _gaq.push(['_trackPageview']);
+
+ (function() {
+   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+   ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+ })();
+</script>
+<!-- end Google analytics -->
 </head>
 <body id="<%= controller.controller_name %>_<%= controller.action_name %>" class="<%= controller.controller_name %>">
   <div id='wrapper'>
