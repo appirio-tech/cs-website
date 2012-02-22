@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   before_filter :redirect_to_https, :only => ["login_popup","login","signup","callback"]
   
   def redirect_to_https
-    redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development?)
+    redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development? or Rails.env.test?)
   end
   
   # first time users login they will use the popup
