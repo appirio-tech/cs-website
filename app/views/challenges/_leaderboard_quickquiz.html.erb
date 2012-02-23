@@ -1,0 +1,26 @@
+<% rank = 0 %>
+<!-- Leaders -->
+<div class="leaders">
+<ul>  	
+<% leaders.each do |record| %>  
+<% rank=rank+1%>                                
+<li class="leader"><span class="num<% if rank==1 %> num-gold<% elsif rank==2 %> num-silver<% elsif rank==3 %> num-bronze<% end %> fl"><%= rank %></span>
+  <div class="user-box box fl">
+      <div class="box-b">
+          <div class="box-t">
+              <a href='/members/<%= record["Member__r"]["Name"] %>' class="fl"><img src="<%= record["Member__r"]["Profile_Pic__c"] %>" <% if rank==1 %>Width="48px" Height="48px"<% else %>Width="20px" Height="20px"<% end %> src="" style="border-width:0px;padding-right:3px" /></a>
+              <div class="user-info fl">
+                  <h4><a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a></h4>
+                  <span class="stats" style="padding-top:5px"><%= record["Number_Correct__c"] %> correct in <%= record["Display_Time__c"] %>
+				  <br><%= Time.parse(record["Quiz_Date__c"]).strftime("%b. %d, %Y") %></span>
+              </div>
+              <div class="cl"></div>
+          </div>
+      </div>
+  </div>
+  <div class="cl"></div>
+</li>
+<% end %>                            
+</ul>
+</div>
+<!-- END Leaders -->

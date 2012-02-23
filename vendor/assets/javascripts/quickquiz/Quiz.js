@@ -46,7 +46,7 @@ function Quiz(data, components, url){
 		question = unescape(question);
 		
 		// post the current question they are answering
-		var dataString = 'question_id='+ q.id;
+		var dataString = 'question_id='+ self.records[self.curr()].Id;
 		
 		$.ajax({
 		  type: 'POST',

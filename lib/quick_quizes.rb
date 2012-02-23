@@ -34,6 +34,21 @@ class QuickQuizes < Cloudspokes
     set_header_token(access_token)
     get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/today")
   end
+  
+  def self.winners_last7days(access_token)
+    set_header_token(access_token)
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/last7days")
+  end
+  
+  def self.winners_alltime(access_token)
+    set_header_token(access_token)
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/alltime")
+  end
+  
+  def self.member_status_today(access_token, username)
+    set_header_token(access_token)
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/member/#{esc username}")
+  end
 
 end
 

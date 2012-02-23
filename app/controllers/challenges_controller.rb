@@ -17,6 +17,13 @@ class ChallengesController < ApplicationController
   end
   
   def quickquiz
+    # see this the member has already entered for today
+    member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
+    p "==== member_status: #{member_status}"
+    if member_status.size > 0
+      flash[:notice] = "You have already submitted for today."
+      redirect_to leaderboard_quickquiz_path
+    end
     # need to determine if user is registered to challenge
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
     @participation_status = challenge_participation_status
@@ -28,6 +35,12 @@ class ChallengesController < ApplicationController
   def quickquiz_answer
     Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
     render :nothing => true
+  end
+  
+  def leaderboard_quickquiz
+    @today = QuickQuizes.winners_today(current_access_token);
+    @last7days = QuickQuizes.winners_last7days(current_access_token);
+    @alltime = QuickQuizes.winners_alltime(current_access_token);
   end
   
   def register

@@ -68,6 +68,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file_upload', :as => :submission_file, :via => :post
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
+  match 'leaderboard_quickquiz', :to => 'challenges#leaderboard_quickquiz', :as => 'leaderboard_quickquiz'
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"
