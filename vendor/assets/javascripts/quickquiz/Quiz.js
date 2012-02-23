@@ -44,7 +44,16 @@ function Quiz(data, components, url){
         var lang = self.language().toLowerCase();
         var question = self.records[self.curr()].Question__c.replace(/\+/g,' ');
 		question = unescape(question);
-
+		
+		// post the current question they are answering
+		var dataString = 'question_id='+ q.id;
+		
+		$.ajax({
+		  type: 'POST',
+		  url: url+'/challenges/quickquiz_answer',
+		  data: dataString
+		});
+		
         editor.setOption("mode",syntax[lang]);
         editor.setValue(question);
 
@@ -74,7 +83,7 @@ function Quiz(data, components, url){
                "answer: " + q.answer].join('\n'));
 		**/
 		//alert('{ question_id: "'+q.id+'", time: '+q.time+', answer: "'+q.answer+'" }')
-		var dataString = 'question_id='+ q.id + '&time=' + q.time + '&answer='+encodeURIComponent(q.answer);
+		var dataString = 'question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
 		
 		$.ajax({
 		  type: 'POST',

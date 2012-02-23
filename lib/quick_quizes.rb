@@ -8,18 +8,21 @@ class QuickQuizes < Cloudspokes
   
   def self.save_answer(access_token, username, params)
     set_header_token(access_token)
-            
-    options = {
-      :body => {
-          :username => username,
-          :answer__c => params['answer'],
-          :is_correct__c => params['correct'],
-          :time__c => params['time'],
-          :quick_quiz_question__c => params['question_id']
-      }
-    }
     
-    post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
+    # PUT with the answer
+    if params.has_key?('answer')
+      put(ENV['SFDC_REST_API_URL']+"/quickquiz?quick_quiz_question__c=#{esc params['question_id']}&username=#{esc username}&answer__c=#{esc params['answer']}&is_correct__c=#{params['correct']}")
+    
+    # POST the username and question to start the timer
+    else
+      options = {
+        :body => {
+            :username => username,
+            :quick_quiz_question__c => params['question_id']
+        }
+      }
+      post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
+    end
   end
   
   def self.find_answer_by_id(access_token, id)
