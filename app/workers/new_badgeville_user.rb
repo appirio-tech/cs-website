@@ -13,8 +13,11 @@ class NewBadgeVilleUser
     #create the badgeville player
     player_id = Badgeville.create_player(username, email)
     
-    # update sfdc with badgeville player id
-    Members.update(access_token, username, {"Badgeville_Id__c" => player_id}) unless player_id.nil?
+    unless player_id.nil?
+      Badgeville.send_site_registration(player_id)
+      # update sfdc with badgeville player id
+      Members.update(access_token, username, {"Badgeville_Id__c" => player_id})
+    end
     
   end
   
