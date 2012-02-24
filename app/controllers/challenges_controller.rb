@@ -17,16 +17,20 @@ class ChallengesController < ApplicationController
   end
   
   def quickquiz
+    # check if the challenge is still open
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    if @challenge_detail["Is_Open__c"].eql?("false")
+      flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
+      redirect_to leaderboard_quickquiz_path
+    end
     # see this the member has already entered for today
     member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
     if member_status.size > 0
       flash[:notice] = "You have already submitted for today."
       redirect_to leaderboard_quickquiz_path
     end
-    # need to determine if user is registered to challenge
-    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
     @participation_status = challenge_participation_status
-    # if they are not registered for the challenge, then send them back to that page
+    # if they are not registered for the challenge, then send them back to the challenge page
     redirect_to challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID']) unless @participation_status[:status].eql?('Registered')
     @questions = QuickQuizes.fetch_10_questions(params[:type])
   end
@@ -185,6 +189,8 @@ class ChallengesController < ApplicationController
     # grab some extra data for quickquizes
     if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')    
       @todays_results = QuickQuizes.winners_today(current_access_token);
+      # get the current member's status for the challenge
+      @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, current_user.username) : nil
     end
     
     respond_to do |format|
