@@ -19,7 +19,6 @@ class ChallengesController < ApplicationController
   def quickquiz
     # see this the member has already entered for today
     member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
-    p "==== member_status: #{member_status}"
     if member_status.size > 0
       flash[:notice] = "You have already submitted for today."
       redirect_to leaderboard_quickquiz_path
@@ -29,7 +28,7 @@ class ChallengesController < ApplicationController
     @participation_status = challenge_participation_status
     # if they are not registered for the challenge, then send them back to that page
     redirect_to challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID']) unless @participation_status[:status].eql?('Registered')
-    @questions = QuickQuizes.fetch_10_questions
+    @questions = QuickQuizes.fetch_10_questions(params[:type])
   end
   
   def quickquiz_answer

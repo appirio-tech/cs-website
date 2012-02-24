@@ -51,7 +51,10 @@
 							<% elsif @participation_status[:status].eql?('Watching') %>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
-		                        <a class="button fl" href="<%= quickquiz_url %>"><span>Submit Your Entry</span></a>
+		                        <p>To start, simply choose the types of questions you would like to answer:</p>
+								<a class="button fl" href="<%= quickquiz_url %>?type=JavaScript"><span>JavaScript</span></a> 
+								<a class="button fl" href="<%= quickquiz_url %>?type=Ruby"><span>Ruby</span></a> 
+								<a class="button fl" href="<%= quickquiz_url %>?type=Java"><span>Java</span></a>
 							<% end %>                    
 		                    </div>
 						<% else %>
@@ -59,10 +62,6 @@
 		                        <h3><span>Please login to submit for this challenge</span></h3>
 		                        <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                        
 		                    </div>
-						<% end %>
-					<% else %>
-						<% if signed_in? && @participation_status[:status].eql?('Submitted')%>
-							<a class="button fl" href="<%= submission_view_only_url(@challenge_detail["Challenge_Id__c"]) %>"><span>View Your Submission</span></a>
 						<% end %>
 					<% end %>
 
