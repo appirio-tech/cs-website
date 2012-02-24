@@ -2,8 +2,12 @@ require 'cloud_spokes'
 
 class QuickQuizes < Cloudspokes
   
-  def self.fetch_10_questions
-    get('http://cs-quick-quiz-admin.herokuapp.com/random.json')
+  def self.fetch_10_questions(type=nil)
+    if type.nil?
+      get('http://cs-quick-quiz-admin.herokuapp.com/random.json')
+    else
+      get("http://cs-quick-quiz-admin.herokuapp.com/random.json/#{type}")
+    end
   end
   
   def self.save_answer(access_token, username, params)
