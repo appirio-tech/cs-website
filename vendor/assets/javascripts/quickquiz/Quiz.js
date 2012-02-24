@@ -48,11 +48,14 @@ function Quiz(data, components, url){
 		// post the current question they are answering
 		var dataString = 'question_id='+ self.records[self.curr()].Id;
 		
-		$.ajax({
-		  type: 'POST',
-		  url: url+'/challenges/quickquiz_answer',
-		  data: dataString
-		});
+		// check for practice answers
+		if (self.records[self.curr()].Id != 0) {
+			$.ajax({
+			  type: 'POST',
+			  url: url+'/challenges/quickquiz_answer',
+			  data: dataString
+			});
+		}
 		
         editor.setOption("mode",syntax[lang]);
         editor.setValue(question);
@@ -77,19 +80,16 @@ function Quiz(data, components, url){
             answer: self.getAnswer()
         };
 
-		/**
-        alert(["id: " + q.id,
-               "time: " + q.time,
-               "answer: " + q.answer].join('\n'));
-		**/
-		//alert('{ question_id: "'+q.id+'", time: '+q.time+', answer: "'+q.answer+'" }')
 		var dataString = 'question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
 		
-		$.ajax({
-		  type: 'POST',
-		  url: url+'/challenges/quickquiz_answer',
-		  data: dataString
-		});
+		// check for practice answers
+		if (q.id != 0) {
+			$.ajax({
+			  type: 'POST',
+			  url: url+'/challenges/quickquiz_answer',
+			  data: dataString
+			});
+		}
 
         self.resetTimer();
         self.loadQuestion(self.curr(self.curr()+1));

@@ -42,6 +42,8 @@
 	                    	<p><%= raw(@challenge_detail["Post_Reg_Info__c"]) %></p>
 						<% end %>
 					<% end %>
+					
+					<p>You can <%= link_to "practice with a few samples questions", qqpractice_path, :target => :blank %> before you start the challenge.</p>
 
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 						<% if signed_in? %>

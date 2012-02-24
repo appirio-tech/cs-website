@@ -16,6 +16,16 @@ class ChallengesController < ApplicationController
     redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
   end
   
+  def quickquiz_practice
+    # check if the challenge is still open
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    if @challenge_detail["Is_Open__c"].eql?("false")
+      flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
+      redirect_to leaderboard_quickquiz_path
+    end
+    @questions = YAML.load_file(File.join(::Rails.root, 'vendor/assets', 'practice_qq_json.yml'))
+  end
+  
   def quickquiz
     # check if the challenge is still open
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
@@ -36,7 +46,7 @@ class ChallengesController < ApplicationController
   end
   
   def quickquiz_answer
-    Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
+    #Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
     render :nothing => true
   end
   
