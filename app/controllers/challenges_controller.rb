@@ -279,7 +279,7 @@ class ChallengesController < ApplicationController
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
     respond_to do |format|
       format.html
-      format.json { render :json => @all_time_leaders }
+      format.json { render :json => @this_month_leaders }
     end
   end
   
