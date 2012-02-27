@@ -81,6 +81,10 @@ class AccountsController < ApplicationController
     end
     @page_title = "Your Payments and Payment Info"
     get_account
+    respond_to do |format|
+      format.html
+      format.json { render :json => @payments }
+    end
   end
 
   # Member details info tab
