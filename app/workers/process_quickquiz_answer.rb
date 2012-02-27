@@ -14,11 +14,12 @@ class ProcessQuickQuizAnswer
       else
         params["correct"] = "false"
       end
-    
+      Rails.logger.info "[Resque]==== QuickQuiz submission for #{username} and question #{params["question_id"]} being evaluted: #{params["correct"]}"
     end
     
     # save their answer to sfdc. the class determines whether to POST or PUT
     results = QuickQuizes.save_answer(access_token, username, params)  
+    Rails.logger.info "[Resque]==== QuickQuiz submission for #{username} and question #{params["question_id"]}. Results: #{results}"
     
   end
   
