@@ -11,7 +11,7 @@
     <div id="editor"></div>
 </div>
 <div class="infoPane">
-    Question <span data-bind="text:curr() + 1"></span> of <span data-bind="text: totalSize"></span><br/><br/>
+    Question <span data-bind="text:curr() <= records.length-1 ? curr()+1 : records.length"></span> of <span data-bind="text: totalSize"></span><br/><br/>
     <span data-bind="text:language"></span><br/><br/><br/>
     Time This Question<br/>
     <div id="clock" class="stopwatch">
