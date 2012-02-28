@@ -4,15 +4,57 @@ require 'settings'
 require 'atomentry'
 require 'will_paginate/array'
 require 'uri'
+require 'json'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment]
+  before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :quickquiz, :quickquiz_answer]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
   def redirect_to_http
     redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
+  
+  def quickquiz_practice
+    # check if the challenge is still open
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    if @challenge_detail["Is_Open__c"].eql?("false")
+      flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
+      redirect_to leaderboard_quickquiz_path
+    end
+    @questions = YAML.load_file(File.join(::Rails.root, 'vendor/assets', 'practice_qq_json.yml'))
+  end
+  
+  def quickquiz
+    # check if the challenge is still open
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    if @challenge_detail["Is_Open__c"].eql?("false")
+      flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
+      redirect_to leaderboard_quickquiz_path
+    end
+    # see this the member has already entered for today
+    member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
+    if member_status.size > 0
+      flash[:notice] = "You have already submitted for today."
+      redirect_to leaderboard_quickquiz_path
+    end
+    @participation_status = challenge_participation_status
+    # if they are not registered for the challenge, then send them back to the challenge page
+    redirect_to challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID']) unless @participation_status[:status].eql?('Registered')
+    @questions = QuickQuizes.fetch_10_questions(params[:type])
+  end
+  
+  def quickquiz_answer
+    Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
+    logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']}"
+    render :nothing => true
+  end
+  
+  def leaderboard_quickquiz
+    @today = QuickQuizes.winners_today(current_access_token);
+    @last7days = QuickQuizes.winners_last7days(current_access_token);
+    @alltime = QuickQuizes.winners_alltime(current_access_token);
   end
   
   def register
@@ -167,12 +209,24 @@ class ChallengesController < ApplicationController
     determine_page_title
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = challenge_participation_status
+    
+    # grab some extra data for quickquizes
+    if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')    
+      @todays_results = QuickQuizes.winners_today(current_access_token);
+      # get the current member's status for the challenge
+      @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, current_user.username) : nil
+    end
+    
     respond_to do |format|
-      format.html
+      if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')
+        format.html { render "show_quickquiz" }
+      else
+        format.html 
+      end
       format.json { render :json => @challenge_detail }
     end
   end
-  
+    
   def registrants    
     @challenge_detail = current_challenge
     determine_page_title("Registrants for #{@challenge_detail['Name']}")

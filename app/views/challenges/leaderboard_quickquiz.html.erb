@@ -1,0 +1,46 @@
+<div class="page-heading"><h2 class="melbourne">Quick Quiz Leaderboards</h2></div>
+    <div class="page">        
+    <!-- Content Wrapper -->
+    <div class="challenge-content-wrapper ">
+        <!-- Leaderboards -->
+        <div id="leaderboards">
+			<%= flash_messages %>
+            <!-- Columns -->
+            <div class="columns" style="padding-top: 15px">
+                <div class="column">
+                    <h3>Today</h3>
+					<% if @today.length > 0 %>
+                        <%= render :partial => "leaderboard_quickquiz", :locals => { :leaders => @today } %>
+					<% else %>
+						<p style="padding-left:15px">No results found for today.</p>
+					<% end %>
+                </div>
+
+                <div class="column column-middle">
+                    <h3>Last 7 Days</h3>
+					<% if @last7days.length > 0 %>
+                        <%= render :partial => "leaderboard_quickquiz", :locals => { :leaders => @last7days } %>
+					<% else %>
+						<p style="padding-left:15px">No results found for the last 7 days.</p>
+					<% end %>
+                </div>
+
+                <div class="column">
+                    <h3>All Time</h3>
+					<% if @alltime.length > 0 %>
+                        <%= render :partial => "leaderboard_quickquiz", :locals => { :leaders => @alltime } %>
+					<% else %>
+						<p style="padding-left:15px">No results found.</p>
+					<% end %>
+                </div>
+
+                <div class="cl">&nbsp;</div>
+            </div>
+            <!-- END Columns -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Leaderboards -->
+    </div>
+
+    <!-- END Content Wrapper -->
+</div>

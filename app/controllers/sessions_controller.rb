@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   before_filter :redirect_to_https, :only => ["login_popup","login","signup","callback"]
   
   def redirect_to_https
-    redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development?)
+    redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development? or Rails.env.test?)
   end
   
   # first time users login they will use the popup
@@ -64,6 +64,8 @@ class SessionsController < ApplicationController
           sign_in @user
           # send the 'welcome' email
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+          # add the user to badgeville
+          Resque.enqueue(NewBadgeVilleUser, current_access_token, params[:signup_form][:username], results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
           unless session[:marketing].nil?
             # update their info in sfdc with the marketing data
             Resque.enqueue(MarketingUpdateNewMember, current_access_token, params[:signup_form][:username], session[:marketing]) 
@@ -175,6 +177,8 @@ class SessionsController < ApplicationController
             logger.info "[SessionsController]==== #{@signup_complete_form.email} successfully signed in"
             # send the 'welcome' email
             Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            # add the user to badgeville
+            Resque.enqueue(NewBadgeVilleUser, current_access_token, new_member_create_results[:username], new_member_create_results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
             unless session[:marketing].nil?
               # update their info in sfdc with the marketing data
               Resque.enqueue(MarketingUpdateNewMember, current_access_token, new_member_create_results[:username], session[:marketing]) 

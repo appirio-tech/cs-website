@@ -46,6 +46,9 @@ CloudSpokes::Application.routes.draw do
   #challenges
   get "challenges/index"
   match 'challenges', :to => 'challenges#index', :as => :challenges
+  match 'challenges/quickquiz', :to => 'challenges#quickquiz', :as => :quickquiz
+  match 'challenges/quickquiz_answer', :to => 'challenges#quickquiz_answer'
+  match 'challenges/quickquiz_practice', :to => 'challenges#quickquiz_practice', :as => :qqpractice
   match 'challenges/feed', :to => 'challenges#feed', :as => :feed, :defaults => { :format => 'atom' }
   match 'challenges/feed/recent', :to => 'challenges#feed_recent', :as => :feed_recent, :defaults => { :format => 'atom' }
   match 'challenges/recent', :to => 'challenges#recent'
@@ -67,6 +70,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file_upload', :as => :submission_file, :via => :post
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
+  match 'leaderboard_quickquiz', :to => 'challenges#leaderboard_quickquiz', :as => 'leaderboard_quickquiz'
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"

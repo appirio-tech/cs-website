@@ -1,5 +1,4 @@
 .bundle
-db/development.sqlite3
 db/*.sqlite3
 log/*.log
 tmp/
@@ -7,4 +6,3 @@ tmp/
 .DS_Store
 .powenv
 config/initializers/development_settings.rb
-db/development.sqlite3
