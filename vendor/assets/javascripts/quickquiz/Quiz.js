@@ -86,7 +86,7 @@ function Quiz(data, components, url){
 		if (q.id != 0) {
 			$.ajax({
 			  type: 'POST',
-			  url: url+'/quizes/answer',
+			  url: url+'/quizes/answer', 
 			  data: dataString
 			});
 		}
