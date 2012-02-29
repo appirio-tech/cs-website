@@ -10,7 +10,7 @@
                 <div class="column">
                     <h3>Today</h3>
 					<% if @today.length > 0 %>
-                        <%= render :partial => "leaderboard_quickquiz", :locals => { :leaders => @today } %>
+                        <%= render :partial => "leaderboard", :locals => { :leaders => @today } %>
 					<% else %>
 						<p style="padding-left:15px">No results found for today.</p>
 					<% end %>
@@ -19,7 +19,7 @@
                 <div class="column column-middle">
                     <h3>Last 7 Days</h3>
 					<% if @last7days.length > 0 %>
-                        <%= render :partial => "leaderboard_quickquiz", :locals => { :leaders => @last7days } %>
+                        <%= render :partial => "leaderboard", :locals => { :leaders => @last7days } %>
 					<% else %>
 						<p style="padding-left:15px">No results found for the last 7 days.</p>
 					<% end %>
@@ -28,7 +28,7 @@
                 <div class="column">
                     <h3>All Time</h3>
 					<% if @alltime.length > 0 %>
-                        <%= render :partial => "leaderboard_quickquiz", :locals => { :leaders => @alltime } %>
+                        <%= render :partial => "leaderboard", :locals => { :leaders => @alltime } %>
 					<% else %>
 						<p style="padding-left:15px">No results found.</p>
 					<% end %>

@@ -10,39 +10,64 @@
 				<% if @participants.size == 0 %>
 					<div style="text-align: center; padding:50px"><b>No winners found for this challenge.</b></div>
 				<% else %>
-					<table  id="submissions-current" style="width:100%">
-					    <thead>
-					    	<tr>
-								<th scope="col">Member</th>
-					            <th scope="col">Place</th>
-								<th scope="col">Prize</th>
-								<th scope="col">Score</th>
-								<th scope="col">View</th>
-					        </tr>
-					    </thead>
-					    <tbody>
-						<% @participants.each do |participant| %>
-					    	<tr>	
-								<td><%= link_to participant['Member__r']['Name'], member_path(participant['Member__r']['Name']), :target => '_blank' %></td>
-								<td><% if participant['Place__c'].to_i > 0 %><%= participant['Place__c'].to_i.ordinalize %><% end %></td>
-								<td><% if participant['Money_Awarded__c'] > 0 %><%= number_to_currency(participant['Money_Awarded__c'], :precision => 0) %><% end %></td>
-								<td><%= participant['Score__c']%></td>
-								<td><% if @has_submission %><%= link_to 'Submissions', participant_submissions_path(params[:id], participant['Id']) %><% end %></td>
-					        </tr>
-							<% if participant['Scorecard__r'] %>
-								<% participant['Scorecard__r']['records'].each do |scorecard| %>
-								<tr>
-									<td><div style="padding-left:25px"><%= link_to scorecard['Reviewer__r']['Name'], member_path(scorecard['Reviewer__r']['Name'],), :target => '_blank' %></div></td>
-									<td colspan="2"></td>
-									<td><%= scorecard['Final_Score__c'] %></td>
-									<td><%= link_to 'Scorecard', participant_scorecard_path(params[:id], participant['Id'], scorecard['Reviewer__r']['Name'], participant['Member__r']['Name']) %></td>								
-								</tr>
+					<% if @challenge_detail["Challenge_Type__c"].eql?('Code') %>
+					
+						<table  id="submissions-current" style="width:100%">
+						    <thead>
+						    	<tr>
+									<th scope="col">Member</th>
+						            <th scope="col">Place</th>
+									<th scope="col">Prize</th>
+									<th scope="col">Score</th>
+									<th scope="col">View</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+							<% @participants.each do |participant| %>
+						    	<tr>	
+									<td><%= link_to participant['Member__r']['Name'], member_path(participant['Member__r']['Name']), :target => '_blank' %></td>
+									<td><% if participant['Place__c'].to_i > 0 %><%= participant['Place__c'].to_i.ordinalize %><% end %></td>
+									<td><% if participant['Money_Awarded__c'] > 0 %><%= number_to_currency(participant['Money_Awarded__c'], :precision => 0) %><% else %><%= participant['Prize_Awarded__c'] %><% end %></td>
+									<td><%= participant['Score__c']%></td>
+									<td><% if @has_submission %><%= link_to 'Submissions', participant_submissions_path(params[:id], participant['Id']) %><% end %></td>
+						        </tr>
+								<% if participant['Scorecard__r'] %>
+									<% participant['Scorecard__r']['records'].each do |scorecard| %>
+									<tr>
+										<td><div style="padding-left:25px"><%= link_to scorecard['Reviewer__r']['Name'], member_path(scorecard['Reviewer__r']['Name'],), :target => '_blank' %></div></td>
+										<td colspan="2"></td>
+										<td><%= scorecard['Final_Score__c'] %></td>
+										<td><%= link_to 'Scorecard', participant_scorecard_path(params[:id], participant['Id'], scorecard['Reviewer__r']['Name'], participant['Member__r']['Name']) %></td>								
+									</tr>
+									<% end %>
 								<% end %>
 							<% end %>
-						<% end %>
-					    </tbody>
-					</table>
+						    </tbody>
+						</table>
 					
+					<% else %>
+					
+						<table  id="submissions-current" style="width:100%">
+						    <thead>
+						    	<tr>
+									<th scope="col">Member</th>
+						            <th scope="col">Place</th>
+									<th scope="col">Prize</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+							<% @participants.each do |participant| %>
+								<% if !participant['Place__c'].nil? %>
+							    	<tr>	
+										<td><%= link_to participant['Member__r']['Name'], member_path(participant['Member__r']['Name']), :target => '_blank' %></td>
+										<td><% if participant['Place__c'].to_i > 0 %><%= participant['Place__c'].to_i.ordinalize %><% end %></td>
+										<td><% if participant['Money_Awarded__c'] > 0 %><%= number_to_currency(participant['Money_Awarded__c'], :precision => 0) %><% else %><%= participant['Prize_Awarded__c'] %><% end %></td>
+							        </tr>
+								<% end %>
+							<% end %>
+						    </tbody>
+						</table>
+					<% end %>
 					
 					      
 	                    <div class="cl"></div>

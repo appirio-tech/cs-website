@@ -43,7 +43,7 @@
 						<% end %>
 					<% end %>
 					
-					<p>You can <%= link_to "practice with a few samples questions", qqpractice_path, :target => :blank %> before you start the challenge.</p>
+					<p>You can <%= link_to "practice with a few samples questions", practicequiz_path, :target => :blank %> before you start the challenge.</p>
 
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 						<% if signed_in? %>
@@ -52,10 +52,10 @@
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>   
 							<% elsif (@participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted')) && @member_status.size == 0 %>
 		                        <p>To start, simply choose the types of questions you would like to answer:</p>
-								<a class="button fl" href="<%= quickquiz_url %>?type=JavaScript"><span>JavaScript</span></a> 
-								<a class="button fl" href="<%= quickquiz_url %>?type=Ruby"><span>Ruby</span></a> 
-								<a class="button fl" href="<%= quickquiz_url %>?type=Java"><span>Java</span></a>
-								<a class="button fl" href="<%= quickquiz_url %>"><span>Suprise Me!</span></a>
+								<a class="button fl" href="<%= takequiz_url %>?type=JavaScript"><span>JavaScript</span></a> 
+								<a class="button fl" href="<%= takequiz_url %>?type=Ruby"><span>Ruby</span></a> 
+								<a class="button fl" href="<%= takequiz_url %>?type=Java"><span>Java</span></a>
+								<a class="button fl" href="<%= takequiz_url %>"><span>Suprise Me!</span></a>
 							<% end %>                    
 		                    </div>
 						<% else %>
