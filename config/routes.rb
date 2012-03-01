@@ -1,13 +1,5 @@
 CloudSpokes::Application.routes.draw do
 
-  get "quizes/show"
-
-  get "quizes/answer"
-
-  get "quizes/practice"
-
-  get "quizes/leaderboard"
-
   match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
   get "hackathons/results"
   get "hackathons/page"
