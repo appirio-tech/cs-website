@@ -38,33 +38,35 @@ function Quiz(data, components, url){
 		// redirect to this location after all questions are answered
         if(self.curr() === self.records.length){
             window.location = url;
-        }
+        } else {
 
-        self.language(self.records[self.curr()].Type__c);
-        var lang = self.language().toLowerCase();
-        var question = self.records[self.curr()].Question__c.replace(/\+/g,' ');
-		question = unescape(question);
+        	self.language(self.records[self.curr()].Type__c);
+	        var lang = self.language().toLowerCase();
+	        var question = self.records[self.curr()].Question__c.replace(/\+/g,' ');
+			question = unescape(question);
 		
-		// post the current question they are answering
-		var dataString = 'question_id='+ self.records[self.curr()].Id;
+			// post the current question they are answering
+			var dataString = 'question_id='+ self.records[self.curr()].Id;
 		
-		// check for practice answers
-		if (self.records[self.curr()].Id != 0) {
-			$.ajax({
-			  type: 'POST',
-			  url: url+'/quizes/answer',
-			  data: dataString
-			});
+			// check for practice answers
+			if (self.records[self.curr()].Id != 0) {
+				$.ajax({
+				  type: 'POST',
+				  url: url+'/quizes/answer',
+				  data: dataString
+				});
+			}
+		
+	        editor.setOption("mode",syntax[lang]);
+	        editor.setValue(question);
+
+	        for(var i = (EDITOR_MIN_LINES - editor.lineCount()); i > 0; i--){
+	            var lastLine = editor.lineCount() - 1;
+	            editor.setLine(lastLine, editor.getLine(lastLine) + '\n');
+	        }
+	        self.startTimer();
+
 		}
-		
-        editor.setOption("mode",syntax[lang]);
-        editor.setValue(question);
-
-        for(var i = (EDITOR_MIN_LINES - editor.lineCount()); i > 0; i--){
-            var lastLine = editor.lineCount() - 1;
-            editor.setLine(lastLine, editor.getLine(lastLine) + '\n');
-        }
-        self.startTimer();
     };
 
     self.getAnswer = function(){
