@@ -33,6 +33,12 @@ class ContentController < ApplicationController
     @featured_challenge_details = @page['featured_challenge_details']
     
     @leaders = Challenges.get_leaderboard(current_access_token, :period => 'all')
+    
+    respond_to do |format|
+      format.html
+      format.json { render :json => @page }
+    end
+    
   end
   
   def welcome

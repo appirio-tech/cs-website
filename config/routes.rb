@@ -105,6 +105,7 @@ CloudSpokes::Application.routes.draw do
   match "/login_help", to: "content#login_help"
   match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes
   match "/login_denied", to: "content#login_denied", :as => :login_denied
+  match "/home", to: "content#home", :as => :home
   root to: 'content#home'
   
   mount Resque::Server, :at => "/resque"
