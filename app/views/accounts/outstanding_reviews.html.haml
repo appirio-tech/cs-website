@@ -33,6 +33,6 @@
                     %td
                       =record["Total_Raw_Score__c"]
                     %td
-                      =link_to("Review", "/account/scorecard/"+record["Challenge_Participant__c"])
+                      =link_to("Review", "/account/scorecard/"+record["Challenge_Participant__c"]+"?member="+record["Challenge_Participant__r"]["Member__r"]["Name"])
         - else
           No challenges for you to review at this time.

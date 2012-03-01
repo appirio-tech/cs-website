@@ -55,7 +55,7 @@ module CloudSpokes
     config.assets.version = '1.0'
     
     config.generators do |g|
-      g.template_engine :haml
+      g.template_engine :erb
       g.test_framework :rspec
     end
     
