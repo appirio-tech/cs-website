@@ -4,9 +4,9 @@ class QuickQuizes < Cloudspokes
   
   def self.fetch_10_questions(type=nil)
     if type.nil?
-      get('http://cs-quick-quiz-admin.herokuapp.com/random.json')
+      get(ENV['QUICK_QUIZ_QUESTIONS_URL']+'/random.json')
     else
-      get("http://cs-quick-quiz-admin.herokuapp.com/random.json/#{type}")
+      get("#{ENV['QUICK_QUIZ_QUESTIONS_URL']}/random.json/#{type}")
     end
   end
   
