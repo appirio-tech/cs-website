@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/theme/eclipse.css" />
 
 <div class="page-heading"><h2 class="melbourne">Quick Quiz</h2></div>
+<p style="margin-top:25px;margin-left:25px;margin-right:25px">In the code segment below, there is a single error on a single line.  Correct the error by changing the fewest 
+	possible characters on the line.  Do not make changes that are not needed to fix the code.  Pay attention to 
+	any ASSERT functions; they must evaluate to TRUE for the code to be considered correct.</p>
 <!-- Content Wrapper -->
 <div class="challenge-content-wrapper ">
 
@@ -23,7 +26,7 @@
             <input type="button" class="reset" value="Reset">
 		</div>
 	</div>
-	<button data-bind="click: submit">Submit Answer</button>
+	<button data-bind="click: submit" id="submitButton">Submit Answer</button>
 </div>
 <div class="clear"></div>
 
@@ -56,6 +59,13 @@
 	data.records = $.parseJSON('<%= @questions.to_json.html_safe %>');
 	data.totalSize = data.records.length;
 	ko.applyBindings(new Quiz(data, {editor:editor}, fnGetUrl()));
+	
+	$(document).ready(function() {
+	    $('#editor').bind('cut copy paste', function(event) {
+	        event.preventDefault();
+	    });
+	});
+	
 </script>
 
 

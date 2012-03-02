@@ -37,7 +37,7 @@ function Quiz(data, components, url){
 
 		// redirect to this location after all questions are answered
         if(self.curr() === self.records.length){
-            window.location = url;
+            window.location = url + '/quizes/leaderboard';
         } else {
 
         	self.language(self.records[self.curr()].Type__c);
@@ -50,6 +50,7 @@ function Quiz(data, components, url){
 		
 			// check for practice answers
 			if (self.records[self.curr()].Id != 0) {
+				console.log('posting answer....');
 				$.ajax({
 				  type: 'POST',
 				  url: url+'/quizes/answer',
@@ -65,6 +66,10 @@ function Quiz(data, components, url){
 	            editor.setLine(lastLine, editor.getLine(lastLine) + '\n');
 	        }
 	        self.startTimer();
+			
+			// enable the submit button
+			$("#submitButton").removeAttr("disabled");
+			console.log('enabling button');
 
 		}
     };
@@ -74,6 +79,11 @@ function Quiz(data, components, url){
     };
 
     self.submit = function(){
+	
+		// disable the submit button
+		$("#submitButton").attr("disabled", "disabled");
+		console.log('disabling button');
+			
         self.stopTimer();
 
         var q = {
@@ -85,6 +95,7 @@ function Quiz(data, components, url){
 		var dataString = 'question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
 		
 		// check for practice answers
+		console.log('posting answer....');
 		if (q.id != 0) {
 			$.ajax({
 			  type: 'POST',

@@ -1,5 +1,16 @@
 <div class="page-heading"><h2 class="melbourne">Quick Quiz Leaderboards</h2></div>
-    <div class="page">        
+    <div class="page"> 
+        <div class="categories">
+			<table cellspacing="0" border="0" style="border-collapse:collapse;">
+				<tr>
+					<td><li class="active"><a href="/quizes/leaderboard"><span class="category-selected">Random</span></a></li></td>
+					<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
+					<td><li class="active"><a href="/quizes/leaderboard?type=<%= record["Display_Name__c"] %>">
+						<span class="category-selected"><%= record["Display_Name__c"] %></span></a></li></td>
+					<% end %>
+				</tr>
+			</table>
+        </div>
     <!-- Content Wrapper -->
     <div class="challenge-content-wrapper ">
         <!-- Leaderboards -->
