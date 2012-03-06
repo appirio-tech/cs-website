@@ -38,7 +38,7 @@ function Quiz(data, components, url){
 		// redirect to this location after all questions are answered
         if(self.curr() === self.records.length){
             console.log('PERFORMING REDIRECT: ' + url + '/quizes/leaderboard');
-            window.location = url + '/quizes/leaderboard';
+			setTimeout(window.location = url + '/quizes/leaderboard', 10000);
         } else {
 
         	self.language(self.records[self.curr()].Type__c);
@@ -104,8 +104,13 @@ function Quiz(data, components, url){
 			  success: function(data) {
 			            console.log('Post success');
 			        },
-			  error: function() {
+			  error: function(jqXHR, textStatus, errorThrown) {
 			            console.log('Post failure');
+						console.log('textStatus: '+textStatus);
+						console.log('errorThrown: '+errorThrown);
+						console.log('jqXHR.readyState: '+jqXHR.readyState);
+						console.log('jqXHR.status: '+jqXHR.status);
+						console.log('jqXHR.statusText: '+jqXHR.statusText);
 			        },
 			  data: dataString
 			});
