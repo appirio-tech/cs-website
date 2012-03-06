@@ -35,11 +35,8 @@ function Quiz(data, components, url){
 
     self.loadQuestion = function(n){
 
-		// redirect to this location after all questions are answered
-        if(self.curr() === self.records.length){
-            console.log('PERFORMING REDIRECT: ' + url + '/quizes/leaderboard');
-			setTimeout(window.location = url + '/quizes/leaderboard', 10000);
-        } else {
+		// load the next question
+        if(self.curr() != self.records.length){
 
         	self.language(self.records[self.curr()].Type__c);
 	        var lang = self.language().toLowerCase();
@@ -101,18 +98,19 @@ function Quiz(data, components, url){
 			$.ajax({
 			  type: 'POST',
 			  url: url+'/quizes/answer',
+			  complete: function() {
+				console.log('Post complete');
+				if (eval(self.curr()+1) == 10) {
+					console.log('10th answer... redirecting');
+					window.location = url + '/quizes/leaderboard';
+				}
+			  },
 			  success: function(data) {
-			            console.log('Post success');
-			        },
+			  	console.log('Post success');
+			  },
 			  error: function(jqXHR, textStatus, errorThrown) {
-			            console.log('Post failure');
-						console.log('textStatus: '+textStatus);
-						console.log('errorThrown: '+errorThrown);
-						console.log('jqXHR.readyState: '+jqXHR.readyState);
-						console.log('jqXHR.status: '+jqXHR.status);
-						console.log('jqXHR.statusText: '+jqXHR.statusText);
-						alert('error thrown');
-			        },
+			  	console.log('Post failure');
+			  },
 			  data: dataString
 			});
 		}
