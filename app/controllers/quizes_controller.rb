@@ -25,7 +25,9 @@ class QuizesController < ApplicationController
 
   def answer
     p "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
-    Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
+    logger.info "[ChallengesController]==== QuickQuiz answer received in controller"
+    results = Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
+    logger.info "[ChallengesController]==== QuickQuiz results to queue: #{results}"
     logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
     render :nothing => true
   end

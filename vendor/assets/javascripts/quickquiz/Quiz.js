@@ -101,10 +101,12 @@ function Quiz(data, components, url){
 			$.ajax({
 			  type: 'POST',
 			  url: url+'/quizes/answer',
-			  error: function(xhr, ajaxOptions, thrownError) {
-                  alert(xhr.status);
-                  alert(thrownError);
-			  },
+			  success: function(data) {
+			            console.log('Post success');
+			        },
+			  error: function() {
+			            console.log('Post failure');
+			        },
 			  data: dataString
 			});
 		}
