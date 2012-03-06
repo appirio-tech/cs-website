@@ -100,8 +100,8 @@ function Quiz(data, components, url){
 			  url: url+'/quizes/answer',
 			  complete: function() {
 				console.log('Post complete');
-				if (eval(self.curr()+1) == 10) {
-					console.log('10th answer... redirecting');
+				if (eval(self.curr()+1) > 10) {
+					console.log('done answering questions... redirecting');
 					window.location = url + '/quizes/leaderboard';
 				}
 			  },
