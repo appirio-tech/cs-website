@@ -48,7 +48,6 @@ function Quiz(data, components, url){
 		
 			// check for practice answers
 			if (self.records[self.curr()].Id != 0) {
-				console.log('posting initial blank answer: '+self.records[self.curr()].Id+'. Answer '+eval(self.curr()+1));
 				$.ajax({
 				  type: 'POST',
 				  url: url+'/quizes/answer',
@@ -64,10 +63,6 @@ function Quiz(data, components, url){
 	            editor.setLine(lastLine, editor.getLine(lastLine) + '\n');
 	        }
 	        self.startTimer();
-			
-			// enable the submit button
-			$("#submitButton").removeAttr("disabled");
-			console.log('enabling button');
 
 		}
     };
@@ -77,10 +72,6 @@ function Quiz(data, components, url){
     };
 
     self.submit = function(){
-	
-		// disable the submit button
-		$("#submitButton").attr("disabled", "disabled");
-		console.log('disabling button');
 			
         self.stopTimer();
 
@@ -94,22 +85,13 @@ function Quiz(data, components, url){
 		
 		// check for practice answers
 		if (q.id != 0) {
-			console.log('posting answer for question....'+q.id+'. Answer '+eval(self.curr()+1));
 			$.ajax({
 			  type: 'POST',
 			  url: url+'/quizes/answer',
 			  complete: function() {
-				console.log('Post complete');
 				if (eval(self.curr()+1) > 10) {
-					console.log('done answering questions... redirecting');
 					window.location = url + '/quizes/leaderboard';
 				}
-			  },
-			  success: function(data) {
-			  	console.log('Post success');
-			  },
-			  error: function(jqXHR, textStatus, errorThrown) {
-			  	console.log('Post failure');
 			  },
 			  data: dataString
 			});
