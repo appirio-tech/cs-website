@@ -50,7 +50,7 @@ function Quiz(data, components, url){
 		
 			// check for practice answers
 			if (self.records[self.curr()].Id != 0) {
-				console.log('posting initial blank answer: '+self.records[self.curr()].Id+'. Answer '+self.curr());
+				console.log('posting initial blank answer: '+self.records[self.curr()].Id+'. Answer '+self.curr()+1);
 				$.ajax({
 				  type: 'POST',
 				  url: url+'/quizes/answer',
@@ -96,10 +96,16 @@ function Quiz(data, components, url){
 		
 		// check for practice answers
 		if (q.id != 0) {
-			console.log('posting answer for question....'+q.id+'. Answer '+self.curr());
+			console.log('posting answer for question....'+q.id+'. Answer '+self.curr()+1);
 			$.ajax({
 			  type: 'POST',
 			  url: url+'/quizes/answer',
+			  success: function(data) {
+			            alert('post success:'+ data);
+			        },
+			  error: function() {
+			            alert('Error occured');
+			        },
 			  data: dataString
 			});
 		}
