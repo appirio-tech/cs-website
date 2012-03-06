@@ -37,8 +37,8 @@ function Quiz(data, components, url){
 
 		// redirect to this location after all questions are answered
         if(self.curr() === self.records.length){
-            //window.location = url + '/quizes/leaderboard';
-            console.log('PERFORMING REDIRECT!!');
+            console.log('PERFORMING REDIRECT: ' + url + '/quizes/leaderboard');
+            window.location = url + '/quizes/leaderboard';
         } else {
 
         	self.language(self.records[self.curr()].Type__c);
