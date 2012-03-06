@@ -111,7 +111,7 @@ function Quiz(data, components, url){
 						console.log('jqXHR.readyState: '+jqXHR.readyState);
 						console.log('jqXHR.status: '+jqXHR.status);
 						console.log('jqXHR.statusText: '+jqXHR.statusText);
-						alert('error thrown')
+						alert('error thrown');
 			        },
 			  data: dataString
 			});
