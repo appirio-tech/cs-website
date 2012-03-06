@@ -25,7 +25,7 @@ class QuizesController < ApplicationController
 
   def answer
     Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
-    logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']}"
+    logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
     render :nothing => true
   end
 
@@ -42,7 +42,6 @@ class QuizesController < ApplicationController
   def leaderboard
     # get the categories for the challenge
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
-    p "===== #{@challenge_detail}"
     @today = QuickQuizes.winners_today(current_access_token);
     @last7days = QuickQuizes.winners_last7days(current_access_token);
     @alltime = QuickQuizes.winners_alltime(current_access_token);

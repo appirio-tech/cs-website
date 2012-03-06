@@ -46,7 +46,7 @@ function Quiz(data, components, url){
 			question = unescape(question);
 		
 			// post the current question they are answering
-			var dataString = 'question_id='+ self.records[self.curr()].Id;
+			var dataString = 'p=q&question_id='+ self.records[self.curr()].Id;
 		
 			// check for practice answers
 			if (self.records[self.curr()].Id != 0) {
@@ -92,7 +92,7 @@ function Quiz(data, components, url){
             answer: self.getAnswer()
         };
 
-		var dataString = 'question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
+		var dataString = 'p=a&question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
 		
 		// check for practice answers
 		console.log('posting answer....');
