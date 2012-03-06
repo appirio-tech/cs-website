@@ -8,7 +8,7 @@ function Quiz(data, components, url){
     self.curr = ko.observable(0);
     self.language = ko.observable('');
 
-    console.log(data);
+    // console.log(data);
 
     self.startTimer = function(){
         $(".stopwatch .start").click();
@@ -50,7 +50,7 @@ function Quiz(data, components, url){
 		
 			// check for practice answers
 			if (self.records[self.curr()].Id != 0) {
-				console.log('posting answer....');
+				console.log('posting initial blank answer: '+self.records[self.curr()].Id+'. Answer '+self.curr());
 				$.ajax({
 				  type: 'POST',
 				  url: url+'/quizes/answer',
@@ -95,8 +95,8 @@ function Quiz(data, components, url){
 		var dataString = 'p=a&question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
 		
 		// check for practice answers
-		console.log('posting answer....');
 		if (q.id != 0) {
+			console.log('posting answer for question....'+q.id+'. Answer '+self.curr());
 			$.ajax({
 			  type: 'POST',
 			  url: url+'/quizes/answer',
