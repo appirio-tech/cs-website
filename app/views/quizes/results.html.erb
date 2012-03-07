@@ -1,11 +1,11 @@
-<script src='http://qq-server.herokuapp.com/cometd.js' type='text/javascript'></script> 
+<script src='<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd.js' type='text/javascript'></script> 
 
 <script type='text/javascript'>
 $(function() {
-  var channel = $('#channel').text();
+  var channel = '/q/*';
   var username = '<%= current_user.username %>';
 
-  var cometd = new Faye.Client('http://qq-server.herokuapp.com/cometd', {timeout: 120});
+  var cometd = new Faye.Client('<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd', {timeout: 120});
   cometd.disable('websocket');
   
   if(channel) {
@@ -13,7 +13,7 @@ $(function() {
       console.log(message);
       m = message.sobject;
 	  // add the new row
-	  $('#answers tr:last').after('<tr><td>'+ m.Type__c +'</td><td>'+ m.Elapsed_Time_Seconds__c +'</td><td>'+ m.Is_Correct__c +'</td></tr>');
+	  $('#answers tr:last').after('<tr><td>'+ m.Type__c +'</td><td>'+ m.Elapsed_Time_Seconds__c +'</td><td><img alt="'+ m.Is_Correct__c +'" src="/assets/answer-'+ m.Is_Correct__c +'.png" width="40"/></td></tr>');
     });
     subscription.callback(function() {
       console.log('Subscription is now active!');
@@ -33,6 +33,7 @@ $(function() {
             <div class="widecolumn fl dvbulletedlist">
                 <!-- Challenge Information -->
                 <div class="challenge-information">
+					<p>Your answers will display as they are processed.</p>
 					<table class="fancytable" id="answers" style="width:100%">
 					    <thead>
 					    	<tr>
@@ -45,14 +46,12 @@ $(function() {
 							<% @answers.each do |answer| %>
 					    	<tr>
 								<td><%= answer['Type__c'] %></td>
-								<td><%= answer['Elapsed_Time_Seconds__c'] %></td>
-								<td><%= answer['Is_Correct__c'] %></td>
+								<td><%= answer['Elapsed_Time_Seconds__c'] %> seconds</td>
+								<td><%= image_tag "answer-#{answer['Is_Correct__c']}.png", :width => "40", :alt => "true" %></td>
 					        </tr>
 							<% end %>
 					    </tbody>
 					</table>
-
-					<div id="channel">/q/*</div>
 
                 </div><br/><br/>
                 <!-- END Challenge Information -->
