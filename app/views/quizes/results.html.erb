@@ -1,0 +1,28 @@
+<script src='http://qq-server.herokuapp.com/cometd.js' type='text/javascript'></script>  
+
+<div class="page-heading"><h2 class="melbourne">Results</h2></div>
+<!-- Content Wrapper -->
+<div class="challenge-content-wrapper ">
+
+<div id="channel">/q/*</div>
+ <div id="username">A user</div>
+ <h2>Latest Answers from users</h2>
+ <div id="answers">
+   <div class="answer header">
+     <span>User</span>
+     <span class="language">Language</span>
+     <span class="correct">Correct?</span>
+     <span class="time">Time taken</span>
+   </div>
+   
+   <% @answers.each do |answer| %>
+   <div class="answer" id="<%= answer['Id'] %>">
+     <span class="language <%= answer['Type__c'] %>"><%= answer['Type__c'] %></span>
+     <span class="correct <%= answer['Is_Correct__c'] %>"><%= answer['Is_Correct__c'] %></span>
+     <span class="time"><%= answer['Elapsed_Time_Seconds__c'] %></span>
+   </div>
+   <% end %>
+ </div>
+
+</div>
+<!-- END Content Wrapper -->
