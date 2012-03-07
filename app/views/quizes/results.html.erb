@@ -1,4 +1,30 @@
-<script src='http://qq-server.herokuapp.com/cometd.js' type='text/javascript'></script>  
+<script src='http://qq-server.herokuapp.com/cometd.js' type='text/javascript'></script> 
+
+<script type='text/javascript'>
+$(function() {
+  var channel = $('#channel').text();
+  var username = $('#username').text();
+
+  var cometd = new Faye.Client('http://qq-server.herokuapp.com//cometd', {timeout: 120});
+  cometd.disable('websocket');
+  
+  if(channel) {
+    var subscription = cometd.subscribe(channel, function(message) {
+      console.log(message);
+      m = message.sobject;
+      
+      $('<div class="answer" id="'+ m.Id +'"><span class="user">'+ username +'</span><span class="language '+ m.Type__c +'">'+ m.Type__c +'</span><span class="correct '+ m.Is_Correct__c +'">'+ m.Is_Correct__c  +'</span><span class="time">'+ m.Elapsed_Time_Seconds__c  +'</span></div>')
+        .appendTo('#answers');
+    });
+    subscription.callback(function() {
+      console.log('Subscription is now active!');
+    });
+    subscription.errback(function(error) {
+      console.log(error.message);
+    });
+  }
+});
+</script>  
 
 <div class="page-heading"><h2 class="melbourne">Results</h2></div>
 <!-- Content Wrapper -->
