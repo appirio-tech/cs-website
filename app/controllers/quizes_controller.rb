@@ -58,10 +58,11 @@ class QuizesController < ApplicationController
 
   def leaderboard
     # get the categories for the challenge
+    params[:type] = 'Random' unless !params[:type].nil?
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
-    @today = QuickQuizes.winners_today(current_access_token);
-    @last7days = QuickQuizes.winners_last7days(current_access_token);
-    @alltime = QuickQuizes.winners_alltime(current_access_token);
+    @today = QuickQuizes.winners_today(current_access_token, params[:type]);
+    @last7days = QuickQuizes.winners_last7days(current_access_token, params[:type]);
+    @alltime = QuickQuizes.winners_alltime(current_access_token, params[:type]);
   end
   
   # if signed in, then send them back to the challenge page

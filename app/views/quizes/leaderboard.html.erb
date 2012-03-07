@@ -3,10 +3,10 @@
         <div class="categories">
 			<table cellspacing="0" border="0" style="border-collapse:collapse;">
 				<tr>
-					<td><li class="active"><a href="/quizes/leaderboard"><span class="category-selected">Random</span></a></li></td>
+					<td><li class="active"><a href="/quizes/leaderboard?type=Random"><span class="<% if params[:type].eql?('Random') %>category-selected<% else %>blue<% end %>">Random</span></a></li></td>
 					<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
 					<td><li class="active"><a href="/quizes/leaderboard?type=<%= record["Display_Name__c"] %>">
-						<span class="category-selected"><%= record["Display_Name__c"] %></span></a></li></td>
+						<span class="<% if params[:type].eql?(record['Display_Name__c']) %>category-selected<% else %>blue<% end %>"><%= record["Display_Name__c"] %></span></a></li></td>
 					<% end %>
 				</tr>
 			</table>
