@@ -90,7 +90,7 @@ function Quiz(data, components, url){
 			  url: url+'/quizes/answer',
 			  complete: function() {
 				if (eval(self.curr()+1) > 10) {
-					window.location = url + '/quizes/leaderboard';
+					window.location = url + '/quizes/results';
 				}
 			  },
 			  data: dataString
