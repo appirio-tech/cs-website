@@ -3,7 +3,7 @@
 <script type='text/javascript'>
 $(function() {
   var channel = $('#channel').text();
-  var username = $('#username').text();
+  var username = '<%= current_user.username %>';
 
   var cometd = new Faye.Client('http://qq-server.herokuapp.com/cometd', {timeout: 120});
   cometd.disable('websocket');
@@ -24,31 +24,55 @@ $(function() {
     });
   }
 });
-</script>  
+</script>
 
-<div class="page-heading"><h2 class="melbourne">Results</h2></div>
+<div class="page-heading"><h2 class="melbourne">Today's Results for <%= current_user.username %></h2></div>
+<div class="page two-cols-bg top-border">
 <!-- Content Wrapper -->
-<div class="challenge-content-wrapper ">
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl dvbulletedlist">
+                <!-- Challenge Information -->
+                <div class="challenge-information">
+					<table class="fancytable" style="width:100%">
+					    <thead>
+					    	<tr>
+								<th scope="col">Language</th>
+					            <th scope="col">Time</th>
+								<th scope="col">Correct</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+							<% @answers.each do |answer| %>
+					    	<tr>
+								<td><%= answer['Type__c'] %></td>
+								<td><%= answer['Elapsed_Time_Seconds__c'] %></td>
+								<td><%= answer['Is_Correct__c'] %></td>
+					        </tr>
+							<% end %>
+					    </tbody>
+					</table>
 
-<div id="channel">/q/*</div>
- <div id="username"><%= current_user.username %></div>
- <h2>Latest Answers from users</h2>
- <div id="answers">
-   <div class="answer header">
-     <span>User</span>
-     <span class="language">Language</span>
-     <span class="correct">Correct?</span>
-     <span class="time">Time taken</span>
-   </div>
-   
-   <% @answers.each do |answer| %>
-   <div class="answer" id="<%= answer['Id'] %>">
-     <span class="language <%= answer['Type__c'] %>"><%= answer['Type__c'] %></span>
-     <span class="correct <%= answer['Is_Correct__c'] %>"><%= answer['Is_Correct__c'] %></span>
-     <span class="time"><%= answer['Elapsed_Time_Seconds__c'] %></span>
-   </div>
-   <% end %>
- </div>
+					<div id="channel">/q/*</div>
 
+                </div><br/><br/>
+                <!-- END Challenge Information -->
+
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+					<%= render "shared/quickquiz-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
 </div>
-<!-- END Content Wrapper -->
+
