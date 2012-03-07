@@ -31,6 +31,10 @@ class QuizesController < ApplicationController
     logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
     render :nothing => true
   end
+  
+  def results
+    @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
+  end
 
   def practice
     # check if the challenge is still open

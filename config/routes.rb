@@ -73,6 +73,7 @@ CloudSpokes::Application.routes.draw do
   match 'quizes/answer', :to => 'quizes#answer', :as => :answerquiz
   match 'quizes/practice', :to => 'quizes#practice', :as => :practicequiz
   match 'quizes/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
+  match 'quizes/results', :to => 'quizes#results', :as => :quizresults
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"

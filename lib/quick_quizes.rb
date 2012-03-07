@@ -53,6 +53,11 @@ class QuickQuizes < Cloudspokes
     set_header_token(access_token)
     get(ENV['SFDC_REST_API_URL']+"/quickquiz/member/#{esc username}")
   end
+  
+  def self.member_results_today(access_token, username)
+    set_header_token(access_token)
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/answers/#{esc username}")
+  end
 
 end
 
