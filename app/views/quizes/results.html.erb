@@ -5,7 +5,7 @@ $(function() {
   var channel = $('#channel').text();
   var username = $('#username').text();
 
-  var cometd = new Faye.Client('http://qq-server.herokuapp.com//cometd', {timeout: 120});
+  var cometd = new Faye.Client('http://qq-server.herokuapp.com/cometd', {timeout: 120});
   cometd.disable('websocket');
   
   if(channel) {
@@ -31,7 +31,7 @@ $(function() {
 <div class="challenge-content-wrapper ">
 
 <div id="channel">/q/*</div>
- <div id="username">A user</div>
+ <div id="username">jeffdonthemic</div>
  <h2>Latest Answers from users</h2>
  <div id="answers">
    <div class="answer header">
