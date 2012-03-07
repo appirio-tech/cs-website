@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates :password, :presence => true
   validates :sfdc_username, :presence => true
   
+  # called from sessions_controller when logging in using cs credentials
   def self.authenticate(access_token, username, password)
         
     # make sure their sfdc credentials are correct
@@ -28,6 +29,7 @@ class User < ActiveRecord::Base
     end
   end
   
+  # called only from sessions_controller's oauth callback if the user already exists.
   def self.authenticate_third_party(access_token, third_party_service, third_party_username)
     
     # find their sfdc username and cloudspokes username
@@ -60,6 +62,7 @@ class User < ActiveRecord::Base
     end
   end
   
+  # this method only called from this user class
   def self.sfdc_login(username, password)
     
     config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))

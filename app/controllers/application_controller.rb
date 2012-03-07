@@ -19,19 +19,20 @@ class ApplicationController < ActionController::Base
       # if the access token is nil or the access token hasn't been updated in an hour
       if current_user.access_token.nil? || Time.now > current_user.updated_at.getlocal + (60*60)
         
-        logger.info '[ApplicationController]==== current_user access token is nil or an hour old. fetching new access token.'
+        logger.info "[ApplicationController]==== current_user access token is nil or an hour old (token last updated: #{current_user.updated_at.getlocal + (60*60)}). fetching new access token."
         
         config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
         client = Databasedotcom::Client.new(config)
         sfdc_username = current_user.username+'@'+ENV['SFDC_USERNAME_DOMAIN']
-        logger.info "[ApplicationController]==== logging into salesforce with #{sfdc_username} and #{current_user.password}"
+        logger.info "[ApplicationController]==== logging into salesforce with sfdc username: #{sfdc_username}"
         
         begin
 
           access_token = client.authenticate :username => sfdc_username, :password => current_user.password
           current_user.access_token = access_token
-          current_user.save
-          logger.info "[ApplicationController]==== returning new access token from authentication"
+          if !current_user.save
+            logger.warn "[ApplicationController]==== could not save new access token: #{user.errors.full_messages}"
+          end
           return current_user.access_token
 
         # seem to get this error for brand new users after they are created
