@@ -12,9 +12,8 @@ $(function() {
     var subscription = cometd.subscribe(channel, function(message) {
       console.log(message);
       m = message.sobject;
-      
-      $('<tr><td>'+ m.Type__c +'</td><td>'+ m.Elapsed_Time_Seconds__c +'</td><td>'+ m.Is_Correct__c +'</td></tr>')
-        .appendTo('#fancytable');
+	  // add the new row
+	  $('#answers tr:last').after('<tr><td>'+ m.Type__c +'</td><td>'+ m.Elapsed_Time_Seconds__c +'</td><td>'+ m.Is_Correct__c +'</td></tr>');
     });
     subscription.callback(function() {
       console.log('Subscription is now active!');
@@ -34,7 +33,7 @@ $(function() {
             <div class="widecolumn fl dvbulletedlist">
                 <!-- Challenge Information -->
                 <div class="challenge-information">
-					<table class="fancytable" style="width:100%">
+					<table class="fancytable" id="answers" style="width:100%">
 					    <thead>
 					    	<tr>
 								<th scope="col">Language</th>
@@ -74,5 +73,6 @@ $(function() {
             <div class="cl">&nbsp;</div>
         </div>
         <!-- END Content Wrapper -->
+
 </div>
 
