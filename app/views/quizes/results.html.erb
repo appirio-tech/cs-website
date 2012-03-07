@@ -13,8 +13,8 @@ $(function() {
       console.log(message);
       m = message.sobject;
       
-      $('<div class="answer" id="'+ m.Id +'"><span class="user">'+ username +'</span><span class="language '+ m.Type__c +'">'+ m.Type__c +'</span><span class="correct '+ m.Is_Correct__c +'">'+ m.Is_Correct__c  +'</span><span class="time">'+ m.Elapsed_Time_Seconds__c  +'</span></div>')
-        .appendTo('#answers');
+      $('<tr><td>'+ m.Type__c +'</td><td>'+ m.Elapsed_Time_Seconds__c +'</td><td>'+ m.Is_Correct__c +'</td></tr>')
+        .appendTo('#fancytable');
     });
     subscription.callback(function() {
       console.log('Subscription is now active!');
