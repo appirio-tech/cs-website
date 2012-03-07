@@ -68,7 +68,7 @@ class User < ActiveRecord::Base
     config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
     client = Databasedotcom::Client.new(config)
     sfdc_username = username+'@'+ENV['SFDC_USERNAME_DOMAIN']
-    logger.info "[User]==== logging into salesforce with #{sfdc_username} and #{password}"
+    logger.info "[User]==== logging into salesforce with sfdc username: #{sfdc_username}"
 
     # log into sfdc with their credentials to return their access token
     begin
