@@ -4,16 +4,39 @@
 $(function() {
   var channel = '/q/*';
   var username = '<%= current_user.username %>';
-
+  // array to hold all ids to use for dupe checks
+  var ids = [];
+  // create an array of answers already answered
+  var existingAnswers = <%= @answers.to_json.html_safe %>;
+  // connect to the cometd server
   var cometd = new Faye.Client('<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd', {timeout: 120});
   cometd.disable('websocket');
   
+  // load the html table with the existing answers
+  for (var i = 0; i < existingAnswers.length; i++) {
+	addRow(existingAnswers[i]);
+  }
+
+  // load the html table with the existing answers
+  for (var i = 0; i < existingAnswers.length; i++) {
+	addRow(existingAnswers[i]);
+  }
+
+  // add a row to the end of the html table
+  function addRow(obj) {
+	// if the id is not already in the array then add it to the array and table
+	if ($.inArray(obj.Id, ids) == -1) {
+		$('#answers tr:last').after('<tr><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +'</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
+		ids.push(obj.Id);
+	}
+  }
+
   if(channel) {
     var subscription = cometd.subscribe(channel, function(message) {
       console.log(message);
       m = message.sobject;
 	  // add the new row
-	  $('#answers tr:last').after('<tr><td>'+ m.Type__c +'</td><td>'+ m.Elapsed_Time_Seconds__c +'</td><td><img alt="'+ m.Is_Correct__c +'" src="/assets/answer-'+ m.Is_Correct__c +'.png" width="40"/></td></tr>');
+	  addRow(m);
     });
     subscription.callback(function() {
       console.log('Subscription is now active!');
@@ -43,13 +66,6 @@ $(function() {
 					        </tr>
 					    </thead>
 					    <tbody>
-							<% @answers.each do |answer| %>
-					    	<tr>
-								<td><%= answer['Type__c'] %></td>
-								<td><%= answer['Elapsed_Time_Seconds__c'] %> seconds</td>
-								<td><%= image_tag "answer-#{answer['Is_Correct__c']}.png", :width => "40", :alt => "true" %></td>
-					        </tr>
-							<% end %>
 					    </tbody>
 					</table>
 
