@@ -28,6 +28,9 @@ $(function() {
 	if ($.inArray(obj.Id, ids) == -1) {
 		$('#answers tr:last').after('<tr><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +'</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
 		ids.push(obj.Id);
+		console.log(obj.Id + ' being added');
+	} else {
+		console.log(obj.Id + ' already exists');
 	}
   }
 
