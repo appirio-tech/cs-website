@@ -2,7 +2,7 @@
 
 <script type='text/javascript'>
 $(function() {
-  var channel = '/q/*';
+  var channel = '/q/<%= @channel %>';
   var username = '<%= current_user.username %>';
   // array to hold all ids to use for dupe checks
   var ids = [];

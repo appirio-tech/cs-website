@@ -33,16 +33,15 @@ class QuizesController < ApplicationController
   end
   
   def results
-  
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
-
-    # grab some extra data for quickquizes
-    if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')    
-      @todays_results = QuickQuizes.winners_today(current_access_token);
-      # get the current member's status for the challenge
-      @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, current_user.username) : nil
-    end    
-    
+    @todays_results = QuickQuizes.winners_today(current_access_token, 'all');
+    if @todays_results.empty?
+      @channel = '*'
+    else
+      @channel = @todays_results[0]['Id']
+    end
+    # get the current member's status for the challenge
+    @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, current_user.username) : nil
     @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
   end
 
