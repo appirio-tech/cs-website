@@ -35,8 +35,9 @@ class QuizesController < ApplicationController
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, 'all');
+    # @channel = @todays_results.empty? ? '*' : @todays_results[0]['Id']
     if @todays_results.empty?
-      @channel = '*'
+      @channel = 'noresult'
     else
       @channel = @todays_results[0]['Id']
     end
