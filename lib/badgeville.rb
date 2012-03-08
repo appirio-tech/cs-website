@@ -11,7 +11,8 @@ class Badgeville
       }
     }
     
-    post(ENV['BADGEVILLE_API_URL']+'/api/berlin/'+ENV['BADGEVILLE_API_KEY']+'/users.json', options)
+    results = post(ENV['BADGEVILLE_API_URL']+'/api/berlin/'+ENV['BADGEVILLE_API_KEY']+'/users.json', options)
+    Rails.logger.info "[Badgeville]==== created user #{username} with response from badgeville: #{results}"
     
   end
   
