@@ -17,20 +17,15 @@ $(function() {
 	addRow(existingAnswers[i]);
   }
 
-  // load the html table with the existing answers
-  for (var i = 0; i < existingAnswers.length; i++) {
-	addRow(existingAnswers[i]);
-  }
-
   // add a row to the end of the html table
   function addRow(obj) {
 	// if the id is not already in the array then add it to the array and table
 	if ($.inArray(obj.Id, ids) == -1) {
 		$('#answers tr:last').after('<tr><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +'</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
 		ids.push(obj.Id);
-		console.log(obj.Id + ' being added');
+		console.log(obj.Id + ' - added');
 	} else {
-		console.log(obj.Id + ' already exists');
+		console.log(obj.Id + ' - exists');
 	}
   }
 
