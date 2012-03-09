@@ -2,7 +2,7 @@ require 'challenges'
 
 class QuizesController < ApplicationController
   
-  before_filter :must_be_signed_in, :only => [:show, :answer, :results]
+  before_filter :must_be_signed_in
   
   def show
     # check if the challenge is still open
