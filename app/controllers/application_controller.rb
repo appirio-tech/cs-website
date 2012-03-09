@@ -15,8 +15,6 @@ class ApplicationController < ActionController::Base
     if current_user.nil?
       return Utils.public_access_token
     else
-      
-      p "[ApplicationController]==== token last updated for #{current_user.username} at #{current_user.updated_at.getlocal}."
             
       # if the access token is nil or the access token hasn't been updated in an hour
       if current_user.access_token.nil? || Time.now > current_user.updated_at.getlocal + (60*60)
