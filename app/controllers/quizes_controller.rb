@@ -41,7 +41,7 @@ class QuizesController < ApplicationController
       flash[:notice] = "There are no results for you today."
       redirect_to quizleaderboard_path
     else
-      @channel = @member_status[0]['Id']
+      @channel = member_status[0]['Id']
       @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
       @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
     end
