@@ -2,7 +2,7 @@ require 'challenges'
 
 class QuizesController < ApplicationController
   
-  before_filter :must_be_signed_in, :only => [:show, :answer]
+  before_filter :must_be_signed_in, :only => [:show, :answer, :results]
   
   def show
     # check if the challenge is still open
@@ -32,18 +32,19 @@ class QuizesController < ApplicationController
     render :nothing => true
   end
   
+  # set the to to require login before
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
-    @todays_results = QuickQuizes.winners_today(current_access_token, 'all');
-    # @channel = @todays_results.empty? ? '*' : @todays_results[0]['Id']
-    if @todays_results.empty?
-      @channel = 'noresult'
+    # see if they have participated for the today
+    member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
+    if member_status.empty?
+      flash[:notice] = "There are no results for you today."
+      redirect_to quizleaderboard_path
     else
-      @channel = @todays_results[0]['Id']
+      @channel = @member_status[0]['Id']
+      @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
+      @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
     end
-    # get the current member's status for the challenge
-    @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, current_user.username) : nil
-    @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
   end
 
   def practice
