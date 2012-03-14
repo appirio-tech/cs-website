@@ -98,9 +98,8 @@ function Quiz(data, components, url){
 			});
 
 		} else {
-			console.log('question id = 0. curr = ' + eval(self.curr()+1));
 			if (eval(self.curr()+1) == 3) {
-				alert('Now you have a feel of how the process works. Close this window and get started when you are ready.');
+				alert('Now that you have a feel of how the Quick Quiz process works, close this window and get started competing when you are ready.');
 			}
 		}
 
