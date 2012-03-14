@@ -2,7 +2,7 @@
 
 <script type='text/javascript'>
 $(function() {
-  var channel = '/q/<%= @channel %>';
+  var channel = '/q/<%= @results['Id'] %>';
   var username = '<%= current_user.username %>';
   // array to hold all ids to use for dupe checks
   var ids = [];
@@ -54,7 +54,35 @@ $(function() {
             <div class="widecolumn fl dvbulletedlist">
                 <!-- Challenge Information -->
                 <div class="challenge-information">
-					<p>Your answers will display as they are processed.</p>
+	
+					<% if @results['Number_of_Answers_Submitted__c'] == 10 %>
+					
+						<div style="float: left; width:475px">
+						Thanks for playing! <strong>You got <%= @results['Number_Correct__c'] %> right in <%= @results['Display_Time__c'] %>.</strong> Tweet your results!
+						<br/><br/>Don’t forget you can compete once every day, so keep coming back to improve your times, move up the leaderboard, and win cash and big-time bragging rights in the CloudSpokes March Madness challenge!	
+						</div>
+					
+						<span style="float: right;">
+						<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/xg1G6c" data-text="I got <%= @results['Number_Correct__c'] %> correct answers in <%= @results['Display_Time__c'] %> on the Daily @cloudspokes QuickQuiz! Think you can beat my score?" data-size="large" data-count="none">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						</span>
+						<div style="clear: both;padding-bottom:25px"></div>
+					
+					<% else %>
+					
+						<div style="float: left; width:475px">
+						Thanks for playing! Your answers will display as they are processed. Don't forget to tweet your results!
+						<br/><br/>Don’t forget you can compete once every day, so keep coming back to improve your times, move up the leaderboard, and win cash and big-time bragging rights in the CloudSpokes March Madness challenge!	
+						</div>
+				
+						<span style="float: right;">
+						<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://bit.ly/xg1G6c" data-text="I just finished the March Madness @cloudspokes QuickQuiz! Think you can beat my score?" data-size="large" data-count="none">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						</span>
+						<div style="clear: both;padding-bottom:25px"></div>
+					
+					<% end %>
+	
 					<table class="fancytable" id="answers" style="width:100%">
 					    <thead>
 					    	<tr>

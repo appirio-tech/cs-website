@@ -8,7 +8,7 @@ class NewBadgeVilleUser
     Badgeville.create_user(username, email)
     
     # sleep for 2 seconds to allow badgeville to process user
-    sleep(2)
+    sleep(10)
     
     #create the badgeville player
     player_id = Badgeville.create_player(username, email)

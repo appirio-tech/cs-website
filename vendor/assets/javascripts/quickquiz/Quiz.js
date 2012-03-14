@@ -95,6 +95,10 @@ function Quiz(data, components, url){
 			  },
 			  data: dataString
 			});
+			
+			if (eval(self.curr()+1) > 10) {
+				alert('Congratulations! You are done! Ready for your results?');
+			}
 		}
 
         self.resetTimer();
