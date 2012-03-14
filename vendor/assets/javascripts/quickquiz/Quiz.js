@@ -90,15 +90,13 @@ function Quiz(data, components, url){
 			  url: url+'/quizes/answer',
 			  complete: function() {
 				if (eval(self.curr()+1) > 10) {
+					alert('Congratulations! You are done! Ready for your results?');
 					window.location = url + '/quizes/results';
 				}
 			  },
 			  data: dataString
 			});
-			
-			if (eval(self.curr()+1) > 10) {
-				alert('Congratulations! You are done! Ready for your results?');
-			}
+
 		}
 
         self.resetTimer();
