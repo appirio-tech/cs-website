@@ -4,7 +4,7 @@ attributes: {
 type: "Quick_Quiz_Question__c",
 url: "/services/data/v23.0/sobjects/Quick_Quiz_Question__c/a0xZ000000050CxIAI"
 },
-Question__c: "%3Cscript+type%3D%22text%2Fjavascript%22%3E%0D%0AmyCar+%3D+new+Object%28%29%3B++%0D%0AmyCar.make+%3D+%22Ford%22%3B++%0D%0AmyCar.model+%3D+%22Mustang%22+%0D%0AmyCar.year+%3D+1969%3B+%0D%0A%3C%2Fscript%3E",
+Question__c: "%3Cscript+type%3D%22text%2Fjavascript%22%3E%0D%0AmyCar+%3D+Object%28%29%3B++%0D%0AmyCar.make+%3D+%22Ford%22%3B++%0D%0AmyCar.model+%3D+%22Mustang%22+%0D%0AmyCar.year+%3D+1969%3B+%0D%0A%3C%2Fscript%3E",
 Type__c: "JavaScript",
 Id: "0",
 Answer__c: "****"

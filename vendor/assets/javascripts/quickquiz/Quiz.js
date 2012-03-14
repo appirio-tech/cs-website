@@ -90,13 +90,17 @@ function Quiz(data, components, url){
 			  url: url+'/quizes/answer',
 			  complete: function() {
 				if (eval(self.curr()+1) > 10) {
-					alert('Congratulations! You are done! Ready for your results?');
+					alert('Congratulations! You are done and your answers are being processed! Ready for your results?');
 					window.location = url + '/quizes/results';
 				}
 			  },
 			  data: dataString
 			});
 
+		} else {
+			if (eval(self.curr()+1) > 3) {
+				alert('Now you have a feel of how the process works. Close this window and get started when you are ready.');
+			}
 		}
 
         self.resetTimer();
