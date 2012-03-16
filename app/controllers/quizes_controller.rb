@@ -31,8 +31,21 @@ class QuizesController < ApplicationController
     render :nothing => true
   end
   
-  # set the to to require login before
   def results
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    # see if they have participated for the today
+    member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
+    if member_status.empty?
+      flash[:notice] = "There are no results for you today."
+      redirect_to quizleaderboard_path
+    else
+      @results = member_status[0]
+      @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
+      @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
+    end
+  end
+  
+  def results_live
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
     # see if they have participated for the today
     member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)

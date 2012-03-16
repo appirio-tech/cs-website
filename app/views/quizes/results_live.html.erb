@@ -1,0 +1,81 @@
+<script src='<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd.js' type='text/javascript'></script> 
+
+<script type='text/javascript'>
+$(function() {
+  var channel = '/q/*';
+  var username = '';
+  // connect to the cometd server
+  var cometd = new Faye.Client('<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd', {timeout: 120});
+  cometd.disable('websocket');
+  
+  // add a row to the end of the html table
+  function addRow(obj) {
+	$('#answers tr:last').after('<tr><td>'+ obj.Member_Name__c +'</td><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +' seconds</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
+	ids.push(obj.Id);
+  }
+
+  if(channel) {
+    var subscription = cometd.subscribe(channel, function(message) {
+      console.log(message);
+      m = message.sobject;
+	  // add the new row
+	  addRow(m);
+    });
+    subscription.callback(function() {
+      console.log('Subscription is now active!');
+    });
+    subscription.errback(function(error) {
+      console.log(error.message);
+    });
+  }
+});
+</script>
+
+<div class="page-heading"><h2 class="melbourne">Live Quick Quiz Results</h2></div>
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl dvbulletedlist">
+                <!-- Challenge Information -->
+                <div class="challenge-information">
+	
+					<p style="padding-bottom:25px">
+					Thanks for playing! 
+					</p>
+	
+					<table class="fancytable" id="answers" style="width:100%">
+					    <thead>
+					    	<tr>
+								<th scope="col">Member</th>
+								<th scope="col">Language</th>
+					            <th scope="col">Time</th>
+								<th scope="col">Correct</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+					    </tbody>
+					</table>
+
+                </div><br/><br/>
+                <!-- END Challenge Information -->
+
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+					<%= render "shared/quickquiz-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+
+</div>
+
