@@ -11,6 +11,9 @@
 	</li>
 	<% end %>
 	
+	<span>View <%= link_to "all leaderboards", quizleaderboard_path %> or the <%= link_to "daily winners", quizwinners_path %>. </span>
+	<div style="margin-bottom:25px"></div>	
+	
 	<% rank = 0 %>
 	<h3>Today's Leaderboard</h3>
 	<div class="leaders">
@@ -40,7 +43,6 @@
 	<% end %>
 	</ul>
 	</div>
-	<span><%= link_to "View all leaderboards", quizleaderboard_path %></span>
 	<div style="margin-bottom:30px"></div>	
 		
 	<%= render "shared/share" %>

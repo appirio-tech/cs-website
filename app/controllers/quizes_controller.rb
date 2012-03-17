@@ -30,6 +30,20 @@ class QuizesController < ApplicationController
     logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
     render :nothing => true
   end
+
+  def winners
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
+    @winners = QuickQuizes.all_winners(current_access_token);
+    @days = []
+    @winners.each do |record|
+      @days.push(record["Quiz_Date__c"]) unless @days.include?(record["Quiz_Date__c"])
+    end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @winners }
+    end
+  end
   
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]

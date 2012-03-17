@@ -1,0 +1,62 @@
+<div class="page-heading"><h2 class="melbourne">Daily Quick Quiz Winners</h2></div>
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+			<p><%= link_to "Back to the Quick Quiz Challenge", challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID']) %></p>
+            <!-- Widecolumn -->
+            <div class="widecolumn fl dvbulletedlist">
+                <!-- Challenge Information -->
+                <div class="challenge-information">
+	
+					<% @days.each do |day| %>
+	
+	
+					<h3><%= day %></h3>
+					<table class="fancytable" id="winners" style="width:100%">
+					    <thead>
+					    	<tr>
+								<th scope="col">Member</th>
+								<th scope="col">Language</th>
+					            <th scope="col">Time</th>
+								<th scope="col">Correct</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+							<% @winners.each do |record|%>
+								<% if record["Quiz_Date__c"].eql?(day) %>
+							    	<tr>
+										<td style="font-size:12px" width="200"><%= link_to record["Member__r"]["Name"], member_path(record["Member__r"]["Name"]), :target => '_blank' %></td>
+										<td style="font-size:12px" width="125"><%= record["Type__c"]%></td>
+							            <td style="font-size:12px" width="150"><%= record["Display_Time__c"]%></td>
+										<td style="font-size:12px"><%= record["Number_Correct__c"]%></td>
+							        </tr>
+								<% end %>
+							<% end %>
+					    </tbody>
+					</table>
+					
+					<% end %>
+
+                </div><br/><br/>
+                <!-- END Challenge Information -->
+
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+					<%= render "shared/quickquiz-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+
+</div>
+
+ 

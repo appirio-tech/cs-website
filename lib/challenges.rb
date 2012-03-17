@@ -8,6 +8,18 @@ class Challenges < Cloudspokes
     current_status = get(ENV['SFDC_REST_API_URL']+"/participants/#{esc username}?challengeId=#{id}")
   end
   
+  def self.toggle_discussion_emails_status(access_token, username, id)
+    
+    set_header_token(access_token)
+    # get the current status of the user
+    current_status = get(ENV['SFDC_REST_API_URL']+"/participants/#{esc username}?challengeId=#{id}")
+    if current_status.length != 0
+      new_status = current_status[0]["Send_Discussion_Emails__c"] == true ? 'false' : 'true'
+      results = put(ENV['SFDC_REST_API_URL']+"/participants/#{esc username}?challengeid=#{id}&Send_Discussion_Emails__c=#{new_status}")
+    end
+    
+  end
+  
   def self.set_participation_status(access_token, username, id, new_status) 
     
     set_header_token(access_token)

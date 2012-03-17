@@ -8,7 +8,7 @@ require 'json'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment]
+  before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
   before_filter :admin_only, :only => [:all_submissions]
   before_filter :redirect_to_http
   
@@ -184,6 +184,16 @@ class ChallengesController < ApplicationController
       end
       format.json { render :json => @challenge_detail }
     end
+  end
+  
+  def toggle_discussion_email
+    Challenges.toggle_discussion_emails_status(current_access_token, current_user.username, params[:id])
+    if challenge_participation_status[:send_discussion_emails] == false
+      flash[:notice] = "No problem. We've removed you from the Discussion board distribution list for this challenge. You can always subscribe again at the bottom of this page."
+    else
+      flash[:notice] = "OK! We've added you to the Discussion board distribution list for this challenge. You will receive an email any time someone posts to the Discussion board."
+    end
+    redirect_to(:back)    
   end
     
   def registrants    
@@ -364,9 +374,10 @@ class ChallengesController < ApplicationController
     end
   end
   
-  # if signed in, then send them back to the challenge page
+  # if not signed in, then send them back to the challenge page
   def must_be_signed_in
     if !signed_in?
+      flash[:error] = "Sorry... the page you were trying to access requires you to be logged in first."
       redirect_to challenge_path
     end
   end
@@ -411,10 +422,10 @@ class ChallengesController < ApplicationController
       if signed_in?      
         participation = Challenges.participant_status(current_access_token, current_user.username, params[:id])[0]
         if participation.nil?
-          status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false}
+          status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false, :send_discussion_emails => false}
         else
           status =  {:status => participation["Status__c"], :participantId => participation["Id"], 
-            :has_submission => participation["Has_Submission__c"]}
+            :has_submission => participation["Has_Submission__c"], :send_discussion_emails => participation["Send_Discussion_Emails__c"]}
         end
       else 
         status =  nil

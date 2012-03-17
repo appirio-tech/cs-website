@@ -24,6 +24,12 @@
 		You can <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">reply to this comment</a> or <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
 	</p>
 	
+	<p><table>
+	<tr>
+		<td><img src="http://cs-public.s3.amazonaws.com/email_images/email-remove.png" width="40"></td><td>&nbsp;</td><td><a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>/toggle_discussion_email">Stop sending me</a> Discussion list email for this challenge.</td>
+	<tr>
+	</table></p>
+	
 	<p><br>Regards,<br/>The CloudSpokes Team<br/><em>...where the rubber meets the code!</em></p>
 
     <h3 style="padding-top:25px">Follow Us!</h3>
