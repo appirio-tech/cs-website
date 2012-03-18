@@ -193,7 +193,7 @@ class ChallengesController < ApplicationController
     else
       flash[:notice] = "OK! We've added you to the Discussion board distribution list for this challenge. You will receive an email any time someone posts to the Discussion board."
     end
-    redirect_to(:back)    
+    redirect_to challenge_path(params[:id])
   end
     
   def registrants    
