@@ -6,7 +6,7 @@
   <body>
 	<table with="100%" cellpadding="2" cellspacing="2">
 	<tr>
-		<td><a href="http://www.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png"></a></td>
+		<td><a href="<%= ENV['WEBSITE_URL'] %>"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png"></a></td>
 		<td><h2>Welcome to CloudSpokes, <%= @username%>!</h2></td>
 	</tr>
 	</table>
@@ -15,16 +15,16 @@
 		public cloud platforms to build and deliver enterprise class solutions.  
     </p>
 	<p>
-		<a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!
+		<a href="<%= ENV['WEBSITE_URL'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!
 	</p>
 	<h3>Getting Started</h3>
 	<p>
-		Take a look at our <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/about">how the process works</a>.
+		Take a look at our <a href="<%= ENV['WEBSITE_URL'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="<%= ENV['WEBSITE_URL'] %>/about">how the process works</a>.
 	</p>
 	<h3>Stay up to date on our latest development challenges for money, prizes and badges:</h3>
 	<ul>
 		<li><a href="http://feedburner.google.com/fb/a/mailverify?uri=cloudspokes/contests/all">Subscribe to our email list</a> to receive a summary of our latest challenges</li>
-		<li>Subscribe to our RSS feed for <a href="http://www.cloudspokes.com/challenges/feed">new, open challenges</a> or <a href="http://www.cloudspokes.com/challenges/feed/recent">recently completed ones</a>.
+		<li>Subscribe to our RSS feed for <a href="<%= ENV['WEBSITE_URL'] %>/challenges/feed">new, open challenges</a> or <a href="<%= ENV['WEBSITE_URL'] %>/challenges/feed/recent">recently completed ones</a>.
 		<li>Watch the <a href="http://blog.cloudspokes.com">CloudSpokes Blog</a> for the latest info, submission results and videos</li>
 	</ul>
 	
@@ -38,11 +38,11 @@
 		<td><a href="http://www.facebook.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/facebook_64.png"></a></td>
 		<td><a href="http://www.youtube.com/cloudspokescommunity"><img src="https://s3.amazonaws.com/cs-public/email_images/youtube_icon.png" width="59" style="padding-left:5px;padding-top:3px"></a></td>
 		<td><a href="http://blog.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/blogicon.png" width="55" style="padding-left:10px;padding-top:4px"></a></td>
-		<td><a href="http://www.cloudspokes.com/challenges/feed"><img src="https://s3.amazonaws.com/cs-public/email_images/rss_icon.png" width="57" style="padding-left:10px;padding-top:3px"></a></td>
+		<td><a href="<%= ENV['WEBSITE_URL'] %>/challenges/feed"><img src="https://s3.amazonaws.com/cs-public/email_images/rss_icon.png" width="57" style="padding-left:10px;padding-top:3px"></a></td>
 	</tr>
 	</table>
 
-	<p><a href="http://www.cloudspokes.com">http://www.cloudspokes.com</a></p>
+	<p><a href="<%= ENV['WEBSITE_URL'] %>"><%= ENV['WEBSITE_URL'] %></a></p>
 
   </body>
 </html>

@@ -6,12 +6,12 @@
   <body>
 	<table with="100%" cellpadding="2" cellspacing="2">
 	<tr>
-		<td><a href="http://www.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png" width="75"></a></td>
+		<td><a href="<%= ENV['WEBSITE_URL'] %>"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png" width="75"></a></td>
 		<td><h2><%= @challenge_name %></h2></td>
 	</tr>
 	</table>
     <p>
-		A new comment has been posted by <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/members/<%= @username %>"><%= @username %></a> for this challenge that you are either registered for or watching:
+		A new comment has been posted by <a href="<%= ENV['WEBSITE_URL'] %>/members/<%= @username %>"><%= @username %></a> for this challenge that you are either registered for or watching:
     </p>
 	<table cellpadding="5" cellspacing="5">
 	<tr>
@@ -21,12 +21,12 @@
 	</tr>	
 	</table>
 	<p><br/>
-		You can <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">reply to this comment</a> or <a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
+		You can <a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %>">reply to this comment</a> or <a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
 	</p>
 	
 	<p><table>
 	<tr>
-		<td><img src="http://cs-public.s3.amazonaws.com/email_images/email-remove.png" width="40"></td><td>&nbsp;</td><td><a href="<%= ENV['OMNIAUTH_FULL_HOST'] %>/challenges/<%= @challenge_id %>/toggle_discussion_email">Stop sending me</a> Discussion list email for this challenge.</td>
+		<td><img src="http://cs-public.s3.amazonaws.com/email_images/email-remove.png" width="40"></td><td>&nbsp;</td><td><a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %>/toggle_discussion_email">Stop sending me</a> Discussion list email for this challenge.</td>
 	<tr>
 	</table></p>
 	
@@ -40,11 +40,11 @@
 		<td><a href="http://www.facebook.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/facebook_64.png"></a></td>
 		<td><a href="http://www.youtube.com/cloudspokescommunity"><img src="https://s3.amazonaws.com/cs-public/email_images/youtube_icon.png" width="59" style="padding-left:5px;padding-top:3px"></a></td>
 		<td><a href="http://blog.cloudspokes.com"><img src="https://s3.amazonaws.com/cs-public/email_images/blogicon.png" width="55" style="padding-left:10px;padding-top:4px"></a></td>
-		<td><a href="http://www.cloudspokes.com/challenges/feed"><img src="https://s3.amazonaws.com/cs-public/email_images/rss_icon.png" width="57" style="padding-left:10px;padding-top:3px"></a></td>
+		<td><a href="<%= ENV['WEBSITE_URL'] %>/challenges/feed"><img src="https://s3.amazonaws.com/cs-public/email_images/rss_icon.png" width="57" style="padding-left:10px;padding-top:3px"></a></td>
 	</tr>
 	</table>
 
-	<p><a href="http://www.cloudspokes.com">http://www.cloudspokes.com</a></p>
+	<p><a href="<%= ENV['WEBSITE_URL'] %>"><%= ENV['WEBSITE_URL'] %></a></p>
 
   </body>
 </html>
