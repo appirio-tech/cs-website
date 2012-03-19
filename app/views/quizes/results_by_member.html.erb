@@ -1,0 +1,52 @@
+<div class="page-heading"><h2 class="melbourne">Results for <%=params[:member] %> on <%=params[:date] %></h2></div>
+<div class="page two-cols-bg top-border">
+<!-- Content Wrapper -->
+        <div class="challenge-content-wrapper">
+            <!-- Widecolumn -->
+            <div class="widecolumn fl dvbulletedlist">
+                <!-- Challenge Information -->
+                <div class="challenge-information">
+					<%= flash_messages %>
+					<table class="fancytable" id="answers" style="width:100%;<% if @answers.size == 0 %>visibility:hidden;<% end %>">
+					    <thead>
+					    	<tr>
+								<th></th>
+								<th scope="col">Language</th>
+					            <th scope="col">Time</th>
+								<th scope="col">Correct</th>
+					        </tr>
+					    </thead>
+					    <tbody>
+						<% @answers.each do |record|%>
+					    	<tr>
+								<td></td>
+								<td style="font-size:12px"><%= record["Type__c"]%></td>
+					            <td style="font-size:12px"><%= record["Elapsed_Time_Seconds__c"]%> seconds</td>
+								<td style="font-size:12px"><img alt="" src="/assets/answer-<%= record["Is_Correct__c"]%>.png" width="40"/></td>
+					        </tr>
+						<% end %>
+					    </tbody>
+					</table>
+
+                </div><br/><br/>
+                <!-- END Challenge Information -->
+
+            </div>
+            <!-- END Widecolumn -->
+            <!-- Sidebar -->
+            <div class="sidebar fr">
+                
+				<!-- Challenge Sidebar -->
+				<div class="challenge-sidebar">
+					<%= render "shared/quickquiz-sidebar" %>
+				</div>
+				<!-- END Challenge Sidebar -->
+
+            </div>
+            <!-- END Sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+        <!-- END Content Wrapper -->
+
+</div>
+

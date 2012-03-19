@@ -59,6 +59,19 @@ class QuizesController < ApplicationController
     end
   end
   
+  def results_by_member
+    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @todays_results = QuickQuizes.winners_today(current_access_token, 'all'); 
+    results = QuickQuizes.member_results_by_date(current_access_token, params[:member], params[:date])
+    if results['success'].eql?('true')
+      @answers = results['records']
+      flash.now[:warning] = "There are no results for #{params[:member]} for this date." unless @answers.size > 0
+    else
+      @answers = []
+      flash.now[:error] = "#{results['message']}"
+    end    
+  end
+  
   def results_live
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
     # see if they have participated for the today

@@ -75,6 +75,7 @@ CloudSpokes::Application.routes.draw do
   match 'quizes/practice', :to => 'quizes#practice', :as => :practicequiz
   match 'quizes/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
   match 'quizes/results', :to => 'quizes#results', :as => :quizresults
+  match 'quizes/results_by_member/:member/:date', :to => 'quizes#results_by_member', :as => :quizresults_by_member
   match 'quizes/results_live', :to => 'quizes#results_live', :as => :quizresultslive  
   match 'quizes/winners', :to => 'quizes#winners', :as => :quizwinners
   

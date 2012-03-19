@@ -11,7 +11,8 @@
 	</li>
 	<% end %>
 	
-	<span>View <%= link_to "all leaderboards", quizleaderboard_path %> or the <%= link_to "daily winners", quizwinners_path %>. </span>
+	<span>View <%= link_to "all leaderboards", quizleaderboard_path %> or the <%= link_to "daily winners", quizwinners_path %>.</span>
+	<% if signed_in? %><p>Wanna see how a specific member did on a certain day? Plug the username and date into <%= link_to "this URL", quizresults_by_member_path(current_user.username, DateTime.now.strftime("%m-%d-%Y")) %>.</p><% end %>
 	<div style="margin-bottom:25px"></div>	
 	
 	<% rank = 0 %>
