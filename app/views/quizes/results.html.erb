@@ -1,6 +1,10 @@
-<script src='<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd.js' type='text/javascript'></script> 
+<!-- <script src='<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd.js' type='text/javascript'></script> -->
 
 <script type='text/javascript'>
+<% if @results['Number_of_Answers_Submitted__c'] != 10 %>
+setTimeout("location.reload(true);",3000);
+<% end %>
+
 $(function() {
   var channel = '/q/<%= @results['Id'] %>';
   var username = '<%= current_user.username %>';
@@ -9,8 +13,8 @@ $(function() {
   // create an array of answers already answered
   var existingAnswers = <%= @answers.to_json.html_safe %>;
   // connect to the cometd server
-  var cometd = new Faye.Client('<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd', {timeout: 120});
-  cometd.disable('websocket');
+  // var cometd = new Faye.Client('<%= ENV['QUICK_QUIZ_STREAMING_URL'] %>/cometd', {timeout: 120});
+  // cometd.disable('websocket');
   
   // load the html table with the existing answers
   for (var i = 0; i < existingAnswers.length; i++) {
@@ -21,14 +25,15 @@ $(function() {
   function addRow(obj) {
 	// if the id is not already in the array then add it to the array and table
 	if ($.inArray(obj.Id, ids) == -1) {
-		$('#answers tr:last').after('<tr><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +' seconds</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
+		$('#answers tr:last').after('<tr><td></td><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +' seconds</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
 		ids.push(obj.Id);
-		console.log(obj.Id + ' - added');
+		//console.log(obj.Id + ' - added');
 	} else {
-		console.log(obj.Id + ' - exists');
+		//console.log(obj.Id + ' - exists');
 	}
   }
 
+/**
   if(channel) {
     var subscription = cometd.subscribe(channel, function(message) {
       console.log(message);
@@ -43,6 +48,7 @@ $(function() {
       console.log(error.message);
     });
   }
+**/
 });
 </script>
 
@@ -86,6 +92,7 @@ $(function() {
 					<table class="fancytable" id="answers" style="width:100%">
 					    <thead>
 					    	<tr>
+								<th></th>
 								<th scope="col">Language</th>
 					            <th scope="col">Time</th>
 								<th scope="col">Correct</th>

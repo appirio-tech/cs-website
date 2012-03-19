@@ -72,6 +72,7 @@ class QuizesController < ApplicationController
     end    
   end
   
+  # this isn't working
   def results_live
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
