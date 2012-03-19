@@ -11,7 +11,6 @@ $(function() {
   // add a row to the end of the html table
   function addRow(obj) {
 	$('#answers tr:last').after('<tr><td>'+ obj.Member_Name__c +'</td><td>'+ obj.Type__c +'</td><td>'+ obj.Elapsed_Time_Seconds__c +' seconds</td><td><img alt="'+ obj.Is_Correct__c +'" src="/assets/answer-'+ obj.Is_Correct__c +'.png" width="40"/></td></tr>');	
-	ids.push(obj.Id);
   }
 
   if(channel) {
@@ -31,7 +30,7 @@ $(function() {
 });
 </script>
 
-<div class="page-heading"><h2 class="melbourne">Live Quick Quiz Results</h2></div>
+<div class="page-heading"><h2 class="melbourne">Quick Quiz Live Results</h2></div>
 <div class="page two-cols-bg top-border">
 <!-- Content Wrapper -->
         <div class="challenge-content-wrapper">
