@@ -9,7 +9,7 @@ require 'json'
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
   before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
-  before_filter :admin_only, :only => [:all_submissions]
+  before_filter :admin_only, :only => [:all_submissions, :cal]
   before_filter :redirect_to_http
   
   def redirect_to_http
@@ -160,6 +160,12 @@ class ChallengesController < ApplicationController
   
   # private appirio page
   def all_submissions
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
+  end
+  
+  # private appirio page
+  def cal
+    @challenge_detail = current_challenge
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   

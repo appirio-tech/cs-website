@@ -140,7 +140,7 @@ class Challenges < Cloudspokes
   
   def self.all_submissions(access_token, challengeId)
     set_header_token(access_token) 
-    get(ENV['SFDC_REST_API_URL']+"/submissions?challengeid=#{challengeId}&orderby=username__c")
+    get(ENV['SFDC_REST_API_URL']+"/submissions?challengeid=#{challengeId}&fields=id,name,challenge__r.name,url__c,comments__c,type__c,username__c,challenge_participant__r.place__c&orderby=username__c")
   end
   
   def self.scorecard_questions(access_token, id)

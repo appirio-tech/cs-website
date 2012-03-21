@@ -24,7 +24,7 @@ attributes: {
 type: "Quick_Quiz_Question__c",
 url: "/services/data/v23.0/sobjects/Quick_Quiz_Question__c/a0xZ000000050DHIAY"
 },
-Question__c: "%3Cscript+type%3D%22text%2Fjavascript%22%3E%0D%0Afunction+Range%28low%2C+high%29%7B%0D%0A++this.low+%3D+high%3B%0D%0A++this.high+%3D+low%3B%0D%0A%7D%0D%0ARange.prototype.__iterator__+%3D+function%28%29%7B%0D%0A++for+%28var+i+%3D+this.low%3B+i+%3C%3D+this.high%3B+i%2B%2B%29%0D%0A++++yield+i%3B%0D%0A%7D%3B%0D%0Avar+range+%3D+new+Range%282%2C+5%29%3B%0D%0Afor+%28var+i+in+range%29%0D%0A++print%28i%29%3B+%2F%2F+prints+3%2C+then+4%2C+then+5+in+sequence%0D%0A%3C%2Fscript%3E",
+Question__c: "%3cscript+type%3d%22text%2fjavascript%22+language%3d%22javascript%22%3e+%0d%0afunction+readString()%7b+%0d%0avar+str%3d%22JavaScript%22%3b+%0d%0aalert(str%5b2%5d)%3b+%0d%0a%7d+%0d%0a%3c%2fscript%3e",
 Type__c: "JavaScript",
 Id: "0",
 Answer__c: "****"
