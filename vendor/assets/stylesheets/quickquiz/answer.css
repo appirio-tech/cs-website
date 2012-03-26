@@ -1,0 +1,35 @@
+/* css for quick quiz answer editor*/
+
+.clear{
+    clear:both;
+}
+
+.editPane{
+    width:825px;
+    float:left;
+    padding:20px;
+}
+
+#correct{
+    background-color:#f7f7f7;
+    border:solid 1px #e2e2e2;
+    margin:10px 0px;
+    font-size:1.1em;
+    min-height:250px;
+}
+
+#incorrect{
+    background-color:#f7f7f7;
+    border:solid 1px #e2e2e2;
+    margin:10px 0px;
+    font-size:1.1em;
+    min-height:250px;
+}
+
+.CodeMirror-scroll {
+    height: auto !important;
+    overflow-y: hidden !important;
+    overflow-x: auto !important;
+    width: 100% !important;
+}
+

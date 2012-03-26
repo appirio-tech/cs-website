@@ -1,0 +1,53 @@
+<% if @type.nil? %>
+	<h1 style="width:600px">Sorry. You can only see your incorrect answers.</h1>
+<% else %>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="/assets/quickquiz/answer.css" />
+<link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.css" />
+
+<div class="editPane">
+	<strong>This is the "buggy" <%= @type %> code that was shown to you.</strong>
+    <div id="incorrect"></div>
+    <strong>This is the correct version.</strong>
+    <div id="correct"></div>
+</div>
+
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/xml/xml.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/javascript/javascript.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/clike/clike.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/ruby/ruby.js"></script>
+<script type="text/javascript" src="/assets/quickquiz/CodeMirror-2.2/mode/css/css.js"></script>
+<script type="text/javascript">
+    var EDITOR_MIN_LINES = 15;
+    var syntax = {'javascript': 'javascript', 'ruby':'ruby','java':'text/x-java'};
+    var lang = "<%= @type.downcase %>";
+
+	var correct = CodeMirror(document.getElementById("correct"), {
+	    lineNumbers: true
+	});
+
+	var incorrect = CodeMirror(document.getElementById("incorrect"), {
+	    lineNumbers: true
+	});
+	
+	$(document).ready(function() {
+        correct.setValue('<%= escape_javascript(@correct) %>');
+        incorrect.setValue('<%= escape_javascript(@incorrect) %>');
+        correct.setOption("mode",syntax[lang]);
+        incorrect.setOption("mode",syntax[lang]);
+
+        for(var i = (EDITOR_MIN_LINES - correct.lineCount()); i > 0; i--){
+            var lastLine = correct.lineCount() - 1;
+            correct.setLine(lastLine, correct.getLine(lastLine) + '\n');
+        }
+        for(var i = (EDITOR_MIN_LINES - incorrect.lineCount()); i > 0; i--){
+            var lastLine = incorrect.lineCount() - 1;
+            incorrect.setLine(lastLine, incorrect.getLine(lastLine) + '\n');
+        }
+
+	});	
+</script>
+
+<% end %>

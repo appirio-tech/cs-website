@@ -72,6 +72,16 @@ class QuizesController < ApplicationController
     end    
   end
   
+  def answer_by_member
+    result = QuickQuizes.member_answer(current_access_token, current_user.email, params[:id])
+    if !result['records'].empty?
+      @incorrect = result['records'][0]['Quick_Quiz_Question__r']['Question__c'].html_safe
+      @correct = result['records'][0]['Quick_Quiz_Question__r']['AnswerPrettyPrint__c'].html_safe
+      @type = result['records'][0]['Type__c'].html_safe
+    end
+    render :layout => "blank"
+  end
+  
   # this isn't working
   def results_live
     @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
