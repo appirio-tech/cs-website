@@ -77,7 +77,8 @@ class QuizesController < ApplicationController
     if !result['records'].empty?
       @incorrect = result['records'][0]['Quick_Quiz_Question__r']['Question__c'].html_safe
       @correct = result['records'][0]['Quick_Quiz_Question__r']['AnswerPrettyPrint__c'].html_safe
-      @type = result['records'][0]['Type__c'].html_safe
+      @type = result['records'][0]['Type__c']
+      @answer_id = result['records'][0]['Quick_Quiz_Question__r']['Name']
     end
     render :layout => "blank"
   end
