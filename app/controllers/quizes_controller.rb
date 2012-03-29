@@ -6,7 +6,7 @@ class QuizesController < ApplicationController
   
   def show
     # check if the challenge is still open
-    challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     if challenge_detail["Is_Open__c"].eql?("false")
       flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
       redirect_to quizleaderboard_path
@@ -19,7 +19,7 @@ class QuizesController < ApplicationController
     end
 
     # if they are not registered for the challenge, then send them back to the challenge page
-    redirect_to challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID']) unless challenge_participation_status[:status].eql?('Registered')
+    redirect_to challenge_path(current_quick_quiz) unless challenge_participation_status[:status].eql?('Registered')
     @questions = QuickQuizes.fetch_10_questions(params[:type])
   end
 
@@ -32,7 +32,7 @@ class QuizesController < ApplicationController
   end
 
   def winners
-    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
     @winners = QuickQuizes.all_winners(current_access_token);
     @days = []
@@ -46,7 +46,7 @@ class QuizesController < ApplicationController
   end
   
   def results
-    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     # see if they have participated for the today
     member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
     if member_status.empty?
@@ -60,7 +60,7 @@ class QuizesController < ApplicationController
   end
   
   def results_by_member
-    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, 'all'); 
     results = QuickQuizes.member_results_by_date(current_access_token, params[:member], params[:date])
     if results['success'].eql?('true')
@@ -85,13 +85,13 @@ class QuizesController < ApplicationController
   
   # this isn't working
   def results_live
-    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
   end
 
   def practice
     # check if the challenge is still open
-    challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     if challenge_detail["Is_Open__c"].eql?("false")
       flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
       redirect_to quizleaderboard_path
@@ -102,7 +102,7 @@ class QuizesController < ApplicationController
   def leaderboard
     # get the categories for the challenge
     params[:type] = 'Random' unless !params[:type].nil?
-    @challenge_detail = Challenges.find_by_id(current_access_token, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+    @challenge_detail = Challenges.find_by_id(current_access_token, current_quick_quiz)[0]
     @today = QuickQuizes.winners_today(current_access_token, params[:type]);
     @last7days = QuickQuizes.winners_last7days(current_access_token, params[:type]);
     @alltime = QuickQuizes.winners_alltime(current_access_token, params[:type]);
@@ -111,16 +111,20 @@ class QuizesController < ApplicationController
   # if signed in, then send them back to the challenge page
   def must_be_signed_in
     if !signed_in?
-      redirect_to challenge_path(ENV['QUICK_QUIZ_CHALLENGE_ID'])
+      redirect_to challenge_path(current_quick_quiz)
     end
   end
   
   private
   
+    def current_quick_quiz
+      ENV['QUICK_QUIZ_CHALLENGE_ID']
+    end
+  
     # TODO - THIS NEEDS TO BE REFACTORED AS THIS METHOD IS ALSO IN THE CHALLENGES CONTROLLER -- but hardcoded quiz id
     def challenge_participation_status
       if signed_in?      
-        participation = Challenges.participant_status(current_access_token, current_user.username, ENV['QUICK_QUIZ_CHALLENGE_ID'])[0]
+        participation = Challenges.participant_status(current_access_token, current_user.username, current_quick_quiz)[0]
         if participation.nil?
           status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false}
         else
