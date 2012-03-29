@@ -8,7 +8,6 @@ gem 'haml'
 gem 'will_paginate'
 gem 'jquery-rails'
 gem 'httparty'
-gem 'newrelic_rpm'
 
 gem 'ruby-openid', :git => "git://github.com/mbleigh/ruby-openid.git"
 gem 'openid_active_record_store'
