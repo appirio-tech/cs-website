@@ -63,8 +63,11 @@ class MembersController < ApplicationController
       # Gather challenges and group them depending of their end date
       @active_challenges = []
       @past_challenges   = []
-      @challenges.each do |challenge|
-        if challenge["End_Date__c"].to_date > Time.now.to_date
+      
+      @challenges.each do |challenge|        
+        if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
+          challenge['Challenge_Participants__r']['records'][0]['Score__c'] == 0 &&
+          challenge['Challenge_Participants__r']['records'][0]['Has_Submission__c'] == true
           @active_challenges << challenge
         elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
           @past_challenges << challenge
@@ -72,7 +75,11 @@ class MembersController < ApplicationController
       end
       respond_to do |format|
         format.html
-        format.json { render :json => @member }
+        format.json { 
+          @member[:active_challenges] = @active_challenges
+          @member[:past_challenges] = @past_challenges
+          render :json => @member 
+        }
       end
     end
   end
