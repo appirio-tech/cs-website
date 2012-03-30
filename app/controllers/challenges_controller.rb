@@ -216,13 +216,18 @@ class ChallengesController < ApplicationController
   
   def results
     @challenge_detail = current_challenge
-    determine_page_title("Results for #{@challenge_detail['Name']}")
-    @participants = Challenges.scorecards(current_access_token, params[:id])
-    @participation_status = challenge_participation_status    
-    @has_submission = signed_in? ? @participation_status[:has_submission] : false
-    respond_to do |format|
-      format.html
-      format.json { render :json => @participants }
+    if !@challenge_detail['Status__c'].eql?('Winner Selected')
+      flash[:notice] = "No winners available at this time."
+      redirect_to challenge_path
+    else
+      determine_page_title("Results for #{@challenge_detail['Name']}")
+      @participants = Challenges.scorecards(current_access_token, params[:id])
+      @participation_status = challenge_participation_status    
+      @has_submission = signed_in? ? @participation_status[:has_submission] : false
+      respond_to do |format|
+        format.html
+        format.json { render :json => @participants }
+      end
     end
   end  
   
