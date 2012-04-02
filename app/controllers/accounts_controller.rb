@@ -11,6 +11,17 @@ class AccountsController < ApplicationController
     redirect_to '/account/challenges'
   end
   
+  def question_new
+    @page_title = "Submit a Quick Quiz Question"
+    @new_question_form = NewQuickQuizQuestionForm.new
+  end
+  
+  def question_save
+    @new_question_form = NewQuickQuizQuestionForm.new(params[:new_question])
+    p "==== #{params['new_question']}" 
+    p @new_question_form.valid?
+  end
+  
   def outstanding_reviews
     @page_title = "Outstanding Reviews"
     @challenges = Scoring.outstanding_scorecards(current_access_token)

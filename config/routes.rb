@@ -41,7 +41,9 @@ CloudSpokes::Application.routes.draw do
   match "/account/outstanding_reviews"  => "accounts#outstanding_reviews" , :as => :outstanding_reviews
   match '/account/scorecard/:id'        => 'accounts#scorecard'
   match '/account/scorecard_save'       => 'accounts#scorecard_save', :as => :scorecard_save
-  match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic  
+  match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic 
+  match '/account/question_new'         => 'accounts#question_new', :as => :new_qq_question 
+  match '/account/question_save'        => 'accounts#question_save', :as => :save_qq_question   
 
   #challenges
   get "challenges/index"
@@ -71,15 +73,14 @@ CloudSpokes::Application.routes.draw do
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
   # quick quiz
-  match 'quizes/quiz', :to => 'quizes#show', :as => :takequiz
-  match 'quizes/answer', :to => 'quizes#answer', :as => :answerquiz
+  match 'quizes/:challenge_id/quiz', :to => 'quizes#show', :as => :takequiz
+  match 'quizes/:challenge_id/answer', :to => 'quizes#answer', :as => :answerquiz
   match 'quizes/practice', :to => 'quizes#practice', :as => :practicequiz
-  match 'quizes/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
-  match 'quizes/results', :to => 'quizes#results', :as => :quizresults
-  match 'quizes/results_by_member/:member/:date', :to => 'quizes#results_by_member', :as => :quizresults_by_member
-  match 'quizes/answer_by_member/:id', :to => 'quizes#answer_by_member', :as => :quizanswer_by_member  
-  match 'quizes/results_live', :to => 'quizes#results_live', :as => :quizresultslive  
-  match 'quizes/winners', :to => 'quizes#winners', :as => :quizwinners
+  match 'quizes/:challenge_id/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
+  match 'quizes/:challenge_id/results', :to => 'quizes#results', :as => :quizresults
+  match 'quizes/:challenge_id/results_by_member/:member/:date', :to => 'quizes#results_by_member', :as => :quizresults_by_member
+  match 'quizes/:challenge_id/answer_by_member/:id', :to => 'quizes#answer_by_member', :as => :quizanswer_by_member  
+  match 'quizes/:challenge_id/winners', :to => 'quizes#winners', :as => :quizwinners
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"

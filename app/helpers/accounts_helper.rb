@@ -1,13 +1,17 @@
 module AccountsHelper
 
-  MENU_OPTIONS_TOP = { :account_details      => {:value => "account details",     :link => "/account/details"},
+  MENU_OPTIONS_ACCOUNT = { :account_details      => {:value => "account details",     :link => "/account/details"},
                        :payments             => {:value => "payment info",        :link => "/account/payments"},
                        :school_work_info     => {:value => "school & work info",  :link => "/account/school"},
                        :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
                        :change_password      => {:value => "change password",     :link => "/account/password"}}
+                       
+  MENU_OPTIONS_MY = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"} }                       
 
-  MENU_OPTIONS_BOTTOM = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"},
-                          :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"}}
+  MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
+  
+  MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/account/question_new"},
+                          :review_questions  => {:value => "review questions", :link => "/account/question"}}
 
   def build_menu(position,selected_item)
     content = ""
@@ -41,6 +45,10 @@ module AccountsHelper
   
   def preferred_payment_options
     [["Please select ...",nil],["Check","Check"],["Paypal","Paypal"],["Wire","Wire"]]
+  end
+  
+  def qq_question_type_options
+    [["Please select ...",nil],["Java","Java"],["JavaScript","JavaScript"],["Ruby","Ruby"],["Python","Python"]]
   end
 
 end
