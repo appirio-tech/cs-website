@@ -48,12 +48,14 @@ class AccountsController < ApplicationController
 
     # Sort challenges depending of the end date or status
     @challenges.each do |challenge|
-      if challenge["End_Date__c"].to_date > Time.now.to_date
-        if challenge['Challenge_Participants__r']['records'].first['Status__c'] == "Watching"
+      if challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
+        challenge['Challenge_Participants__r']['records'][0]['Score__c'] == 0 &&
+        challenge['Challenge_Participants__r']['records'][0]['Has_Submission__c'] == true
           @followed_challenges << challenge
-        else
+      elsif !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
+        challenge['Challenge_Participants__r']['records'][0]['Score__c'] == 0 &&
+        challenge['Challenge_Participants__r']['records'][0]['Has_Submission__c'] == true
           @active_challenges << challenge
-        end
       else
         @past_challenges << challenge
       end
