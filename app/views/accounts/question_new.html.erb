@@ -1,0 +1,45 @@
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "submit_question"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Submit a Quick Quiz Question</h3>
+			<%= flash_messages %>
+			
+			<p style="padding-bottom:25px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas consequat rhoncus. Cras arcu turpis, ultrices at tempus a, dapibus et nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam placerat blandit ipsum eu elementum. In hac habitasse platea dictumst.</p>
+			
+			<div id="profile">
+			<%= form_for :new_question, :url => save_qq_question_path, :name => "new_question", :method => "post", 
+				:html => { :id => 'new_question' } do |f| %> 
+				
+				<label>Question (with Error):</label>
+				<div class="holder"><textarea name="new_question[question]" style="width:500px; height:300px;" wrap="off"></textarea></div>
+				<div class="spacer"></div>
+				
+				<label>Correct Answer:</label>
+				<div class="holder"><textarea name="new_question[answer]" style="width:500px; height:300px" wrap="off"></textarea></div>
+				<div class="spacer"></div>
+				
+				<label>Type:</label>
+				<%= select_tag("new_question[type]", options_for_select(qq_question_type_options), :style => 'margin: 5px 5px 5px 0px;' ) %>
+				<div class="spacer"></div>
+				
+				<label>Comments:</label>
+				<div class="holder"><textarea name="new_question[author_comments]"></textarea></div>
+				<div class="spacer"></div>
+				
+				<div id="button-container" style="padding-left:25px">
+					<a class="button" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+				</div>
+				
+			<% end %>
+			
+			</div>
+			
+
+		</div>
+
+	</div>
+</div>
