@@ -13,7 +13,7 @@ class AccountsController < ApplicationController
   
   def question_new
     @page_title = "Submit a Quick Quiz Question"
-    @new_question_form = QuickQuizQuestion.new
+    @new_question_form = LoginForm.new
   end
   
   def question_save
