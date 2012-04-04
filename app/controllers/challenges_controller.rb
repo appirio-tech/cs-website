@@ -42,7 +42,8 @@ class ChallengesController < ApplicationController
     redirect_to(:back)
   end
 
-  def index     
+  def index   
+    qq = QuizQuestionForm.new  
     if params[:show].eql?('closed')
       show_open = false
       determine_page_title('Closed Challenges')
