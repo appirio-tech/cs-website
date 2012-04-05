@@ -1,11 +1,11 @@
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
 		<div class="sidebar fl">
-      	<%= render 'menu', :selected_item => "submit_question"%>
+      	<%= render 'menu', :selected_item => "review_questions"%> 
 		</div>
 		<div class="widecolumn fr">
 
-			<h3>Submit a Quick Quiz Question</h3>
+			<h3>Review Quick Quiz Question</h3>
 			<%= flash_messages %>
 			
 			<p style="padding-bottom:25px"><b>Need instructions on how to write questions.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas consequat rhoncus. Cras arcu turpis, ultrices at tempus a, dapibus et nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam placerat blandit ipsum eu elementum. In hac habitasse platea dictumst.</p>
@@ -18,23 +18,32 @@
 				</div><br/>
 			<% end %>
 			
+			<% if @question.author_comments %>
+				<div style="padding-left:10px">
+				<h4>Author's Comments</h4>
+				<p style="margin-bottom:25px"><%= @question.author_comments %></p>
+				</div>
+			<% end %>
+		
 			<div id="profile">
-			<%= form_for @question, :url => save_qq_question_path do |f| %> 
+			<%= form_for @question, :url => update_qq_question_path do |f| %> 
+
+				<%= f.hidden_field :type %>
+				
+				<label>Type:</label>
+				<%= select_tag("quiz_question_form[type]", options_for_select(qq_question_type_options, @question.type), :disabled => true, :style => 'margin: 5px 5px 5px 0px;' ) %>
+				<div class="spacer"></div>
 				
 				<label>Question (with Error):</label>
 				<div class="holder"><%= f.text_area :question, :style => "width:500px; height:300px;", :wrap => "off" %></div>
 				<div class="spacer"></div>
 				
 				<label>Correct Answer:</label>
-				<div class="holder"><%= f.text_area :answer, :style => "width:500px; height:300px;", :wrap => "off" %></div>
+				<div class="holder"><%= f.text_area :answer, :style => "width:500px; height:300px;", :wrap => "off" %></textarea></div>
 				<div class="spacer"></div>
 				
-				<label>Type:</label>
-				<%= select_tag("quiz_question_form[type]", options_for_select(qq_question_type_options), :style => 'margin: 5px 5px 5px 0px;' ) %>
-				<div class="spacer"></div>
-				
-				<label>Comments:</label>
-				<div class="holder"><%= f.text_area :author_comments, :style => "width:500px; height:100px;" %></div>
+				<label>Reviewer Comments:</label>
+				<div class="holder"><%= f.text_area :reviewer_comments, :style => "width:500px; height:100px;" %></div>
 				<div class="spacer"></div>
 				
 				<div id="button-container" style="padding-left:25px">

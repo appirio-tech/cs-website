@@ -1,10 +1,10 @@
-class QuickQuizQuestionForm
+class QuizQuestionForm
   include ActiveModel::Validations
   include ActiveModel::Conversion
   extend ActiveModel::Naming
   
-  attr_accessor :question, :answer, :author_comments
-  validates_presence_of :question, :answer
+  attr_accessor :question, :answer, :author_comments, :reviewer_comments, :type
+  validates_presence_of :question, :answer, :type
   
   def initialize(attributes = {})
     attributes.each do |name, value|

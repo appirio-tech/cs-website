@@ -34,19 +34,19 @@ class QuickQuizes < Cloudspokes
     get(ENV['SFDC_REST_API_URL']+"/quickquiz?questionId=#{id}")
   end
   
-  def self.winners_today(access_token, type=nil)
+  def self.winners_today(access_token, id, type=nil)
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/today?type=#{type}")
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/results/today?type=#{type}")
   end
   
-  def self.winners_last7days(access_token, type=nil)
+  def self.winners_last7days(access_token, id, type=nil)
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/last7days?type=#{type}")
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/results/last7days?type=#{type}")
   end
   
-  def self.winners_alltime(access_token, type=nil)
+  def self.winners_alltime(access_token, id, type=nil)
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/quickquiz/results/alltime?type=#{type}")
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/results/alltime?type=#{type}")
   end
   
   def self.member_status_today(access_token, username)
@@ -59,9 +59,9 @@ class QuickQuizes < Cloudspokes
     get(ENV['SFDC_REST_API_URL']+"/quickquiz/answers/#{esc username}")
   end
   
-  def self.member_results_by_date(access_token, username, dt)
+  def self.member_results_by_date(access_token, id, username, dt)
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{esc username}/results/#{dt}")
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/#{esc username}/answers/#{dt}")
   end
 
   def self.member_answer(access_token, email, id)
@@ -69,9 +69,14 @@ class QuickQuizes < Cloudspokes
     get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{esc email}/answer/#{id}")
   end
   
-  def self.all_winners(access_token)
+  def self.all_winners(access_token, id)
     set_header_token(access_token)
-    get(ENV['SFDC_REST_API_URL']+"/quickquiz/winners")
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/winners")
+  end
+  
+  def self.flag_answer(access_token, id)
+    set_header_token(access_token)
+    put(ENV['SFDC_REST_API_URL']+"/quickquiz/answer/flag/#{esc id}")
   end
 
 end

@@ -11,14 +11,14 @@ module AccountsHelper
   MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
   
   MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/account/question_new"},
-                          :review_questions  => {:value => "review questions", :link => "/account/question"}}
+                          :review_questions  => {:value => "review questions", :link => "/account/questions_to_review"}}
 
   def build_menu(position,selected_item)
     content = ""
     eval("MENU_OPTIONS_#{position.upcase}").each do |item,options|
       content  += "<li>"
       if item.to_s == selected_item
-        content += "<a href='#' class='active'>#{options[:value]}</a>"
+        content += "<a href='#{options[:link]}' class='active'>#{options[:value]}</a>"
       else
         content += "<a href='#{options[:link]}' class=''>#{options[:value]}</a>"
       end

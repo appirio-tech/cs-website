@@ -13,13 +13,39 @@ class AccountsController < ApplicationController
   
   def question_new
     @page_title = "Submit a Quick Quiz Question"
-    @new_question_form = QuickQuizQuestionForm.new
+    @question = QuizQuestionForm.new()
   end
   
   def question_save
-    @new_question_form = NewQuickQuizQuestionForm.new(params[:new_question])
-    p "==== #{params['new_question']}" 
-    p @new_question_form.valid?
+    @question = QuizQuestionForm.new(params[:quiz_question_form])
+    if @question.valid?
+      flash[:notice] = "Your question was successfully submitted. Thanks!"
+      redirect_to new_qq_question_path
+    else
+      # show the error message
+      render :action => 'question_new'
+    end
+  end
+  
+  def questions_to_review
+    @page_title = "Review Quick Quiz Questions"
+    @questions = [{id: 1, type: "Ruby", created: DateTime.now},{id: 2, type: "Java", created: DateTime.now},{id: 3, type: "Java", created: DateTime.now}]
+  end
+  
+  def question_edit
+    @page_title = "Review Quick Quiz Question"
+    @question = QuizQuestionForm.new({:question => 'AAAAA', :answer => '1234', :type => 'Java', :author_comments => 'This is a great question!!'})
+  end
+  
+  def question_update
+    @question = QuizQuestionForm.new(params[:quiz_question_form])
+    if @question.valid?
+      flash[:notice] = "Your question was successfully marked as reviewed. Thanks!"
+      redirect_to qq_questions_to_review_path
+    else
+      # show the error message
+      render :action => 'question_edit'
+    end
   end
   
   def outstanding_reviews
