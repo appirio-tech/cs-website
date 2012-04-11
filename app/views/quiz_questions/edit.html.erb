@@ -5,7 +5,7 @@
 		</div>
 		<div class="widecolumn fr">
 
-			<h3>Review Quick Quiz Question</h3>
+			<h3>Review Quick Quiz Question <%= @question.name %></h3>
 			<%= flash_messages %>
 			
 			<p style="padding-bottom:25px"><b>Need instructions on how to write questions.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas consequat rhoncus. Cras arcu turpis, ultrices at tempus a, dapibus et nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam placerat blandit ipsum eu elementum. In hac habitasse platea dictumst.</p>
@@ -23,7 +23,6 @@
 
 				<%= f.hidden_field :type %>
 				<%= f.hidden_field :id %>
-				<%= f.hidden_field :status %>
 				
 				<label>Type:</label>
 				<%= select_tag("quiz_question_form[type]", options_for_select(question_type_options, @question.type), :disabled => true, :style => 'margin: 5px 5px 5px 0px;' ) %>
