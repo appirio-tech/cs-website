@@ -5,35 +5,55 @@ class QuizesController < ApplicationController
   before_filter :must_be_signed_in
   
   def show
+    
     # check if the challenge is still open
-    challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    if challenge_detail["Is_Open__c"].eql?("false")
+    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    if @challenge_detail["Is_Open__c"].eql?("false")
       flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
       redirect_to quizleaderboard_path(params[:id])
     end
+    
     # see this the member has already entered for today
-    member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
+    member_status = QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username)
     if member_status.size > 0
       flash[:notice] = "You have already submitted for today."
       redirect_to quizleaderboard_path(params[:id])
     end
-
+    
     # if they are not registered for the challenge, then send them back to the challenge page
     redirect_to challenge_path(params[:id]) unless challenge_participation_status[:status].eql?('Registered')
-    @questions = QuickQuizes.fetch_10_questions(params[:type])
+    
+=begin
+    results = QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
+    p "==== #{results}"
+
+
+
+
+=end
+  end
+  
+  def fetch_question
+    @question = QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
+    respond_to do |format|
+      format.json { render :json => @question }
+    end
   end
 
   def answer
+    p "=== Answer called #{params}"
+    render :nothing => true
+=begin
     logger.info "[ChallengesController]==== QuickQuiz question #{params['question_id']} received in controller"
     results = Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
     logger.info "[ChallengesController]==== QuickQuiz results to queue: #{results}"
     logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
-    render :nothing => true
+=end    
   end
 
   def winners
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
+    @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all');  
     @winners = QuickQuizes.all_winners(current_access_token, params[:id]);
     @days = []
     @winners.each do |record|
@@ -48,20 +68,20 @@ class QuizesController < ApplicationController
   def results
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     # see if they have participated for the today
-    member_status = QuickQuizes.member_status_today(current_access_token, current_user.username)
+    member_status = QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username)
     if member_status.empty?
       flash[:notice] = "There are no results for you today."
       redirect_to quizleaderboard_path(params[:id])
     else
       @results = member_status[0]
-      @answers = QuickQuizes.member_results_today(current_access_token, current_user.username)
-      @todays_results = QuickQuizes.winners_today(current_access_token, 'all');  
+      @answers = QuickQuizes.member_results_today(current_access_token, params[:id], current_user.username)
+      @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all');  
     end
   end
   
   def results_by_member
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @todays_results = QuickQuizes.winners_today(current_access_token, 'all'); 
+    @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all'); 
     results = QuickQuizes.member_results_by_date(current_access_token, params[:id], params[:member], params[:date])
     if results['success'].eql?('true')
       @answers = results['records']

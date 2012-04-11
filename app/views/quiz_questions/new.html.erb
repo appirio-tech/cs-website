@@ -1,7 +1,7 @@
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
 		<div class="sidebar fl">
-      	<%= render 'menu', :selected_item => "submit_question"%>
+      	<%= render 'accounts/menu', :selected_item => "submit_question"%>
 		</div>
 		<div class="widecolumn fr">
 
@@ -19,7 +19,11 @@
 			<% end %>
 			
 			<div id="profile">
-			<%= form_for @question, :url => save_qq_question_path do |f| %> 
+			<%= form_for @question, :url => quiz_questions_path do |f| %> 
+			
+				<label>Type:</label>
+				<%= select_tag("quiz_question_form[type]", options_for_select(question_type_options), :style => 'margin: 5px 5px 5px 0px;' ) %>
+				<div class="spacer"></div>
 				
 				<label>Question (with Error):</label>
 				<div class="holder"><%= f.text_area :question, :style => "width:500px; height:300px;", :wrap => "off" %></div>
@@ -29,12 +33,8 @@
 				<div class="holder"><%= f.text_area :answer, :style => "width:500px; height:300px;", :wrap => "off" %></div>
 				<div class="spacer"></div>
 				
-				<label>Type:</label>
-				<%= select_tag("quiz_question_form[type]", options_for_select(qq_question_type_options), :style => 'margin: 5px 5px 5px 0px;' ) %>
-				<div class="spacer"></div>
-				
 				<label>Comments:</label>
-				<div class="holder"><%= f.text_area :author_comments, :style => "width:500px; height:100px;" %></div>
+				<div class="holder"><%= f.text_area :author_comments, :style => "width:500px; height:75px;" %></div>
 				<div class="spacer"></div>
 				
 				<div id="button-container" style="padding-left:25px">

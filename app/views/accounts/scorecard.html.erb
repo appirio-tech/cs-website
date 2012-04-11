@@ -321,8 +321,13 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 	</table>
 <% end %>	
 
+<p>Here are some recommendations for scoring submissions. Take the unit testing question as an example. If the person did an average job
+	of writing unit tests and covering code, you might want to give them a 75% (typically 3 of 4). If they did a great job, then you 
+	could give them 100% (typically 4 of 4) and if they did a poor job, you could consider giving them 50%. If they did not provide unit
+	tests at all, give them 0%. If a question isn't applicable, please give them a score equivalent to 75%.</p>
+
 <p>Remember, participants are only eligible for money if they score 75%+ for the total scorecard. If we are awarding money for 
-	multiple places, then please score accordingly.</p>
+	multiple places, then please score accordingly. </p>
 
 <% if @scored %><h1>This scorecard has been scored and is not updateable.</h1><% end %>
 <div id="scorecard"></div>

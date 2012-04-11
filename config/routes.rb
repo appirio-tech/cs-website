@@ -1,4 +1,8 @@
 CloudSpokes::Application.routes.draw do
+  
+  resources :sessions
+  resources :members
+  resources :quiz_questions
 
   match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
   get "hackathons/results"
@@ -18,7 +22,6 @@ CloudSpokes::Application.routes.draw do
   match "/forgot_password"              => "sessions#public_forgot_password"
   match "/forgot_password_send"         => "sessions#public_forgot_password_send"
   match "/forgot_service"               => "sessions#forgot_service"
-  resources :sessions
   
   match "/members/order_by_name"        => "members#index", :defaults => { :order_by => 'name' }
   match "/members/order_by_win"         => "members#index", :defaults => { :order_by => 'total_wins__c' }
@@ -28,7 +31,6 @@ CloudSpokes::Application.routes.draw do
   match "/members/:id/active_challenges"  => "members#active_challenges"  
   match "/members/:id/recommend"        => "members#recommend", :as => :recommend_member
   match "/members/:id/recommend_new"    => "members#recommend_new", :as => :recommend_member_new
-  resources :members
 
   match "account"                       => "accounts#index"
   match "/account/challenges"           => "accounts#challenges"
@@ -42,11 +44,6 @@ CloudSpokes::Application.routes.draw do
   match '/account/scorecard/:id'        => 'accounts#scorecard'
   match '/account/scorecard_save'       => 'accounts#scorecard_save', :as => :scorecard_save
   match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic 
-  match '/account/question_new'         => 'accounts#question_new', :as => :new_qq_question 
-  match '/account/question_save'        => 'accounts#question_save', :as => :save_qq_question
-  match '/account/questions_to_review'  => 'accounts#questions_to_review', :as => :qq_questions_to_review
-  match '/account/question_edit/:id'    => 'accounts#question_edit', :as => :edit_qq_question
-  match '/account/question_update/:id'  => 'accounts#question_update', :as => :update_qq_question
 
   #challenges
   get "challenges/index"
@@ -85,6 +82,7 @@ CloudSpokes::Application.routes.draw do
   match 'quizes/answer_by_member/:member', :to => 'quizes#answer_by_member', :as => :quizanswer_by_member  
   match 'quizes/:id/winners', :to => 'quizes#winners', :as => :quizwinners
   match 'quizes/flag_answer/:id', :to => 'quizes#flag_answer', :as => :flag_answer
+  match 'quizes/:id/question', :to => 'quizes#fetch_question', :as => :fetchquestion
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"

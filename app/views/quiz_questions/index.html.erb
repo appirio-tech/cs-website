@@ -1,7 +1,7 @@
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
 		<div class="sidebar fl">
-      	<%= render 'menu', :selected_item => "review_questions"%>
+      	<%= render 'accounts/menu', :selected_item => "review_questions"%>
 		</div>
 		<div class="widecolumn fr">
 
@@ -10,32 +10,35 @@
 			
 			<p style="padding-bottom:25px"><b>Need instructions on how to write questions.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas consequat rhoncus. Cras arcu turpis, ultrices at tempus a, dapibus et nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam placerat blandit ipsum eu elementum. In hac habitasse platea dictumst.</p>
 			
-			<% if @questions.size > 0 %>
+			<% if @results['records'] %>
 			<table class="fancytable" id="answers" style="width:100%">
 			    <thead>
 			    	<tr>
 						<th></th>
+						<th scope="col">Question</th>
 						<th scope="col">Language</th>
+						<th scope="col">Status</th>
 			            <th scope="col">Submitted</th>
 						<th scope="col">Review</th>
 			        </tr>
 			    </thead>
 			    <tbody>
-				<% @questions.each do |record|%>
+				<% @results['records'].each do |record|%>
 			    	<tr>
 						<td></td>
-						<td style="font-size:12px"><%= record[:type]%></td>
-			            <td style="font-size:12px"><%= record[:created].strftime("%b. %d, %Y at %I:%M %p")%></td>
-						<td style="font-size:12px"><%= link_to "Review", edit_qq_question_path(record[:id]) %></td>
+						<td style="font-size:12px"><%= record['Name']%></td>
+						<td style="font-size:12px"><%= record['Type__c']%></td>
+						<td style="font-size:12px"><%= record['Status__c']%></td>
+			            <td style="font-size:12px"><%= Time.parse(record['LastModifiedDate']).strftime("%b. %d, %Y at %I:%M %p")%></td>
+						<td style="font-size:12px"><%= link_to "Review", edit_quiz_question_path(record['Id']) %></td>
 			        </tr>
 				<% end %>
 			    </tbody>
 			</table>
 			
 			<% else %>
-				There are no questions for you to review at this time.
+				<%= @results['message'] %>
 			<% end %>
-			
 
 		</div>
 

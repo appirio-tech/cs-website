@@ -1,14 +1,14 @@
-function Quiz(data, components, url){
+function Quiz(data, components){
 
     var self = data;
     var editor = components.editor;
     var EDITOR_MIN_LINES = 20;
     var syntax = {'javascript': 'javascript', 'ruby':'ruby','java':'text/x-java', 'mixed':'text/html'};
 
+	console.log('starting up quiz function');
+
     self.curr = ko.observable(0);
     self.language = ko.observable('');
-
-    // console.log(data);
 
     self.startTimer = function(){
         $(".stopwatch .start").click();
@@ -34,27 +34,31 @@ function Quiz(data, components, url){
     };
 
     self.loadQuestion = function(n){
+			
+		$.ajax({
+		  type: 'GET',
+		  url: data.url + '/quizes/' + data.challengeId + '/question.json?type=' + data.questionType,
+		  success: successfulQuestion
+		});
+		
+		function successfulQuestion(returnData) {
+			
+			if (returnData.questionNbr == -1) {
+				alert('Congratulations! You are done and your answers are being processed! Ready for your results?');
+				window.location = data.url + '/quizes/'+data.challengeId+'/results';
+			}			
 
-		// load the next question
-        if(self.curr() != self.records.length){
-
-        	self.language(self.records[self.curr()].Type__c);
+			// set the type and id to the data object
+			data.question = returnData.question;
+			
+			// add the current question number
+			$("#questionNbr").text(returnData.questionNbr);
+			
+	       	self.language(returnData.question.Type__c);
 	        var lang = self.language().toLowerCase();
-	        var question = self.records[self.curr()].Question__c.replace(/\+/g,' ');
+	        var question = returnData.question.Question__c.replace(/\+/g,' ');
 			question = unescape(question);
-		
-			// post the current question they are answering
-			var dataString = 'p=q&question_id='+ self.records[self.curr()].Id;
-		
-			// check for practice answers
-			if (self.records[self.curr()].Id != 0) {
-				$.ajax({
-				  type: 'POST',
-				  url: url+'/quizes/answer',
-				  data: dataString
-				});
-			}
-		
+
 	        editor.setOption("mode",syntax[lang]);
 	        editor.setValue(question);
 
@@ -62,52 +66,41 @@ function Quiz(data, components, url){
 	            var lastLine = editor.lineCount() - 1;
 	            editor.setLine(lastLine, editor.getLine(lastLine) + '\n');
 	        }
+	
 	        self.startTimer();
-
 		}
+		
     };
 
-    self.getAnswer = function(){
-        return editor.getValue().replace(/\s/g, "");
-    };
+	self.getAnswer = function(){
+	        return editor.getValue();
+	    };
+	
+	self.getMinifiedAnswer = function(){
+	        return editor.getValue().replace(/\s/g, "");
+	    };
 
     self.submit = function(){
-			
+
         self.stopTimer();
-
-        var q = {
-            id: self.records[self.curr()].Id,
-            time: self.getTotalTime(),
-            answer: self.getAnswer()
-        };
-
-		var dataString = 'p=a&question_id='+ q.id + '&answer='+encodeURIComponent(q.answer);
+		// data to post
+		var dataString = 'question_id='+ data.question.Id + '&original_answer='+encodeURIComponent(self.getAnswer()) + '&minified_answer=' + encodeURIComponent(self.getMinifiedAnswer());
 		
-		// check for practice answers
-		if (q.id != 0) {
-			$.ajax({
-			  type: 'POST',
-			  url: url+'/quizes/answer',
-			  complete: function() {
-				if (eval(self.curr()+1) > 10) {
-					alert('Congratulations! You are done and your answers are being processed! Ready for your results?');
-					window.location = url + '/quizes/results';
-				}
-			  },
-			  data: dataString
-			});
+		$.ajax({
+		  type: 'POST',
+		  url: data.url+'/quizes/'+data.challengeId+'/answer',
+		  data: dataString
+		});
 
-		} else {
-			if (eval(self.curr()+1) == 3) {
-				alert('Now that you have a feel of how the Quick Quiz process works, close this window and get started competing when you are ready.');
-			}
-		}
-
+		// remove all text from the editor
+		editor.setValue('');
+		// remove the question number 
+		$("#questionNbr").text('?');
         self.resetTimer();
-        self.loadQuestion(self.curr(self.curr()+1));
+        self.loadQuestion();
     };
 
-    self.loadQuestion(self.curr());
+    self.loadQuestion();
 
     return self;
 }

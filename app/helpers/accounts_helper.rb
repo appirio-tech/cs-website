@@ -10,8 +10,8 @@ module AccountsHelper
 
   MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
   
-  MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/account/question_new"},
-                          :review_questions  => {:value => "review questions", :link => "/account/questions_to_review"}}
+  MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/quiz_questions/new"},
+                          :review_questions  => {:value => "review questions", :link => "/quiz_questions"}}
 
   def build_menu(position,selected_item)
     content = ""
@@ -45,10 +45,6 @@ module AccountsHelper
   
   def preferred_payment_options
     [["Please select ...",nil],["Check","Check"],["Paypal","Paypal"],["Wire","Wire"]]
-  end
-  
-  def qq_question_type_options
-    [["Please select ...",nil],["Java","Java"],["JavaScript","JavaScript"],["Ruby","Ruby"],["Python","Python"]]
   end
 
 end

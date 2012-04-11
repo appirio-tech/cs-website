@@ -3,7 +3,7 @@ class QuizQuestionForm
   include ActiveModel::Conversion
   extend ActiveModel::Naming
   
-  attr_accessor :question, :answer, :author_comments, :reviewer_comments, :type
+  attr_accessor :question, :answer, :author_comments, :reviewer_comments, :type, :id, :status
   validates_presence_of :question, :answer, :type
   
   def initialize(attributes = {})

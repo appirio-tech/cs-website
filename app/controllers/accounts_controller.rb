@@ -10,44 +10,7 @@ class AccountsController < ApplicationController
   def index
     redirect_to '/account/challenges'
   end
-  
-  def question_new
-    @page_title = "Submit a Quick Quiz Question"
-    @question = QuizQuestionForm.new()
-  end
-  
-  def question_save
-    @question = QuizQuestionForm.new(params[:quiz_question_form])
-    if @question.valid?
-      flash[:notice] = "Your question was successfully submitted. Thanks!"
-      redirect_to new_qq_question_path
-    else
-      # show the error message
-      render :action => 'question_new'
-    end
-  end
-  
-  def questions_to_review
-    @page_title = "Review Quick Quiz Questions"
-    @questions = [{id: 1, type: "Ruby", created: DateTime.now},{id: 2, type: "Java", created: DateTime.now},{id: 3, type: "Java", created: DateTime.now}]
-  end
-  
-  def question_edit
-    @page_title = "Review Quick Quiz Question"
-    @question = QuizQuestionForm.new({:question => 'AAAAA', :answer => '1234', :type => 'Java', :author_comments => 'This is a great question!!'})
-  end
-  
-  def question_update
-    @question = QuizQuestionForm.new(params[:quiz_question_form])
-    if @question.valid?
-      flash[:notice] = "Your question was successfully marked as reviewed. Thanks!"
-      redirect_to qq_questions_to_review_path
-    else
-      # show the error message
-      render :action => 'question_edit'
-    end
-  end
-  
+    
   def outstanding_reviews
     @page_title = "Outstanding Reviews"
     @challenges = Scoring.outstanding_scorecards(current_access_token)
