@@ -13,24 +13,16 @@ class QuizesController < ApplicationController
       redirect_to quizleaderboard_path(params[:id])
     end
     
+    # if they are not registered for the challenge, then send them back to the challenge page
+    redirect_to challenge_path(params[:id]) unless challenge_participation_status[:status].eql?('Registered')
+    
     # see this the member has already entered for today
     member_status = QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username)
     if member_status.size > 0
       flash[:notice] = "You have already submitted for today."
       redirect_to quizleaderboard_path(params[:id])
     end
-    
-    # if they are not registered for the challenge, then send them back to the challenge page
-    redirect_to challenge_path(params[:id]) unless challenge_participation_status[:status].eql?('Registered')
-    
-=begin
-    results = QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
-    p "==== #{results}"
 
-
-
-
-=end
   end
   
   def fetch_question
@@ -83,6 +75,7 @@ class QuizesController < ApplicationController
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all'); 
     results = QuickQuizes.member_results_by_date(current_access_token, params[:id], params[:member], params[:date])
+    p "=== #{results}"
     if results['success'].eql?('true')
       @answers = results['records']
       flash.now[:warning] = "There are no results for #{params[:member]} for this date. Try changing the username or date in the URL." unless @answers.size > 0

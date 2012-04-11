@@ -180,6 +180,8 @@ class ChallengesController < ApplicationController
       @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all');
       # get the current member's status for the challenge
       @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username) : nil
+      
+      p "=== #{@member_status}"
     end
     
     respond_to do |format|
