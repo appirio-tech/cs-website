@@ -75,7 +75,6 @@ class QuizesController < ApplicationController
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all'); 
     results = QuickQuizes.member_results_by_date(current_access_token, params[:id], params[:member], params[:date])
-    p "=== #{results}"
     if results['success'].eql?('true')
       @answers = results['records']
       flash.now[:warning] = "There are no results for #{params[:member]} for this date. Try changing the username or date in the URL." unless @answers.size > 0

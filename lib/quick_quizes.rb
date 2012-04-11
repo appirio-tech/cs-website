@@ -67,7 +67,6 @@ class QuickQuizes < Cloudspokes
        :body => converted.to_json
      }
      results = put(ENV['SFDC_REST_API_URL']+'/quickquiz/admin/questions', options)
-     return results['success']
    end
   
   #
