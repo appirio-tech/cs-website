@@ -8,7 +8,10 @@
 			<h3>Review Quick Quiz Question <%= @question.name %></h3>
 			<%= flash_messages %>
 			
-			<p style="padding-bottom:25px"><b>Need instructions on how to write questions.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas consequat rhoncus. Cras arcu turpis, ultrices at tempus a, dapibus et nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam placerat blandit ipsum eu elementum. In hac habitasse platea dictumst.</p>
+			<p style="padding-bottom:25px">Questions should contain one and only one issue and should be solved in one way only without adding or removing lines of code.  A good quiz question will focus on the core language not additional frameworks like Rails or JQuery.  Challenging questions will include misnamed function calls, logical errors or other easy to miss bugs.  It is ok to replace sections of code with underscores (___) and the fix will be to replace the underscore with the appropriate text.  For example, another good question contains an assert at the end of the problem statement and the solution will be to replace the code to make the assert accurate. Remember scoring is based on changing the <strong>LEAST</strong> number of characters.
+				
+				<br/><br/>Make sure you can run the code and that the outcome is what is expected. When you approve or reject a question, the author will 
+				receive an email confirmation. The reviewer is not identified in the email.</p>
 			
 			<% if @question.errors.any? %>
 				<div class="error" id="flash-error" style="margin-top:0px;">

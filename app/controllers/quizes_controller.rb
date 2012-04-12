@@ -122,7 +122,7 @@ class QuizesController < ApplicationController
   # if signed in, then send them back to the challenge page
   def must_be_signed_in
     if !signed_in?
-      flash[:error] = "You must be signed to view the requested page."
+      flash[:error] = "You must be signed in to view the requested page."
       redirect_to challenge_path(params[:id])
     end
   end

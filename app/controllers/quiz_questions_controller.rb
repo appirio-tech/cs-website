@@ -3,6 +3,7 @@ class QuizQuestionsController < ApplicationController
   def index
     @page_title = "Review Quick Quiz Questions"
     @results = QuickQuizes.review_questions(current_access_token, current_user.username)
+    flash.now[:warning] = @results['message'] unless @results['records']
   end  
   
   def new
