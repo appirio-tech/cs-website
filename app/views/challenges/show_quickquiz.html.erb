@@ -51,10 +51,10 @@
 							<% elsif (@participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted')) && @member_status.size == 0 %>
 		                        <p>Once you’re ready to play, start your Quick Quiz by clicking one of the blue buttons below for your category of questions.</p>
 								<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
-								<a class="button fl" href="<%= takequiz_url %>?type=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a> 
+								<a class="button fl" href="<%= takequiz_path(params[:id]) %>?type=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a> 
 								<% end %>
 								<% if @challenge_detail["Challenge_Categories__r"]["records"].size > 1 %>
-									<a class="button fl" href="<%= takequiz_url %>"><span>Random</span></a>
+									<a class="button fl" href="<%= takequiz_path(params[:id]) %>"><span>Random</span></a>
 								<% end %>
 							<% end %>                    
 		                    </div>

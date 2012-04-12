@@ -22,39 +22,43 @@ $(".fancyanswer").fancybox({
                 <div class="challenge-information">
 					<%= flash_messages %>
 
-					<table style="margin-bottom:10px">
-						<tr>
-							<td style="padding-right:10px"><img src="/assets/answer-false.png" width="40"/></td>
-							<td>Click the red icons below to see the details of the questions that are marked as incorrect. You can only see your incorrect answers and not the answers of other members.</td>
-						</tr>
-					</table>
+					<% if @answers.size > 0 %>	
+
+						<table style="margin-bottom:10px">
+							<tr>
+								<td style="padding-right:10px"><img src="/assets/answer-false.png" width="40"/></td>
+								<td>Click the red icons below to see the details of the questions that are marked as incorrect. You can only see your incorrect answers and not the answers of other members.</td>
+							</tr>
+						</table>
 					 
 
-					<table class="fancytable" id="answers" style="width:100%;<% if @answers.size == 0 %>visibility:hidden;<% end %>">
-					    <thead>
-					    	<tr>
-								<th></th>
-								<th scope="col">Language</th>
-					            <th scope="col">Time</th>
-								<th scope="col">Correct</th>
-					        </tr>
-					    </thead>
-					    <tbody>
-						<% @answers.each do |record|%>
-					    	<tr>
-								<td></td>
-								<td style="font-size:12px"><%= record["Type__c"]%></td>
-					            <td style="font-size:12px"><%= record["Elapsed_Time_Seconds__c"]%> seconds</td>
-								<td style="font-size:12px">
-								<% if record["Is_Correct__c"] %>
-									<img src="/assets/answer-true.png" width="40"/>
-								<% else %>
-									<a href="/quizes/answer_by_member/<%= record["Id"] %>" class="fancyanswer"><img src="/assets/answer-false.png" width="40"/></a>
-								<% end %>
-					        </tr>
-						<% end %>
-					    </tbody>
-					</table>
+						<table class="fancytable" id="answers" style="width:100%;<% if @answers.size == 0 %>visibility:hidden;<% end %>">
+						    <thead>
+						    	<tr>
+									<th></th>
+									<th scope="col">Language</th>
+						            <th scope="col">Time</th>
+									<th scope="col">Correct</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+							<% @answers.each do |record|%>
+						    	<tr>
+									<td></td>
+									<td style="font-size:12px"><%= record["Type__c"]%></td>
+						            <td style="font-size:12px"><%= record["Display_Time__c"]%></td>
+									<td style="font-size:12px">
+									<% if record["Is_Correct__c"] %>
+										<img src="/assets/answer-true.png" width="40"/>
+									<% else %>
+										<a href="/quizes/answer_by_member/<%= record["Id"] %>" class="fancyanswer"><img src="/assets/answer-false.png" width="40"/></a>
+									<% end %>
+						        </tr>
+							<% end %>
+						    </tbody>
+						</table>
+					
+					<% end %>
 
                 </div><br/><br/>
                 <!-- END Challenge Information -->

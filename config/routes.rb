@@ -1,4 +1,8 @@
 CloudSpokes::Application.routes.draw do
+  
+  resources :sessions
+  resources :members
+  resources :quiz_questions
 
   match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
   get "hackathons/results"
@@ -18,7 +22,6 @@ CloudSpokes::Application.routes.draw do
   match "/forgot_password"              => "sessions#public_forgot_password"
   match "/forgot_password_send"         => "sessions#public_forgot_password_send"
   match "/forgot_service"               => "sessions#forgot_service"
-  resources :sessions
   
   match "/members/order_by_name"        => "members#index", :defaults => { :order_by => 'name' }
   match "/members/order_by_win"         => "members#index", :defaults => { :order_by => 'total_wins__c' }
@@ -28,7 +31,6 @@ CloudSpokes::Application.routes.draw do
   match "/members/:id/active_challenges"  => "members#active_challenges"  
   match "/members/:id/recommend"        => "members#recommend", :as => :recommend_member
   match "/members/:id/recommend_new"    => "members#recommend_new", :as => :recommend_member_new
-  resources :members
 
   match "account"                       => "accounts#index"
   match "/account/challenges"           => "accounts#challenges"
@@ -41,7 +43,7 @@ CloudSpokes::Application.routes.draw do
   match "/account/outstanding_reviews"  => "accounts#outstanding_reviews" , :as => :outstanding_reviews
   match '/account/scorecard/:id'        => 'accounts#scorecard'
   match '/account/scorecard_save'       => 'accounts#scorecard_save', :as => :scorecard_save
-  match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic  
+  match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic 
 
   #challenges
   get "challenges/index"
@@ -71,15 +73,16 @@ CloudSpokes::Application.routes.draw do
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
   # quick quiz
-  match 'quizes/quiz', :to => 'quizes#show', :as => :takequiz
-  match 'quizes/answer', :to => 'quizes#answer', :as => :answerquiz
-  match 'quizes/practice', :to => 'quizes#practice', :as => :practicequiz
-  match 'quizes/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
-  match 'quizes/results', :to => 'quizes#results', :as => :quizresults
-  match 'quizes/results_by_member/:member/:date', :to => 'quizes#results_by_member', :as => :quizresults_by_member
-  match 'quizes/answer_by_member/:id', :to => 'quizes#answer_by_member', :as => :quizanswer_by_member  
-  match 'quizes/results_live', :to => 'quizes#results_live', :as => :quizresultslive  
-  match 'quizes/winners', :to => 'quizes#winners', :as => :quizwinners
+  match 'quizes/:id/quiz', :to => 'quizes#show', :as => :takequiz
+  match 'quizes/:id/answer', :to => 'quizes#answer', :as => :answerquiz
+  match 'quizes/:id/practice', :to => 'quizes#practice', :as => :practicequiz
+  match 'quizes/:id/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
+  match 'quizes/:id/results', :to => 'quizes#results', :as => :quizresults
+  match 'quizes/:id/results_by_member/:member/:date', :to => 'quizes#results_by_member', :as => :quizresults_by_member
+  match 'quizes/answer_by_member/:member', :to => 'quizes#answer_by_member', :as => :quizanswer_by_member  
+  match 'quizes/:id/winners', :to => 'quizes#winners', :as => :quizwinners
+  match 'quizes/flag_answer/:id', :to => 'quizes#flag_answer', :as => :flag_answer
+  match 'quizes/:id/question', :to => 'quizes#fetch_question', :as => :fetchquestion
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"

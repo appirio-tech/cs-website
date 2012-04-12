@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
   def index
     redirect_to '/account/challenges'
   end
-  
+    
   def outstanding_reviews
     @page_title = "Outstanding Reviews"
     @challenges = Scoring.outstanding_scorecards(current_access_token)

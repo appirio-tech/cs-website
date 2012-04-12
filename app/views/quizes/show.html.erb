@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.css" />
 <link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/theme/eclipse.css" />
 
-<div class="page-heading"><h2 class="melbourne">Quick Quiz</h2></div>
+<div class="page-heading"><h2 class="melbourne"><%= @challenge_detail['Name'] %></h2></div>
 <p style="margin-top:25px;margin-left:25px;margin-right:25px">In the code segment for each question, there is an error on a single line.  
 	Correct the error by changing the fewest possible characters on that one line. Do not make changes that are not needed to fix the code.  
 	Some questions will include additional details or instructions in the comments.  For those questions where the code includes an ASSERT 
@@ -15,7 +15,7 @@
     <div id="editor"></div>
 </div>
 <div class="infoPane">
-    Question <span data-bind="text:curr() <= records.length-1 ? curr()+1 : records.length"></span> of <span data-bind="text: totalSize"></span><br/><br/>
+    Question <span id="questionNbr"></span> of 10<br/><br/>
     <span data-bind="text:language"></span><br/><br/><br/>
     Time This Question<br/>
     <div id="clock" class="stopwatch">
@@ -55,16 +55,20 @@
 
 	$('button').button();
 	$("#clock").stopwatch();
-
-	var data = new Object();
-	data.records = $.parseJSON('<%= @questions.to_json.html_safe %>');
-	data.totalSize = data.records.length;
-	ko.applyBindings(new Quiz(data, {editor:editor}, fnGetUrl()));
 	
 	$(document).ready(function() {
+		
+		var data = new Object();
+		data.url = fnGetUrl();
+		data.challengeId = '76';
+		data.questionType = 'Java'
+		ko.applyBindings(new Quiz(data, {editor:editor}));
+		
+		// prevent copy and paste
 	    $('#editor').bind('cut copy paste', function(event) {
 	        event.preventDefault();
 	    });
+
 	});
 	
 </script>

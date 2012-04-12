@@ -1,20 +1,24 @@
 module AccountsHelper
 
-  MENU_OPTIONS_TOP = { :account_details      => {:value => "account details",     :link => "/account/details"},
+  MENU_OPTIONS_ACCOUNT = { :account_details      => {:value => "account details",     :link => "/account/details"},
                        :payments             => {:value => "payment info",        :link => "/account/payments"},
                        :school_work_info     => {:value => "school & work info",  :link => "/account/school"},
                        :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
                        :change_password      => {:value => "change password",     :link => "/account/password"}}
+                       
+  MENU_OPTIONS_MY = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"} }                       
 
-  MENU_OPTIONS_BOTTOM = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"},
-                          :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"}}
+  MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
+  
+  MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/quiz_questions/new"},
+                          :review_questions  => {:value => "review questions", :link => "/quiz_questions"}}
 
   def build_menu(position,selected_item)
     content = ""
     eval("MENU_OPTIONS_#{position.upcase}").each do |item,options|
       content  += "<li>"
       if item.to_s == selected_item
-        content += "<a href='#' class='active'>#{options[:value]}</a>"
+        content += "<a href='#{options[:link]}' class='active'>#{options[:value]}</a>"
       else
         content += "<a href='#{options[:link]}' class=''>#{options[:value]}</a>"
       end

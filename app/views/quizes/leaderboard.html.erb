@@ -1,11 +1,11 @@
-<div class="page-heading"><h2 class="melbourne">Quick Quiz Leaderboards</h2></div>
+<div class="page-heading"><h2 class="melbourne"><%= @challenge_detail["Name"]%> Leaderboards</h2></div>
     <div class="page"> 
         <div class="categories">
 			<table cellspacing="0" border="0" style="border-collapse:collapse;">
 				<tr>
-					<td><li class="active"><a href="/quizes/leaderboard?type=Random"><span class="<% if params[:type].eql?('Random') %>category-selected<% else %>blue<% end %>">Random</span></a></li></td>
+					<td><li class="active"><a href="/quizes/<%= params[:id] %>/leaderboard?type=Random"><span class="<% if params[:type].eql?('Random') %>category-selected<% else %>blue<% end %>">Random</span></a></li></td>
 					<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
-					<td><li class="active"><a href="/quizes/leaderboard?type=<%= record["Display_Name__c"] %>">
+					<td><li class="active"><a href="/quizes/<%= params[:id] %>/leaderboard?type=<%= record["Display_Name__c"] %>">
 						<span class="<% if params[:type].eql?(record['Display_Name__c']) %>category-selected<% else %>blue<% end %>"><%= record["Display_Name__c"] %></span></a></li></td>
 					<% end %>
 				</tr>
@@ -16,8 +16,10 @@
         <!-- Leaderboards -->
         <div id="leaderboards">
 			<%= flash_messages %>
+
             <!-- Columns -->
             <div class="columns" style="padding-top: 15px">
+				<p><%= link_to "Back to the Challenge", challenge_path(params[:id]) %></p>
                 <div class="column">
                     <h3>Today</h3>
 					<% if @today.length > 0 %>
