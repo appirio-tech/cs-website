@@ -159,10 +159,7 @@ class QuickQuizes < Cloudspokes
   
   def self.member_results_by_date(access_token, id, username, dt)
     set_header_token(access_token)
-    p "id #{id}"
-        p "username #{username}"
-            p "dt #{dt}"
-    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/#{esc username}/answers/#{dt}")
+    get(ENV['SFDC_REST_API_URL']+"/quickquiz/#{id}/#{esc username}/dailyresults/#{dt}")
   end
 
   def self.member_answer(access_token, email, id)

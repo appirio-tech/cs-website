@@ -8,7 +8,14 @@
 			<h3>Review Quick Quiz Questions</h3>
 			<%= flash_messages %>
 			
-			<p style="padding-bottom:25px"><b>Need instructions on how to write questions.</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut egestas consequat rhoncus. Cras arcu turpis, ultrices at tempus a, dapibus et nibh. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam placerat blandit ipsum eu elementum. In hac habitasse platea dictumst.</p>
+			<p style="padding-bottom:25px">Members are creating quick quiz questions to stump their fellow CloudSpokers. To ensure quality of these 
+				questions you can review them for accuracy before being placed in the pool of available question. <strong>We will pay $50 for each set of 
+				10 approved reviewed regardless of whether you approve or reject the question.</strong> Please review the <%= link_to "FAQs", faq_path %> for additional information on payments.
+				
+				 <br/><br/>Questions should contain one and only one issue and should be solved in one way only without adding or removing lines of code.  A good quiz question will focus on the core language not additional frameworks like Rails or JQuery.  Challenging questions will include misnamed function calls, logical errors or other easy to miss bugs.  It is ok to replace sections of code with underscores (___) and the fix will be to replace the underscore with the appropriate text.  For example, another good question contains an assert at the end of the problem statement and the solution will be to replace the code to make the assert accurate. Remember scoring is based on changing the <strong>LEAST</strong> number of characters.
+				
+				<br/><br/>Make sure you can run the code and that the outcome is what is expected. When you approve or reject a question, the author will 
+				receive an email confirmation. The reviewer is not identified in the email.
 			
 			<% if @results['records'] %>
 			<table class="fancytable" id="answers" style="width:100%">
