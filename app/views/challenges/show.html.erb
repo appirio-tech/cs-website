@@ -41,7 +41,7 @@
                     	<h3>Additional Info</h3>
                     	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
 					<% end %>
-					
+										
 					<!-- show if they are registered or submitted and signed in -->
 					<% if signed_in? %>
 						<% if !@challenge_detail["Post_Reg_Info__c"].nil? && @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
@@ -52,10 +52,10 @@
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 						<% if signed_in? %>
 		                    <div>
-							<% if @participation_status[:status].eql?('Not Registered') %>
+							<% if @participation_status[:status].eql?('Not Registered') && !closed_for_registration? %>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
-							<% elsif @participation_status[:status].eql?('Watching') %>
+							<% elsif @participation_status[:status].eql?('Watching') && !closed_for_registration? %>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
 		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>

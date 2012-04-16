@@ -48,6 +48,10 @@ module ChallengesHelper
     link_to text, challenges_path(final_params), :class => cls
   end
   
+  def closed_for_registration?
+    @challenge_detail['Registration_End_Date__c'].nil? ? false : Time.parse(@challenge_detail['Registration_End_Date__c']).past?
+  end  
+  
 end
 
 

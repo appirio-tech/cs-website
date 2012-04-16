@@ -19,6 +19,11 @@ class ChallengesController < ApplicationController
   def register
     @challenge_detail = current_challenge
     determine_page_title
+    # if registration is closed redirect them back
+    if closed_for_registration?
+      flash[:warning] = 'Registration is closed for this challenge.'
+      redirect_to challenge_path
+    end
     #see if we need to show them tos different than the default standard ones
     if @challenge_detail['Terms_of_Service__r']['Default_TOS__c'].eql?(true)
       Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
@@ -43,7 +48,6 @@ class ChallengesController < ApplicationController
   end
 
   def index   
-    qq = QuizQuestionForm.new  
     if params[:show].eql?('closed')
       show_open = false
       determine_page_title('Closed Challenges')
@@ -181,8 +185,6 @@ class ChallengesController < ApplicationController
       @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all');
       # get the current member's status for the challenge
       @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username) : nil
-      
-      p "=== #{@member_status}"
     end
     
     respond_to do |format|
@@ -381,8 +383,9 @@ class ChallengesController < ApplicationController
     if current_challenge.nil?
       redirect_to '/challenges'
     else
-      # if the challenge exists, but the start date/time hasn't passed, don't show it
-      if Time.parse(current_challenge["Start_Date__c"]) > Time.now
+      # if the challenge exists, but the start date/time hasn't passed or it's the wrong status, don't show it
+      if Time.parse(current_challenge["Start_Date__c"]) > Time.now || current_challenge["Status__c"].eql?('Hidden') || 
+          current_challenge["Status__c"].eql?('Planned')
         redirect_to '/challenges'
       end
     end
@@ -413,6 +416,10 @@ class ChallengesController < ApplicationController
     else
       redirect_to challenge_path
     end
+  end
+  
+  def closed_for_registration?
+    @challenge_detail['Registration_End_Date__c'].nil? ? false : Time.parse(@challenge_detail['Registration_End_Date__c']).past?
   end
   
   def current_challenge
