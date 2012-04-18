@@ -1,17 +1,5 @@
-<style type="text/css">
-    .FaceBoxPopup
-    {
-        width: 550px;
-        overflow: hidden;
-    }
-    #facebox .content
-    {
-        width: 550px;
-    }
-</style>
-<script language="javascript">
+<script language="javascript" type="text/javascript">
     $().ready(function () {
-
         function hidealldivs() {
             $('#rolloverPopupForce').hide();
             $('#rollOverPopupHeroku').hide();
@@ -21,8 +9,6 @@
             $('#rolloverPopupiOS').hide();
             $('#rolloverPopupAndroid').hide();
             $('#rolloverPopupCloudFoundry').hide();
-            
-            $('#rolloverPopupBox').hide();
             $('#aForce').children().css('border', '0')
             $('#aIOS').children().css('border', '0')
             $('#aHTML5').children().css('border', '0')
@@ -30,185 +16,151 @@
             $('#aCloudFoundry').children().css('border', '0')
             $('#aAWS').children().css('border', '0')
             $('#aAppengine').children().css('border', '0')
-
-            $('#aBox').children().css('border', '0')
         }
-
-
         $('#aForce').hover(function () {
             hidealldivs();
             var href = $(this).attr('href');
             $(href).show();
             $(this).children().css('border', '1px solid #000000');
         });
-
-
         $('#aIOS').hover(function () {
             hidealldivs();
             var href = $(this).attr('href');
             $(href).show();
             $(this).children().css('border', '1px solid #000000');
         });
-
-
-
         $('#aHTML5').hover(function () {
             hidealldivs();
             var href = $(this).attr('href');
             $(href).show();
             $(this).children().css('border', '1px solid #000000');
         });
-
-
         $('#aAndroid').hover(function () {
             hidealldivs();
             var href = $(this).attr('href');
             $(href).show();
             $(this).children().css('border', '1px solid #000000');
         });
-
         $('#aCloudFoundry').hover(function () {
             hidealldivs();
             var href = $(this).attr('href');
             $(href).show();
             $(this).children().css('border', '1px solid #000000');
         });
-
         $('#aAWS').hover(function () {
             hidealldivs();
             $(this).children().css('border', '1px solid #000000');
             var href = $(this).attr('href');
             $(href).show();
-
         });
-
         $('#aAppengine').hover(function () {
             hidealldivs();
             $(this).children().css('border', '1px solid #000000');
             var href = $(this).attr('href');
             $(href).show();
-
         });
-        
-        $('#aBox').hover(function () {
-            hidealldivs();
-            $(this).children().css('border', '1px solid #000000');
-            var href = $(this).attr('href');
-            $(href).show();
-
-        });
-
-
         //            $('a[rel*=aIOS]').facebox({ div: '#rolloverPopupiOS' }, 'FaceBoxPopup').hover(function () { $(this).click(); });
-
-
         $('#imggeneral').mouseover(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/spoker_mini_over.gif"); });
         $('#imggeneral').mouseout(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/spoker_mini.gif"); });
-
         $('#imgtech').mouseover(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/tech_mini_over.gif"); });
         $('#imgtech').mouseout(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/tech_mini.gif"); });
-
         $('#imgskills').mouseover(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/cook_mini_over.gif"); });
         $('#imgskills').mouseout(function () { $(this).attr("src", "http://cloudspokes.s3.amazonaws.com/cook_mini.gif"); });
-
     });
-
 </script>
-
-
-
-<div class="page-heading"><h2 class="melbourne">CloudSpokes Badges</h2></div>
-
+<div class="page-heading"><h2 class="melbourne">CloudSpokes Achievements</h2></div>
 <div id="badgesMain">
             <div>
-                <img src="http://cloudspokes.s3.amazonaws.com/beta.gif" style="float: left; padding-right: 10px;"
-                    alt="beta" />
-                <p style="padding-top: 30px;">
-                    Welcome to a guide to CloudSpokes Badges. Badges are a way to highlight and summarize
-                    your skills and accomplishments on CloudSpokes. We will be adding new badges over
-                    time, so <a href="mailto:cloudspokes@appirio.com">send us your ideas</a> on how you want to be recognized!</p>
+                <img src="http://www.appirio.com/i2/images/badges/pngs/cloudmission.png" style="float:left;padding-right:20px" alt="Badge"><p>
+                    CloudSpokes Developer Badges are our way of recognizing and rewarding developers for their new achievements and top achievements, 
+                    as well as encouraging community members to delve into a broader set of platforms and languages. <br><br>
+					We will be adding new badges over time, so <a href="mailto:cloudspokes@appirio.com">send us your ideas</a> on how you want to be recognized! For now, 		we have three main categories of badges that will be applied to various challenges:</p>
             </div>
-            <div style="margin-left: 150px;">
-                <table cellspacing="15" cellpadding="15" border="0" align="left">
+            <div style="margin-left:160px">
+                <table cellspacing="15" cellpadding="15" style="float:left;border:0px solid #000">
                     <tbody>
-                        <tr align="center">
+                        <tr style="text-align:center">
                             <td style="padding-right:25px">
                                 <strong><a href="#general" class="badgesmainA">
-                                    <img border="0" id="imggeneral" src="http://cloudspokes.s3.amazonaws.com/spoker_mini.gif" /><br />
+                                    <img id="imggeneral" src="http://cloudspokes.s3.amazonaws.com/spoker_mini.gif" style="border:0px solid #000"><br>
                                     CloudSpokes General Badges </a></strong>
                             </td>
                             <td style="padding-right:25px">
                                 <strong><a href="#tech" class="badgesmainA">
-                                    <img border="0" id="imgtech" src="http://cloudspokes.s3.amazonaws.com/tech_mini.gif" /><br />
+                                    <img id="imgtech" src="http://cloudspokes.s3.amazonaws.com/tech_mini.gif" style="border:0px solid #000"><br>
                                     Technology Achievement Badges </a></strong>
                             </td>
                             <td>
                                 <strong><a href="#skills" class="badgesmainA">
-                                    <img border="0" id="imgskills" src="http://cloudspokes.s3.amazonaws.com/cook_mini.gif" /><br />
+                                    <img id="imgskills" src="http://cloudspokes.s3.amazonaws.com/cook_mini.gif" style="border:0px solid #000"><br>
                                     Develop Your Skills Badges</a></strong>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+            </div></div>
+<div class="cl">
             </div>
-            <div class="cl">
-            </div>
-            <hr style="margin-top:20px" />
+            <hr style="margin-top:20px">
+<!-- this is the top level div to move everything in the body slightly right --> 
+<div style="margin-left:10px">
             <h2>
-                <br />
-                <a id="general" name="general"></a>CloudSpokes General Badges</h2>
-            <br />
-            <p>
-                These badges correspond to winning and placing in contests on CloudSpokes.</p>
-            <div class="developSkillbadgeimgdiv">
-                <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/cloudspoker.gif" />
+                <br><p>
+                <a id="general" name="general"></a>CloudSpokes General Badges</p></h2>
+              <p>General Badges are the top-level badges that correspond to winning and placing in contests on CloudSpokes.</p>
+				<div class="developSkillbadgeimgdiv" style="margin-bottom:10px;">
+                <img src="http://www.appirio.com/i2/images/badges/pngs/cloudspoker.png">
             </div>
-            <div class="developSkillbadgetextdiv">
+            <div class="developSkillbadgetextdiv" style="margin:0 20px 10px 0;">
                 <p>
-                    <strong>CloudSpoker<br />
-                    </strong>Congratulations on beginning the Journey! Awarded for
-                    submitting an acceptable entry (at least 70% score) for at least one CloudSpokes
-                    contest.</p>
+                    <strong>CloudSpoker<br>
+                    </strong>Congratulations on beginning the journey! Awarded for earning 500 points by participating in challenges.</p>
             </div>
-            <div class="developSkillbadgeimgdiv">
-                <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/traveler.gif" />
+            <div class="developSkillbadgeimgdiv" style="margin-bottom:10px;">
+                <img src="http://www.appirio.com/i2/images/badges/pngs/cloudtraveler.png">
             </div>
-            <div class="developSkillbadgetextdiv">
+            <div class="developSkillbadgetextdiv" style="margin:0 20px 10px 0;">
                 <p>
                     <strong>CloudSpokes Traveler</strong><br>
-                    You have begun the journey towards cloud mastery! Awarded for placing in at least
-                    one contest.</p>
+                    You have begun the journey towards cloud mastery. Awarded for earning 5,000 points by participating in challenges.</p>
             </div>
             <div class="cl">
             </div>
-            <div class="developSkillbadgeimgdiv">
-                <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/aventurer.gif" />
+            <div class="developSkillbadgeimgdiv" style="margin-bottom:10px;">
+                <img src="http://www.appirio.com/i2/images/badges/pngs/cloudadventurer.png">
             </div>
-            <div class="developSkillbadgetextdiv">
+            <div class="developSkillbadgetextdiv" style="margin:0 20px 10px 0;">
                 <p>
                     <strong>CloudSpokes Adventurer</strong><br>
-                    You can thrive and conquer any journey! Awarded for winning at least five contests.</p>
-                    
+                    You can thrive and conquer on any quest. Awarded for earning 10,000 points by participating in challenges.  </p>
             </div>
-            <div class="developSkillbadgeimgdiv">
-                <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/ninja.gif" />
+            <div class="developSkillbadgeimgdiv" style="margin-bottom:10px;">
+                <img src="http://www.appirio.com/i2/images/badges/pngs/cloudninja.png">
             </div>
-            <div class="developSkillbadgetextdiv">
+            <div class="developSkillbadgetextdiv" style="margin:0 20px 10px 0;">
                 <p>
                     <strong>CloudSpokes Ninja</strong><br>
-                    Without warning you can drop in and cause massive havoc! Awarded for winning at
-                    least ten contests.</p>
+                    Without warning you can drop in and cause massive havoc! Awarded for earning 25,000 points by participating in challenges.  </p>
             </div>
+			<div class="cl">
+            </div>
+			<div class="developSkillbadgeimgdiv" style="margin-left: 250px;">
+                <img src="http://www.appirio.com/i2/images/badges/pngs/cloudsamurai.png">
+			</div>
+            <div class="developSkillbadgetextdiv" style="margin:0 20px 10px 0;">
+                <p>
+                    <strong>CloudSpokes Samurai</strong><br>
+                    You are the best of the best! Awarded for earning 50,000 points by participating in challenges.</p>
+			</div>
             <div class="cl">
-            </div>
-            <hr />
+            </div></div><br>
+            <hr>
+			<div style="margin-left:10px">
             <h2>
-                <br />
+                <br>
                 <a id="tech" name="tech"></a>Technology Badges</h2>
-            <br />
-            
-            
-            <div style="width: 425px; float: left; margin-right:25px">
+            <br>
+            <div style="width:425px;float:left;margin-right:25px">
                 <p>
                     Show your experience with specific technologies and CloudSpokes. These badges are
                     awarded for your participation and winning contests with specific technologies.
@@ -217,310 +169,284 @@
                     Scroll over each to see what's in store for you!</p>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupForce" id="aForce" rel="aForce" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_force.jpg" style="border: 1px solid #000000" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_force.jpg" style="border:1px solid #000"></a>
                 </div>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupAppengine" id="aAppengine" rel="aAppengine" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_AppEngine.jpg" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_AppEngine.jpg" style="border:1px solid #000"></a>
                 </div>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupAmazonWebServices" id="aAWS" rel="aAWS" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_aws.jpg" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_aws.jpg" style="border:1px solid #000"></a>
                 </div>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupCloudFoundry" id="aCloudFoundry" rel="aCloudFoundry" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_cloudfoundry.jpg" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_cloudfoundry.jpg" style="border:1px solid #000"></a>
                 </div>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupHTML5" id="aHTML5" rel="aHTML5" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_h5.jpg" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_h5.jpg" style="border:1px solid #000"></a>
                 </div>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupiOS" id="aIOS" rel="aIOS" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_ios.gif" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_ios.gif" style="border:1px solid #000"></a>
                 </div>
                 <div class="technologyBadgesdiv">
                     <a href="#rolloverPopupAndroid" id="aAndroid" rel="aAndroid" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/logo_droid.jpg" /></a>
-                </div>
-                <div class="technologyBadgesdiv">
-                    <a href="#rolloverPopupBox" id="aBox" rel="aBox" class="techbadgesA">
-                        <img border="0" src="http://cloudspokes.s3.amazonaws.com/box.png" /></a>
+                        <img src="http://cloudspokes.s3.amazonaws.com/logo_droid.jpg" style="border:1px solid #000"></a>
                 </div>
                 <div class="cl">
                 </div>
             </div>
-
             <div class="fl">
-                <div id="rolloverPopupForce" class="divBadgespopUp" style="display: block;">
+                <div id="rolloverPopupForce" class="divBadgespopUp" style="display:block">
                     <div>
                         <strong>Force.com</strong> - Leading cloud platform for business apps from salesforce.com.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_spoker.gif">
-                    </div>
-                    <div class="divBadgePopupText">
+                    </div><br>
+                    <div style="float:left;width:150px;height:90px;">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/force_spoker.png"></div>
+                    <div class="divBadgePopupText" >
                         <p>
-                            <strong>Force.com Follower</strong> - Begin your journey to “use the force” to make
-                            the impossible real. Awarded for  submitting an acceptable
-                            entry (at least 70% score) on a challenge using or related to force.com.
+                            <strong>Force.com Spoker</strong> - Awarded for submitting an entry with a passing score on a challenge using or related to force.com.
                         </p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/force_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Force.com Traveler</strong> - Awarded for placing in at least one contest
-                            involving or using force.com.</p>
+                            <strong>Force.com Traveler</strong> - Awarded for winning three contests involving or using force.com.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/force_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Force.com Adventurer</strong> - Awarded for winning at least five contests involving or using force.com.</p>
+                            <strong>Force.com Adventurer</strong> - Awarded for winning ten contests involving or using force.com.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/force_ninja.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Force.com Ninja</strong> - You are not to be trifled with!  Awarded for
-                            winning at least ten contests involving or using force.com.</p>
+                            <strong>Force.com Ninja</strong> - Awarded for winning twenty contests involving or using force.com.  </p>
                     </div>
                     <div class="cl">
                     </div>
-                </div>
-                <div id="rollOverPopupHeroku" class="divBadgespopUp">
-                    <div>
-                        <strong>Heroku</strong> Cloud PaaS for running Ruby on Rails applications.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_spoker.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/force_samurai.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Poet Warrior</strong> - Your on the road to becoming a peaceful warrior
-                            of code and creativity. Awarded for  submitting an acceptable
-                            entry (at least 70% score) on a challenge using or related to Heroku.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_traveler.gif">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Heroku Traveler</strong> - Awarded for placing in at least one contest involving or using Heroku.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_adventurer.gif">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Heroku Adventurer</strong> - Awarded for winning at least five contests involving or using Heroku.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/force_ninja.gif">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Heroku Ninja</strong> - There is nothing silent about your skills!  Awarded
-                            for winning at least ten contests involving or using Heroku.</p>
+                            <strong>Force.com Samurai</strong> - You are not to be trifled with! Awarded for winning fifty contests involving or using force.com.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
                 <div id="rolloverPopupAppengine" class="divBadgespopUp">
                     <div>
-                        <strong>Appengine </strong>- Cloud platform allowing users the ability to build
-                        and host web applications on Google's infrastructure.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/appenginer.gif">
+                        <strong>App Engine </strong>- Cloud platform allowing users the ability to build and host web applications on Google's infrastructure.
+                    </div><br>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/app_spoker.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Appenginer </strong>- Punch above your weight with the power of all of Google’s
-                            data centers. Awarded for  submitting an acceptable entry
-                            (at least 70% score) on a challenge using or related to Appengine.</p>
+                            <strong>App Engine Spoker </strong>- Awarded for submitting an entry with a passing score on a challenge using or related to App Engine.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/appengine_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/app_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Appengine Traveler</strong> - Awarded for placing in at least one contest
-                             involving or using Appengine.</p>
+                            <strong>App Engine Traveler</strong> - Awarded for winning three contests involving or using App Engine.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/appengine_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/app_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Appengine Adventurer</strong> - Awarded for winning at least five contests involving or using Appengine.</p>
+                            <strong>App Engine Adventurer</strong> - Awarded for winning ten contests involving or using Appengine.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/appengine_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/app_ninja.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Appengine Ninja</strong> - With your skills you’re sneaking up on no one!
-                            Awarded for winning at least ten contests involving or using Appengine.</p>
+                            <strong>App Engine Ninja</strong> - Awarded for winning twenty contests involving or using Appengine.</p>
+                    </div>
+<div class="cl">
+                    </div>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/app_samurai.png">
+                    </div>
+                    <div class="divBadgePopupText">
+                        <p>
+                            <strong>App Engine Samurai</strong> - You are a beast!
+                            Awarded for winning fifty contests involving or using Appengine.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
                 <div id="rolloverPopupAmazonWebServices" class="divBadgespopUp">
                     <div>
-                        <strong>Amazon Web Services</strong> - Leading provider of IaaS, PaaS, and other
-                        commerce related services.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/beanstalker.gif">
+                        <strong>Amazon Web Services</strong> - Leading provider of IaaS, PaaS, and other commerce related services.
+                    </div><br>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/aws_spoker.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Beanstalker </strong>- Your climbing up to take down the giant and reap
-                            the rewards of cloud greatness!  Awarded for  submitting
-                            an acceptable entry (at least 70% score) on a challenge using or related to AWS.</p>
+                            <strong>AWS Spoker </strong>- Awarded for submitting an entry with a passing score on a challenge using or related to AWS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/aws_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/aws_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>AWS Traveler</strong> - Awarded for placing in at least one contest involving or using AWS.</p>
+                            <strong>AWS Traveler</strong> - Awarded for winning three contests involving or using AWS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/aws_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/aws_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>AWS Adventurer</strong> - Awarded for winning at least five contests involving or using AWS.</p>
+                            <strong>AWS Adventurer</strong> - Awarded for winning ten contests involving or using AWS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/aws_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/aws_ninja.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>AWS Ninja</strong> - Your use of many weapons is most impressive.  Awarded
-                            for winning at least ten contests involving or using AWS.</p>
+                            <strong>AWS Ninja</strong> - Awarded for winning twenty contests involving or using AWS.</p>
+                    </div>
+<div class="cl">
+                    </div>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/aws_samurai.png">
+                    </div>
+                    <div class="divBadgePopupText">
+                        <p>
+                            <strong>AWS Samurai</strong> - Your use of many weapons is most impressive! Awarded
+                            for winning at least fifty contests involving or using AWS.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
                 <div id="rolloverPopupHTML5" class="divBadgespopUp">
                     <div>
-                        <strong>HTML5/JS</strong> - Technology driven category involving using HTML5 and
-                        Javascript in new and creative ways to make the web and mobile a friendlier place.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/ui_zen.gif">
+                        <strong>HTML5/JS</strong> - Technology driven category involving using HTML5 and Javascript in new and creative ways.
+                    </div><br>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/html5_spoker.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>UI Zen</strong> - Seeing the Feng shui of user experience is a noble goal.
-                            Awarded for submitting an acceptable entry (at least
-                            70% score) on a challenge using or related to HTML5/JS.</p>
+                            <strong>HTML5 Spoker</strong> - Awarded for submitting an entry with a passing score on a challenge using or related to HTML5/JS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/ui_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/html5_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>UI Traveler</strong> - Awarded for placing in at least one contest substantially using HTML5 and/or Javascript.</p>
+                            <strong>HTML5 Traveler</strong> - Awarded for winning three contests involving or using HTML5/JS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/ui_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/html5_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>UI Adventurer</strong> - Awarded for winning in at least five contests substantially using HTML5 and/or Javascript.</p>
+                            <strong>HTML5 Adventurer</strong> - Awarded for winning ten contests involving or using HTML5/JS.</p>
+                    </div>
+<div class="cl">
+                    </div>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/html5_ninja.png">
+                    </div>
+                    <div class="divBadgePopupText">
+                        <p>
+                            <strong>HTML5 Ninja</strong> - Awarded for winning twenty contests involving or using HTML5/JS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/ui_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/html5_samurai.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>UI Ninja</strong> - You are amongst the rarest of a lost but resurgent art. 
-                            Awarded for winning at least ten contests substantially using HTML5 and/or Javascript.</p>
+                            <strong>HTML5 Samurai</strong> - You have mastered a lost but resurgent art. Awarded for winning at least fifty contests using HTML5/JS.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
                 <div id="rolloverPopupiOS" class="divBadgespopUp">
                     <div>
-                        <strong>iOS</strong> - Apple’s ubiquitous mobile operating system for the iPhone
-                        and iPad.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/eye_everything.gif">
+                        <strong>iOS</strong> - Apple’s ubiquitous mobile operating system for the iPhone, iPod Touch, iPad, and Apple TV.
+                    </div><br>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/ios_spoker.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>“Eye” Everything </strong>- You can see the power to consumer style enjoyment
-                            to enterprise mobile. Awarded for submitting an acceptable
-                            entry (at least 70% score) on a challenge using or related to iOS.</p>
+                            <strong>iOS Spoker </strong>- Awarded for submitting an entry with a passing score on a challenge using or related to iOS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/apple_i_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/ios_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Apple I Traveler</strong> - Awarded for placing in at least one contest
-                             using or related to iOS.</p>
+                            <strong>iOS Traveler</strong> - Awarded for winning three contests involving or using iOS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/apple_i_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/ios_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Apple I Adventurer</strong> - Awarded for winning in at least five contests
-                             using or related to iOS.</p>
+                            <strong>iOS Adventurer</strong> - Awarded for winning ten contests involving or using iOS.</p>
+                    </div>
+<div class="cl">
+                    </div>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/ios_ninja.png">
+                    </div>
+                    <div class="divBadgePopupText">
+                        <p>
+                            <strong>iOS Ninja</strong> - Awarded for winning twenty contests involving or using iOS.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/apple_i_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/ios_samurai.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Apple I Ninja</strong> - You bring together the steak and sizzle to change
-                            the lives of users everywhere.  Awarded for winning at least ten contests using or related to iOS.</p>
+                            <strong>iOS Samurai</strong> - You bring together the steak and sizzle. Awarded for winning fifty contests involving or using iOS.</p>
                     </div>
                     <div class="cl">
                     </div>
@@ -529,233 +455,238 @@
                     <div>
                         <strong>Android </strong>- Android is an open source software stack for mobile devices
                         that includes an OS, middleware, and key applications.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/droidhead.gif">
+                    </div><br>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/droid_spoker.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>DroidHead</strong> - Trick out your device and get ready to rumble with
-                            the coolest technologies. Awarded for submitting an
-                            acceptable entry (at least 70% score) on a challenge using or related to Android.</p>
+                            <strong>Android Spoker</strong> - Awarded for submitting an entry with a passing score on a challenge using or related to Android.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/android_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/droid_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Android Traveler</strong> - Awarded for submitting
-                            an acceptable entry (at least 70% score) on a challenge using or related to Android.</p>
+                            <strong>Android Traveler</strong> - Awarded for winning three contests involving or using Android.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/android_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/droid_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Android Adventurer</strong> - Awarded for winning in at least five contests
-                             using or related to Android.</p>
+                            <strong>Android Adventurer</strong> - Awarded for winning ten contests involving or using Android.</p>
+                    </div>
+<div class="cl">
+                    </div>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/droid_ninja.png">
+                    </div>
+                    <div class="divBadgePopupText">
+                        <p>
+                            <strong>Android Ninja</strong> - Awarded for winning twenty contests involving or using Android.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/android_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/droid_samurai.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Android Ninja</strong> - Even at the geek conferences your skills standout
-                            !  Awarded for winning at least ten contests using or related to Android.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                </div>
-
-                <div id="rolloverPopupBox" class="divBadgespopUp">
-                    <div>
-                        <strong>Box</strong>- The Box platform allows you to integrate, customize, and build innovative apps on Box.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/boxer.png">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Boxer</strong> - You're ready to build knock-out apps! Awarded for creating a Box account and creating a Box API Key.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/box-traveler.png">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Box Traveler</strong> - Awarded for placing in at least one contest
-                             using or related to Box.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/box-adventurer.png">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Box Adventurer</strong> - Awarded for winning at least five contests
-                             using or related to Box.</p>
-                    </div>
-                    <div class="cl">
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/box-ninja.png">
-                    </div>
-                    <div class="divBadgePopupText">
-                        <p>
-                            <strong>Box Ninja</strong> - You have mastered the art of Box-Fu!  Awarded for winning at least ten contests.</p>
+                            <strong>Android Samurai</strong> - You win all hackathons! Awarded for winning at least fifty contests using or related to Android.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
-
                 <div id="rolloverPopupCloudFoundry" class="divBadgespopUp">
                     <div>
                         <strong>Cloud Foundry </strong>- Open platform as a service project initiated by
                         VMware.
-                    </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/cloudsmith.gif">
+                    </div><br><br>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/foundry_spoker.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>CloudSmith </strong>- Knights and Ninjas appreciate your desire to forge
-                            our future tools!  Awarded for  submitting an acceptable
-                            entry (at least 70% score) on a challenge using or related to Cloud Foundry.</p>
+                            <strong>Cloud Foundry Spoker </strong>- Awarded for submitting an entry with a passing score on a challenge using or related to CF.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/cloudfoundry_traveler.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/foundry_traveler.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Cloud Foundry Traveler</strong> - Awarded for placing in at least one contest
-                             involving or using Cloud Foundry.</p>
+                            <strong>Cloud Foundry Traveler</strong> - Awarded for winning three contests involving or using Cloud Foundry.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/cloudfoundry_adventurer.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/foundry_adventurer.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Cloud Foundry Adventurer</strong> - Awarded for winning at least five contests
-                             involving or using Cloud Foundry.</p>
+                            <strong>Cloud Foundry Adventurer</strong> - Awarded for winning ten contests involving or using Cloud Foundry.</p>
+                    </div>
+<div class="cl">
+                    </div>
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/foundry_ninja.png">
+                    </div>
+                    <div class="divBadgePopupText">
+                        <p>
+                            <strong>Cloud Foundry Ninja</strong> - Awarded for winning twenty contests involving or using Cloud Foundry.</p>
                     </div>
                     <div class="cl">
                     </div>
-                    <div style="float: left; width: 150px;">
-                        <img src="http://cloudspokes.s3.amazonaws.com/cloudfoundry_ninja.gif">
+                    <div style="float:left;width:150px;height:90px">
+                        <img src="http://www.appirio.com/i2/images/badges/pngs/foundry_samurai.png">
                     </div>
                     <div class="divBadgePopupText">
                         <p>
-                            <strong>Cloud Foundry Ninja</strong> - Your code cuts through things like a throwing
-                            star!  Awarded for winning at least ten contests.</p>
+                            <strong>Cloud Foundry Samurai</strong> - Your code cuts like a knife! Awarded for winning fifty contests involving or using Cloud Foundry.</p>
                     </div>
                     <div class="cl">
                     </div>
                 </div>
             </div>
             <div class="cl">
-            </div>
-            <hr />
+            </div></div>
+            <hr>
+			<div style="margin-left:10px">
             <h2>
-                <br />
+                <br>
                 <a id="skills" name="skills"></a>“Develop Your Skills” Badges</h2>
-            <br />
+            <br>
             <p>
                 These badges are awarded to anyone who successfully submits a passing entry to a
                 specific contest(s). It lets you learn technologies and apply those skills to hands
-                on problems. Let the world know you got skills!</p>
-            <p>
-                Click the badge to see the challenge that needs to be completed. Upon submission
-                and review of your entry, the badge will appear on your profile!</p>
+                on problems. Learn something new, and let the world know you got skills!</p>
             <div class="developSkillbadges">
-                <div class="developSkillbadgeimgdiv">
-                    <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/force_cook.gif" />
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/forcecook.png">
                 </div>
                 <div class="developSkillbadgetextdiv">
                     <p>
                         <strong>Force.com Cook</strong>
-                        <br />
-                        Get this badge by completing a force.com exercise that tests your ability to configure
+                        <br>
+                        Get this badge by placing in a force.com challenge that tests your ability to configure
                         an org and covers the basics of Apex!</p>
                 </div>
                 <div class="cl">
                 </div>
-                <div class="developSkillbadgeimgdiv">
-                    <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/force_souschef.gif" />
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/forcesous.png">
                 </div>
                 <div class="developSkillbadgetextdiv">
                     <p>
                         <strong>Force.com Sous Chef </strong>
-                        <br />
-                        Get this badge by completing a force.com exercises that tests your ability to write
+                        <br>
+                        Get this badge by winning two force.com exercises that tests your ability to write
                         Apex and Visualforce and other advanced features!</p>
                 </div>
                 <div class="cl">
                 </div>
-                <div class="developSkillbadgeimgdiv">
-                    <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/force_masterchef.gif" />
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/forcemaster.png">
                 </div>
                 <div class="developSkillbadgetextdiv">
                     <p>
                         <strong>Force.com Master Chef </strong>
-                        <br />
-                        Get this badge by writing a force.com app which incorporates all the major capabilities
+                        <br>
+                        Get this badge by winning five challenges that require a force.com app which incorporates all the major capabilities
                         into an app that tests its own performance and evaluates itself!</p>
                 </div>
                 <div class="cl">
                 </div>
             </div>
             <div class="fl">
-                <div class="developSkillbadgeimgdiv">
-                    <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/CloudFoundryApprantice.gif" />
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 10px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/foundryapprentice.png">
                 </div>
                 <div class="developSkillbadgetextdiv">
                     <p>
                         <strong>Cloud Foundry Apprentice </strong>
-                        <br />
+                        <br>
                         Get this badge by completing the programming exercise in the language of your choice
                         that shows you know how to use Cloud Foundry as a Platform.</p>
                 </div>
                 <div class="cl">
                 </div>
-                <div class="developSkillbadgeimgdiv">
-                    <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/CloudFoundryBlackSmith.gif" />
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 10px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/foundryjourneyman.png">
                 </div>
                 <div class="developSkillbadgetextdiv">
                     <p>
                         <strong>Cloud Foundry Journeyman </strong>
-                        <br />
-                        Get this badge by completing the programming exercise which tests various programming principles
+                        <br>
+                        Get this badge by winning two programming exercises which test various programming principles
                         and your ability to use various data storage mechanisms in Cloud Foundry.</p>
                 </div>
                 <div class="cl">
                 </div>
-                <div class="developSkillbadgeimgdiv">
-                    <img width="148" height="104" src="http://cloudspokes.s3.amazonaws.com/CloudFoundryJourneyman.gif" />
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 10px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/foundryblacksmith.png">
                 </div>
                 <div class="developSkillbadgetextdiv">
                     <p>
                         <strong>Cloud Foundry Blacksmith </strong>
-                        <br />
-                        Get this badge by completing a real world programming exercise that uses multiple
+                        <br>
+                        Get this badge by winning five real world programming exercises that use multiple
                         features of Cloud Foundry, incorporates third party libraries, and connects to various
                         social networks.</p>
                 </div>
                 <div class="cl">
                 </div>
             </div>
+            <div class="fl">
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 250px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/boxer.png">
+                </div>
+                <div class="developSkillbadgetextdiv">
+                    <p>
+                        <strong>Boxer</strong>
+                        <br>
+                        Get this badge by generating a Boxer API key and submitting your API key in the Boxer badge challenge.</p>
+                </div>
+                <div class="cl">
+                </div>
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 250px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/boxfeather.png">
+                </div>
+                <div class="developSkillbadgetextdiv">
+                    <p>
+                        <strong>Box Featherweight </strong><br>
+                        Get this badge by placing in a Box challenge that tests your ability to configure the basics of the Box API!  </p>
+                </div>
+<div class="cl">
+                </div>
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 250px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/boxmiddle.png">
+                </div>
+                <div class="developSkillbadgetextdiv">
+                    <p>
+                        <strong>Box Middleweight</strong>
+                        <br>
+                        Get this badge by winning two Box challenges that test your ability to write a Box integration!  </p>
+                </div>
+                <div class="cl">
+                </div>
+                <div class="developSkillbadgeimgdiv" style="width:150px;height:90px;margin:0 0 0 250px;">
+                    <img src="http://www.appirio.com/i2/images/badges/pngs/boxheavy.png">
+                </div>
+                <div class="developSkillbadgetextdiv">
+                    <p>
+                        <strong>Box Heavyweight</strong>
+                        <br>
+                        Get this badge by winning five Box challenges that test your ability to build a complex Box application!  </p>
+                </div>
+                <div class="cl">
+                </div>
+            </div>
             <div class="cl">
             </div>
-        </div>
