@@ -2,7 +2,7 @@ class NewChallengeCommentSender
   include HTTParty 
   
   @queue = :challenge_comments_queue
-  def self.perform(access_token, id, username, comments)
+  def self.perform(access_token, id, username, comments, reply_to)
       
     # fetch the challenge to get all of the participants
     challenge = Challenges.find_by_id(access_token, id)[0]
@@ -12,7 +12,7 @@ class NewChallengeCommentSender
     mail = MemberMailer.new_challenge_comment(id, challenge["Name"], username, member['Profile_Pic__c'], comments)
     # create an array to hold all of the addresses
     addresses = Array.new
-    notifiers = Comments.notifiers(access_token, id)
+    notifiers = Comments.notifiers(access_token, id, reply_to)
     notifiers.each do |email|
       addresses.push(email)
     end

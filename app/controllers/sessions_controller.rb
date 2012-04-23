@@ -288,6 +288,7 @@ class SessionsController < ApplicationController
   def public_reset_password_submit
     @reset_form = ResetPasswordForm.new(params[:reset_password_form])
     if @reset_form.valid?
+      Services.activate_user(current_access_token, params[:reset_password_form][:username])
       results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
       flash.now[:warning] = results["Message"]
       render :action => 'public_reset_password'

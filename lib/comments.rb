@@ -21,9 +21,9 @@ class Comments < Cloudspokes
     comments = get(ENV['SFDC_REST_API_URL']+'/comments/'+id)
   end
   
-  def self.notifiers(access_token, id)
+  def self.notifiers(access_token, id, reply_to)
     set_header_token(access_token) 
-    get(ENV['SFDC_REST_API_URL']+'/challenges/'+id+'/commentnotifiers')
+    get(ENV['SFDC_REST_API_URL']+'/challenges/'+id+'/commentnotifiers?reply_to='+reply_to)
   end
 
 end

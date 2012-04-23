@@ -45,11 +45,11 @@
 	<% end %>
 	<li><h3>Assets</h3>
 		<ul>
-			<% if @challenge_detail["Attachments"].nil? %>
+			<% if @challenge_detail["Assets__r"].nil? %>
 				<li><strong><span style="width: 300px; text-align: left">No assets found for this challenge.<br /><br /></span></strong></li>
 			<% else %>
-				<% @challenge_detail["Attachments"]["records"].each do |record| %>
-				<li><strong><a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Name"] %>" target="_blank"><%= record["Name"] %></a></strong></li>
+				<% @challenge_detail["Assets__r"]["records"].each do |record| %>
+				<li><strong><a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Filename__c"] %>" target="_blank"><%= record["Filename__c"] %></a></strong></li>
 				<% end %>
 			<% end %>
 		</ul>
