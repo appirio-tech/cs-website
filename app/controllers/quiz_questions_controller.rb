@@ -18,7 +18,7 @@ class QuizQuestionsController < ApplicationController
       if results
         flash[:notice] = "Your question was successfully submitted."
       else
-        flash[:error] = "There was a problem submitting your questions. Please try again."
+        flash[:error] = "There was a problem submitting your questions. Please try again. Error: #{results['message']}"
       end
       redirect_to new_quiz_question_path
     else
@@ -38,10 +38,11 @@ class QuizQuestionsController < ApplicationController
     @question = QuizQuestionForm.new(params[:quiz_question_form])
     if @question.valid?
       results = QuickQuizes.update_question(current_access_token, current_user.username, params[:quiz_question_form])
+      p "==== results #{results}"
       if results['success']
         flash[:notice] = "The question was successfully marked as #{params[:quiz_question_form]['status'].downcase}."
       else
-        flash[:error] = "There was a problem updating your questions. Please try again."
+        flash[:error] = "There was a problem updating your questions. Please try again. Error: #{results['message']}"
       end
       redirect_to quiz_questions_path
     else
