@@ -12,7 +12,7 @@ class MemberMailer < ActionMailer::Base
     @username = username
     @profile_pic = profile_pic
     @comments = comments
-    @reply_to = reply_to
+    @reply_to_id = reply_to
     mail(:subject => "New Comment for '#{name}' Challenge")
   end  
   

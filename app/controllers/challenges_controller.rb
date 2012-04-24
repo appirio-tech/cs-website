@@ -293,6 +293,8 @@ class ChallengesController < ApplicationController
           Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
             current_user.username, params[:discussion][:comments], 
             params[:discussion][:reply_to]) unless ENV['MAILER_ENABLED'].eql?('false')
+            
+          mail = MemberMailer.new_challenge_comment(params[:id], 'Test Name', current_user.username, 'http://www.google.com', 'comments', params[:discussion][:reply_to])  
         else
           flash[:error] = "There was an error posting your comments. Please try again."
         end
