@@ -11,7 +11,7 @@ class NewChallengeCommentSender
     # fetch the member so we can user the profile pic
     member = Members.find_by_username(access_token, username, 'id,profile_pic__c').first
     # create the actual email
-    mail = MemberMailer.new_challenge_comment(id, challenge["Name"], username, member['Profile_Pic__c'], comments)
+    mail = MemberMailer.new_challenge_comment(id, challenge["Name"], username, member['Profile_Pic__c'], comments, reply_to)
     # create an array to hold all of the addresses
     addresses = Array.new
     notifiers = Comments.notifiers(access_token, id, reply_to)
