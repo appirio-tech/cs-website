@@ -3,6 +3,8 @@ class NewChallengeCommentSender
   
   @queue = :challenge_comments_queue
   def self.perform(access_token, id, username, comments, reply_to)
+    
+    Rails.logger.info "[Resque]==== preparing to send challenge comment email. Replying to #{reply_to}"
       
     # fetch the challenge to get all of the participants
     challenge = Challenges.find_by_id(access_token, id)[0]

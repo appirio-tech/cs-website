@@ -38,7 +38,6 @@ class QuizQuestionsController < ApplicationController
     @question = QuizQuestionForm.new(params[:quiz_question_form])
     if @question.valid?
       results = QuickQuizes.update_question(current_access_token, current_user.username, params[:quiz_question_form])
-      p "==== results #{results}"
       if results['success']
         flash[:notice] = "The question was successfully marked as #{params[:quiz_question_form]['status'].downcase}."
       else
