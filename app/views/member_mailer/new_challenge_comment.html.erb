@@ -21,7 +21,7 @@
 	</tr>	
 	</table>
 	<p><br/>
-		You can <a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %><% if !@reply_to.empty? %>reply_to=<%= @reply_to %>#comment<% end %>">reply to this comment</a> or <a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
+		You can <a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %><% if !@reply_to.empty? %>?reply_to=<%= @reply_to %>#comment<% end %>">reply to this comment</a> or <a href="<%= ENV['WEBSITE_URL'] %>/challenges/<%= @challenge_id %>">view the challenge</a> for more info.
 	</p>
 	
 	<p><table>

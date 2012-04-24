@@ -7,7 +7,6 @@ class MemberMailer < ActionMailer::Base
   end
   
   def new_challenge_comment(id, name, username, profile_pic, comments, reply_to)
-    Rails.logger.info "[Resque]==== new_challenge_comment reply for: #{reply_to}"
     @challenge_name = name
     @challenge_id = id
     @username = username
