@@ -1,0 +1,60 @@
+<ul>
+	<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
+	<% if Time.parse(@challenge_detail['End_Date__c']).past? && !['Created','Hidden'].include?(@challenge_detail['Status__c']) %>
+		<li><h3>Status</h3><h2><span><%= @challenge_detail['Status__c'] %></span></h2></li>
+	<% else %>
+		<li><h3>Time Left For Submission</h3><h2><span><%= format_close_date_time(@challenge_detail['End_Date__c']) %></span></h2></li>
+	<% end %>
+	
+	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
+	
+	<% if @challenge_detail["Challenge_Prizes__r"] %>
+	<li><h3>Prizes</h3>
+		<ul>
+			<% @challenge_detail["Challenge_Prizes__r"]["records"].each do |record| %>                
+    		<li><span><%= record["Place__c"].to_i.ordinalize %> <%= record["Prize__c"] %></span><br /></li>
+			<% end %>
+		</ul>
+	</li>
+	<% end %>
+	
+	<li><h3>Winner Announced</h3><strong><span>
+	<% if @challenge_detail["Status__c"].eql?("Winner Selected") %>
+		<%= link_to "View the Winners", results_path %></span></strong>
+	<% else %>
+		<%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %>
+	<% end %></span></strong></li>
+
+	<li style="display:block;"><h3>Participants</h3>
+		<strong><span><a href="<%= registrants_path %>"><%= pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Member') %> Registered or Watching</a></span></strong>
+	</li>
+	<% if !@challenge_detail["License__c"].nil? %>
+	<li style="display:block;"><h3>License</h3>
+		<strong><span><% if @challenge_detail["Release_to_Open_Source__c"] %>The results of this challenge will be released at <a href="http://www.github.com/cloudspokes" target="_blank">GitHub</a> under a <% end %><%= @challenge_detail["License__c"] %> license</span></strong>
+	</li>
+	<% end %>
+	<li><h3>Assets</h3>
+		<ul>
+			<% if @challenge_detail["Assets__r"].nil? %>
+				<li><strong><span style="width: 300px; text-align: left">No assets found for this challenge.<br /><br /></span></strong></li>
+			<% else %>
+				<% @challenge_detail["Assets__r"]["records"].each do |record| %>
+				<li><strong><a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Filename__c"] %>" target="_blank"><%= record["Filename__c"] %></a></strong></li>
+				<% end %>
+			<% end %>
+		</ul>
+	</li>
+	<li>
+		<h3>Delivery Formats</h3>
+		<ul>
+        <li><strong>HTML</strong></li>
+        <li><strong>Word</strong></li>
+        <li><strong>Google Doc</strong></li>
+        <li><strong>Text</strong></li>
+        <li><strong>RT</strong></li>
+        <li><strong>Other:</strong> Upload a text document<br />with details on how to retrieve<br />your submission.</li>
+		</ul>
+	</li>
+	<%= render "shared/share" %>
+	
+</ul>
