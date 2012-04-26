@@ -72,6 +72,9 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
+  # challenge admin
+  match 'challenge_admin/preview/:id', :to => 'challenge_admin#preview'
+  
   # quick quiz
   match 'quizes/:id/quiz', :to => 'quizes#show', :as => :takequiz
   match 'quizes/:id/answer', :to => 'quizes#answer', :as => :answerquiz
