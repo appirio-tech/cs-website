@@ -289,12 +289,11 @@ class ChallengesController < ApplicationController
         if post_results['Success'].eql?('true')
           # delete their comments in the session if it exists for a failed attempt
           session.delete(:captcha_comments) unless session[:captcha_comments].nil?
+          # if they are replying to a certain message use that else, use the new message id from sfdc
+          reply_to = params[:discussion][:reply_to].empty? ? post_results['Message'] : params[:discussion][:reply_to]
           # send an email to all registered members of the new comment post
           Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
-            current_user.username, params[:discussion][:comments], 
-            params[:discussion][:reply_to]) unless ENV['MAILER_ENABLED'].eql?('false')
-            
-          mail = MemberMailer.new_challenge_comment(params[:id], 'Test Name', current_user.username, 'http://www.google.com', 'comments', params[:discussion][:reply_to])  
+            current_user.username, params[:discussion][:comments], reply_to) unless ENV['MAILER_ENABLED'].eql?('false')
         else
           flash[:error] = "There was an error posting your comments. Please try again."
         end
