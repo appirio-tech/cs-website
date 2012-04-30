@@ -21,7 +21,7 @@ class Badgeville
     options = {
       :body => {
           'email' => email,
-          'site' => 'cloudspokes.com',
+          'site' => 'www.cloudspokes.com',
           'player[display_name]' => username,
           'player[nickname]' => username,
           'player[email_notifications]' => false
