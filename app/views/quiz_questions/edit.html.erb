@@ -1,3 +1,12 @@
+<script type="text/javascript">
+	function limitText(limitField, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+			alert('Comments are limited to 255 characters.');
+		}
+	}
+</script>	
+
 <div class="content-wrapper left-sidebar top-border">
 	<div id="account">
 		<div class="sidebar fl">
@@ -46,7 +55,8 @@
 				<div class="spacer"></div>
 				
 				<label>Reviewer Comments:</label>
-				<div class="holder"><%= f.text_area :reviewer_comments, :style => "width:500px; height:75px;" %></div>
+				<div class="holder"><%= f.text_area :reviewer_comments, :style => "width:500px; height:75px;", :onkeydown => "limitText(this,255)", :onkeyup => "limitText(this,255)" %></div>
+				<div class="hint" style="padding-left:128px">Limit 255 characters</div>
 				<div class="spacer"></div>
 				
 				<label>Status:</label>

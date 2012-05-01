@@ -258,7 +258,13 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
                 <span></span>
 				<p><%= link_to "Back to Challenge Results", results_path %></p>
 				<h3>Scorecard for <%= link_to params[:username], member_path(params[:username]), :target => '_blank' %></h3>
-				Reviewer: <%= link_to params[:reviewer], member_path(params[:reviewer]), :target => '_blank' %>
+				<p>Reviewer: <%= link_to params[:reviewer], member_path(params[:reviewer]), :target => '_blank' %></p>
+				
+				<p>The scoring of each participant's submission is at the discretion of the judges based upon code, documentation and any video submitted. 
+					They are left to form their own opinions based upon our guidelines. For example, if a participant does an adequate job
+					of writing unit tests and covering code, we recommend giving them a 75% (typically 3 of 4). If they did a great job, then perhaps 100% (typically 4 of 4) 
+					and if they did a poor job, we recommend giving them 50%. If they did not provide unit
+					tests at all, then 0% is in order. If a question isn't applicable, we give an equivalent score of 75%.</p>
 
 				<div id="scorecard"></div>
 				<div class="cl"></div>
