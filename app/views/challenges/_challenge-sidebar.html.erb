@@ -36,7 +36,7 @@
 	<% end %>
 
 	<li style="display:block;"><h3>Participants</h3>
-		<strong><span><a href="<%= registrants_path %>"><%= pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Member') %> Registered or Watching</a></span></strong>
+		<strong><span><a href="<%= registrants_path %>"><%= pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Member') %> Registered</a></span></strong>
 	</li>
 	<% if !@challenge_detail["License__c"].nil? %>
 	<li style="display:block;"><h3>License</h3>
