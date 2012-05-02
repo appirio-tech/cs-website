@@ -48,7 +48,7 @@ class MembersController < ApplicationController
 
   def show
     # Gather all required information for the page
-    @member = Members.find_by_username(current_access_token, params[:keyword], PUBLIC_MEMBER_FIELDS).first
+    @member = Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
     if @member.nil?
       render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
     else
