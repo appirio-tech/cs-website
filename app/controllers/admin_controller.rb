@@ -7,6 +7,7 @@ class AdminController < ApplicationController
   def blogfodder
     @challenge = Challenges.find_by_id(current_access_token, params[:id])[0]
     @winners = Challenges.winners(current_access_token, params[:id])
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   
   def refresh_token
