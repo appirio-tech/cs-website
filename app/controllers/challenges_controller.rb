@@ -227,6 +227,7 @@ class ChallengesController < ApplicationController
     else
       determine_page_title("Results for #{@challenge_detail['Name']}")
       @participants = Challenges.scorecards(current_access_token, params[:id])
+      p "==== #{@participants}"
       @participation_status = challenge_participation_status    
       @has_submission = signed_in? ? @participation_status[:has_submission] : false
       respond_to do |format|
