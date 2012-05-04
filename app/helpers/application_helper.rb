@@ -5,7 +5,7 @@ module ApplicationHelper
   end
       
   def s3_image(path, options = {})
-    image_tag("http://cloudspokes.s3.amazonaws.com/#{path}", options)
+    image_tag("https://cloudspokes.s3.amazonaws.com/#{path}", options)
   end  
   
   def category_display(categories)

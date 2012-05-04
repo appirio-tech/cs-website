@@ -4,12 +4,12 @@
   <meta name="google-site-verification" content="0b5UAqY-jFcSFdwuJOMT6arbK7RxdSzR-utYf1Pe6_k" />
   <meta name="Description" content="With 30K members and over $300,000 in developer contest prizes awarded, CloudSpokes is the Industry's first Cross-Cloud Development Community. CloudSpokes was created as an independent crowdsourcing development community and marketplace that matches companies who need cloud development work with a worldwide community of cloud experts. The focus for CloudSpokes is solely on using public cloud platforms to build and deliver enterprise-class solutions. The flexibility of cloud platforms has created a unique point where, for the first time, dramatic innovation can occur with both the underlying technology model and how results are delivered to businesses. For developers this creates a market for their talents, lets them develop new skills with real world assignments and transition their careers to the cloud, learn from the work of others, and establish their street cred as skilled practitioner in the art and science of cloud development.">
   <title><%= title %></title>
-  <link href='http://fonts.googleapis.com/css?family=Marvel:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Marvel:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
   <script type="text/javascript" src="/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
   <link rel="stylesheet" href="/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 
@@ -26,7 +26,7 @@
 	 });
   });
   </script>
-  <link rel="shortcut icon" type="image/x-icon" href="http://cloudspokes.s3.amazonaws.com/favicon.ico" />
+  <link rel="shortcut icon" type="image/x-icon" href="https://cloudspokes.s3.amazonaws.com/favicon.ico" />
   <%= auto_discovery_link_tag :atom, "/feed" %>
   <%= auto_discovery_link_tag :rss, "/feed.rss" %>
 <!-- start Mixpanel --><script type="text/javascript">var mpq=[];mpq.push(["init","b2f8f6ea498387f89802a573ddc97a02"]);(function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+"//api.mixpanel.com/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push([f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links","track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<d.length;c++){mpq[d[c]]=e(d[c])}})();
@@ -69,7 +69,7 @@
 			<li><%= link_to "Logout", "/logout" %></li>
 			<li id='profile_pic'><a href="/account">
 			<% if current_user.profile_pic.nil? %>
-				<img src="http://cloudspokes.s3.amazonaws.com/Cloud_th_100.jpg" height="20" width="20" alt="<%= current_user.username %>" />
+				<img src="https://cloudspokes.s3.amazonaws.com/Cloud_th_100.jpg" height="20" width="20" alt="<%= current_user.username %>" />
 			<% else %>
 				<img src="<%= current_user.profile_pic %>" height="20" width="20" alt="<%= current_user.username %>" />
 			<% end %></a>
