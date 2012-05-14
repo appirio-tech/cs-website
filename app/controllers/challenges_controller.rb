@@ -227,7 +227,7 @@ class ChallengesController < ApplicationController
     else
       determine_page_title("Results for #{@challenge_detail['Name']}")
       @participants = Challenges.scorecards(current_access_token, params[:id])
-      p "==== #{@participants}"
+      @payments = dbdc_client.query("select Id, Name, Member__r.Name, Member__r.Paperwork_Received__c, Money__c, Payment_Sent__c, Place__c, Status__c from Payment__c where Challenge__r.challenge_id__c = '#{params[:id]}' and Reason__c = 'Contest payment' order by Money__c desc") unless !signed_in?
       @participation_status = challenge_participation_status    
       @has_submission = signed_in? ? @participation_status[:has_submission] : false
       respond_to do |format|
@@ -470,6 +470,13 @@ class ChallengesController < ApplicationController
       %w( http https ).include?(uri.scheme)
     rescue URI::BadURIError
       false
+    end
+    
+    def dbdc_client
+      config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
+      client = Databasedotcom::Client.new(config)
+      client.authenticate :username => current_user.sfdc_username, :password => current_user.password
+      return client
     end
   
 end

@@ -78,6 +78,37 @@
 						</table>
 					<% end %>
 					
+					<% if @payments %>
+					
+						<h3>Payments</h3>
+
+						<p>Payments status dependent upon our <a href="http://www.google.com/calendar/embed?src=appirio.com_bhga3musitat85mhdrng9035jg%40group.calendar.google.com&ctz=America/New_York" target="_blank">payment schedule</a>, the member's preferred payment type, legal and tax paperwork and date the payment was submitted.</p>
+
+						<table  id="submissions-current" style="width:100%">
+						    <thead>
+						    	<tr>
+									<th scope="col">Member</th>
+						            <th scope="col">Prize</th>
+									<th scope="col">Status</th>
+									<th scope="col">Paperwork?</th>
+									<th scope="col">ID</th>
+						        </tr>
+						    </thead>
+						    <tbody>
+							<% @payments.each do |payment| %>
+						    	<tr>	
+									<td><%= link_to payment['Member__r']['Name'], member_path(payment['Member__r']['Name']), :target => '_blank' %></td>
+									<td><%= number_to_currency(payment['Money__c'], :precision => 0) %></td>
+									<td><%= payment['Status__c'] %></td>
+									<td><%= payment['Member__r']['Paperwork_Received__c'] %></td>
+									<td><%= payment['Name'] %></td>
+						        </tr>
+							<% end %>
+						    </tbody>
+						</table>
+					
+					<% end %>
+					
 					      
 	                    <div class="cl"></div>
 	                </div>
