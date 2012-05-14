@@ -1,7 +1,6 @@
 CloudSpokes::Application.routes.draw do
   
   resources :sessions
-  resources :quiz_questions
 
   match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
   get "hackathons/results"
@@ -86,6 +85,10 @@ CloudSpokes::Application.routes.draw do
   match 'quizes/:id/winners', :to => 'quizes#winners', :as => :quizwinners
   match 'quizes/flag_answer/:id', :to => 'quizes#flag_answer', :as => :flag_answer
   match 'quizes/:id/question', :to => 'quizes#fetch_question', :as => :fetchquestion
+  
+  match 'quiz_questions/authored', :to => 'quiz_questions#authored', :as => :questions_authored
+  match 'quiz_questions/reviewed', :to => 'quiz_questions#reviewed', :as => :questions_reviewed  
+  resources :quiz_questions
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"

@@ -1,0 +1,49 @@
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'accounts/menu', :selected_item => ""%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Quick Quick Questions Authored by <%= current_user.username %></h3>
+			<%= flash_messages %>
+			
+			<% if !@questions.empty? %>
+			
+				<p style="padding-bottom:25px">Below are the questions that have been authored by you. We will pay $100 for each set of 10 approved questions. If you have some questions that have not been paid, it is probably because there is less than 10 outstanding.</p>
+			
+				<table class="fancytable" id="answers" style="width:100%">
+				    <thead>
+				    	<tr>
+							<th></th>
+							<th scope="col">Question</th>
+							<th scope="col">Language</th>
+							<th scope="col">Status</th>
+				            <th scope="col">Paid</th>
+							<th scope="col">Submitted</th>
+							<th scope="col">Details</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+					<% @questions.each do |record|%>
+				    	<tr>
+							<td></td>
+							<td style="font-size:12px" nowrap><%= link_to record['Name'], quiz_question_path(record['Id'])%></td>
+							<td style="font-size:12px"><%= record['Type__c']%></td>
+							<td style="font-size:12px"><%= record['Status__c']%></td>
+							<td style="font-size:12px"><%= record['Author_Paid__c'] ? 'Yes' : 'No' %></td>
+				            <td style="font-size:12px"><%= record["CreatedDate"].to_date.strftime(" %b. %d, %Y") %></td>
+							<td style="font-size:12px"><%= record['Reviewer_Notes__c']%></td>
+				        </tr>
+					<% end %>
+				    </tbody>
+				</table>
+			
+			<% else %>
+				No authored questions found.
+			<% end %>
+
+		</div>
+
+	</div>
+</div>

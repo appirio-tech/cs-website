@@ -1,0 +1,28 @@
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'accounts/menu', :selected_item => ""%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Question <%= @question.Name %></h3>
+			<%= flash_messages %>
+			
+			<div id="profile">
+					
+			<h4 style="padding-top:10px;padding-bottom:15px">Question (with Error):</h4>
+			<div class="holder"><textarea style="width:600px;height:250px"><%= @question.Question__c %></textarea></div>
+			
+			<h4 style="padding-top:10px;padding-bottom:15px">Correct Answer:</h4>
+			<div class="holder"><textarea style="width:600px;height:250px"><%= @question.AnswerPrettyPrint__c %></textarea>			
+			
+			<h4 style="padding-top:10px;padding-bottom:15px">Reviewer Comments:</h4>
+			<div class="holder"><textarea style="width:600px;height:150px"><%= @question.Reviewer_Notes__c %></textarea>
+			
+			</div>			
+			
+
+		</div>
+
+	</div>
+</div>

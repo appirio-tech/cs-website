@@ -6,6 +6,24 @@ class QuizQuestionsController < ApplicationController
     flash.now[:warning] = @results['message'] unless @results['records']
   end  
   
+  def authored
+    @questions = dbdc_client.query("select Id, Name, CreatedDate, Type__c, Reviewer_Notes__c, Status__c, Author_Paid__c from Quick_Quiz_Question__c where Author__r.Name = '#{current_user.username}' order by CreatedDate desc")
+  end
+  
+  def reviewed
+    @questions = dbdc_client.query("select Id, Name, CreatedDate, Type__c, Reviewer_Notes__c, Status__c, Reviewer_Paid__c from Quick_Quiz_Question__c where Reviewer__r.Name = '#{current_user.username}' order by CreatedDate desc")
+  end
+  
+  def show
+    @question = dbdc_client.query("select Id, Name, Author_Name__c, Reviewer__r.Name, Question__c, AnswerPrettyPrint__c, Reviewer_Notes__c from Quick_Quiz_Question__c where Id = '#{params[:id]}'").first
+    p "author: #{@question.Author_Name__c}"
+    p "reviewer: #{@question.Reviewer__r.Name}"
+    p "current user: #{current_user.username}"
+    if !@question.Author_Name__c.eql?(current_user.username) && !@question.Reviewer__r.Name.eql?(current_user.username) 
+      render :inline => "You can only view questions that you either authored or reviewed."
+    end
+  end  
+  
   def new
     @page_title = "Submit a Quick Quiz Question"
     @question = QuizQuestionForm.new()
@@ -49,5 +67,14 @@ class QuizQuestionsController < ApplicationController
       render :action => 'edit'
     end
   end
+  
+  private
+  
+    def dbdc_client
+      config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
+      client = Databasedotcom::Client.new(config)
+      client.authenticate :username => current_user.sfdc_username, :password => current_user.password
+      return client
+    end  
   
 end
