@@ -23,6 +23,14 @@ class SessionsController < ApplicationController
     @login_form = LoginForm.new
   end
   
+=begin  
+  def signup_referral
+    p '====here'
+    redirect {|params| "/posts/#{params[:name]}" }    
+    render :text => 'Done'
+  end
+=end  
+  
   # signup with cs u/p
   def signup
     # save the google ad tracking to a marketing hash in the session -- delete a session if exist
