@@ -1,4 +1,5 @@
 class QuizQuestionsController < ApplicationController
+  before_filter :require_login
   
   def index
     @page_title = "Review Quick Quiz Questions"
@@ -16,9 +17,6 @@ class QuizQuestionsController < ApplicationController
   
   def show
     @question = dbdc_client.query("select Id, Name, Author_Name__c, Reviewer__r.Name, Question__c, AnswerPrettyPrint__c, Reviewer_Notes__c from Quick_Quiz_Question__c where Id = '#{params[:id]}'").first
-    p "author: #{@question.Author_Name__c}"
-    p "reviewer: #{@question.Reviewer__r.Name}"
-    p "current user: #{current_user.username}"
     if !@question.Author_Name__c.eql?(current_user.username) && !@question.Reviewer__r.Name.eql?(current_user.username) 
       render :inline => "You can only view questions that you either authored or reviewed."
     end
@@ -68,7 +66,25 @@ class QuizQuestionsController < ApplicationController
     end
   end
   
+  # if not signed in, then send them back to the challenge page
+  def must_be_signed_in
+    if !signed_in?
+      flash[:error] = "Sorry... the page you were trying to access requires you to be logged in first."
+      redirect_to challenge_path
+    end
+  end
+  
   private
+ 
+    def require_login
+      unless logged_in?
+        redirect_to login_required_url, :notice => 'You must be logged in to access this section.'
+      end
+    end
+ 
+    def logged_in?
+      !!current_user
+    end
   
     def dbdc_client
       config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
