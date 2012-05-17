@@ -89,7 +89,7 @@ class QuizQuestionsController < ApplicationController
     def dbdc_client
       config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
       client = Databasedotcom::Client.new(config)
-      client.authenticate :username => current_user.sfdc_username, :password => current_user.password
+      client.authenticate :username => ENV['SFDC_USERNAME'], :password => ENV['SFDC_PASSWORD']
       return client
     end  
   
