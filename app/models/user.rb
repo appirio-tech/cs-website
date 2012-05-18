@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
             :uniqueness => true
   validates :password, :presence => true
   validates :sfdc_username, :presence => true
+  validates_format_of :sfdc_username, :with => /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
   
   # called from sessions_controller when logging in using cs credentials
   def self.authenticate(access_token, username, password)
