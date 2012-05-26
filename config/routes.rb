@@ -51,6 +51,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/feed/recent', :to => 'challenges#feed_recent', :as => :feed_recent, :defaults => { :format => 'atom' }
   match 'challenges/recent', :to => 'challenges#recent'
   match 'challenges/:id', :to => 'challenges#show', :as => :challenge
+  match 'challenges/:id/preview', :to => 'challenges#preview'  
   match 'challenges/:id/registrants', :to => 'challenges#registrants', :as => :registrants
   match 'challenges/:id/register', :to => 'challenges#register', :as => :register
   match 'challenges/:id/agree_to_tos', :to => 'challenges#register_agree_to_tos', :as => :agree_tos
@@ -71,8 +72,8 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
   
-  # challenge admin
-  match 'challenge_admin/preview/:id', :to => 'challenge_admin#preview'
+  # challenge admin -- legacy for CMC integration
+  match 'challenge_admin/preview/:id', :to => 'challenges#preview'
   
   # quick quiz
   match 'quizes/:id/quiz', :to => 'quizes#show', :as => :takequiz
@@ -108,6 +109,7 @@ CloudSpokes::Application.routes.draw do
   match "/privacy", to: "content#privacy"
   match "/tos", to: "content#tos"
   match "/badges", to: "content#badges"
+  match "/notifications", to: "content#notifications"
   match "/contact", to: "content#contact"
   match "/contact_send", to: "content#contact_send"
   match "/login_help", to: "content#login_help"
