@@ -52,5 +52,12 @@ class ApplicationController < ActionController::Base
     end
     
   end
+  
+  def shared_dbdc_client
+    config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
+    client = Databasedotcom::Client.new(config)
+    client.authenticate :username => ENV['SFDC_USERNAME'], :password => ENV['SFDC_PASSWORD']
+    return client
+  end  
 
 end
