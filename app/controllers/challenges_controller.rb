@@ -8,8 +8,8 @@ require 'json'
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
-  before_filter :admin_only, :only => [:all_submissions, :cal]
+  before_filter :must_be_signed_in, :only => [:preview, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
+  before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
   
   def redirect_to_http
@@ -174,6 +174,12 @@ class ChallengesController < ApplicationController
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   
+  def preview
+    @challenge_detail = current_challenge
+    redirect_to challenge_path if @challenge_detail['Is_Open__c'].eql?('true')
+    determine_page_title
+  end
+  
   def show
     @challenge_detail = current_challenge
     determine_page_title
@@ -227,7 +233,6 @@ class ChallengesController < ApplicationController
     else
       determine_page_title("Results for #{@challenge_detail['Name']}")
       @participants = Challenges.scorecards(current_access_token, params[:id])
-      # @payments = dbdc_client.query("select Id, Name, Member__r.Name, Member__r.Paperwork_Received__c, Money__c, Payment_Sent__c, Place__c, Status__c from Payment__c where Challenge__r.challenge_id__c = '#{params[:id]}' and Reason__c = 'Contest payment' order by Money__c desc") unless !signed_in?
       @participation_status = challenge_participation_status    
       @has_submission = signed_in? ? @participation_status[:has_submission] : false
       respond_to do |format|
@@ -397,8 +402,9 @@ class ChallengesController < ApplicationController
   # if not signed in, then send them back to the challenge page
   def must_be_signed_in
     if !signed_in?
+      session[:redirect_to_after_auth] = request.fullpath
       flash[:error] = "Sorry... the page you were trying to access requires you to be logged in first."
-      redirect_to challenge_path
+      redirect_to login_url
     end
   end
   
