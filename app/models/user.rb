@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
       # check for an existing record in the database and delete it
       User.delete(User.find_by_username(username))
       # create the new user in the database
-      user = User.new(:username => username, :sfdc_username => username+ENV['SFDC_USERNAME_DOMAIN'], 
+      user = User.new(:username => username, :sfdc_username => username+'@'+ENV['SFDC_USERNAME_DOMAIN'], 
         :password => password, :access_token => login_results[:access_token], 
         :profile_pic => member['Profile_Pic__c'], :email => member['Email__c'], :accountid => member['Account__c'])
       user.save
