@@ -5,7 +5,6 @@ class QuizesController < ApplicationController
   before_filter :must_be_signed_in
   
   def show
-    
     # check if the challenge is still open
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     if @challenge_detail["Is_Open__c"].eql?("false")
@@ -22,7 +21,6 @@ class QuizesController < ApplicationController
       flash[:notice] = "You have already submitted for today."
       redirect_to quizleaderboard_path(params[:id])
     end
-
   end
   
   def fetch_question
@@ -33,14 +31,10 @@ class QuizesController < ApplicationController
   end
 
   def answer
-    p "=== Answer called #{params}"
-    render :nothing => true
-=begin
-    logger.info "[ChallengesController]==== QuickQuiz question #{params['question_id']} received in controller"
-    results = Resque.enqueue(ProcessQuickQuizAnswer, current_access_token, current_user.username, params)
-    logger.info "[ChallengesController]==== QuickQuiz results to queue: #{results}"
-    logger.info "[ChallengesController]==== QuickQuiz submission for #{current_user.username} and question #{params['question_id']} and status is #{params['p']}"
-=end    
+    logger.info "[QuizesController]==== QuickQuiz question #{params['question_id']} received in controller"
+    results = QuickQuizes.save_answer(current_access_token, current_user.username, params) 
+    logger.info "[QuizesController]====  QuickQuiz question #{params['question_id']} save results: #{results}"    
+    render :nothing => true    
   end
 
   def winners

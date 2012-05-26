@@ -34,15 +34,20 @@ function Quiz(data, components){
     };
 
     self.loadQuestion = function(n){
-			
+console.log('loading questions....' + data.url + '/quizes/' + data.challengeId + '/question.json?type=' + data.questionType);			
 		$.ajax({
 		  type: 'GET',
 		  url: data.url + '/quizes/' + data.challengeId + '/question.json?type=' + data.questionType,
-		  success: successfulQuestion
+		  success: successfulQuestion,
+		  failire: failedQuestion
 		});
 		
+		function failedQuestion(err) {
+			console.log('Could not load question...' + err);		
+		}		
+		
 		function successfulQuestion(returnData) {
-			
+console.log('return data...' + returnData);			
 			if (returnData.questionNbr == -1) {
 				alert('Congratulations! You are done and your answers are being processed! Ready for your results?');
 				window.location = data.url + '/quizes/'+data.challengeId+'/results';
@@ -73,18 +78,20 @@ function Quiz(data, components){
     };
 
 	self.getAnswer = function(){
-	        return editor.getValue();
-	    };
+        return editor.getValue();
+    };
 	
 	self.getMinifiedAnswer = function(){
-	        return editor.getValue().replace(/\s/g, "");
-	    };
+        return editor.getValue().replace(/\s/g, "");
+    };
 
     self.submit = function(){
 
+console.log('submitting answer....');
+
         self.stopTimer();
 		// data to post
-		var dataString = 'question_id='+ data.question.Id + '&original_answer='+encodeURIComponent(self.getAnswer()) + '&minified_answer=' + encodeURIComponent(self.getMinifiedAnswer());
+		var dataString = 'question_id='+ data.question.Id + '&answer='+encodeURIComponent(self.getAnswer());
 		
 		$.ajax({
 		  type: 'POST',

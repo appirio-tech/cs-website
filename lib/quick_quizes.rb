@@ -99,7 +99,7 @@ class QuickQuizes < Cloudspokes
     get(ENV['SFDC_REST_API_URL']+'/quickquiz/admin/questions?RecordId='+id)['records'][0]
   end  
   
-  # NO LONGER BEING USED?
+  # ---- NO LONGER BEING USED ----
   def self.fetch_10_questions(type=nil)
     if type.nil?
       get(ENV['QUICK_QUIZ_QUESTIONS_URL']+'/random.json')
@@ -108,23 +108,20 @@ class QuickQuizes < Cloudspokes
     end
   end
   
+  #
+  # PUTS an answer to SFDC
+  # * *Args*    :
+  #   - access_token -> the current user's access_token
+  #   - username -> the name of the user answering the question
+  #   - params -> the params contain the question id and answer
+  # * *Returns* :
+  #   - null
+  # * *Raises* :
+  #   - ++ ->
+  #
   def self.save_answer(access_token, username, params)
     set_header_token(access_token)
-    
-    # PUT with the answer
-    if params.has_key?('answer')
-      put(ENV['SFDC_REST_API_URL']+"/quickquiz?quick_quiz_question__c=#{esc params['question_id']}&username=#{esc username}&answer__c=#{esc params['answer']}&is_correct__c=#{params['correct']}")
-    
-    # POST the username and question to start the timer
-    else
-      options = {
-        :body => {
-            :username => username,
-            :quick_quiz_question__c => params['question_id']
-        }
-      }
-      post(ENV['SFDC_REST_API_URL']+'/quickquiz', options)
-    end
+    put(ENV['SFDC_REST_API_URL']+"/quickquiz?quick_quiz_question__c=#{params['question_id']}&username=#{esc username}&answer__c=#{esc params['answer']}&challengeId=#{params['id']}")
   end
   
   def self.find_answer_by_id(access_token, id)

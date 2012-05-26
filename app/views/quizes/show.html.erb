@@ -60,8 +60,8 @@
 		
 		var data = new Object();
 		data.url = fnGetUrl();
-		data.challengeId = '76';
-		data.questionType = 'Java'
+		data.challengeId = '<%= params[:id] %>';
+		data.questionType = '<%= params[:type] %>';
 		ko.applyBindings(new Quiz(data, {editor:editor}));
 		
 		// prevent copy and paste
