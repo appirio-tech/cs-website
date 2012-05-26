@@ -40,8 +40,8 @@
     var settings = $.extend( {
        /* Un comment the line below, to the server url desired, I can't make it work
         because of cross domain issues	*/
-       //'sourceURL'         : 'http://node-demo-devserver.herokuapp.com/notifications',             
-      'sourceURL'         : './notifications.json',      
+       'sourceURL'         : '/notifications',             
+      //'sourceURL'         : './notifications.json',      
       /*
        how frequently the notifications should change, 
        one can change it to 0, in case you want to show the notification only once
@@ -87,7 +87,7 @@
 				// clear the previous anchor html
 				topRightDiv.html('');
 
-		  		var notificationAnchor = $('<a href = ' + item.url +' target="' + settings.anchorTarget + '">' + item.text +'</a>')
+		  		var notificationAnchor = $('<a href = ' + item.URL__c +' target="' + settings.anchorTarget + '">' + item.Name +'</a>')
 		  									.hide()
 		  									.addClass(settings.anchorClass)
 		  									.appendTo(topRightDiv)
