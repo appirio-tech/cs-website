@@ -18,8 +18,6 @@
               %th{:scope => "col"}
                 Submitted
               %th{:scope => "col"}
-                Raw Score
-              %th{:scope => "col"}
                 Review
               %tbody
                 - @challenges.each do |record|
@@ -30,8 +28,6 @@
                       %a{:href => member_url(record["Challenge_Participant__r"]["Member__r"]["Name"]), :target => '_blank'}= record["Challenge_Participant__r"]["Member__r"]["Name"]
                     %td
                       =Time.parse(record["Challenge_Participant__r"]["Submitted_Date__c"]).strftime("%b. %d at %I:%M %p")
-                    %td
-                      =record["Total_Raw_Score__c"]
                     %td
                       =link_to("Review", "/account/scorecard/"+record["Challenge_Participant__c"]+"?member="+record["Challenge_Participant__r"]["Member__r"]["Name"])
         - else
