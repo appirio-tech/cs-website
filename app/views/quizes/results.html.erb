@@ -33,7 +33,7 @@ setTimeout("location.reload(true);",10000);
 					
 						<div style="float: left; width:475px">
 						Thanks for playing! <strong>You got <%= @results['Number_Correct__c'] %> right in <%= @results['Display_Time__c'] %>.</strong> Tweet your results!
-						<br/><br/>Don’t forget you can compete once every day, so keep coming back to improve your times, move up the leaderboard, and win cash and big-time bragging rights in the CloudSpokes March Madness challenge!	
+						<br/><br/>Don’t forget you can compete once every day, so keep coming back to improve your times, move up the leaderboard, and win cash and big-time bragging rights in the <%= @challenge_detail['Name'] %> challenge!	
 						</div>
 					
 						<span style="float: right;">
