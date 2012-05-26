@@ -4,12 +4,16 @@ one:
   username: MyString
   email: MyString
   password: MyString
-  third_party_service: MyString
-  third_party_username: MyString
+  sfdc_username: one@test.cloudspokes.com
+  access_token: onetoken
+  profile_pic: http://www.google.com
+  accountid: one
 
 two:
   username: MyString
   email: MyString
   password: MyString
-  third_party_service: MyString
-  third_party_username: MyString
+  sfdc_username: two@test.cloudspokes.com
+  access_token: twotoken
+  profile_pic: http://www.google.com
+  accountid: two
