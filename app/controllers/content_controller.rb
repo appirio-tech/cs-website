@@ -10,6 +10,10 @@ class ContentController < ApplicationController
     redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
   end
   
+  def notifications
+    render :json => shared_dbdc_client.query("select id, name, url__c from Site_Notification__c")
+  end
+  
   def home
     @page_title = "A unique cloud development community, focused on mobile technologies and public cloud platforms."
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'home')
