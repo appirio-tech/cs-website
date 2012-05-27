@@ -4,6 +4,7 @@ require 'utils'
 
 class ContentController < ApplicationController
   
+  caches_page :notifications
   before_filter :redirect_to_http
   
   def redirect_to_http
