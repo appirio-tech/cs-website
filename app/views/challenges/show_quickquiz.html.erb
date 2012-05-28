@@ -54,7 +54,7 @@
 								<a class="button fl" href="<%= takequiz_path(params[:id]) %>?type=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a> 
 								<% end %>
 								<% if @challenge_detail["Challenge_Categories__r"]["records"].size > 1 %>
-									<a class="button fl" href="<%= takequiz_path(params[:id]) %>"><span>Random</span></a>
+									<a class="button fl" href="<%= takequiz_path(params[:id]) %>?type=Random"><span>Random</span></a>
 								<% end %>
 							<% end %>                    
 		                    </div>
