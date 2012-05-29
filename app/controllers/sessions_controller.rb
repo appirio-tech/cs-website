@@ -75,7 +75,7 @@ class SessionsController < ApplicationController
           redirect_to welcome2cloudspokes_path
         else
           # could not save the user in the database
-          logger.error "[SessionsController]==== could not save new user to database: #{@user.errors}"
+          logger.error "[SessionsController]==== could not save new user to database: #{@user.errors.full_messages}"
           flash.now[:error] = @user.errors.full_messages
           render :action => 'signup'
         end
@@ -193,7 +193,7 @@ class SessionsController < ApplicationController
           
         # display the error to them in the flash
         else  
-          p new_member_create_results
+          logger.info "[SessionsController]==== error creating new member: #{new_member_create_results[:message]}"
           flash.now[:error] = new_member_create_results[:message]
         end
       end
