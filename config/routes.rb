@@ -2,10 +2,6 @@ CloudSpokes::Application.routes.draw do
   
   resources :sessions
 
-  match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
-  get "hackathons/results"
-  get "hackathons/page"
-
   match '/signup',  :to => 'sessions#signup'
   match '/signup_complete', :to => 'sessions#signup_complete'  
   match '/signup_third_party_create', :to => 'sessions#signup_third_party_create'
@@ -103,6 +99,11 @@ CloudSpokes::Application.routes.draw do
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure'  
+  
+  # hacathons
+  match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
+  get "hackathons/results"
+  get "hackathons/page"
   
   #content -- eventually will be siteforce
   match "/about", to: "content#about"

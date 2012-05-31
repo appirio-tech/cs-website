@@ -32,7 +32,7 @@ function Quiz(data, components){
     };
 
     self.loadQuestion = function(n){
-		
+	
 		$.ajax({
 		  type: 'GET',
 		  url: data.url + '/quizes/' + data.challengeId + '/question.json?type=' + data.questionType,
@@ -45,9 +45,9 @@ function Quiz(data, components){
 		}		
 		
 		function successfulQuestion(returnData) {
-		
+	
 			if (returnData.questionNbr == -1)
-				window.location = data.url + '/quizes/'+data.challengeId+'/results';
+				window.location = data.url + '/quizes/'+data.challengeId+'/results';		
 
 			// set the type and id to the data object
 			data.question = returnData.question;
@@ -87,11 +87,16 @@ function Quiz(data, components){
 		// data to post
 		var dataString = 'question_id='+ data.question.Id + '&answer='+encodeURIComponent(self.getAnswer());
 		
-		$.ajax({
-		  type: 'POST',
-		  url: data.url+'/quizes/'+data.challengeId+'/answer',
-		  data: dataString
-		});
+		// don't submit practice questions
+		if (!data.questionType.toLowerCase() == 'practice') {
+		
+			$.ajax({
+			  type: 'POST',
+			  url: data.url+'/quizes/'+data.challengeId+'/answer',
+			  data: dataString
+			});
+		
+		} else { console.log('Not submitting practice question.'); }
 
 		// remove all text from the editor
 		editor.setValue('');

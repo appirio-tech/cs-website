@@ -101,7 +101,6 @@ class QuizesController < ApplicationController
       flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
       redirect_to quizleaderboard_path(params[:id])
     end
-    @questions = YAML.load_file(File.join(::Rails.root, 'vendor/assets', 'practice_qq_json.yml'))
   end
 
   def leaderboard
