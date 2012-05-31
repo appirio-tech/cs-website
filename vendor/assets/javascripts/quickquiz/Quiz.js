@@ -85,8 +85,8 @@ function Quiz(data, components){
 
         self.stopTimer();
 		// data to post
-		var dataString = 'question_id='+ data.question.Id + '&answer='+encodeURIComponent(self.getAnswer());
-		console.log(encodeURIComponent(self.getAnswer()));
+		var dataString = 'question_id='+ data.question.Id + '&answer='+encodeURIComponent(self.getMinifiedAnswer());
+		console.log(self.getMinifiedAnswer());
 		
 		// don't submit practice questions
 		if (data.questionType.toLowerCase() != 'practice') {
