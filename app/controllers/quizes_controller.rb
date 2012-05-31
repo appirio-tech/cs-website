@@ -1,4 +1,5 @@
 require 'challenges'
+require 'cgi'
 
 class QuizesController < ApplicationController
   
@@ -34,8 +35,10 @@ class QuizesController < ApplicationController
 
   def answer
     logger.info "[QuizesController]==== QuickQuiz question #{params['question_id']} received in controller"
+    # encode the answer -- rails is decoding it automatically
+    params['answer'] = "#{CGI.escape(params['answer'])}"
     results = QuickQuizes.save_answer(current_access_token, current_user.username, params) 
-    logger.info "[QuizesController]====  QuickQuiz question #{params['question_id']} save results: #{results}"    
+    logger.info "[QuizesController]====  QuickQuiz question #{params['question_id']} save results: #{results}"   
     render :nothing => true    
   end
 

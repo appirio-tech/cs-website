@@ -86,6 +86,7 @@ function Quiz(data, components){
         self.stopTimer();
 		// data to post
 		var dataString = 'question_id='+ data.question.Id + '&answer='+encodeURIComponent(self.getAnswer());
+		console.log(encodeURIComponent(self.getAnswer()));
 		
 		// don't submit practice questions
 		if (data.questionType.toLowerCase() != 'practice') {
@@ -96,7 +97,7 @@ function Quiz(data, components){
 			  data: dataString
 			});
 		
-		} else { console.log('Not submitting practice question.'); }
+		}
 
 		// remove all text from the editor
 		editor.setValue('');
