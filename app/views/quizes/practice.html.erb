@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/lib/codemirror.css" />
 <link rel="stylesheet" href="/assets/quickquiz/CodeMirror-2.2/theme/eclipse.css" />
 
-<div class="page-heading"><h2 class="melbourne">Quick Quiz Practice</h2></div>
+<div class="page-heading"><h2 class="melbourne"><%= @challenge_detail['Name'] %> Practice</h2></div>
 
 <!-- Content Wrapper -->
 <div class="challenge-content-wrapper ">
@@ -11,14 +11,13 @@
 		Correct the error by changing the fewest possible characters on that one line. Do not make changes that are not needed to fix the code.  
 		Some questions will include additional details or instructions in the comments.  For those questions where the code includes an ASSERT 
 		function, it must evaluate to TRUE for the code to be considered correct.
-	<br/><br/>Whoever answers the most answers correct the fastest is the winner. The number of correct answers is the more important factor, so don’t rush.
+	<br/><br/>Whoever answers the most answers correct the fastest is the winner. The number of correct answers is the more important factor, so don’t rush. This practice pages cycles infinitely through 3 sample questions.
 	</p>
 <div class="editPane">
     <div id="editor"></div>
 </div>
 <div class="infoPane">
-    Question <span id="questionNbr"></span> of 3<br/><br/>
-    <span data-bind="text:language"></span><br/><br/><br/>
+    Type: <span data-bind="text:language"></span><br/><br/><br/>
     Time This Question<br/>
     <div id="clock" class="stopwatch">
 		<div class="display">

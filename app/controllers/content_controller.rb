@@ -12,7 +12,7 @@ class ContentController < ApplicationController
   end
   
   def notifications
-    render :json => shared_dbdc_client.query("select id, name, url__c from Site_Notification__c")
+    render :json => Utils.shared_dbdc_client.query("select id, name, url__c from Site_Notification__c")
   end
   
   def home

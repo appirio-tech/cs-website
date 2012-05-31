@@ -24,13 +24,11 @@ class QuizesController < ApplicationController
   end
   
   def fetch_question
-    if params[:type].eql?('Practice')
-      
+    if params[:type].downcase.eql?('practice')
+      questions = Utils.shared_dbdc_client.query("select Id, Name, Question__c, Type__c from Quick_Quiz_Question__c where Type__c = 'Practice'")
+      render :json => { success: true, questionNbr: 1, question: { Name: "QQQ-0000", Question__c: "#{questions[rand(3)]['Question__c']}", Type__c: "Practice", Id: "0" }, message: "Questions successfully served." }
     else
-      @question = QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
-      respond_to do |format|
-        format.json { render :json => @question }
-      end
+      render :json => QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
     end
   end
 
@@ -100,8 +98,8 @@ class QuizesController < ApplicationController
 
   def practice
     # check if the challenge is still open
-    challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    if challenge_detail["Is_Open__c"].eql?("false")
+    @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    if @challenge_detail["Is_Open__c"].eql?("false")
       flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
       redirect_to quizleaderboard_path(params[:id])
     end
