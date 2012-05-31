@@ -24,9 +24,13 @@ class QuizesController < ApplicationController
   end
   
   def fetch_question
-    @question = QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
-    respond_to do |format|
-      format.json { render :json => @question }
+    if params[:type].eql?('Practice')
+      
+    else
+      @question = QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
+      respond_to do |format|
+        format.json { render :json => @question }
+      end
     end
   end
 
