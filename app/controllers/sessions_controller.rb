@@ -1,5 +1,6 @@
-require "auth"
+require 'auth'
 require 'services'
+require 'utils'
 
 class SessionsController < ApplicationController
   
@@ -21,6 +22,11 @@ class SessionsController < ApplicationController
     # delete the session from their last login attempt if still there
     session.delete(:auth) unless session[:auth].nil?
     @login_form = LoginForm.new
+  end
+  
+  def signup_referral
+    @signup_form = SignupForm.new(referral_hash)
+    render 'signup'
   end
   
   # signup with cs u/p
@@ -66,11 +72,17 @@ class SessionsController < ApplicationController
           Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
           # add the user to badgeville
           Resque.enqueue(NewBadgeVilleUser, current_access_token, params[:signup_form][:username], results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
+          # update their member info in sfdc with the marketing data
           unless session[:marketing].nil?
-            # update their info in sfdc with the marketing data
             Resque.enqueue(MarketingUpdateNewMember, current_access_token, params[:signup_form][:username], session[:marketing]) 
             # delete the marketing session hash
-            session.delete(:marketing) unless session[:marketing].nil?
+            session.delete(:marketing)
+          end
+          # check for any referral & update the record with the newly created member
+          unless session[:referral].nil?
+            Resque.enqueue(ProcessReferral, session[:referral], params[:signup_form][:username])     
+            # delete the referral_id session hash
+            session.delete(:referral)
           end
           redirect_to welcome2cloudspokes_path
         else
@@ -183,7 +195,13 @@ class SessionsController < ApplicationController
               # update their info in sfdc with the marketing data
               Resque.enqueue(MarketingUpdateNewMember, current_access_token, new_member_create_results[:username], session[:marketing]) 
               # delete the marketing session hash
-              session.delete(:marketing) unless session[:marketing].nil?
+              session.delete(:marketing)
+            end
+            # check for any referral & update the record with the newly created member
+            unless session[:referral].nil?
+              Resque.enqueue(ProcessReferral, session[:referral], new_member_create_results[:username])     
+              # delete the referral_id session hash
+              session.delete(:referral)
             end
             redirect_to welcome2cloudspokes_path
           else
@@ -305,5 +323,32 @@ class SessionsController < ApplicationController
     sign_out
     redirect_to root_path
   end
+  
+  private
+  
+    def referral_hash
+  
+      session.delete(:referral) unless session[:referral].nil?
+      # try and find an existing referral
+      begin
+        # materialize the referral object
+        Utils.shared_dbdc_client.materialize("Referral__c")
+        # find by id and throw an error if it doesn't exist
+        referral = Referral__c.find(params[:id])
+        # set a session var for the referral id so we can pick it up later in the signup process (using oauth?)
+        session[:referral] = params[:id]
+        { :username => referral.Username__c, :email => referral.Email__c  }
+      rescue Databasedotcom::SalesForceError => exc
+        # if we threw an error then try to find a member as this may be a referral
+        Utils.shared_dbdc_client.materialize("Member__c")
+        # find by username
+        member = Member__c.find_by_name(params[:id])
+        # if we found a member, set that as the referral
+        session[:referral] = params[:id] unless member.nil? 
+        # for member referrals, always returns an empty hash
+        {}
+      end
+      
+    end
 
 end
