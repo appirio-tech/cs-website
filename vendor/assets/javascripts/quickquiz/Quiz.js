@@ -88,7 +88,7 @@ function Quiz(data, components){
 		var dataString = 'question_id='+ data.question.Id + '&answer='+encodeURIComponent(self.getAnswer());
 		
 		// don't submit practice questions
-		if (!data.questionType.toLowerCase() == 'practice') {
+		if (data.questionType.toLowerCase() != 'practice') {
 		
 			$.ajax({
 			  type: 'POST',
