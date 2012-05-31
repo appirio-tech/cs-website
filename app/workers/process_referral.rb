@@ -29,6 +29,7 @@ class ProcessReferral
       referral.Converted_To_Member__c = converted_member.Id
       referral.Referred_By_Member__c = referred_by_member.Id
       referral.Converted__c = true
+      referral.Include_in_Member_Count__c = false
       referral.Source__c = 'Member'
       referral.save
       
