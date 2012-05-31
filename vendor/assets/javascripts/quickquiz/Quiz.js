@@ -5,8 +5,6 @@ function Quiz(data, components){
     var EDITOR_MIN_LINES = 20;
     var syntax = {'javascript': 'javascript', 'ruby':'ruby','java':'text/x-java', 'mixed':'text/html'};
 
-	console.log('starting up quiz function');
-
     self.curr = ko.observable(0);
     self.language = ko.observable('');
 
@@ -34,7 +32,7 @@ function Quiz(data, components){
     };
 
     self.loadQuestion = function(n){
-console.log('loading questions....' + data.url + '/quizes/' + data.challengeId + '/question.json?type=' + data.questionType);			
+		
 		$.ajax({
 		  type: 'GET',
 		  url: data.url + '/quizes/' + data.challengeId + '/question.json?type=' + data.questionType,
@@ -47,11 +45,9 @@ console.log('loading questions....' + data.url + '/quizes/' + data.challengeId +
 		}		
 		
 		function successfulQuestion(returnData) {
-console.log('return data...' + returnData);			
-			if (returnData.questionNbr == -1) {
-				alert('Congratulations! You are done and your answers are being processed! Ready for your results?');
+		
+			if (returnData.questionNbr == -1)
 				window.location = data.url + '/quizes/'+data.challengeId+'/results';
-			}			
 
 			// set the type and id to the data object
 			data.question = returnData.question;
@@ -86,8 +82,6 @@ console.log('return data...' + returnData);
     };
 
     self.submit = function(){
-
-console.log('submitting answer....');
 
         self.stopTimer();
 		// data to post
