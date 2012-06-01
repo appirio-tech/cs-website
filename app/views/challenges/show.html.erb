@@ -35,7 +35,9 @@
 					<% if !@challenge_detail["Submission_Details__c"].nil? %>
                     	<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
 					<% end %>
-					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.</p> 
+					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.  If you 
+						would like to request an extension, please read <a href="/faq">Can challenge deadlines be extended for more time?</a> on our FAQ. We do not want to grant extensions 
+						unless there is a valid reason.</p> 
 
 					<% if !@challenge_detail["Additional_Info__c"].nil? %>
                     	<h3>Additional Info</h3>
@@ -53,9 +55,13 @@
 						<% if signed_in? %>
 		                    <div>
 							<% if @participation_status[:status].eql?('Not Registered') && !closed_for_registration? %>
+								<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
+								contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
 							<% elsif @participation_status[:status].eql?('Watching') && !closed_for_registration? %>
+								<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
+								contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
 		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
 		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
