@@ -3,16 +3,17 @@ require 'webpages'
 require 'utils'
 
 class ContentController < ApplicationController
-  
-  caches_page :notifications
   before_filter :redirect_to_http
   
   def redirect_to_http
     redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
   end
   
-  def notifications
-    render :json => Utils.shared_dbdc_client.query("select id, name, url__c from Site_Notification__c")
+  def notifications    
+    notifications = Rails.cache.fetch('notifications', :expires_in => 1.minute) do
+      Utils.shared_dbdc_client.query("select id, name, url__c from Site_Notification__c")
+    end
+    render :json => notifications
   end
   
   def home

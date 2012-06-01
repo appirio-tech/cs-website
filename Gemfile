@@ -25,6 +25,7 @@ gem 'resque', :git => 'http://github.com/hone/resque.git', :branch => 'keepalive
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'flash_messages_helper'
 gem 'remote_syslog_logger'
+gem 'dalli'
 
 group :development, :test do
   gem 'sqlite3-ruby'

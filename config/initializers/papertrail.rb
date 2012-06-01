@@ -1,3 +1,4 @@
+=begin
 if ENV["SYSLOG_URL"]
   require "remote_syslog_logger"
   require "uri"
@@ -9,3 +10,4 @@ if ENV["SYSLOG_URL"]
 
   Rails.logger = Rails.application.config.logger = ActionController::Base.logger = Rails.cache.logger = logger
 end
+=end
