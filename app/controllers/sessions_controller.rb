@@ -250,7 +250,11 @@ class SessionsController < ApplicationController
           render :action => 'login'
         else
           sign_in user
-          redirect_to challenges_path
+          if session[:redirect_to_after_auth].nil?
+            redirect_to challenges_path
+          else
+            redirect_to session[:redirect_to_after_auth] 
+          end
         end
       
       else
