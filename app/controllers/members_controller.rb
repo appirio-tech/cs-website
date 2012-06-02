@@ -153,7 +153,7 @@ class MembersController < ApplicationController
       render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
     else
       @page_title = "Recommendation for #{@member['Name']}"
-      flash.now[:error] = 'You cannot recomment yourself.' unless params[:id] != current_user.username
+      flash.now[:error] = 'You cannot recommend yourself.' unless params[:id] != current_user.username
     end
   end
   
