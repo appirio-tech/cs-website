@@ -10,11 +10,6 @@ class AdminController < ApplicationController
     @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
   end
   
-  def flush_notifications
-    expire_page notifications_path
-    render :inline => 'Notifications flushed'
-  end
-  
   def refresh_token
     
     logger.info "[AdminController]==== refreshing the settting table with a new access token for #{ENV['SFDC_USERNAME']}"
