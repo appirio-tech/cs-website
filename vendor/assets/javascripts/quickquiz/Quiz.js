@@ -104,7 +104,7 @@ function Quiz(data, components){
 		// remove all text from the editor
 		editor.setValue('');
 		// remove the question number 
-		$("#questionNbr").text('?');
+		$("#questionNbr").text('');
         self.resetTimer();
         self.loadQuestion();
     };
