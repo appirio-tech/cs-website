@@ -46,8 +46,10 @@ function Quiz(data, components){
 		
 		function successfulQuestion(returnData) {
 	
-			if (returnData.questionNbr == -1)
-				window.location = data.url + '/quizes/'+data.challengeId+'/results';		
+			if (returnData.questionNbr == -1) {
+				alert('Congratulations! You are done and your answers are being processed! Ready for your results?');
+				window.location = data.url + '/quizes/'+data.challengeId+'/results';
+			}
 
 			// set the type and id to the data object
 			data.question = returnData.question;
