@@ -1,6 +1,6 @@
 require 'auth'
 require 'services'
-require 'utils'
+require 'sfdc_connection'
 
 class SessionsController < ApplicationController
   
@@ -336,7 +336,7 @@ class SessionsController < ApplicationController
       # try and find an existing referral
       begin
         # materialize the referral object
-        Utils.shared_dbdc_client.materialize("Referral__c")
+        SfdcConnection.admin_dbdc_client.materialize("Referral__c")
         # find by id and throw an error if it doesn't exist
         referral = Referral__c.find(params[:id])
         # set a session var for the referral id so we can pick it up later in the signup process (using oauth?)
@@ -344,7 +344,7 @@ class SessionsController < ApplicationController
         { :username => referral.Username__c, :email => referral.Email__c  }
       rescue Databasedotcom::SalesForceError => exc
         # if we threw an error then try to find a member as this may be a referral
-        Utils.shared_dbdc_client.materialize("Member__c")
+        SfdcConnection.admin_dbdc_client.materialize("Member__c")
         # find by username
         member = Member__c.find_by_name(params[:id])
         # if we found a member, set that as the referral

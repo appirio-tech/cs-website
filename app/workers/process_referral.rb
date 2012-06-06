@@ -1,4 +1,4 @@
-require 'utils'
+require 'sfdc_connection'
 
 class ProcessReferral
   
@@ -6,8 +6,8 @@ class ProcessReferral
   def self.perform(referral_id_or_username, converted_member_name)
     
     # materialize the objects
-    Utils.shared_dbdc_client.materialize("Member__c")
-    Utils.shared_dbdc_client.materialize("Referral__c")
+    SfdcConnection.admin_dbdc_client.materialize("Member__c")
+    SfdcConnection.admin_dbdc_client.materialize("Referral__c")
     
     # try to find a member by the referral_id_or_username
     referred_by_member = Member__c.find_by_name(referral_id_or_username)
@@ -25,7 +25,7 @@ class ProcessReferral
     else 
       
       referral = Referral__c.new
-      referral.OwnerId = Utils.shared_dbdc_client.user_id
+      referral.OwnerId = SfdcConnection.admin_dbdc_client.user_id
       referral.Converted_To_Member__c = converted_member.Id
       referral.Referred_By_Member__c = referred_by_member.Id
       referral.Converted__c = true

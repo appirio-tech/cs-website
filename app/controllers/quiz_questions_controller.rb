@@ -1,3 +1,5 @@
+require 'sfdc_connection'
+
 class QuizQuestionsController < ApplicationController
   before_filter :require_login
   
@@ -8,15 +10,15 @@ class QuizQuestionsController < ApplicationController
   end  
   
   def authored
-    @questions = dbdc_client.query("select Id, Name, CreatedDate, Type__c, Reviewer_Notes__c, Status__c, Author_Paid__c from Quick_Quiz_Question__c where Author__r.Name = '#{current_user.username}' order by CreatedDate desc")
+    @questions = SfdcConnection.admin_dbdc_client.query("select Id, Name, CreatedDate, Type__c, Reviewer_Notes__c, Status__c, Author_Paid__c from Quick_Quiz_Question__c where Author__r.Name = '#{current_user.username}' order by CreatedDate desc")
   end
   
   def reviewed
-    @questions = dbdc_client.query("select Id, Name, CreatedDate, Type__c, Reviewer_Notes__c, Status__c, Reviewer_Paid__c from Quick_Quiz_Question__c where Reviewer__r.Name = '#{current_user.username}' order by CreatedDate desc")
+    @questions = SfdcConnection.admin_dbdc_client.query("select Id, Name, CreatedDate, Type__c, Reviewer_Notes__c, Status__c, Reviewer_Paid__c from Quick_Quiz_Question__c where Reviewer__r.Name = '#{current_user.username}' order by CreatedDate desc")
   end
   
   def show
-    @question = dbdc_client.query("select Id, Name, Author_Name__c, Reviewer__r.Name, Question__c, AnswerPrettyPrint__c, Reviewer_Notes__c from Quick_Quiz_Question__c where Id = '#{params[:id]}'").first
+    @question = SfdcConnection.admin_dbdc_client.query("select Id, Name, Author_Name__c, Reviewer__r.Name, Question__c, AnswerPrettyPrint__c, Reviewer_Notes__c from Quick_Quiz_Question__c where Id = '#{params[:id]}'").first
     if !@question.Author_Name__c.eql?(current_user.username) && !@question.Reviewer__r.Name.eql?(current_user.username) 
       render :inline => "You can only view questions that you either authored or reviewed."
     end
@@ -85,12 +87,5 @@ class QuizQuestionsController < ApplicationController
     def logged_in?
       !!current_user
     end
-  
-    def dbdc_client
-      config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
-      client = Databasedotcom::Client.new(config)
-      client.authenticate :username => ENV['SFDC_USERNAME'], :password => ENV['SFDC_PASSWORD']
-      return client
-    end  
   
 end

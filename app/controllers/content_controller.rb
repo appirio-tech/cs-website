@@ -1,6 +1,6 @@
 require 'faqs'
 require 'webpages'
-require 'utils'
+require 'sfdc_connection'
 
 class ContentController < ApplicationController
   before_filter :redirect_to_http
@@ -10,8 +10,8 @@ class ContentController < ApplicationController
   end
   
   def notifications    
-    notifications = Rails.cache.fetch('notifications', :expires_in => 1.minute) do
-      Utils.shared_dbdc_client.query("select id, name, url__c from Site_Notification__c")
+    notifications = Rails.cache.fetch('notifications', :expires_in => 30.minute) do
+      SfdcConnection.admin_dbdc_client.query("select id, name, url__c from Site_Notification__c")
     end
     render :json => notifications
   end
