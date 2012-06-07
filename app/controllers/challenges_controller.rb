@@ -316,9 +316,9 @@ class ChallengesController < ApplicationController
   
   def leaderboard
     determine_page_title('Challenge Leaderboard')
-    @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil)
-    @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil)
-    @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil)
+    @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil, :limit => 1000)
+    @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil, :limit => 1000)
+    @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil, :limit => 1000)
     # paginate!!
     @this_month_leaders = @this_month_leaders.paginate(:page => params[:page_month] || 1, :per_page => 10) 
     @this_year_leaders = @this_year_leaders.paginate(:page => params[:page_year] || 1, :per_page => 10) 
