@@ -15,7 +15,7 @@
                   = member["Total_1st_Place__c"].to_i + member["Total_2nd_Place__c"].to_i + member["Total_3st_Place__c"].to_i
                 %span.stats
                   = "Total Money: "
-                  = number_to_currency(member["Total_Money__c"], :precision => 0)
+                  = number_to_currency(member["Total_Public_Money__c"], :precision => 0)
             .cl= " "
       .user-desc.fr
         %p

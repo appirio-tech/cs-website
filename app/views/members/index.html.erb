@@ -46,7 +46,7 @@
                                                     <%= member["Active_Challenges__c"] %>
                                                     # of Wins:
                                                     <%= member["Total_1st_Place__c"].to_i + member["Total_2nd_Place__c"].to_i + member["Total_3st_Place__c"].to_i %>
-													<br/>Total Money: <%= number_to_currency(member["Total_Money__c"], :precision => 0) %>
+													<br/>Total Money: <%= number_to_currency(member["Total_Public_Money__c"], :precision => 0) %>
                                                 </span>
                                             </div>
                                             <div class="cl">&nbsp;</div>
