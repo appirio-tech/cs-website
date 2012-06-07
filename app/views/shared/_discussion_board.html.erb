@@ -62,7 +62,8 @@
 					<%= form_for :discussion, :url => challenge_comment_path, :name => 'new_comment' do |f| %>
 						<div class="holder">
 						<%= f.text_area( :comments, :cols => "80", :rows => "8", :value => session[:captcha_comments] )  %>
-						</div>
+						<div class="hint" style="padding-top: 5px">Press SHIFT-ENTER for a line break.</div>
+						</div><br/>
 						<%= f.hidden_field :reply_to, :value => params[:reply_to] %>
 						<%= recaptcha_tags %>
 					  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
