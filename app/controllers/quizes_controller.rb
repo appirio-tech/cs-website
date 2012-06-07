@@ -26,7 +26,7 @@ class QuizesController < ApplicationController
   
   def fetch_question
     if params[:type].downcase.eql?('practice')
-      questions = Utils.shared_dbdc_client.query("select Id, Name, Question__c, Type__c from Quick_Quiz_Question__c where Type__c = 'Practice'")
+      questions = SfdcConnection.admin_dbdc_client.query("select Id, Name, Question__c, Type__c from Quick_Quiz_Question__c where Type__c = 'Practice'")
       render :json => { success: true, questionNbr: 1, question: { Name: "QQQ-0000", Question__c: "#{questions[rand(3)]['Question__c']}", Type__c: "Practice", Id: "0" }, message: "Questions successfully served." }
     else
       render :json => QuickQuizes.fetch_question(current_access_token, current_user.username, params[:id], params[:type])
@@ -65,37 +65,41 @@ class QuizesController < ApplicationController
       redirect_to quizleaderboard_path(params[:id])
     else
       @results = member_status[0]
-      @answers = QuickQuizes.member_results_today(current_access_token, params[:id], current_user.username)
+      @answers = SfdcConnection.admin_dbdc_client.query("select Id, Name, Is_Correct__c, Elapsed_Time_Seconds__c, Elapsed_Time__c, Type__c from Quick_Quiz_Answer__c where Quick_Quiz__r.Quiz_Date__c = TODAY and Quick_Quiz__r.Member__r.Name = '#{current_user.username}' and Quick_Quiz__r.Challenge__r.Challenge_Id__c = '#{params[:id]}' and Status__c = 'Answered'")
       @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all');  
     end
   end
   
   def results_by_member
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all'); 
-    results = QuickQuizes.member_results_by_date(current_access_token, params[:id], params[:member], params[:date])
-    if results['success'].eql?('true')
-      @answers = results['records']
-      flash.now[:warning] = "There are no results for #{params[:member]} for this date. Try changing the username or date in the URL." unless @answers.size > 0
-    else
+    @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all')  
+    begin
+       date = Date.parse params[:date]
+       @answers = SfdcConnection.admin_dbdc_client.query("select Id, Quick_Quiz__r.Member__r.Name, Is_Correct__c, Elapsed_Time_Seconds__c, Elapsed_Time__c, Type__c, Display_Time__c from Quick_Quiz_Answer__c where Quick_Quiz__r.Quiz_Date__c = #{date.strftime("%Y-%m-%d")} and Quick_Quiz__r.Member__r.Name = '#{params[:member]}' and Quick_Quiz__r.Challenge__r.Challenge_Id__c = '#{params[:id]}' and Status__c = 'Answered'")
+       flash.now[:warning] = "There are no results for #{params[:member]} for this date. Try changing the username or date in the URL." unless @answers.size > 0
+    rescue
       @answers = []
-      flash.now[:error] = "#{results['message']}"
-    end    
+      flash.now[:error] = "Please enter a valid date."
+    end
+
   end
   
   def answer_by_member
-    result = QuickQuizes.member_answer(current_access_token, current_user.email, params[:member])
-    if !result['records'].empty?
-      @incorrect = result['records'][0]['Quick_Quiz_Question__r']['Question__c'].html_safe
-      @correct = result['records'][0]['Quick_Quiz_Question__r']['AnswerPrettyPrint__c'].html_safe
-      @type = result['records'][0]['Type__c']
-      @answer_id = result['records'][0]['Quick_Quiz_Question__r']['Name']
+    result = SfdcConnection.admin_dbdc_client.query("select Quick_Quiz_Question__r.Question__c, Quick_Quiz_Question__r.AnswerPrettyPrint__c, Type__c, Quick_Quiz_Question__r.Name from Quick_Quiz_Answer__c Where id = '#{params[:member]}' and Is_Correct__c = false and Quick_Quiz__r.Member__r.Email__c = '#{current_user.email}'")
+    if result.size == 1
+      @incorrect = result[0]['Quick_Quiz_Question__r']['Question__c'].html_safe
+      @correct = result[0]['Quick_Quiz_Question__r']['AnswerPrettyPrint__c'].html_safe
+      @type = result[0]['Type__c']
+      @answer_id = result[0]['Quick_Quiz_Question__r']['Name']
     end
     render :layout => "blank"
   end
   
-  def flag_answer
-    QuickQuizes.flag_answer(current_access_token, params[:id])
+  def flag_answer    
+    SfdcConnection.admin_dbdc_client.materialize("Quick_Quiz_Question__c")    
+    question = Quick_Quiz_Question__c.find_by_name(params[:id])
+    question.update_attributes "Status__c" => 'Flagged'
+    question.save
     render :nothing => true 
   end
 
