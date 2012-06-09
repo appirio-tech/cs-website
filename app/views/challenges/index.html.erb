@@ -67,7 +67,7 @@
 		                            </div>
 		                            <div class="col-right fr">
 		                                <p>
-		                                    <strong><%= record["Top_Prize__c"] %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong>
+		                                    <strong><%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong>
 		                                    <br />
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
 		                                    <br />

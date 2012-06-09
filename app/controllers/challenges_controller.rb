@@ -5,6 +5,7 @@ require 'atomentry'
 require 'will_paginate/array'
 require 'uri'
 require 'json'
+include ActionView::Helpers::NumberHelper
 
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
@@ -355,7 +356,7 @@ class ChallengesController < ApplicationController
       challenges.each do |challenge|
         entry = AtomEntry.new(:id => challenge['Challenge_Id__c'], :title => challenge['Name'], 
           :content => challenge['Description__c'], :start_date => challenge['Start_Date__c'],
-          :end_date => challenge['End_Date__c'], :top_prize => challenge['Top_Prize__c'], :categories => challenge['Challenge_Categories__r'])
+          :end_date => challenge['End_Date__c'], :top_prize => number_to_currency(challenge['Total_Prize_Money__c'], :precision => 0), :categories => challenge['Challenge_Categories__r'])
         @feed_items.push(entry)
       end
     end
@@ -375,7 +376,7 @@ class ChallengesController < ApplicationController
     challenges.each do |challenge|
       entry = AtomEntry.new(:id => challenge['Challenge_Id__c'], :title => challenge['Name'], 
         :content => challenge['Description__c'], :end_date => challenge['End_Date__c'], 
-        :top_prize => challenge['Top_Prize__c'], :categories => challenge['Challenge_Categories__r'])
+        :top_prize => number_to_currency(challenge['Total_Prize_Money__c'], :precision => 0), :categories => challenge['Challenge_Categories__r'])
       @feed_items.push(entry)
     end
 

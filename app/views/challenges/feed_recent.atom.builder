@@ -6,7 +6,7 @@ atom_feed :language => 'en-US' do |feed|
     feed.entry(item, :url => "http://#{request.env['HTTP_HOST']}/challenges/#{item.id}") do |entry|
       entry.url "http://#{request.env['HTTP_HOST']}/challenges/#{item.id}"
       entry.title item.title
-      entry.content ("Top prize: #{item.top_prize}<br>#{category_display(item.categories)}<br>Challenge ended: #{Time.parse(item.end_date).strftime("%b. %d %Y at %I:%M %p")}<br><a href='http://#{request.env['HTTP_HOST']}/challenges/#{item.id}/results'>View the winners</a><br>#{item.content}"), :type => 'html'
+      entry.content ("Total Prize Amount: #{item.top_prize}<br>#{category_display(item.categories)}<br>Challenge ended: #{Time.parse(item.end_date).strftime("%b. %d %Y at %I:%M %p")}<br><a href='http://#{request.env['HTTP_HOST']}/challenges/#{item.id}/results'>View the winners</a><br>#{item.content}"), :type => 'html'
       entry.updated(Time.parse(item.end_date).strftime("%Y-%m-%dT%H:%M:%SZ")) 
       entry.author do |author|
         author.name 'CloudSpokes Team'

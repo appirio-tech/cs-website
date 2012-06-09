@@ -10,7 +10,7 @@
           %p
             %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']
             %br
-            = "#{challenge['Top_Prize__c']} for"
+            = "#{number_to_currency(challenge["Total_Prize_Money__c"], :precision => 0)} for"
             %br
             %span
               - challenge["Challenge_Categories__r"]["records"].each do |category|

@@ -13,7 +13,7 @@
 		<span><%= link_to "View all submission files", all_submissions_path %></span></strong></li>
 	<% end %>
 	
-	<li><h3>Top Prize</h3><h2><span><%= @challenge_detail["Top_Prize__c"] %></span></h2></li>
+	<li><h3>Total Prize Amount</h3><h2><span><%= number_to_currency(@challenge_detail["Total_Prize_Money__c"], :precision => 0) %></span></h2></li>
 	
 	<% if @challenge_detail["Challenge_Prizes__r"] %>
 	<li><h3>Prizes</h3>

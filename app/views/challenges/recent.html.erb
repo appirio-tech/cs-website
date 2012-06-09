@@ -18,7 +18,7 @@
                             <div class="col-right fr">
                                 <p>
 									<%= Time.parse(record["End_Date__c"]).strftime("%b. %d, %Y") %>
-									<br/><strong>Top Prize: <%= record["Top_Prize__c"] %></strong>
+									<br/><strong>Total Prize Amount: <%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %></strong>
 									<br/><span><%= category_display(record['Challenge_Categories__r']) %></span>
 									<br/><span><%= pluralize(record["Challenge_Participants__r"]["totalSize"], 'Participant') %> &middot; <%= link_to "View the Winners", results_url(record['Challenge_Id__c']) %></span>
 									<% if !record["License__c"].nil? %>
