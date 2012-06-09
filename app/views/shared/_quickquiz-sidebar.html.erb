@@ -1,6 +1,6 @@
 <ul>
 	<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
-	
+	<% if !@challenge_detail["Sponsor_Logo__c"].nil? %><li><img src="<%= @challenge_detail["Sponsor_Logo__c"] %>"></li><% end %>
 	<% if @challenge_detail["Challenge_Prizes__r"] %>
 	<li><h3>Daily Prizes</h3>
 		<ul>

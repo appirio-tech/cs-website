@@ -1,5 +1,6 @@
 <ul>
 	<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
+	<% if !@challenge_detail["Sponsor_Logo__c"].nil? %><li><img src="<%= @challenge_detail["Sponsor_Logo__c"] %>"></li><% end %>
 	<% if Time.parse(@challenge_detail['End_Date__c']).past? && !['Created','Hidden'].include?(@challenge_detail['Status__c']) %>
 		<li><h3>Status</h3><h2><span><%= @challenge_detail['Status__c'] %></span></h2></li>
 	<% else %>
