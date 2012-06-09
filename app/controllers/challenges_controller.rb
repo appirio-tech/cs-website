@@ -288,8 +288,8 @@ class ChallengesController < ApplicationController
     # capture their comments so we can show them again if recaptcha error
     session[:captcha_comments] = params[:discussion][:comments]
     if verify_recaptcha
-      if params[:discussion][:comments].length > 500
-        flash[:error] = "Comments cannot be longer than 500 characters. Please try again."        
+      if params[:discussion][:comments].length > 2000
+        flash[:error] = "Comments cannot be longer than 2000 characters. Please try again."        
       else  
         post_results = Comments.save(current_access_token, current_user.username, params)
         if post_results['Success'].eql?('true')
@@ -326,7 +326,7 @@ class ChallengesController < ApplicationController
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
     respond_to do |format|
       format.html
-      format.json { render :json => @this_month_leaders }
+      format.json { render :json => { "this_month " => @this_month_leaders, "this_year" => @this_year_leaders, "all_time" => @all_time_leaders } }
     end
   end
   
