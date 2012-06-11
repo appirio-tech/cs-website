@@ -331,7 +331,6 @@ class ChallengesController < ApplicationController
     end
   end
   
-  #  
   def leaderboard_this_month
     determine_page_title('Challenge Leaderboard - This Month')
     @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil, :limit => 1000)
@@ -343,6 +342,7 @@ class ChallengesController < ApplicationController
     end
   end  
   
+  # leaderboard_this_year.json?category=Salesforce.com&page=3&per_page=20
   def leaderboard_this_year
     determine_page_title('Challenge Leaderboard - This Year')
     @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil, :limit => 1000)
