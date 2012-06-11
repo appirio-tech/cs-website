@@ -68,6 +68,9 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/:id/submission/file', :to => 'challenges#submission_file_upload', :as => :submission_file, :via => :post
   match 'challenges/:id/submission/url_delete', :to => 'challenges#submission_url_delete', :as => :submission_delete
   match 'leaderboard', :to => 'challenges#leaderboard', :as => 'leaderboards'
+  match 'leaderboard_this_month', :to => 'challenges#leaderboard_this_month', :as => 'leaderboard_this_month'
+  match 'leaderboard_this_year', :to => 'challenges#leaderboard_this_year', :as => 'leaderboard_this_year'
+  match 'leaderboard_all_time', :to => 'challenges#leaderboard_all_time', :as => 'leaderboard_all_time'    
   
   # challenge admin -- legacy for CMC integration
   match 'challenge_admin/preview/:id', :to => 'challenges#preview'

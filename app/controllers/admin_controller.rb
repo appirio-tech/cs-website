@@ -25,10 +25,6 @@ class AdminController < ApplicationController
     render :inline => "Token refreshed and written to pg - #{access_token}"
   end
   
-  def display_users
-    @results = User.all
-  end
-  
   def delete_all_users
     User.delete_all
     render :inline => "All users deleted from PG and logged off from the site"

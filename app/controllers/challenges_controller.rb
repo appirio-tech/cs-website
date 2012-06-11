@@ -316,7 +316,7 @@ class ChallengesController < ApplicationController
   end
   
   def leaderboard
-    determine_page_title('Challenge Leaderboard')
+    determine_page_title('Challenge Leaderboards')
     @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil, :limit => 1000)
     @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil, :limit => 1000)
     @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil, :limit => 1000)
@@ -327,7 +327,41 @@ class ChallengesController < ApplicationController
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
     respond_to do |format|
       format.html
-      format.json { render :json => { "this_month " => @this_month_leaders, "this_year" => @this_year_leaders, "all_time" => @all_time_leaders } }
+      format.json { render :json => @this_month_leaders }
+    end
+  end
+  
+  #  
+  def leaderboard_this_month
+    determine_page_title('Challenge Leaderboard - This Month')
+    @this_month_leaders = Challenges.get_leaderboard(current_access_token, :period => 'month', :category => params[:category] || nil, :limit => 1000)
+    @this_month_leaders = @this_month_leaders.paginate(:page => params[:page] || 1, :per_page => 10) 
+    @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
+    respond_to do |format|
+      format.html { render :text => "JSON is only supported for this method." }
+      format.json { render :json => { "leaders" => @this_month_leaders, "categories" => @categories } }
+    end
+  end  
+  
+  def leaderboard_this_year
+    determine_page_title('Challenge Leaderboard - This Year')
+    @this_year_leaders = Challenges.get_leaderboard(current_access_token, :period => 'year', :category => params[:category] || nil, :limit => 1000)
+    @this_year_leaders = @this_year_leaders.paginate(:page => params[:page] || 1, :per_page => params[:per_page] || 10) 
+    @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
+    respond_to do |format|
+      format.html { render :text => "JSON is only supported for this method." }
+      format.json { render :json => { "leaders" => @this_year_leaders, "categories" => @categories } }
+    end
+  end
+  
+  def leaderboard_all_time
+    determine_page_title('Challenge Leaderboard - All Time')
+    @all_time_leaders = Challenges.get_leaderboard(current_access_token, :category => params[:category] || nil, :limit => 1000)
+    @all_time_leaders = @all_time_leaders.paginate(:page => params[:page] || 1, :per_page => params[:per_page] || 10) 
+    @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
+    respond_to do |format|
+      format.html { render :text => "JSON is only supported for this method." }
+      format.json { render :json => { "leaders" => @all_time_leaders, "categories" => @categories } }
     end
   end
   
