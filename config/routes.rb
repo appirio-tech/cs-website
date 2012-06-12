@@ -111,6 +111,12 @@ CloudSpokes::Application.routes.draw do
   
   #content -- eventually will be siteforce
   match "/about", to: "content#about"
+  match "/about_challenge", to: "content#about_challenge"
+  match "/about_register", to: "content#about_register"
+  match "/about_collaborate", to: "content#about_collaborate"
+  match "/about_submit", to: "content#about_submit"
+  match "/about_review", to: "content#about_review"  
+  match "/about_win", to: "content#about_win"    
   match "/faq", to: "content#faq"
   match "/privacy", to: "content#privacy"
   match "/tos", to: "content#tos"

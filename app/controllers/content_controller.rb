@@ -67,6 +67,36 @@ class ContentController < ApplicationController
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about')
   end
   
+  def about_challenge
+    @page_title = "How CloudSpokes Works"
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about_challenge')
+  end
+  
+  def about_register
+    @page_title = "How CloudSpokes Works"
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about_register')
+  end  
+  
+  def about_collaborate
+    @page_title = "How CloudSpokes Works"
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about_collaborate')
+  end
+  
+  def about_submit
+    @page_title = "How CloudSpokes Works"
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about_submit')
+  end
+  
+  def about_review
+    @page_title = "How CloudSpokes Works"
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about_review')
+  end
+  
+  def about_win
+    @page_title = "How CloudSpokes Works"
+    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about_win')
+  end
+  
   def privacy
     @page_title = "Privacy Policy"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'privacy')
