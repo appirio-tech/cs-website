@@ -4,18 +4,11 @@ require 'cgi'
 class QuizesController < ApplicationController
   
   before_filter :must_be_signed_in
+  before_filter :must_be_open, :only => [:show]
+  before_filter :must_be_registered, :only => [:show]
   
-  def show
-    # check if the challenge is still open
+  def show    
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
-    if @challenge_detail["Is_Open__c"].eql?("false")
-      flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
-      redirect_to quizleaderboard_path(params[:id])
-    end
-    
-    # if they are not registered for the challenge, then send them back to the challenge page
-    redirect_to challenge_path(params[:id]) unless challenge_participation_status[:status].eql?('Registered')
-    
     # see this the member has already entered for today
     member_status = QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username)
     if member_status.size > 0
@@ -125,6 +118,23 @@ class QuizesController < ApplicationController
   def must_be_signed_in
     if !signed_in?
       flash[:error] = "You must be signed in to view the requested page."
+      redirect_to challenge_path(params[:id])
+    end
+  end
+
+  # check if the challenge is still open
+  def must_be_open
+    challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
+    if challenge_detail["Is_Open__c"].eql?("false")
+      flash[:notice] = "Sorry... we are no longer accepting entries for this challenge."
+      redirect_to quizleaderboard_path(params[:id])
+    end
+  end
+
+  # if they are not registered for the challenge, then send them back to the challenge page
+  def must_be_registered
+    unless challenge_participation_status[:status].eql?('Registered')
+      flash[:notice] = "You must be registered for this challenge to take the Quick Quiz"
       redirect_to challenge_path(params[:id])
     end
   end
