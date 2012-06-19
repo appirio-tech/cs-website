@@ -67,12 +67,13 @@ class QuizesController < ApplicationController
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]
     @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all')  
     begin
+       p params[:date]
        date = Date.parse params[:date]
-       @answers = SfdcConnection.admin_dbdc_client.query("select Id, Quick_Quiz__r.Member__r.Name, Is_Correct__c, Elapsed_Time_Seconds__c, Elapsed_Time__c, Type__c, Display_Time__c from Quick_Quiz_Answer__c where Quick_Quiz__r.Quiz_Date__c = #{date.strftime("%Y-%d-%m")} and Quick_Quiz__r.Member__r.Name = '#{params[:member]}' and Quick_Quiz__r.Challenge__r.Challenge_Id__c = '#{params[:id]}' and Status__c = 'Answered'")
+       @answers = SfdcConnection.admin_dbdc_client.query("select Id, Quick_Quiz__r.Member__r.Name, Is_Correct__c, Elapsed_Time_Seconds__c, Elapsed_Time__c, Type__c, Display_Time__c from Quick_Quiz_Answer__c where Quick_Quiz__r.Quiz_Date__c = #{date.strftime("%Y-%m-%d")} and Quick_Quiz__r.Member__r.Name = '#{params[:member]}' and Quick_Quiz__r.Challenge__r.Challenge_Id__c = '#{params[:id]}' and Status__c = 'Answered'")
        flash.now[:warning] = "There are no results for #{params[:member]} for this date. Try changing the username or date in the URL." unless @answers.size > 0
-    rescue
+    rescue Exception => exc
       @answers = []
-      flash.now[:error] = "Please enter a valid date."
+      flash.now[:error] = "Please enter a valid date. #{exc}"
     end
 
   end
