@@ -73,7 +73,7 @@ class QuizesController < ApplicationController
        flash.now[:warning] = "There are no results for #{params[:member]} for this date. Try changing the username or date in the URL." unless @answers.size > 0
     rescue Exception => exc
       @answers = []
-      flash.now[:error] = "Please enter a valid date. #{exc}"
+      flash.now[:error] = "Please enter a valid date."
     end
 
   end
