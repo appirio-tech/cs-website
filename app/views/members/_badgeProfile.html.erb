@@ -1,21 +1,28 @@
 <!-- <div class="bv_playerProfile" bv_options='{"showActivities":true,"showRewards":true}' style=""></div> -->
-<div class="bv_activitiesFeed" bv_options='{"feedInterval":2}'/> 
-<br/>
+<div style="width:300px;height:350px;" > 
+<div class="bv_playerProfile" bv_options='{"showActivities":false,"showRewards":true}' ></div></div>
+  <br/>
 <!-- style="width:300px;height:500px;"></div> -->
   
-  <script>
+   <script>
     window.BadgevilleAsynchInit = function() {
       Badgeville.extend( Badgeville.Settings, {
-        key: 'c9ba95594b056538ec1aada661dfadb8',
-        domain: 'appirio.com'
+        key: '85f33a5f6c9e246b87833b4526eab177',
+        domain: 'www.cloudspokes.com'
         // Add other Badgeville.Settings changes
 
       });
-      // Call Badgeville.setPlayer, bind to events, configure Badgeville.Defaults, etc.
-
-      Badgeville.setPlayer({
- 		email: 'kathi@appirio.com.full'}
+  
+  Badgeville.setPlayer({
+ 		email: '<%= @member["Name"] %>@m.cloudspokes.com'}
 	  );
+	  
+Badgeville.bind('afterCreate:showcase', function(event, widget) {
+  if (widget && widget.element) {
+    Badgeville('.bv_borderHeader .bv_modalSettings', widget.element.closest('.bv_border')).remove(); // REMOVE SETTINGS BUTTON
+  }
+});
+
 
       Badgeville.ready(function() {
         // Display any Gears or other chores that require Badgeville to be initialized
@@ -25,7 +32,7 @@
     (function() {
       var s = document.createElement( 'script' );
       s.async = true;
-      s.src =  'http://sandbox.v2.badgeville.com/v3/badgeville-current.js';
+      s.src =  'http://api.badgeville.com/v3/badgeville-current.js';
       document.body.appendChild( s );
     }());
   </script>
