@@ -48,8 +48,9 @@ class QuizQuestionsController < ApplicationController
   def edit
     @page_title = "Review Quick Quiz Question"
     qqq = QuickQuizes.review_question(current_access_token, params[:id])
-    @question = QuizQuestionForm.new({:id => qqq['Id'], :name => qqq['Name'], :question => qqq['Question__c'], :answer => qqq['AnswerPrettyPrint__c'], :type => qqq['Type__c'], 
-      :author_comments => qqq['Author_Notes__c'], :reviewer_comments => qqq['Reviewer_Notes__c'] })
+    @question = QuizQuestionForm.new({:id => qqq['Id'], :name => qqq['Name'], :question => qqq['Question__c'], 
+      :answer => qqq['AnswerPrettyPrint__c'], :type => qqq['Type__c'], :author_comments => qqq['Author_Notes__c'], 
+      :reviewer_comments => qqq['Reviewer_Notes__c'], :flagged_comments => qqq['Flagged_Comments__c'] })
   end
   
   def update

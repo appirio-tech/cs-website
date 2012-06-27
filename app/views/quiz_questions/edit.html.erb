@@ -39,11 +39,17 @@
 				<label>Type:</label>
 				<%= select_tag("quiz_question_form[type]", options_for_select(question_type_options, @question.type), :disabled => true, :style => 'margin: 5px 5px 5px 0px;' ) %>
 				<div class="spacer"></div>
+
+				<% if @question.flagged_comments %>
+					<label>Flagged Comments:</label>
+					<div class="holder"><%= f.text_area :flagged_comments, :disabled => true, :style => "width:500px; height:75px;"%></div>
+					<div class="spacer"></div>
+				<% end %>
 				
 				<% if @question.author_comments %>
-				<label>Author Comments:</label>
-				<div class="holder"><%= f.text_area :author_comments, :style => "width:500px; height:50px;", :disabled => true %></div>
-				<div class="spacer"></div>
+					<label>Author Comments:</label>
+					<div class="holder"><%= f.text_area :author_comments, :style => "width:500px; height:50px;", :disabled => true %></div>
+					<div class="spacer"></div>
 				<% end %>
 				
 				<label>Question (with Error):</label>
