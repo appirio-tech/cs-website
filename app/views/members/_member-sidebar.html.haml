@@ -1,9 +1,8 @@
 .sidebar.fr
   .profile
-    .profile-info.fl
+    %span
       = render "badgeProfile"
-      %span
-        %span= @member["Country__c"]
+      %h3= @member["Country__c"]
     .cl= " "
     %p
       - if !@member["Summary_Bio__c"].nil?
