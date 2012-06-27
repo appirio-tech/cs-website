@@ -10,6 +10,7 @@ include ActionView::Helpers::NumberHelper
 class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
   before_filter :must_be_signed_in, :only => [:preview, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
+  before_filter :must_be_open, :only => [:submission_file_upload, :submission_url_upload]  
   before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
   
@@ -431,6 +432,14 @@ class ChallengesController < ApplicationController
           current_challenge["Status__c"].eql?('Planned')
         redirect_to '/challenges'
       end
+    end
+  end
+
+  # if the challenge is no longer open, then send them back to the challenge page
+  def must_be_open
+    if current_challenge["Is_Open__c"].eql?('false')
+      flash[:error] = "Sorry... this challenge has ended."
+      redirect_to challenge_path
     end
   end
   
