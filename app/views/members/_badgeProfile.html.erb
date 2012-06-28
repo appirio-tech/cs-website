@@ -6,30 +6,29 @@
   
    <script>
     window.BadgevilleAsynchInit = function() {
-      Badgeville.extend( Badgeville.Settings, {
-        key: '85f33a5f6c9e246b87833b4526eab177',
-        domain: 'www.cloudspokes.com'
-        // Add other Badgeville.Settings changes
 
+      Badgeville.extend( Badgeville.Settings, {
+        key: '<%= ENV['BADGEVILLE_API_KEY'] %>',
+        domain: '<%= ENV['BADGEVILLE_DOMAIN'] %>'
+        // Add other Badgeville.Settings changes
       });
   
-Badgeville.crouton = function(){};
-Badgeville.Settings.showToast = 0;
+      Badgeville.crouton = function(){};
+      Badgeville.Settings.showToast = 0;
 
-  Badgeville.setPlayer({
- 		email: '<%= @member["Name"] %>@m.cloudspokes.com'}
-	  );
+      Badgeville.setPlayer({
+ 		   email: '<%= @member["Name"].downcase %>@m.cloudspokes.com'
+      });
 	  
-Badgeville.bind('afterCreate:showcase', function(event, widget) {
-  if (widget && widget.element) {
-    Badgeville('.bv_borderHeader .bv_modalSettings', widget.element.closest('.bv_border')).remove(); // REMOVE SETTINGS BUTTON
-  }
-});
+      Badgeville.bind('afterCreate:showcase', function(event, widget) {
+        if (widget && widget.element) {
+          Badgeville('.bv_borderHeader .bv_modalSettings', widget.element.closest('.bv_border')).remove(); // REMOVE SETTINGS BUTTON
+        }
+      });
 
 
       Badgeville.ready(function() {
         // Display any Gears or other chores that require Badgeville to be initialized
-        
       });
     };
     (function() {

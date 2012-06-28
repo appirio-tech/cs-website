@@ -26,6 +26,7 @@ CloudSpokes::Application.routes.draw do
   match "/members/:id/active_challenges"  => "members#active_challenges"  
   match "/members/:id/recommend"        => "members#recommend", :as => :recommend_member
   match "/members/:id/recommend_new"    => "members#recommend_new", :as => :recommend_member_new
+  match "/members/:id/badgeville"       => "members#badgeville"
   resources :members
 
   match "account"                       => "accounts#index"
@@ -93,12 +94,10 @@ CloudSpokes::Application.routes.draw do
   
   match '/admin',  :to => 'admin#index'
   get "admin/index"
-  get "admin/display_users"
   get "admin/delete_all_users"
   get "admin/display_settings"
   get "admin/send_mail"
   get "admin/refresh_token"
-  get "admin/flush_notifications"
   match 'admin/blogfodder/:id', :to => 'admin#blogfodder'
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
@@ -110,13 +109,7 @@ CloudSpokes::Application.routes.draw do
   get "hackathons/page"
   
   #content -- eventually will be siteforce
-  match "/about", to: "content#about"
-  match "/about_challenge", to: "content#about_challenge"
-  match "/about_register", to: "content#about_register"
-  match "/about_collaborate", to: "content#about_collaborate"
-  match "/about_submit", to: "content#about_submit"
-  match "/about_review", to: "content#about_review"  
-  match "/about_win", to: "content#about_win"    
+  match "/about", to: "content#about"  
   match "/faq", to: "content#faq"
   match "/privacy", to: "content#privacy"
   match "/tos", to: "content#tos"

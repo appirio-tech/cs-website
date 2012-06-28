@@ -1,0 +1,25 @@
+.content-wrapper.two-cols-bg
+  .widecolumn.fl
+    .list-challenges
+      = flash_messages
+      %h3= pluralize(@active_challenges.size, "active challenge")
+      - @active_challenges.each do |active_challenge|
+        = render "challenge", :challenge => active_challenge
+
+    .list-challenges
+      - if @past_challenges.size > 0
+        %a.fr{:href => "/members/#{@member["Name"]}/past_challenges"}
+          See all »
+      %h3= pluralize(@past_challenges.size, "past challenge")
+      - @past_challenges[0..2].each do |past_challenge|
+        = render "challenge", :challenge => past_challenge
+
+    .recommendations
+      %ul
+      %h3= pluralize(@total_recommendations, "recommendations")
+      - @recommendations.each do |recommendation|
+        = render "recommendation", :recommendation => recommendation
+      = will_paginate @recommendations
+
+    .profile
+  = render "member-sidebar-badgeville"

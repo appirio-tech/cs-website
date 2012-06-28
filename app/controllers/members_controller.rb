@@ -81,6 +81,44 @@ class MembersController < ApplicationController
         }
       end
     end
+  end 
+
+  # this is a temp copy of the show page
+  def badgeville
+    # Gather all required information for the page
+    @member = Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
+    if @member.nil?
+      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
+    else
+      @page_title = "Member Profile: #{@member['Name']}"
+      @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
+      @total_recommendations = @recommendations.size
+      @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
+      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
+      @challenges = @challenges.reverse
+
+      # Gather challenges and group them depending of their end date
+      @active_challenges = []
+      @past_challenges   = []
+      
+      @challenges.each do |challenge|        
+        if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
+          challenge['Challenge_Participants__r']['records'][0]['Score__c'] == 0 &&
+          challenge['Challenge_Participants__r']['records'][0]['Has_Submission__c'] == true
+          @active_challenges << challenge
+        elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
+          @past_challenges << challenge
+        end
+      end
+      respond_to do |format|
+        format.html
+        format.json { 
+          @member[:active_challenges] = @active_challenges
+          @member[:past_challenges] = @past_challenges
+          render :json => @member 
+        }
+      end
+    end
   end
   
   def past_challenges
