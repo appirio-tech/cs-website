@@ -107,6 +107,7 @@ class AccountsController < ApplicationController
     @page_title = "Account Details"
     # get the updated account
     get_account
+    p "==== @account: #{@account}"
   end
 
   # School & Work info tab

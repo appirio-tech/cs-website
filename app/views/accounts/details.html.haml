@@ -58,7 +58,7 @@
         .cl
         %label
           Time Zone:
-        = time_zone_select(:form_details, :time_zone__c, nil, :default => @account["Time_Zone__c"])
+        = select_tag("form_details[time_zone__c]", options_for_select(timezone_options, @account["Time_Zone__c"]), :style => 'width: 400px' )  
         .cl
         %br
         #button-container
