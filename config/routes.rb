@@ -72,6 +72,7 @@ CloudSpokes::Application.routes.draw do
   match 'leaderboard_this_month', :to => 'challenges#leaderboard_this_month', :as => 'leaderboard_this_month'
   match 'leaderboard_this_year', :to => 'challenges#leaderboard_this_year', :as => 'leaderboard_this_year'
   match 'leaderboard_all_time', :to => 'challenges#leaderboard_all_time', :as => 'leaderboard_all_time'    
+  match "/newbie" => redirect("/challenges?category=Newbie")
   
   # challenge admin -- legacy for CMC integration
   match 'challenge_admin/preview/:id', :to => 'challenges#preview'
