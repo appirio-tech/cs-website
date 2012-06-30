@@ -1,6 +1,15 @@
 <ul>
 	<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
 	<% if !@challenge_detail["Sponsor_Logo__c"].nil? %><li><img src="<%= @challenge_detail["Sponsor_Logo__c"] %>"></li><% end %>
+
+	<% unless @challenge_detail['Registration_End_Date__c'].nil? %>
+		<% if Time.parse(@challenge_detail['Registration_End_Date__c']).past? %>
+			<li><h3>Time Left For Registration</h3><h2><span>Registration has ended</span></h2></li>
+		<% else %>
+			<li><h3>Time Left For Registration</h3><h2><span><%= format_close_date_time(@challenge_detail['Registration_End_Date__c']) %></span></h2></li>
+		<% end %>
+	<% end %>
+
 	<% if Time.parse(@challenge_detail['End_Date__c']).past? && !['Created','Hidden'].include?(@challenge_detail['Status__c']) %>
 		<li><h3>Status</h3><h2><span><%= @challenge_detail['Status__c'] %></span></h2></li>
 	<% else %>
