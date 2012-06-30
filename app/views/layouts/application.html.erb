@@ -98,10 +98,6 @@
       </ul></nav>
     </footer>
   </div>
-  <% unless current_user.nil? %>
-    <% FastPass.domain = "community.cloudspokes.com" %>
-    <%= FastPass.script("7u8gnzd0entb", "wzyi2cwb0c29y4obpe8rspux4crh6tkg", current_user.email, current_user.username, current_user.username).html_safe %>
-  <% end %>
   <%= debug(current_user.username) if Rails.env.development? && !current_user.nil? %>
   <%= debug(params) if Rails.env.development? %>
 </body>
