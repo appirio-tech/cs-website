@@ -73,6 +73,9 @@ class AccountsController < ApplicationController
         flash.now[:notice] = "Your payment information has been updated."
       end
     end
+    # get the member's id for docusign
+    member = Members.find_by_username(current_access_token, @current_user.username, 'id').first
+    @memberId = member['Id']
     @payments = Payments.all(current_access_token, :select => 'id,name,challenge__r.name,challenge__r.challenge_id__c,money__c,place__c,reason__c,status__c,type__c,Reference_Number__c,payment_sent__c', :where => current_user.username)
     @payments.each do |record| 
       if record['Status__c'].eql?('Paid')
@@ -107,7 +110,6 @@ class AccountsController < ApplicationController
     @page_title = "Account Details"
     # get the updated account
     get_account
-    p "==== @account: #{@account}"
   end
 
   # School & Work info tab

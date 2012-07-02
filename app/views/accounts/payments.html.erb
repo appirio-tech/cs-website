@@ -8,11 +8,17 @@
 			<h3>Payment Info</h3>
 			<%= flash_messages %>
 			<p>
-            If you've won money from a CloudSpokes challenge here is how you get it. Make sure you check here often to ensure we are not waiting on something from you. 
-			Payments are paid on the 20th of each month via the method that you define below. You can also check the status of your payments below. If you have any questions, 
-			please contact us at <a href="mailto:info@cloudspokes.com">info@cloudspokes.com</a>. Please see the 
+            If you've won money from a challenge here is how you get it. Make sure you check here often to ensure we are not waiting on something from you. Payments are paid on dates depending on the method that you define below. Please see the 
 			<a href="http://www.google.com/calendar/embed?src=appirio.com_bhga3musitat85mhdrng9035jg%40group.calendar.google.com&ctz=America/New_York" target="_blank">CloudSpokes calendar</a> 
-			for specific payment dates.</p>
+			for specific payment dates for types of payment. If you have any questions, 
+			please contact us at <a href="mailto:support@cloudspokes.com">support@cloudspokes.com</a>.</p>
+
+			<table>
+			<tr>
+				<td><%= image_tag "docusign-logo.png", :alt => "Docusign", :width => 125 %></td>
+				<td> In order for us to send your payments, you need to complete the appropriate tax form. If you are a US citizen, please <a href="<%= ENV['DOCUSIGN_SIGNING_DOMAIN']%>/sign/<%= @memberId %>/<%= current_user.username %>/99097A71-5EE0-43DD-A16F-6D0066983910" target="_blank">complete this W-9 tax form</a>. If you are <b>not</b> a US citizen, please <a href="<%= ENV['DOCUSIGN_SIGNING_DOMAIN']%>/sign/<%= @memberId %>/<%= current_user.username %>/8197D537-7C7D-4144-B0F0-521BFA8F489B" target="_blank">complete this W-9BEN tax form</a>. You only need to fill out this tax form once per year and we will keep it on file.</td>
+			</tr>
+			</table><br/>
 
 			<div id="profile">
 				<%= form_for "/account/payments", :name => "form_payment", :method => "post", :html => { :multipart => true } do |f| %>
