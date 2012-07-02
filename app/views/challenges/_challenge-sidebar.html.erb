@@ -3,11 +3,12 @@
 	<% if !@challenge_detail["Sponsor_Logo__c"].nil? %><li><img src="<%= @challenge_detail["Sponsor_Logo__c"] %>"></li><% end %>
 
 	<% unless @challenge_detail['Registration_End_Date__c'].nil? %>
+		<li><h3>Time Left For Registration</h3>
 		<% if Time.parse(@challenge_detail['Registration_End_Date__c']).past? %>
-			<li><h3>Time Left For Registration</h3><h2><span>Registration has ended</span></h2></li>
+			<h2><span>Registration has ended</span></h2>
 		<% else %>
-			<li><h3>Time Left For Registration</h3><h2><span><%= format_close_date_time(@challenge_detail['Registration_End_Date__c']) %></span></h2></li>
-		<% end %>
+			<h2><span><%= format_close_date_time(@challenge_detail['Registration_End_Date__c']) %></span></h2>
+		<% end %></li>
 	<% end %>
 
 	<% if Time.parse(@challenge_detail['End_Date__c']).past? && !['Created','Hidden'].include?(@challenge_detail['Status__c']) %>
