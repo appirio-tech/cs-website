@@ -16,7 +16,7 @@
 			<table>
 			<tr>
 				<td><%= image_tag "docusign-logo.png", :alt => "Docusign", :width => 125 %></td>
-				<td> In order for us to send your payments, you need to complete the appropriate tax form. If you are a US citizen, please <a href="<%= ENV['DOCUSIGN_SIGNING_DOMAIN']%>/sign/<%= @memberId %>/<%= current_user.username %>/99097A71-5EE0-43DD-A16F-6D0066983910" target="_blank">complete this W-9 tax form</a>. If you are <b>not</b> a US citizen, please <a href="<%= ENV['DOCUSIGN_SIGNING_DOMAIN']%>/sign/<%= @memberId %>/<%= current_user.username %>/8197D537-7C7D-4144-B0F0-521BFA8F489B" target="_blank">complete this W-9BEN tax form</a>. You only need to fill out this tax form once per year and we will keep it on file.</td>
+				<td> In order for us to send your payments, you need to complete the appropriate tax form. If you are a <b>US citizen</b>, please <a href="<%= ENV['DOCUSIGN_SIGNING_DOMAIN']%>/sign/<%= @memberId %>/<%= current_user.username %>/99097A71-5EE0-43DD-A16F-6D0066983910/<%= current_user.email %>" target="_blank">complete this W-9 tax form</a>. If you are <b>not a US citizen</b>, please <a href="<%= ENV['DOCUSIGN_SIGNING_DOMAIN']%>/sign/<%= @memberId %>/<%= current_user.username %>/8197D537-7C7D-4144-B0F0-521BFA8F489B/<%= current_user.email %>" target="_blank">complete this W-8BEN tax form</a>. You only need to fill out this tax form once per year and we will keep it on file.</td>
 			</tr>
 			</table><br/>
 
