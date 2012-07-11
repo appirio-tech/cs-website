@@ -103,7 +103,14 @@
     <% FastPass.domain = "community.cloudspokes.com" %>
     <%= FastPass.script("7u8gnzd0entb", "wzyi2cwb0c29y4obpe8rspux4crh6tkg", current_user.email, current_user.username, current_user.username).html_safe %>
   <% end %>
+  <% unless params[:controller] == 'challenges' %>
+    <div id="getsat-widget-758"></div>
+    <script type="text/javascript" src="https://loader.engage.gsfn.us/loader.js"></script>
+    <script type="text/javascript">
+    if (typeof GSFN !== "undefined") { GSFN.loadWidget(758,{"containerId":"getsat-widget-758"}); }
+    </script>
+  <% end %>
   <%= debug(current_user.username) if Rails.env.development? && !current_user.nil? %>
-  <%= debug(params) if Rails.env.development? %>
+  <%= debug(params) if Rails.env.development? %>  
 </body>
 </html>
