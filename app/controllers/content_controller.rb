@@ -57,11 +57,6 @@ class ContentController < ApplicationController
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_help')
   end
   
-  def faq
-    @page_title = "FAQs"
-    @faqs = FAQs.all(current_access_token, :select => 'name,answer__c', :orderby => 'Display_Order__c')
-  end
-  
   def about
     p 'about being called'
     @page_title = "How CloudSpokes Works"

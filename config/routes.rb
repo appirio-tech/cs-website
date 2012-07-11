@@ -109,15 +109,12 @@ CloudSpokes::Application.routes.draw do
   get "hackathons/results"
   get "hackathons/page"
   
-  #content -- eventually will be siteforce
+  #content -- eventually will be refinery
   match "/about", to: "content#about"  
-  match "/faq", to: "content#faq"
   match "/privacy", to: "content#privacy"
   match "/tos", to: "content#tos"
   match "/badges", to: "content#badges"
   match "/notifications", to: "content#notifications"
-  match "/contact", to: "content#contact"
-  match "/contact_send", to: "content#contact_send"
   match "/login_help", to: "content#login_help"
   match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes
   match "/login_denied", to: "content#login_denied", :as => :login_denied
