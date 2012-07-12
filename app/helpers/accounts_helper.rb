@@ -44,7 +44,7 @@ module AccountsHelper
   end
   
   def preferred_payment_options
-    [["Please select ...",nil],["Check","Check"],["Paypal","Paypal"],["Wire","Wire"]]
+    [["Please select ...",nil],["Check","Check"],["Paypal E-cheques","Paypal E-cheques"],["Paypal","Paypal"],["Wire","Wire"]]
   end
 
   def timezone_options
