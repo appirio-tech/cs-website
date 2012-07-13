@@ -65,8 +65,7 @@ class MembersController < ApplicationController
       
       @challenges.each do |challenge|        
         if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
-          challenge['Challenge_Participants__r']['records'][0]['Score__c'] == 0 &&
-          challenge['Challenge_Participants__r']['records'][0]['Has_Submission__c'] == true
+          ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
           @active_challenges << challenge
         elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
           @past_challenges << challenge
