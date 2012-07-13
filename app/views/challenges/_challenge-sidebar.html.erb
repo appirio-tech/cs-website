@@ -19,8 +19,9 @@
 	
 	<% if signed_in? && (current_user.email? && current_user.email.include?('@appirio.com') || current_user.accountid? && current_user.accountid.eql?(@challenge_detail['Account__c'])) %>
 		<!-- if an appirio member or a member assigned to the challenge sponsor, then show this link -->
-		<li><h3>Admin Only</h3><strong>
-		<span><%= link_to "View all submission files", all_submissions_path %></span></strong></li>
+		<li><h3>Admin Only</h3><strong><li>
+		<span><%= link_to "View all submission files", all_submissions_path %></span><br/>
+		<span><%= link_to "Score submissions", outstanding_reviews_path %></span></strong>
 	<% end %>
 	
 	<li><h3>Total Prize Amount</h3><h2><span><%= number_to_currency(@challenge_detail["Total_Prize_Money__c"], :precision => 0) %></span></h2></li>
@@ -54,6 +55,12 @@
 		<strong><span><% if @challenge_detail["Release_to_Open_Source__c"] %>The results of this challenge will be released at <a href="http://www.github.com/cloudspokes" target="_blank">GitHub</a> under a <% end %><%= @challenge_detail["License__c"] %> license</span></strong>
 	</li>
 	<% end %>
+
+	<% unless @challenge_detail["Source_Code_URL__c"].nil? %>
+		<li><h3>Source Code</h3><strong><span>	
+		<a href="<%= @challenge_detail["Source_Code_URL__c"] %>" target="_blank">Source code available on GitHub</a></span></strong>
+	<% end %>
+
 	<li><h3>Assets</h3>
 		<ul>
 			<% if @challenge_detail["Assets__r"].nil? %>
