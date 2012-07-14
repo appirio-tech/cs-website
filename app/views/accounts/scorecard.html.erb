@@ -321,13 +321,16 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 	</table>
 <% end %>	
 
-<p>Here are some recommendations for scoring submissions. Take the unit testing question as an example. If the person did an average job
-	of writing unit tests and covering code, you might want to give them a 75% (typically 3 of 4). If they did a great job, then you 
-	could give them 100% (typically 4 of 4) and if they did a poor job, you could consider giving them 50%. If they did not provide unit
-	tests at all, give them 0%. If a question isn't applicable, please give them a score equivalent to 75%.</p>
+<h3>New Judging Guidelines</h3>	
+<p>Most criteria are scored on a scale of 1 (25%) to 4 (100%). By default, each criteria should start off with a score of 3 (75%), which means that the solution was satisifactory (i.e., production quality) for this criteria. If the solution is outstanding in regards to this criteria, consider giving it a 4 (100%). If the solution is less than production quality for this criteria, consider giving them a 2. If the solution is unacceptable for this criteria, consider giving them a 1.</p>
 
-<p>Remember, participants are only eligible for money if they score 75%+ for the total scorecard. If we are awarding money for 
-	multiple places, then please score accordingly. </p>
+<p>Take the unit testing criteria as an example. If the person did an satisfactory job (i.e., the code could be deployed to a production environment) of writing unit tests and covering code, you might want to give them a 3 (75%). If they did a great job, then you could give them 4 (100%) and if they did a poor job, you could consider giving them a 2 (50%). If they did not provide unit tests at all, give them a 1 (25%).</p>
+
+<p>If a criteria isn't applicable (e.g., a question pertaining to the quality of a trigger but their solution does not contain a trigger), please give them a score equivalent to 3 (75%) as it will not negatively impact thier chance of winning money.</p>
+
+<p><b>Comments are extremely important</b> to the developers that submit code and are one of the key aspects of CloudSpokes. <b>Please</b> do not leave them blank or enter comments like 'No Comment' or 'Nothing'. Make an effort to enter comments that explain your score or, even better, ways to make their code better.</p>
+
+<p>Remember, participants are only eligible for money if they score 75%+ for the total scorecard. If we are awarding money for multiple places, then please score accordingly. </p>
 
 <% if @scored %><h1>This scorecard has been scored and is not updateable.</h1><% end %>
 <div id="scorecard"></div>
