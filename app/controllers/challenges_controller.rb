@@ -72,10 +72,14 @@ class ChallengesController < ApplicationController
     end
     @challenges = @challenges.paginate(:page => params[:page] || 1, :per_page => 30) unless @challenges.nil?
     @categories = Categories.all(current_access_token, :select => 'name,color__c', :where => 'true', :order_by => 'display_order__c')
-    
+
     if @challenges.nil? || @challenges.size == 0
       @challenges_found = false
-      flash.now[:warning] = 'No challenges found.'
+      if params[:show].eql?('closed')
+        flash.now[:warning] = 'No closed challenges found.'
+      else
+        flash.now[:warning] = "No challenges found. <a href='#{request.fullpath}&show=closed'>Try searching closed challenges</a>.".html_safe
+      end
     else
       @challenges_found = true     
       respond_to do |format|
