@@ -3,10 +3,7 @@ require 'will_paginate/array'
 class MembersController < ApplicationController
   before_filter :require_login, :only => [:recommend_new, :recommend]
   before_filter :redirect_to_http
-  
-  def redirect_to_http
-    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
-  end
+  before_filter :check_if_member_exists, :only => [:show, :active_challenges, :past_challenges, :recommend]
 
   def index
     @page_title = "Members and Top 10 Leaderboard"
@@ -48,128 +45,80 @@ class MembersController < ApplicationController
 
   def show
     # Gather all required information for the page
-    @member = Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
-    if @member.nil?
-      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
-    else
-      @page_title = "Member Profile: #{@member['Name']}"
-      @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
-      @total_recommendations = @recommendations.size
-      @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
-      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
-      @challenges = @challenges.reverse
+    @member = requested_member
+    @page_title = "Member Profile: #{@member['Name']}"
+    @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => params[:id])
+    @total_recommendations = @recommendations.size
+    @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
+    @challenges = Members.challenges(current_access_token, :name => params[:id])
+    @challenges = @challenges.reverse
 
-      # Gather challenges and group them depending of their end date
-      @active_challenges = []
-      @past_challenges   = []
-      
-      @challenges.each do |challenge|        
-        if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
-          ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
-          @active_challenges << challenge
-        elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
-          @past_challenges << challenge
-        end
+    # Gather challenges and group them depending of their end date
+    @active_challenges = []
+    @past_challenges   = []
+    
+    @challenges.each do |challenge|        
+      if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
+        ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
+        @active_challenges << challenge
+      elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
+        @past_challenges << challenge
       end
-      respond_to do |format|
-        format.html
-        format.json { 
-          @member[:active_challenges] = @active_challenges
-          @member[:past_challenges] = @past_challenges
-          render :json => @member 
-        }
-      end
+    end
+    respond_to do |format|
+      format.html
+      format.json { 
+        @member[:active_challenges] = @active_challenges
+        @member[:past_challenges] = @past_challenges
+        render :json => @member 
+      }
     end
   end 
-
-  # this is a temp copy of the show page
-  def badgeville
-    # Gather all required information for the page
-    @member = Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
-    if @member.nil?
-      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
-    else
-      @page_title = "Member Profile: #{@member['Name']}"
-      @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => @member["Name"])
-      @total_recommendations = @recommendations.size
-      @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
-      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
-      @challenges = @challenges.reverse
-
-      # Gather challenges and group them depending of their end date
-      @active_challenges = []
-      @past_challenges   = []
-      
-      @challenges.each do |challenge|        
-        if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
-          challenge['Challenge_Participants__r']['records'][0]['Score__c'] == 0 &&
-          challenge['Challenge_Participants__r']['records'][0]['Has_Submission__c'] == true
-          @active_challenges << challenge
-        elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
-          @past_challenges << challenge
-        end
-      end
-      respond_to do |format|
-        format.html
-        format.json { 
-          @member[:active_challenges] = @active_challenges
-          @member[:past_challenges] = @past_challenges
-          render :json => @member 
-        }
-      end
-    end
-  end
   
   def past_challenges
     # Gather all required information for the page
-    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
-    if @member.nil?
-      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
-    else
-      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
-      @challenges = @challenges.reverse
+    @member = requested_member
+    @challenges = Members.challenges(current_access_token, :name => params[:id])
+    @challenges = @challenges.reverse
 
-      # Gather challenges and group them depending of their end date
-      @past_challenges   = []
-      @challenges.each do |challenge|
-        if challenge["End_Date__c"].to_date < Time.now.to_date && challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
-          @past_challenges << challenge
-        end
+    # Gather challenges and group them depending of their end date
+    @past_challenges   = []
+    @challenges.each do |challenge|
+      if ['Winner Selected','No Winner Selected','Completed'].include?(challenge['Status__c']) && 
+        challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
+        @past_challenges << challenge
       end
-      respond_to do |format|
-        format.html
-        format.json { render :json => @past_challenges }
-      end
+    end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @past_challenges }
     end
   end
   
   def active_challenges
     # Gather all required information for the page
-    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
-    if @member.nil?
-      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
-    else
-      @challenges = Members.challenges(current_access_token, :name => @member["Name"])
-      @challenges = @challenges.reverse
+    @member = requested_member
+    @challenges = Members.challenges(current_access_token, :name => params[:id])
+    @challenges = @challenges.reverse
 
-      # Gather challenges and group them depending of their end date
-      @active_challenges   = []
-      @challenges.each do |challenge|
-        if challenge["End_Date__c"].to_date > Time.now.to_date
-          @active_challenges << challenge
-        end
+    # Gather challenges and group them depending of their end date
+    @active_challenges   = []
+    @challenges.each do |challenge|
+      if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') && 
+        ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
+        @active_challenges << challenge
       end
-      respond_to do |format|
-        format.html
-        format.json { render :json => @active_challenges }
-      end
+    end
+    respond_to do |format|
+      format.html
+      format.json { render :json => @active_challenges }
     end
   end
 
   def search
     @page_title = "Member Search Results"
     @members = Members.all(current_access_token, 
-      :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c', 
+      :select => MEMBER_SEARCH_FIELDS, 
       :where => params[:keyword])
     @members = @members.paginate(:page => params[:page] || 1, :per_page => 10)
     tn = Time.now
@@ -185,20 +134,29 @@ class MembersController < ApplicationController
   end
   
   def recommend
-    @member = Members.find_by_username(current_access_token, params[:id], DEFAULT_MEMBER_FIELDS).first
-    if @member.nil?
-      render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found 
-    else
-      @page_title = "Recommendation for #{@member['Name']}"
-      flash.now[:error] = 'You cannot recommend yourself.' unless params[:id] != current_user.username
-    end
+    @member = requested_member
+    @page_title = "Recommendation for #{@member['Name']}"
+    flash.now[:error] = 'You cannot recommend yourself.' unless params[:id] != current_user.username
   end
   
   def recommend_new
     results = Recommendations.save(current_access_token, params[:id], current_user.username, params[:recommendation][:comments])
     redirect_to member_path(params[:id])
   end
-  
+
+  def requested_member
+    @member ||= Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
+  end
+
+  def redirect_to_http
+    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
+  end
+
+  def check_if_member_exists
+    @member = requested_member
+    render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found if @member.nil?
+  end
+
   private
  
     def require_login

@@ -26,7 +26,6 @@ CloudSpokes::Application.routes.draw do
   match "/members/:id/active_challenges"  => "members#active_challenges"  
   match "/members/:id/recommend"        => "members#recommend", :as => :recommend_member
   match "/members/:id/recommend_new"    => "members#recommend_new", :as => :recommend_member_new
-  match "/members/:id/badgeville"       => "members#badgeville"
   resources :members
 
   match "account"                       => "accounts#index"
