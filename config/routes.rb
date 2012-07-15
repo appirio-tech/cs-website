@@ -110,12 +110,13 @@ CloudSpokes::Application.routes.draw do
   get "hackathons/page"
   
   #content -- eventually will be refinery
-  match "/about", to: "content#about"  
-  match "/privacy", to: "content#privacy"
-  match "/tos", to: "content#tos"
+  match "/privacy" => redirect("http://content.cloudspokes.com/privacy")
+  match "/tos" => redirect("http://content.cloudspokes.com/terms-of-service")
+  match "/login_help" => redirect("http://content.cloudspokes.com/help-logging-in")
+
+  match "/about", to: "content#about" # page being redone by sal
   match "/badges", to: "content#badges"
   match "/notifications", to: "content#notifications"
-  match "/login_help", to: "content#login_help"
   match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes
   match "/login_denied", to: "content#login_denied", :as => :login_denied
   match "/home", to: "content#home", :as => :home
