@@ -15,7 +15,7 @@ class MembersController < ApplicationController
     display_leaderboard  = params[:period] || "month"
 
     @members = Members.all(current_access_token, 
-      :select => 'id,name,profile_pic__c,summary_bio__c,challenges_entered__c,active_challenges__c,total_wins__c,total_1st_place__c,total_2nd_place__c,total_3st_place__c,total_public_money__c', 
+      :select => MEMBER_SEARCH_FIELDS, 
       :order_by => order_by)
       
     @members = @members.paginate(:page => params[:page] || 1, :per_page => 10) 
