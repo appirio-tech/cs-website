@@ -6,6 +6,7 @@ class QuizesController < ApplicationController
   before_filter :must_be_signed_in
   before_filter :must_be_open, :only => [:show]
   before_filter :must_be_registered, :only => [:show]
+  before_filter :redirect_to_http
   
   def show    
     @challenge_detail = Challenges.find_by_id(current_access_token, params[:id])[0]

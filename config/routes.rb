@@ -73,9 +73,6 @@ CloudSpokes::Application.routes.draw do
   match 'leaderboard_all_time', :to => 'challenges#leaderboard_all_time', :as => 'leaderboard_all_time'    
   match "/newbie" => redirect("/challenges?category=Newbie")
   
-  # challenge admin -- legacy for CMC integration
-  match 'challenge_admin/preview/:id', :to => 'challenges#preview'
-  
   # quick quiz
   match 'quizes/:id/quiz', :to => 'quizes#show', :as => :takequiz
   match 'quizes/:id/answer', :to => 'quizes#answer', :as => :answerquiz
@@ -101,7 +98,9 @@ CloudSpokes::Application.routes.draw do
   match 'admin/blogfodder/:id', :to => 'admin#blogfodder'
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
-  match '/auth/failure', :to => 'sessions#callback_failure'  
+  match '/auth/failure', :to => 'sessions#callback_failure' 
+
+  match "/notifications", to: "application#notifications" 
   
   # hacathons
   match 'hackathons/:id', :to => 'hackathons#show', :as => :hackathon
@@ -115,7 +114,6 @@ CloudSpokes::Application.routes.draw do
 
   match "/about", to: "content#about" # page being redone by sal
   match "/badges", to: "content#badges"
-  match "/notifications", to: "content#notifications"
   match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes
   match "/login_denied", to: "content#login_denied", :as => :login_denied
   match "/home", to: "content#home", :as => :home

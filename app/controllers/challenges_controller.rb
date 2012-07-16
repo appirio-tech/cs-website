@@ -14,10 +14,6 @@ class ChallengesController < ApplicationController
   before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
   
-  def redirect_to_http
-    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
-  end
-  
   def register
     @challenge_detail = current_challenge
     determine_page_title

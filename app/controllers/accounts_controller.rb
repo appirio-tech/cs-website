@@ -2,11 +2,7 @@ class AccountsController < ApplicationController
   before_filter :require_login, :except => ["public_forgot_password","public_reset_password"]
   before_filter :get_account, :except => ["public_forgot_password","public_reset_password"]
   before_filter :redirect_to_http
-  
-  def redirect_to_http
-    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
-  end
-  
+   
   def index
     redirect_to '/account/challenges'
   end
@@ -172,17 +168,5 @@ class AccountsController < ApplicationController
   def get_account
     @account = Members.find_by_username(current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS)[0]
   end
-  
-  private
- 
-    def require_login
-      unless logged_in?
-        redirect_to login_required_url, :notice => 'You must be logged in to access this section.'
-      end
-    end
- 
-    def logged_in?
-      !!current_user
-    end
   
 end

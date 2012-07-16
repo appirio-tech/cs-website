@@ -148,26 +148,9 @@ class MembersController < ApplicationController
     @member ||= Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
   end
 
-  def redirect_to_http
-    redirect_to url_for params.merge({:protocol => 'http://'}) unless !request.ssl?
-  end
-
   def check_if_member_exists
     @member = requested_member
     render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found if @member.nil?
   end
-
-  private
- 
-    def require_login
-      unless logged_in?
-        flash[:error] = 'You must be logged in to access this page.'
-        redirect_to login_required_url
-      end
-    end
- 
-    def logged_in?
-      !!current_user
-    end  
 
 end

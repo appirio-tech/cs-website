@@ -2,6 +2,7 @@ require 'sfdc_connection'
 
 class QuizQuestionsController < ApplicationController
   before_filter :require_login
+  before_filter :redirect_to_http
   
   def index
     @page_title = "Review Quick Quiz Questions"
@@ -68,25 +69,5 @@ class QuizQuestionsController < ApplicationController
       render :action => 'edit'
     end
   end
-  
-  # if not signed in, then send them back to the challenge page
-  def must_be_signed_in
-    if !signed_in?
-      flash[:error] = "Sorry... the page you were trying to access requires you to be logged in first."
-      redirect_to challenge_path
-    end
-  end
-  
-  private
- 
-    def require_login
-      unless logged_in?
-        redirect_to login_required_url, :notice => 'You must be logged in to access this section.'
-      end
-    end
- 
-    def logged_in?
-      !!current_user
-    end
   
 end
