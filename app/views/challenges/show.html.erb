@@ -54,31 +54,33 @@
 						<% end %>
 					<% end %>
 
-					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
-						<% if signed_in? %>
-							<div>
-							<% if @participation_status[:status].eql?('Not Registered') && !closed_for_registration? %>
-								<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
-								contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
-								<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
-								<a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
-							<% elsif @participation_status[:status].eql?('Watching') && !closed_for_registration? %>
-								<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
-								contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
-								<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
-							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
-								<a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
-							<% end %>                    
-							</div>
+					<% unless @challenge_detail["Challenge_Type__c"].eql?("Info Only - No Registration") %>
+						<% if @challenge_detail["Is_Open__c"].eql?("true") %>
+							<% if signed_in? %>
+								<div>
+								<% if @participation_status[:status].eql?('Not Registered') && !closed_for_registration? %>
+									<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
+									contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
+									<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+									<a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
+								<% elsif @participation_status[:status].eql?('Watching') && !closed_for_registration? %>
+									<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
+									contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
+									<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+								<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
+									<a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
+								<% end %>                    
+								</div>
+							<% else %>
+								<div>
+								  <h3><span>Please login to submit for this challenge</span></h3>
+								  <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                    
+								</div>
+							<% end %>
 						<% else %>
-							<div>
-							  <h3><span>Please login to submit for this challenge</span></h3>
-							  <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                    
-							</div>
-						<% end %>
-					<% else %>
-						<% if signed_in? && @participation_status[:status].eql?('Submitted')%>
-							<a class="button fl" href="<%= submission_view_only_url(@challenge_detail["Challenge_Id__c"]) %>"><span>View Your Submission</span></a>
+							<% if signed_in? && @participation_status[:status].eql?('Submitted')%>
+								<a class="button fl" href="<%= submission_view_only_url(@challenge_detail["Challenge_Id__c"]) %>"><span>View Your Submission</span></a>
+							<% end %>
 						<% end %>
 					<% end %>
 
