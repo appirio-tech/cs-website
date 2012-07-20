@@ -2,7 +2,7 @@
 	<li><h2><span><%= @challenge_detail["Name"] %></span></h2></li>
 	<% if !@challenge_detail["Sponsor_Logo__c"].nil? %><li><img src="<%= @challenge_detail["Sponsor_Logo__c"] %>"></li><% end %>
 
-	<% unless @challenge_detail['Registration_End_Date__c'].nil? %>
+	<% unless @challenge_detail['Registration_End_Date__c'].nil? || @challenge_detail["Challenge_Type__c"].eql?("Info Only - No Registration") %>
 		<li><h3>Time Left For Registration</h3>
 		<% if Time.parse(@challenge_detail['Registration_End_Date__c']).past? %>
 			<h2><span>Registration has ended</span></h2>
@@ -43,13 +43,17 @@
 		<%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %>
 	<% end %></span></strong></li>
 		
-	<% if signed_in? %>
-		<li><h3>Your Status</h3><strong><span><%= @participation_status[:status] %></span></strong></li>
+	<% unless @challenge_detail["Challenge_Type__c"].eql?("Info Only - No Registration") %>	
+		<% if signed_in? %>
+			<li><h3>Your Status</h3><strong><span><%= @participation_status[:status] %></span></strong></li>
+		<% end %>
 	<% end %>
 
-	<li style="display:block;"><h3>Participants</h3>
-		<strong><span><a href="<%= registrants_path %>"><%= pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Member') %> Registered</a></span></strong>
-	</li>
+	<% unless @challenge_detail["Challenge_Type__c"].eql?("Info Only - No Registration") %>
+		<li style="display:block;"><h3>Participants</h3>
+			<strong><span><a href="<%= registrants_path %>"><%= pluralize(@challenge_detail["Registered_Members__c"].to_i, 'Member') %> Registered</a></span></strong>
+		</li>
+	<% end %>
 
 	<% unless @challenge_detail['License_Type__r'].nil? %>
 		<li style="display:block;"><h3>License</h3>
