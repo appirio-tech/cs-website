@@ -66,7 +66,7 @@
 						<div class="hint" style="padding-top: 5px">Press SHIFT-ENTER for a line break. Max 2000 characters.</div>
 						</div><br/>
 						<%= f.hidden_field :reply_to, :value => params[:reply_to] %>
-						<%= recaptcha_tags %>
+						<% if @use_captcha %><%= recaptcha_tags %><% end %>
 					  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
 					  <% if !@participation_status[:status].eql?('Not Registered') %>
 					    <div style="float:right;padding-top:7px;padding-right:125px;font-size:11px"><%= link_to @participation_status[:send_discussion_emails] ? "Stop sending me" : "Please send me", toggle_discussion_email_path %> discussion emails for this challenge.</div>

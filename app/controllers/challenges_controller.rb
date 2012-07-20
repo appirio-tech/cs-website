@@ -187,6 +187,7 @@ class ChallengesController < ApplicationController
     determine_page_title
     @comments = Comments.find_by_challenge(current_access_token, params[:id])
     @participation_status = challenge_participation_status
+    @use_captcha = use_captcha? if signed_in?
     
     # grab some extra data for quickquizes
     if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')   
@@ -289,7 +290,10 @@ class ChallengesController < ApplicationController
   def new_comment    
     # capture their comments so we can show them again if recaptcha error
     session[:captcha_comments] = params[:discussion][:comments]
-    if verify_recaptcha
+    # get their status so we can determine whether or not to show captcha
+    @participation_status = challenge_participation_status
+    # if their captcha was valid OR no need to use captcha
+    if verify_recaptcha || !use_captcha?
       if params[:discussion][:comments].length > 2000
         flash[:error] = "Comments cannot be longer than 2000 characters. Please try again."        
       else  
@@ -454,16 +458,12 @@ class ChallengesController < ApplicationController
   
   # if signed in, must have an @appirio.com email address or be in the same account as the challenge sponsor
   def admin_only
-    if signed_in?
-      if !current_user.email.nil?
-        appirio = current_user.email.include?('@appirio.com') ? true : false
-      end
-        
+    if signed_in?        
       if !current_user.accountid.nil?
         sponsor = current_user.accountid.eql?(current_challenge['Account__c']) ? true : false
       end
           
-      if !appirio && !sponsor
+      if !appirio_user? && !sponsor
         redirect_to challenge_path
       end
     else
@@ -491,15 +491,26 @@ class ChallengesController < ApplicationController
   end
   
   private
+
+    def use_captcha?
+      if appirio_user?
+        false
+      else
+        @participation_status[:total_valid_submissions].eql?(0) ? true : false
+      end
+    end
     
     def challenge_participation_status
       if signed_in?      
         participation = Challenges.participant_status(current_access_token, current_user.username, params[:id])[0]
         if participation.nil?
-          status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false, :send_discussion_emails => false}
+          status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false, 
+            :send_discussion_emails => false, :total_valid_submissions => 0}
         else
           status =  {:status => participation["Status__c"], :participantId => participation["Id"], 
-            :has_submission => participation["Has_Submission__c"], :send_discussion_emails => participation["Send_Discussion_Emails__c"]}
+            :has_submission => participation["Has_Submission__c"], 
+            :send_discussion_emails => participation["Send_Discussion_Emails__c"],
+            :total_valid_submissions => participation["Member__r"]["Valid_Submissions__c"].to_i}
         end
       else 
         status =  nil
