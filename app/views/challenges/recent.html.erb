@@ -21,9 +21,6 @@
 									<br/><strong>Total Prize Amount: <%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %></strong>
 									<br/><span><%= category_display(record['Challenge_Categories__r']) %></span>
 									<br/><span><%= pluralize(record["Challenge_Participants__r"]["totalSize"], 'Participant') %> &middot; <%= link_to "View the Winners", results_url(record['Challenge_Id__c']) %></span>
-									<% if !record["License__c"].nil? %>
-										<br/><span><%= record["License__c"] %> license</span>
-									<% end %>
 									<% if !record["Blog_URL__c"].nil? %>
 										<br/><span><a href="<%= record["Blog_URL__c"] %>">Read the blog post</a></span>
 									<% end %>
