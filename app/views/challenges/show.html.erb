@@ -10,68 +10,71 @@
                     <div class="list-technologies">
                         <ul>
                             <table cellspacing="0" border="0" style="border-collapse:collapse;">
-								<tr>
-									<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
-									<td><li><a href="/challenges?category=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a></li></td>
-									<% end %>                                
-								</tr>
-							</table>
+														<tr>
+															<% @challenge_detail["Challenge_Categories__r"]["records"].each do |record| %> 
+															<td><li><a href="/challenges?category=<%= record["Display_Name__c"] %>"><span><%= record["Display_Name__c"] %></span></a></li></td>
+															<% end %>                                
+														</tr>
+													</table>
                         </ul>
-                    </div>
+										</div>
 
 					<%= flash_messages %>
 
 					<% if !@challenge_detail["Description__c"].nil? %>
-                    	<h3>Overview</h3>
-                    	<p><%= raw(@challenge_detail["Description__c"])%></p>
+						<h3>Overview</h3>
+						<p><%= raw(@challenge_detail["Description__c"])%></p>
 					<% end %>
 
 					<% if !@challenge_detail["Requirements__c"].nil? %>
-                    	<h3>Challenge Requirements</h3>
-                    	<p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
+						<h3>Challenge Requirements</h3>
+						<p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
 					<% end %>
 
-                    <h3>Submission Details</h3>
+					<h3>Submission Details</h3>
 					<% if !@challenge_detail["Submission_Details__c"].nil? %>
-                    	<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
+						<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
 					<% end %>
-					<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.  If you 
-						would like to request an extension, please read <a href="/faq">Can challenge deadlines be extended for more time?</a> on our FAQ. We do not want to grant extensions 
-						unless there is a valid reason.</p> 
+
+					<% if ['Code','Design','Hackathon'].include?(@challenge_detail['Challenge_Type__c']) %>
+						<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.  If you 
+							would like to request an extension, please read <a href="/faq">Can challenge deadlines be extended for more time?</a> on our FAQ. We do not want to grant extensions 
+							unless there is a valid reason.</p> 
+					<% end %>
 
 					<% if !@challenge_detail["Additional_Info__c"].nil? %>
-                    	<h3>Additional Info</h3>
-                    	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
+						<h3>Additional Info</h3>
+						<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
 					<% end %>
 										
 					<!-- show if they are registered or submitted and signed in -->
 					<% if signed_in? %>
 						<% if !@challenge_detail["Post_Reg_Info__c"].nil? && @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
-	                    	<p><%= raw(@challenge_detail["Post_Reg_Info__c"]) %></p>
+							<p><%= raw(@challenge_detail["Post_Reg_Info__c"]) %></p>
 						<% end %>
 					<% end %>
 
 					<% if @challenge_detail["Is_Open__c"].eql?("true") %>
 						<% if signed_in? %>
-		                    <div>
+							<div>
 							<% if @participation_status[:status].eql?('Not Registered') && !closed_for_registration? %>
 								<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
 								contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
-		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
-		                        <a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
+								<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+								<a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
 							<% elsif @participation_status[:status].eql?('Watching') && !closed_for_registration? %>
 								<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus we may periodically
 								contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry.</div>
-		                        <a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
+								<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 							<% elsif @participation_status[:status].eql?('Registered') || @participation_status[:status].eql?('Submitted') %>
-		                        <a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
+								<a class="button fl" href="<%= submission_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Submit Your Entry</span></a>
 							<% end %>                    
-		                    </div>
+							</div>
 						<% else %>
-	 	                   <div>
-		                        <h3><span>Please login to submit for this challenge</span></h3>
-		                        <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                        
-		                    </div>
+							<div>
+							  <h3><span>Please login to submit for this challenge</span></h3>
+							  <a class="button fl fancy" href="/login_popup"> <span>Login</span></a>                    
+							</div>
 						<% end %>
 					<% else %>
 						<% if signed_in? && @participation_status[:status].eql?('Submitted')%>
@@ -79,19 +82,19 @@
 						<% end %>
 					<% end %>
 
-                </div><br/><br/>
+					</div><br/><br/>
 
-                <!-- END Challenge Information -->
+					<!-- END Challenge Information -->
 
-                <!-- Discussion -->
-								<%= render "shared/discussion_board" %>
-                <!-- END Discussion -->
+					<!-- Discussion -->
+					<%= render "shared/discussion_board" %>
+					<!-- END Discussion -->
 
 
-            </div>
-            <!-- END Widecolumn -->
-            <!-- Sidebar -->
-            <div class="sidebar fr">
+					</div>
+					<!-- END Widecolumn -->
+					<!-- Sidebar -->
+					<div class="sidebar fr">
                 
 				<!-- Challenge Sidebar -->
 				<div class="challenge-sidebar">
