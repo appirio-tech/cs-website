@@ -65,7 +65,7 @@
         <li><%= link_to "Get Started", "/welcome2cloudspokes" %></li>
         <li><%= link_to "Blog", "http://blog.cloudspokes.com" %></li>
         <li><%= link_to "Help", "http://community.cloudspokes.com", :target => '_blank' %></li>
-        <li><%= link_to "FAQ", "http://community.cloudspokes.com/cloudspokes/products/cloudspokes_faq_s", :target => '_blank' %></li>
+        <li><%= link_to "FAQ", "/faq", :target => '_blank' %></li>
         <% if current_user.nil? %>
 			<li><%= link_to "Login", "/login_popup", :class => "fancy" %></li>
 		<% else %>

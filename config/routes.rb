@@ -109,12 +109,14 @@ CloudSpokes::Application.routes.draw do
   
   #content -- eventually will be refinery
   match "/privacy" => redirect("http://content.cloudspokes.com/privacy")
+  match "/partners" => redirect("http://content.cloudspokes.com/partners")
   match "/tos" => redirect("http://content.cloudspokes.com/terms-of-service")
   match "/login_help" => redirect("http://content.cloudspokes.com/help-logging-in")
+  match "/faq" => redirect("http://community.cloudspokes.com/cloudspokes/products/cloudspokes_faq_s")
 
-  match "/about", to: "content#about" # page being redone by sal
-  match "/badges", to: "content#badges"
-  match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes
+  match "/about", to: "content#about" # http://content.cloudspokes.com/how-it-works
+  match "/badges", to: "content#badges" # moving to refiners
+  match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes # unknown
   match "/login_denied", to: "content#login_denied", :as => :login_denied
   match "/home", to: "content#home", :as => :home
   root to: 'content#home'
