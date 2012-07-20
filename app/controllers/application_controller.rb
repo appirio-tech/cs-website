@@ -37,6 +37,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def appirio_user?
+    if logged_in?
+      current_user.email.include?('@appirio.com') ? true : false
+    else
+      false
+    end
+  end
+
   def logged_in?
     !!current_user
   end  
