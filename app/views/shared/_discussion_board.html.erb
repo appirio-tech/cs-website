@@ -52,12 +52,13 @@
 
     <div style="text-align: center"></div>
     <!-- END Box -->
-    <!-- Post Comment -->
+    <!-- Post Comment - if open & 'Show' discussion board or closed & 'Show - Past End Date' -->
 	<a name="comment"></a>
-	<% if @challenge_detail["Is_Open__c"].eql?("true") %>
+	<% if @challenge_detail["Is_Open__c"].eql?("true") && @challenge_detail['Discussion_Board__c'].eql?("Show") || 
+			@challenge_detail["Is_Open__c"].eql?("false") && @challenge_detail['Discussion_Board__c'].eql?("Show - Past End Date") %>
         <div class="post-comment">
-            <h3>Post a Comment</h3>
-            <fieldset>
+				<h3>Post a Comment</h3>
+				<fieldset>
 				<% if signed_in? %>
 					<%= form_for :discussion, :url => challenge_comment_path, :name => 'new_comment' do |f| %>
 						<div class="holder">
@@ -74,8 +75,11 @@
 				<% else %>
 					Please <a href="/login_popup" class="fancy">login</a> to post a comment.
 				<% end %>
-            </fieldset>
+				</fieldset>
         </div>
+	<% elsif @challenge_detail['Discussion_Board__c'].eql?("Hide - Show Support Link") %>
+		<p>Please post any questions or issues on our 
+			<a href="http://community.cloudspokes.com/cloudspokes" target="_blank">support page.</a></p>        
 	<% else %>
 		<p>The discussion board is closed for this challenge.</p>
 	<% end %>
