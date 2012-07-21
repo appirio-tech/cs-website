@@ -69,8 +69,8 @@
 						<% if @use_captcha %><%= recaptcha_tags %><% end %>
 					  <a class="button fl" onclick="document.forms[0].submit();"> <span>Post</span></a>
 					  <% if !@use_captcha %><div class="hint" style="clear:both;"><br/>Skipping captcha thanks to <a href="http://community.cloudspokes.com/cloudspokes/topics/users_whitelist_for_commenting" target="_blank">PaulKolbovich's idea</a>.</div><% end %>
-					  <% if !@participation_status[:status].eql?('Not Registered') %>
-					    <div style="float:right;padding-top:7px;padding-right:125px;font-size:11px"><%= link_to @participation_status[:send_discussion_emails] ? "Stop sending me" : "Please send me", toggle_discussion_email_path %> discussion emails for this challenge.</div>
+					  <% unless @participation_status[:status].eql?('Not Registered') %>
+					    <div style="padding-top:7px;padding-right:125px;"><%= link_to @participation_status[:send_discussion_emails] ? "Stop sending me" : "Please send me", toggle_discussion_email_path %> discussion emails for this challenge.</div>
 					  <% end %>
 					<% end %>
 				<% else %>
