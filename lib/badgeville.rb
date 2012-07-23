@@ -35,4 +35,17 @@ class Badgeville
     
   end
 
+  def self.send_site_registration(player_id)
+
+    options = {
+      :body => {
+        'activity[verb]' => "registered_on_site",
+        'player_id' => player_id
+      }
+    }
+
+    post(ENV['BADGEVILLE_API_URL']+'/api/berlin/'+ENV['BADGEVILLE_API_KEY']+'/activities.json', options)
+
+  end  
+
 end
