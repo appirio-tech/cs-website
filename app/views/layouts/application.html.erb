@@ -52,8 +52,8 @@
     <header id='top'>
       <h1 id='logo'><%= link_to "CloudSpokes", "/" %></h1>
       <nav id='menu'><ul>
-        <li><%= link_to "Members", members_path %></li>
-        <li><%= link_to "Challenges", "/challenges" %></li>
+        <li><%= link_to "Members", params[:community] ? community_members_path : members_path %></li>
+        <li><%= link_to "Challenges", params[:community] ? community_challenges_path : challenges_path %></li>
         <li><%= link_to "Badges", "/badges" %></li>
         <% if current_user.nil? %>
 			<li><%= link_to "Account", "/login_popup", :class => "fancy" %></li>
