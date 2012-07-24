@@ -5,7 +5,8 @@ class AdminController < ApplicationController
   end
 
   def create_badgeville_users
-    @users = SfdcConnection.admin_dbdc_client.query("select id, name from member__c where badgeville_id__c = '' order by createddate desc limit 1000")
+    connection = SfdcConnection.admin_dbdc_client
+    @users = connection.query("select id, name from member__c where badgeville_id__c = '' order by createddate desc limit 1")
     @users.each do |u|
       begin  
         results = Badgeville.get_user_by_email(u.Name+'@m.cloudspokes.com')
@@ -14,6 +15,10 @@ class AdminController < ApplicationController
           Resque.enqueue(NewBadgeVilleUser, current_access_token, u.Name, u.Name+'@m.cloudspokes.com') 
         else
           puts "#{u.Name} already exists: #{results}"
+          connection.materialize("Member__c")
+          member = Member__c.find_by_name(u.Name)
+          member.update_attributes('Badgeville_Id__c' => results['_id'])
+          member.save
         end
       rescue Exception => exc
         puts "Couldn't create user: #{exc.message}" 
