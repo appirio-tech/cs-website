@@ -3,6 +3,24 @@ class AdminController < ApplicationController
   
   def index
   end
+
+  def create_badgeville_users
+    @users = SfdcConnection.admin_dbdc_client.query("select id, name from member__c where badgeville_id__c = '' order by createddate desc limit 1000")
+    @users.each do |u|
+      begin  
+        results = Badgeville.get_user_by_email(u.Name+'@m.cloudspokes.com')
+        if results.has_key?('error') 
+          puts "Creating a user for #{u.Name}"
+          Resque.enqueue(NewBadgeVilleUser, current_access_token, u.Name, u.Name+'@m.cloudspokes.com') 
+        else
+          puts "#{u.Name} already exists: #{results}"
+        end
+      rescue Exception => exc
+        puts "Couldn't create user: #{exc.message}" 
+      end  
+    end
+    render :text => 'Done!'
+  end
   
   def blogfodder
     @challenge = Challenges.find_by_id(current_access_token, params[:id])[0]

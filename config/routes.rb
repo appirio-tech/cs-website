@@ -96,6 +96,7 @@ CloudSpokes::Application.routes.draw do
   get "admin/send_mail"
   get "admin/refresh_token"
   match 'admin/blogfodder/:id', :to => 'admin#blogfodder'
+  get "admin/create_badgeville_users"
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure' 

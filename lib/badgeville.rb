@@ -48,4 +48,10 @@ class Badgeville
 
   end  
 
+  def self.get_user_by_email(email)    
+    results = get(ENV['BADGEVILLE_API_URL']+'/api/berlin/'+ENV['BADGEVILLE_API_KEY']+'/users/'+email+'.json')
+    Rails.logger.info "[Badgeville]==== get user by email #{email} with response from badgeville: #{results}"
+    return results
+  end
+
 end
