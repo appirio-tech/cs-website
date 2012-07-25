@@ -9,14 +9,4 @@ class CommunitiesController < ApplicationController
 
   end
 
-  def members
-
-  end
-
-  def challenges
-  	session[:community] = params[:id]
-  	redirect_to challenges_url
-  end
-
-
 end

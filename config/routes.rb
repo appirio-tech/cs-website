@@ -3,6 +3,7 @@ CloudSpokes::Application.routes.draw do
   resources :sessions
 
   match "/appirio" => redirect("/communities/appirio")
+  match 'communities/:community', :to => 'communities#show', :as => :community
 
   match '/signup',  :to => 'sessions#signup'
   match '/signup/:id', :to => 'sessions#signup_referral'
@@ -74,11 +75,6 @@ CloudSpokes::Application.routes.draw do
   match 'leaderboard_this_year', :to => 'challenges#leaderboard_this_year', :as => 'leaderboard_this_year'
   match 'leaderboard_all_time', :to => 'challenges#leaderboard_all_time', :as => 'leaderboard_all_time'    
   match "/newbie" => redirect("/challenges?category=Newbie")
-
-  match 'communities', :to => 'communities#index', :as => :communitities
-  match 'communities/:community', :to => 'communities#show', :as => :community
-  match 'communities/:community/challenges', :to => 'challenges#index', :as => :community_challenges
-  match 'communities/:community/members', :to => 'members#index', :as => :community_members
   
   # quick quiz
   match 'quizes/:id/quiz', :to => 'quizes#show', :as => :takequiz
