@@ -2,6 +2,9 @@ CloudSpokes::Application.routes.draw do
   
   resources :sessions
 
+  match "/appirio" => redirect("/communities/appirio")
+  match 'communities/:community', :to => 'communities#show', :as => :community
+
   match '/signup',  :to => 'sessions#signup'
   match '/signup/:id', :to => 'sessions#signup_referral'
   match '/signup_complete', :to => 'sessions#signup_complete'  
