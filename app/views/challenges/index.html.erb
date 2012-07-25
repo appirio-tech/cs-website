@@ -67,12 +67,11 @@
 		                            </div>
 		                            <div class="col-right fr">
 		                                <p>
-		                                    <strong><%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong>
-		                                    <br />
-		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span>
-		                                    <br />
-											<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['Challenge_Id__c']) %>
-											</p>
+		                                    <strong><%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong><br />
+		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span><br />
+		                                    <% if record['Community__c'] %><%= record['Community__r']['Name'] %> Community<br/><% end %>
+																				<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['Challenge_Id__c']) %>
+																				</p>
 		                            </div>
 		                            <div class="cl"></div>
 		                        </div>
