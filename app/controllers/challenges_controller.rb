@@ -46,7 +46,6 @@ class ChallengesController < ApplicationController
   end
 
   def index   
-    puts '==== RUNNING CHALLENGE INDEX'
     if params[:show].eql?('closed')
       show_open = false
       determine_page_title('Closed Challenges')
