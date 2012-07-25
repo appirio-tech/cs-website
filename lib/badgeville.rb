@@ -54,4 +54,10 @@ class Badgeville
     return results
   end
 
+  def self.get_player_by_email(email)    
+    results = get(ENV['BADGEVILLE_API_URL']+'/api/berlin/'+ENV['BADGEVILLE_API_KEY']+'/players/info.json?site=www.cloudspokes.com&email='+email)
+    Rails.logger.info "[Badgeville]==== get player by email #{email} with response from badgeville: #{results}"
+    return results
+  end  
+
 end

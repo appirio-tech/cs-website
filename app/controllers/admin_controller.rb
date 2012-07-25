@@ -6,23 +6,29 @@ class AdminController < ApplicationController
 
   def create_badgeville_users
     connection = SfdcConnection.admin_dbdc_client
-    @users = connection.query("select id, name from member__c where badgeville_id__c = '' order by createddate desc limit 1")
+    @users = connection.query("select id, name from member__c where badgeville_id__c = '' and id not in ('a0IU0000001Ld8L') order by createddate desc limit 1000")
     @users.each do |u|
       begin  
-        results = Badgeville.get_user_by_email(u.Name+'@m.cloudspokes.com')
+        email = u.Name+'@m.cloudspokes.com'
+        username = u.Name
+        puts "==== PROCESSING #{username}"
+        results = Badgeville.get_user_by_email(email)
         if results.has_key?('error') 
-          puts "Creating a user for #{u.Name}"
-          Resque.enqueue(NewBadgeVilleUser, current_access_token, u.Name, u.Name+'@m.cloudspokes.com') 
+          puts "**** Creating a user for #{username} via resque ****"
+          Resque.enqueue(NewBadgeVilleUser, current_access_token, username, email) 
         else
-          puts "#{u.Name} already exists: #{results}"
+          puts "==== #{username} already exists: #{results}"
+          # check for a player and create if it does not exist
+          Badgeville.create_player(username, email) if Badgeville.get_player_by_email(email).has_key?('error')
           connection.materialize("Member__c")
-          member = Member__c.find_by_name(u.Name)
-          member.update_attributes('Badgeville_Id__c' => results['_id'])
+          member = Member__c.find_by_name(username)
+          member.update_attributes('Badgeville_Id__c' => results['data']['_id'])
           member.save
+          puts "==== #{username} updated in salesforce"
         end
       rescue Exception => exc
-        puts "Couldn't create user: #{exc.message}" 
-      end  
+        puts "==== Couldn't create user: #{exc.message}" 
+      end   
     end
     render :text => 'Done!'
   end

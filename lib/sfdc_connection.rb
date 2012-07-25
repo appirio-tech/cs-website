@@ -78,7 +78,15 @@ class SfdcConnection
   def self.admin_dbdc_client
     config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
     client = Databasedotcom::Client.new(config)
+    client.debugging = false
     client.authenticate :username => ENV['SFDC_ADMIN_USERNAME'], :password => ENV['SFDC_ADMIN_PASSWORD']
+    return client
+  end
+
+  def self.dbdc_client(access_token)
+    client = Databasedotcom::Client.new
+    client.debugging = true
+    client.authenticate :token => access_token, :instance_url => ENV['SFDC_INSTANCE_URL']
     return client
   end
   
