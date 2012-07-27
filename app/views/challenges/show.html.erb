@@ -21,12 +21,17 @@
 
 					<%= flash_messages %>
 
-					<% if !@challenge_detail["Description__c"].nil? %>
+					<% unless @challenge_detail["Community__c"].nil? %>
+						<h3><%= @challenge_detail['Community__r']['Name'] %> Community</h3>
+						<p>This is a private challenge for members of the <%= link_to "#{@challenge_detail['Community__r']['Name']} Community", community_url(@challenge_detail['Community__r']['Name'].downcase) %>.</p>
+					<% end %>
+
+					<% unless @challenge_detail["Description__c"].nil? %>
 						<h3>Overview</h3>
 						<p><%= raw(@challenge_detail["Description__c"])%></p>
 					<% end %>
 
-					<% if !@challenge_detail["Requirements__c"].nil? %>
+					<% unless @challenge_detail["Requirements__c"].nil? %>
 						<h3>Challenge Requirements</h3>
 						<p><%= raw(@challenge_detail["Requirements__c"]) %></p>	
 					<% end %>
@@ -42,7 +47,7 @@
 							unless there is a valid reason.</p> 
 					<% end %>
 
-					<% if !@challenge_detail["Additional_Info__c"].nil? %>
+					<% unless @challenge_detail["Additional_Info__c"].nil? %>
 						<h3>Additional Info</h3>
 						<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
 					<% end %>
