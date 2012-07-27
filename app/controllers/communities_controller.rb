@@ -11,12 +11,6 @@ class CommunitiesController < ApplicationController
 
 		@leaderboard.sort! { |a,b| a['position'] <=> b['position'] }
 
-		counter = 0
-    @leaderboard.each do |member|
-    	counter += 1
-    	member['rank'] = counter
-  	end
-
   end
 
 end
