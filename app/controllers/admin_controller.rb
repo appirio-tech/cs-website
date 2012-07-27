@@ -6,7 +6,7 @@ class AdminController < ApplicationController
 
   def create_badgeville_users
     connection = SfdcConnection.admin_dbdc_client
-    @users = connection.query("select id, name from member__c where badgeville_id__c = '' and id not in ('a0IU0000001Ld8L') order by createddate desc limit 1000")
+    @users = connection.query("select id, name from member__c where badgeville_id__c = '' and id not in ('a0IU0000001Ld8L') order by createddate desc limit 200")
     @users.each do |u|
       begin  
         email = u.Name+'@m.cloudspokes.com'
@@ -40,7 +40,6 @@ class AdminController < ApplicationController
   end
   
   def refresh_token
-    
     logger.info "[AdminController]==== refreshing the settting table with a new access token for #{ENV['SFDC_USERNAME']}"
     config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
     client = Databasedotcom::Client.new(config)
