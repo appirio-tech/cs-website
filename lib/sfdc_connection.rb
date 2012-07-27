@@ -85,7 +85,7 @@ class SfdcConnection
 
   def self.dbdc_client(access_token)
     client = Databasedotcom::Client.new
-    client.debugging = true
+    client.debugging = false
     client.authenticate :token => access_token, :instance_url => ENV['SFDC_INSTANCE_URL']
     return client
   end
