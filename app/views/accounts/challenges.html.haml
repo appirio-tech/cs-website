@@ -8,8 +8,7 @@
         = flash_messages
         %h3 Followed Challenges
         - if @followed_challenges.count == 0 
-          %div{:style => "text-align:center"}
-            %b No followed challenge found
+          No followed challenge found
         - @followed_challenges.each do |followed_challenge|
           = render "challenge", :challenge => followed_challenge, :type => 'watching'
 
@@ -17,8 +16,7 @@
         %br
         %h3 Active Challenges
         - if @active_challenges.count == 0 
-          %div{:style => "text-align:center"}
-            %b No active challenge found
+          No active challenge found
         - @active_challenges.each do |active_challenge|
           = render "challenge", :challenge => active_challenge, :type => 'active'
 
@@ -26,8 +24,7 @@
         %br
         %h3 Past Challenges
         - if @past_challenges.count == 0 
-          %div{:style => "text-align:center"}
-            %b No past challenge found
+          No past challenge found
         - @past_challenges.each do |past_challenge|
           = render "challenge", :challenge => past_challenge, :type => 'past'
    

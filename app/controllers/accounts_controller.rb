@@ -164,6 +164,10 @@ class AccountsController < ApplicationController
       end
     end
   end
+
+  def communities
+    @communities = SfdcConnection.dbdc_client(current_access_token).query("select name, about__c, members__c from community__c order by name")
+  end
   
   def get_account
     @account = Members.find_by_username(current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS)[0]

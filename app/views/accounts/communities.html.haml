@@ -1,0 +1,13 @@
+.content-wrapper.left-sidebar.top-border
+  #account
+    .sidebar.fl
+      = render 'menu', :selected_item => "my_communities"
+      
+    .widecolumn.fr
+      #project-overview
+        = flash_messages
+        %h3 My Communities
+        - if @communities.count == 0 
+          You do not appear to be part of any private communities.
+        - @communities.each do |community|
+          = render "community", :community => community

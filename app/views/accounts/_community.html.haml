@@ -1,0 +1,12 @@
+%div
+  .box
+    .box-b
+      .box-t
+        .col-left.fl
+          %h4
+            %a{:href => community_url(community["Name"].downcase)}= community["Name"]
+          %p= "#{raw(truncate(community["About__c"].gsub(/<\/?[^>]*>/, ""), :length => 400, :separator => ' '))}"
+        .col-right.fr
+          %p
+            = "#{community["Members__c"].to_i} members"
+        .cl  

@@ -6,7 +6,8 @@ module AccountsHelper
                        :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
                        :change_password      => {:value => "change password",     :link => "/account/password"}}
                        
-  MENU_OPTIONS_MY = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"} }                       
+  MENU_OPTIONS_MY = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"},
+                      :my_communities       => {:value => "my communities",       :link => "/account/communities"}}                       
 
   MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
   
