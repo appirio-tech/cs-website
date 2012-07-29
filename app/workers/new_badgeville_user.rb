@@ -5,13 +5,13 @@ class NewBadgeVilleUser
   def self.perform(access_token, username, email)
 
     # create the badgeville user
-    Badgeville.create_user(username, email)
+    Badgeville.create_user(username, email.downcase)
     
-    # sleep for 2 seconds to allow badgeville to process user
+    # sleep for 10 seconds to allow badgeville to process user
     sleep(10)
     
     #create the badgeville player
-    player_id = Badgeville.create_player(username, email)
+    player_id = Badgeville.create_player(username.downcase, email.downcase)
     
     unless player_id.nil?
       Badgeville.send_site_registration(player_id)
