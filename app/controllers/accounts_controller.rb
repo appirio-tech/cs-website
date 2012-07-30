@@ -121,6 +121,7 @@ class AccountsController < ApplicationController
   def public_profile
     if params["form_profile"]
       Members.update(current_access_token, @current_user.username, params["form_profile"])
+      Resque.enqueue(UpdateBadgeVillePlayer, current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
       flash.now[:notice] = "Your profile information has been updated."
     end
     @page_title = "Public Profile"
