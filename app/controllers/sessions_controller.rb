@@ -4,7 +4,8 @@ require 'sfdc_connection'
 
 class SessionsController < ApplicationController
   
-  before_filter :redirect_to_https, :only => ["login_popup","login","signup","callback"]
+  before_filter :redirect_to_https, :only => [:login_popup,:login,:signup,:callback]
+  before_filter :prevent_appirio_cs_signups, :only => [:signup_cs_create]
   
   def redirect_to_https
     redirect_to url_for params.merge({:protocol => 'https://'}) unless (request.ssl? or Rails.env.development? or Rails.env.test?)
@@ -236,6 +237,7 @@ class SessionsController < ApplicationController
     
   # authenticate them against sfdc in with cloudspokes u/p
   def login_cs_auth
+    
     @login_form = LoginForm.new(params[:login_form])
     if @login_form.valid?
       
@@ -319,6 +321,11 @@ class SessionsController < ApplicationController
       render :action => 'public_reset_password'
     end
   end
+
+  # redirect anyone trying to login with an appirio address
+  def prevent_appirio_cs_signups
+    redirect_to "http://content.cloudspokes.com/appirio-cloudspokes-users" if params[:signup_form][:email].include?('@appirio.com')
+  end  
 
   def login_required 
   end
