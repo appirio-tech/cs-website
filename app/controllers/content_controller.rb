@@ -41,12 +41,6 @@ class ContentController < ApplicationController
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'welcome')
   end
   
-  def about
-    @page_title = "How CloudSpokes Works"
-    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'about')
-    p @page
-  end
-  
   def login_denied
     @page_title = "Login Denied"
     @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_denied')
