@@ -85,7 +85,7 @@ class MembersController < ApplicationController
     @past_challenges   = []
     @challenges.each do |challenge|
       if ['Winner Selected','No Winner Selected','Completed'].include?(challenge['Status__c']) && 
-        challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
+        !challenge['Challenge_Participants__r']['records'].first['Status__c'].eql?('Watching')
         @past_challenges << challenge
       end
     end
