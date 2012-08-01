@@ -64,7 +64,7 @@
 							<% if signed_in? %>
 								<div>
 								<% if @participation_status[:status].eql?('Not Registered') && !closed_for_registration? %>
-									<div style="padding-bottom:15px">Being registered for a challenge will allow you to receive all comments posted to the discussion board plus <b>skip the captcha</b> if you have submitted successfuly for previous challenges. We may also periodically contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry so we highly recommend that you register for this challenge if interested in possibly participating in it.</div>
+									<div style="padding-bottom:15px">Registering for a challenge will allow you to receive all comments posted to the discussion board, plus <b>skip the captcha</b> if you have submitted a passing solutions for at least one challenge. We may also periodically contact registered members to provide them with challenge specific information, obtain feedback or additional input. You are not obligated to submit an entry however, we highly recommend that you register for this challenge if you have any interested in participating or would simply like to stay informed.</div>
 									<a class="button fl" href="<%= register_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Register</span></a>
 									<a class="button fl" href="<%= watch_url(@challenge_detail["Challenge_Id__c"]) %>"><span>Add to Watch List</span></a>    
 								<% elsif @participation_status[:status].eql?('Watching') && !closed_for_registration? %>
