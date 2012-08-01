@@ -101,6 +101,11 @@ CloudSpokes::Application.routes.draw do
   get "admin/refresh_token"
   match 'admin/blogfodder/:id', :to => 'admin#blogfodder'
   get "admin/create_badgeville_users"
+  match 'admin/create_badgeville_user/:membername', :to => 'admin#create_badgeville_user'
+  match 'admin/update_badgeville_player/:membername', :to => 'admin#update_badgeville_player'
+  
+  get "admin/update_badgeville_players"
+  get 'admin/update_badgeville_player_ids'
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure' 
@@ -118,10 +123,9 @@ CloudSpokes::Application.routes.draw do
   match "/tos" => redirect("http://content.cloudspokes.com/terms-of-service")
   match "/login_help" => redirect("http://content.cloudspokes.com/help-logging-in")
   match "/faq" => redirect("http://community.cloudspokes.com/cloudspokes/products/cloudspokes_faq_s")
+  match "/welcome2cloudspokes" => redirect("http://content.cloudspokes.com/welcome2cloudspokes")
 
-  match "/about", to: "content#about" # http://content.cloudspokes.com/how-it-works
   match "/badges", to: "content#badges" # moving to refiners
-  match "/welcome2cloudspokes", :to => "content#welcome", :as => :welcome2cloudspokes # unknown
   match "/login_denied", to: "content#login_denied", :as => :login_denied
   match "/home", to: "content#home", :as => :home
   root to: 'content#home'
