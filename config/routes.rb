@@ -124,9 +124,9 @@ CloudSpokes::Application.routes.draw do
   match "/login_help" => redirect("http://content.cloudspokes.com/help-logging-in")
   match "/faq" => redirect("http://community.cloudspokes.com/cloudspokes/products/cloudspokes_faq_s")
   match "/welcome2cloudspokes" => redirect("http://content.cloudspokes.com/welcome2cloudspokes")
+  match "/login_denied" => redirect("http://content.cloudspokes.com/login-denied")
 
-  match "/badges", to: "content#badges" # moving to refiners
-  match "/login_denied", to: "content#login_denied", :as => :login_denied
+  match "/badges", to: "content#badges" # moving to refinery
   match "/home", to: "content#home", :as => :home
   root to: 'content#home'
   
