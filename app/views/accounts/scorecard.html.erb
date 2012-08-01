@@ -124,12 +124,24 @@
  }
  </style>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript">
 	function limitText(limitField, limitNum) {
+
+		// find the correct hint element
+		hint = $('#'+limitField.name+'_hint');
+
+		if (limitField.value.length > 0) {
+			var remchar = limitNum - limitField.value.length;
+			$(hint).html("Characters Remaining : " + remchar);
+		}
+		else{	
+			$(hint).html("Limit "+limitNum+" characters");
+		}
+		
 		if (limitField.value.length > limitNum) {
+			$(hint).html("Characters Remaining : 0");
 			limitField.value = limitField.value.substring(0, limitNum);
-			alert('Comments are limited to 255 characters.');
+			alert('Comments are limited to '+limitNum+' characters.');
 		}
 	}
 
@@ -206,21 +218,25 @@
 
 	function question_render(question) {
 	    if (question["type"] == "Text") {
-			var answer_text = question["answer_text"] != undefined ? question["answer_text"] : '';
+					var answer_text = question["answer_text"] != undefined ? question["answer_text"] : '';
 	        // if question type is Text, render a textarea
 	        question_class = "q_text";
-	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'" onKeyDown="limitText(this,255);" onKeyUp="limitText(this,255);">'+decodeURIComponent(answer_text.replace(/\+/g,  " "))+'</textarea><div class="hint">Limit 255 characters</div>';
+	        question_answer_dom = '<textarea class="scorecard" name="'+question["id"]+'" onKeyDown="limitText(this,255);" onKeyUp="limitText(this,255);">'+decodeURIComponent(answer_text.replace(/\+/g,  " "))+'</textarea><div id="'+question["id"]+'_hint" class="hint">Limit 255 characters</div>';					
 	    } else {
-			totalRadioQuestions = totalRadioQuestions + 1;
+					totalRadioQuestions = totalRadioQuestions + 1;
 	        // else render the radio buttons
 	        question_class = "q_numeric";
 	        question_answer_dom = "<table><tr>";
 	        for (var i=question["min"];i<=question["max"];i++) {
-				if ((question["isanswered"] == "1") && (question["answer_value"] == i)) {
+						if ((question["isanswered"] == "1") && (question["answer_value"] == i)) {
 	            	question_answer_dom += '<td><input class="scorecard" type="radio" name="'+question["id"]+'" value="' +i+ '" checked><br>'+i+'</td>';
-				} else {
-					question_answer_dom += '<td><input class="scorecard" type="radio" name="'+question["id"]+'" value="' +i+ '"><br>'+i+'</td>';
-				}
+						} else {
+								if ((question["answer_value"] == 0) && (i == 3)) {
+									question_answer_dom += '<td><input class="scorecard" type="radio" name="'+question["id"]+'" value="' +i+ '" checked><br>'+i+'</td>';
+								} else {
+									question_answer_dom += '<td><input class="scorecard" type="radio" name="'+question["id"]+'" value="' +i+ '"><br>'+i+'</td>';
+								}
+						}
 	        }
 	        question_answer_dom += "</tr></table>";
 	    }
@@ -258,33 +274,32 @@
 	* set the xml as the value of a hidden input and submit the form.
    */
 	function doSubmit(scored) {
-		 var allTextareasCompleted = true;
-		 var totalRadioQuestionsAnswered = 0;
-	     var xml = '<?xml version="1.0" encoding="utf-8"?>'+
-	                        '<Objects>';
-	    $("input.scorecard,textarea.scorecard").each(function() {
-	        if (this.tagName == "INPUT") {
-	            if (this.checked) {
-	                // for each radio box in scorecard, capture the value of the radio box thats checked
-	                xml += '<Object type="QwikScore_Question_Answer__c" id="'+this.name+'"><field id="Answer_Text__c">'+this.value+'</field></Object>';
-					totalRadioQuestionsAnswered = totalRadioQuestionsAnswered + 1;
-	            }
-	        } else {
-	            // for each textarea in scorecard, capture the text filled in
-	            if (this.value.length == 0) { allTextareasCompleted = false; }
-	            xml += '<Object type="QwikScore_Question_Answer__c" id="'+this.name+'"><field id="Answer_Text__c">'+encodeURIComponent(this.value.replace(/\+/g,  " "))+'</field></Object>';
-	        }
-	    });
-	    xml += "</Objects>";
+	 	var allTextareasCompleted = true;
+	 	var totalRadioQuestionsAnswered = 0;
+    var jsonData = [];
+    $("input.scorecard,textarea.scorecard").each(function() {
+        if (this.tagName == "INPUT") {
+            if (this.checked) {
+                // for each radio box in scorecard, capture the value of the radio box thats checked
+                jsonData.push({type: 'QwikScore_Question_Answer__c', id: this.name, field: {id: 'Answer_Text__c', value: this.value}});
+				        totalRadioQuestionsAnswered = totalRadioQuestionsAnswered + 1;
+            }
+        } else {
+            // for each textarea in scorecard, capture the text filled in
+            if (this.value.length == 0) { allTextareasCompleted = false; }
+            jsonData.push({type: 'QwikScore_Question_Answer__c', id: this.name, field: {id:'Answer_Text__c', value: encodeURIComponent(this.value.replace(/\+/g," "))}});
+        }
+    });
+
 		// deleteing this scorecard
 		if (document.getElementById("deleteSubmissionCheckbox").checked) {
 			$('#scorecard_form').submit();
-		// submitting the scores -- if all questiosn and textareas are completed
-		} else if (allTextareasCompleted && (totalRadioQuestionsAnswered == totalRadioQuestions)) {
-			// set the value of scored
-			$('#hidden_scored').val(scored);
+		// submitting the scores
+		} else if (!scored || (allTextareasCompleted && (totalRadioQuestionsAnswered == totalRadioQuestions))) {
+				// set the value of scored
+				$('#hidden_scored').val(scored.toString());
 		    // The generated xml is added as the value of a hidden input of the form
-		    $('#hiddenxml').val(xml);
+		    $('#hiddenjson').val(JSON.stringify(jsonData));
 		    // and the form is submitted
 		    $('#scorecard_form').submit();
 		} else {
@@ -340,12 +355,12 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 <div id="scorecard"></div>
 <form id="scorecard_form" action="<%= scorecard_save_path %>" method="post">
 <input type="hidden" name="set_as_scored" id="hidden_scored" value="">
-<input type="hidden" name="xml" id="hiddenxml" value="">
+<input type="hidden" name="json" id="hiddenjson" value="">
 <input type="hidden" name="participantId" id="participantId" value="<%= params[:id] %>">
 <% if !@scored %>
-<a class="button" onClick="doSubmit('false')"><span>Save for Later</span></a>
-<a class="button" onClick="doSubmit('true')"><span>Submit</span></a>
-<p><br><span style="padding-left:50px"><input type="checkbox" value="true" id="deleteSubmissionCheckbox" name="delete_participant_submission"> Not a valid scorecard. Delete it without scoring.</span></p>
+<a class="button" onClick="doSubmit(false)"><span>Save for Later</span></a>
+<a class="button" onClick="doSubmit(true)"><span>Submit Scorecard</span></a>
+<p><br><span style="padding-left:50px"><input type="checkbox" value="true" id="deleteSubmissionCheckbox" name="delete_participant_submission"> Check this box & 'Submit Scorecard' to delete if not a valid scorecard.</span></p>
 <% end %>
 </form>
 
