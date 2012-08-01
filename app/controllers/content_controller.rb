@@ -35,15 +35,5 @@ class ContentController < ApplicationController
     end
     
   end
-  
-  def welcome
-    @page_title = "A unique development community, focused on mobile technologies and public cloud platforms."
-    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'welcome')
-  end
-  
-  def login_denied
-    @page_title = "Login Denied"
-    @page = Webpages.all(current_access_token, :select => 'id,html__c', :where => 'login_denied')
-  end
 
 end
