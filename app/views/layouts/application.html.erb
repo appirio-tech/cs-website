@@ -92,11 +92,17 @@
         </ul></nav>
       </aside>
       <nav class='right'><ul>
+        <li><iframe id="counter" style="width: 200px; height: 15px; border: 0; margin-right: 30px;" src=""></iframe></li>
         <li><%= link_to "Privacy", "/privacy" %></li>
         <li><%= link_to "Terms", "/tos" %></li>
       </ul></nav>
     </footer>
   </div>
+  <% unless current_user.nil? %>
+    <script type="text/javascript">
+        document.getElementById('counter').src = 'http://cs-whos-online.herokuapp.com/embed?user=<%= current_user.username %>';
+    </script>
+  <% end %>
   <% unless current_user.nil? %>
     <% FastPass.domain = "community.cloudspokes.com" %>
     <%= FastPass.script("7u8gnzd0entb", "wzyi2cwb0c29y4obpe8rspux4crh6tkg", current_user.email, current_user.username, current_user.username).html_safe %>
