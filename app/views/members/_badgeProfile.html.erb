@@ -16,9 +16,7 @@
       Badgeville.crouton = function(){};
       Badgeville.Settings.showToast = 0;
 
-      Badgeville.setPlayer({
- 		   email: '<%= @member["Name"].downcase %>@m.cloudspokes.com'
-      });
+      BV.setPlayer( '<%= @member["Badgeville_Id__c"] %>' );
 	  
       Badgeville.bind('afterCreate:showcase', function(event, widget) {
         if (widget && widget.element) {
