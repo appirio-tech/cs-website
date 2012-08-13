@@ -2,10 +2,9 @@
 
 <div class="content-wrapper">
 	
-	<div style="width:600px;float:left">
+	<div style="width:585px;float:left">
 	
-		<%= raw(@community['About__c'])%> 
-		<br clear="all">
+		<%= raw(@community['About__c'])%><br/>
 
 		<h3 style="padding-top:10px"><%= pluralize(@challenges.size, "challenge") %> to compete in!</h3>
 
@@ -21,15 +20,13 @@
 	
 	</div>
 	
-	<div style="width:50px; float:left">&nbsp;</div>
-
-	<div style="width:225px; float:left">
+	<div style="width:350px; float:left">
 		
-		<h3><%= @community['Name'] %> Leaderboard</h3>
+		<h3 style="padding-left:40px"><%= @community['Name'] %> Leaderboard</h3>
 
     <% if @leaderboard.size > 0 %>
     	<div class="leaders">
-      	<ul style="padding: 0px;">
+      	<ul>
                         
 					<% @leaderboard[0..9].each do |record| %>
                 <li class="leader"><span class="num<% if record['position']==1 %> num-gold<% elsif record['position']==2 %> num-silver<% elsif record['position']==3 %> num-bronze<% end %> fl"><%= record['position'] %></span>
