@@ -13,7 +13,7 @@
 		
 		<% @challenges.each do |record| %>
 			<h4 style="margin-bottom:5px"><%= link_to "#{record["Name"]}", challenge_url(record['Challenge_Id__c']) %></h4>
-			<span style="font-weight:bold"><%= format_close_date(record['End_Date__c'].to_s) %> for <%= record['Top_Prize__c'] %></span>
+			<span style="font-weight:bold"><%= format_close_date(record['End_Date__c'].to_s) %> for <%= record['Top_Prize__c'] %> &middot; <%= pluralize(record["Registered_Members__c"], 'registered member') %></span>
 			<p><%= raw(truncate(record["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 400, :separator => ' ')) %></p>
 			<a class="button fl" href="<%= challenge_url(record['Challenge_Id__c']) %>"><span>View Details</span></a>
 			<div style="padding-top:50px"></div>
