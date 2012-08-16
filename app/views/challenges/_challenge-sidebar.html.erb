@@ -24,7 +24,9 @@
 		<span><%= link_to "Score submissions", outstanding_reviews_path %></span></strong>
 	<% end %>
 	
-	<li><h3>Total Prize Amount</h3><h2><span><%= number_to_currency(@challenge_detail["Total_Prize_Money__c"], :precision => 0) %></span></h2></li>
+	<% if @challenge_detail["Prize_Type__c"].eql?("Currency") %>
+		<li><h3>Total Prize Amount</h3><h2><span><%= number_to_currency(@challenge_detail["Total_Prize_Money__c"], :precision => 0) %></span></h2></li>
+	<% end %>
 	
 	<% if @challenge_detail["Challenge_Prizes__r"] %>
 	<li><h3>Prizes</h3>
@@ -35,6 +37,10 @@
 		</ul>
 	</li>
 	<% end %>
+
+	<li><h3>End Date</h3><strong><span>
+	<%= DateTime.parse(@challenge_detail["End_Date__c"]).strftime("%B %e, %Y at %I:%M%p") %>
+	</span></strong></li>
 	
 	<li><h3>Winner Announced</h3><strong><span>
 	<% if @challenge_detail["Status__c"].eql?("Winner Selected") %>
