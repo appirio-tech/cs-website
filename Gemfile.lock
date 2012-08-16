@@ -85,6 +85,8 @@ GEM
       databasedotcom
     diff-lcs (1.1.3)
     erubis (2.7.0)
+    exception_notification (2.6.1)
+      actionmailer (>= 3.0.4)
     execjs (1.2.9)
       multi_json (~> 1.0)
     faraday (0.7.5)
@@ -120,6 +122,8 @@ GEM
     json (1.6.3)
     launchy (2.0.5)
       addressable (~> 2.2.6)
+    letter_opener (0.0.2)
+      launchy
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     mail (2.3.0)
@@ -277,6 +281,7 @@ DEPENDENCIES
   dalli
   databasedotcom
   databasedotcom-rails
+  exception_notification
   flash_messages_helper
   growl
   guard
@@ -286,6 +291,7 @@ DEPENDENCIES
   heroku
   httparty
   jquery-rails
+  letter_opener
   minitest
   mongrel (= 1.2.0.pre2)
   omniauth-facebook

@@ -26,6 +26,7 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'flash_messages_helper'
 gem 'remote_syslog_logger'
 gem 'dalli'
+gem 'exception_notification'
 
 group :development, :test do
   gem 'sqlite3-ruby'
@@ -38,6 +39,7 @@ group :development, :test do
   gem 'rb-fsevent'
   gem 'ruby-debug19'
   gem 'heroku'
+  gem 'letter_opener'
 end
 
 group :test do
