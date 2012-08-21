@@ -125,6 +125,17 @@
  </style>
 
 <script type="text/javascript">
+
+  $(document).ready(function(){
+
+		$("#deleteSubmissionCheckbox").click(function() {
+			if($("#deleteSubmissionCheckbox").is(':checked')) {              
+          alert("Are you sure you want to delete this scorecard? This will reject their submission as being invalid and their submission will not be scored at all. They will not be eligible for any prize money. ");
+      }
+		});
+		
+  });
+
 	function limitText(limitField, limitNum) {
 
 		// find the correct hint element
