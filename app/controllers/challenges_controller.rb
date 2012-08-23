@@ -477,6 +477,12 @@ class ChallengesController < ApplicationController
   
   def current_challenge
     @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id])[0]
+    # check for an error thrown by sfdc if they request a 'bad' challenge (e.g., /challenges/fasdaf)
+    if @current_challenge.has_key?('errorCode') 
+      raise ActionController::RoutingError.new('Bad challenge request.')
+    else
+      @current_challenge
+    end
   end
   
   # most of the time the title will be the challenge name but be flexible
