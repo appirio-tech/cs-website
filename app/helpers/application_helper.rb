@@ -10,6 +10,7 @@ module ApplicationHelper
   
   def category_display(categories)
     cats = ''
+    return cats if categories.nil? 
     categories['records'].each do |record|
       cats = cats + record['Display_Name__c'] + ", "
     end
