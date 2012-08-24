@@ -8,6 +8,7 @@ require 'json'
 include ActionView::Helpers::NumberHelper
 
 class ChallengesController < ApplicationController
+  before_filter :check_if_challenge_exists, :only => [:register, :submission, :submission_view_only, :cal, :preview, :show, :registrants, :results, :participant_submissions, :participant_scorecard, :scorecard, :survey]
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
   before_filter :must_be_signed_in, :only => [:preview, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
   before_filter :must_be_open, :only => [:submission_file_upload, :submission_url_upload]  
@@ -468,7 +469,13 @@ class ChallengesController < ApplicationController
       end
     else
       redirect_to challenge_path
-    end
+   end
+  end
+
+  def check_if_challenge_exists
+    render :file => "#{Rails.root}/public/challenge-not-found.html", :status => :not_found if current_challenge.nil?
+    # check for an error thrown by sfdc if they request a 'bad' challenge (e.g., /challenges/fasdaf). sfdc returns an object.
+    raise ActionController::RoutingError.new('Bad challenge request.') if !current_challenge.nil? && current_challenge.has_key?('errorCode') 
   end
   
   def closed_for_registration?
@@ -476,13 +483,7 @@ class ChallengesController < ApplicationController
   end
   
   def current_challenge
-    @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id])[0]
-    # check for an error thrown by sfdc if they request a 'bad' challenge (e.g., /challenges/fasdaf)
-    if @current_challenge.has_key?('errorCode') 
-      raise ActionController::RoutingError.new('Bad challenge request.')
-    else
-      @current_challenge
-    end
+    @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id])[0] 
   end
   
   # most of the time the title will be the challenge name but be flexible

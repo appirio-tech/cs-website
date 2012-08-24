@@ -19,11 +19,7 @@ class ApplicationController < ActionController::Base
 
   # fetch the access token for this user or return the public access token from the database
   def current_access_token
-    if current_user.nil?
-      return SfdcConnection.public_access_token
-    else
-      return SfdcConnection.member_access_token current_user
-    end
+    current_user.nil? ? SfdcConnection.public_access_token : SfdcConnection.member_access_token(current_user)
   end
 
   def redirect_to_http

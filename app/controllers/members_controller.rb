@@ -149,8 +149,7 @@ class MembersController < ApplicationController
   end
 
   def check_if_member_exists
-    @member = requested_member
-    render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found if @member.nil?
+    render :file => "#{Rails.root}/public/member-not-found.html", :status => :not_found if requested_member.nil?
   end
 
 end
