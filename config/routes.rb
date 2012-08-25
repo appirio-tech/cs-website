@@ -77,18 +77,6 @@ CloudSpokes::Application.routes.draw do
   match 'leaderboard_all_time', :to => 'challenges#leaderboard_all_time', :as => 'leaderboard_all_time'    
   match "/newbie" => redirect("/challenges?category=Newbie")
   
-  # quick quiz
-  match 'quizes/:id/quiz', :to => 'quizes#show', :as => :takequiz
-  match 'quizes/:id/answer', :to => 'quizes#answer', :as => :answerquiz
-  match 'quizes/:id/practice', :to => 'quizes#practice', :as => :practicequiz
-  match 'quizes/:id/leaderboard', :to => 'quizes#leaderboard', :as => :quizleaderboard
-  match 'quizes/:id/results', :to => 'quizes#results', :as => :quizresults
-  match 'quizes/:id/results_by_member/:member/:date', :to => 'quizes#results_by_member', :as => :quizresults_by_member
-  match 'quizes/answer_by_member/:member', :to => 'quizes#answer_by_member', :as => :quizanswer_by_member  
-  match 'quizes/:id/winners', :to => 'quizes#winners', :as => :quizwinners
-  match 'quizes/flag_answer/:id', :to => 'quizes#flag_answer', :as => :flag_answer
-  match 'quizes/:id/question', :to => 'quizes#fetch_question', :as => :fetchquestion
-  
   match 'quiz_questions/authored', :to => 'quiz_questions#authored', :as => :questions_authored
   match 'quiz_questions/reviewed', :to => 'quiz_questions#reviewed', :as => :questions_reviewed  
   resources :quiz_questions
