@@ -38,7 +38,6 @@ class ApplicationController < ActionController::Base
       begin
         current_user.email.include?('@appirio.com') ? true : false
       rescue Exception => exc
-        logger.error "[ApplicationController]==== error determining if appirio user. current_user is #{current_user.inspect}. Error is #{exc.message}"
         return false
       end   
     else
