@@ -68,10 +68,16 @@
 		                            <div class="col-right fr">
 		                                <p>
 		                                    <strong><%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong><br />
+
+		                                    <% unless record['Challenge_Type__c'].eql?('Race')  %>
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span><br />
+		                                    <% end %>
+
 		                                    <% if record['Community__c'] %><%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Name'].downcase) %><br/><% end %>
 																				<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['Challenge_Id__c']) %>
 																				</p>
+
+																				<p style="margin-top:5px"><%= image_tag("type-"+record['Challenge_Type__c'].downcase+".png", :height => "18", :alt => record['Challenge_Type__c'].upcase) %></p>
 		                            </div>
 		                            <div class="cl"></div>
 		                        </div>

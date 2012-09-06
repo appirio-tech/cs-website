@@ -98,6 +98,8 @@ class ChallengesController < ApplicationController
           params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
         if submission_results['Success'].eql?('true')
           flash[:notice] = "File successfully submitted for this challenge."
+          # send the race submission notification from jeffdonthemic -- todo: implement a gneric clyde user
+          send_race_email_notification(params[:id], 'jeffdonthemic', 'A new submission has been uploaded for this challenge.') if params[:file_submission][:send_race_email]
         else
           flash[:error] = "There was an error submitting your File. Please check it and submit it again."
         end
@@ -498,6 +500,17 @@ class ChallengesController < ApplicationController
   end
   
   private
+
+    def send_race_email_notification(id, username, email_text)
+      # corrent the correct params hash
+      discussion = {:comments => email_text, :reply_to => ''}
+      params = {:discussion => discussion, :id => id}
+      # add the comment into the sfdc
+      post_results = Comments.save(current_access_token, username, params)
+      # send an email to all registered members of the new comment post
+      Resque.enqueue(NewChallengeCommentSender, current_access_token, id, 
+        username, email_text, post_results['Message']) if ENV['MAILER_ENABLED'].eql?('true') &&  post_results['Success'].eql?('true')
+    end
 
     def use_captcha?
       if appirio_user?

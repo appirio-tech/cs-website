@@ -122,8 +122,6 @@ GEM
     json (1.6.3)
     launchy (2.0.5)
       addressable (~> 2.2.6)
-    letter_opener (0.0.2)
-      launchy
     linecache19 (0.5.12)
       ruby_core_source (>= 0.1.4)
     mail (2.3.0)
@@ -292,7 +290,6 @@ DEPENDENCIES
   heroku
   httparty
   jquery-rails
-  letter_opener
   minitest
   omniauth-facebook
   omniauth-github

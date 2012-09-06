@@ -41,7 +41,13 @@
 						<p><%= raw(@challenge_detail["Submission_Details__c"]) %></p>
 					<% end %>
 
-					<% if ['Code','Design','Hackathon'].include?(@challenge_detail['Challenge_Type__c']) %>
+					<% if @challenge_detail['Challenge_Type__c'].eql?('Race') %>
+						<%= image_tag("type-race.png", :align => :left, :style => "padding-right:10px;padding-top:10px")%>
+						<p style="margin-top:7px"> This challenge is a race! We will judge the submissions in the order in which we receive them. If the first submission passes review the participant will be declared the winner. If the submission does not pass review, we will judge the next person's code and so on, until we either declare a winning submission or exhaust all submissions. We will post a message to the discussion board each time a member submits. Feel free to submit even if other members have submitted before you. Their submissions may not pass. <strong>There are currently <%= pluralize(@challenge_detail['Submissions__c'], 'submission') %> for this challenge.</strong></p> 
+						<div style="clear: both;"></div>
+					<% end %>
+
+					<% if ['Code','Race','Design','Hackathon'].include?(@challenge_detail['Challenge_Type__c']) %>
 						<p>Your submission will be judged by a panel of peers based upon <%= link_to 'this criteria', scorecard_display_url(@challenge_detail["Challenge_Id__c"]) %>.  If you 
 							would like to request an extension, please read <a href="http://community.cloudspokes.com/cloudspokes/topics/can_challenge_deadlines_be_extended_for_more_time">Can challenge deadlines be extended for more time?</a> on our FAQ. We do not want to grant extensions 
 							unless there is a valid reason.</p> 
