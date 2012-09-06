@@ -40,6 +40,7 @@
 						<fieldset>
 							<%= form_for :file_submission, :url => submission_file_path, :method => "post", :html => { :multipart => true } do |f| %>
 								<%= f.hidden_field :participantId, :value => @participation_status[:participantId] %>
+								<%= f.hidden_field :send_race_email, :value => :true if @challenge_detail['Challenge_Type__c'].eql?('Race') && !@participation_status[:has_submission] %>
 								<p>File <%= file_field 'file', 'file_name' %><br>
 								<div class="codelbl">Comments:</div>
 								<div class="holder">

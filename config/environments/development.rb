@@ -33,10 +33,4 @@ CloudSpokes::Application.configure do
   
   config.log_level = :debug
 
-  config.middleware.use ExceptionNotifier,
-    :email_prefix => "[SiteError] ",
-    :sender_address => 'noreply@cloudspokes.com',
-    :exception_recipients => 'jeff@appirio.com'
-
-  config.action_mailer.delivery_method = :letter_opener
 end

@@ -39,7 +39,6 @@ group :development, :test do
   gem 'rb-fsevent'
   gem 'ruby-debug19'
   gem 'heroku'
-  gem 'letter_opener'
 end
 
 group :test do

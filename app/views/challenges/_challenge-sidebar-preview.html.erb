@@ -4,7 +4,9 @@
 	<% if Time.parse(@challenge_detail['End_Date__c']).past? && !['Created','Hidden'].include?(@challenge_detail['Status__c']) %>
 		<li><h3>Status</h3><h2><span><%= @challenge_detail['Status__c'] %></span></h2></li>
 	<% else %>
-		<li><h3>Time Left For Submission</h3><h2><span><%= format_close_date_time(@challenge_detail['End_Date__c']) %></span></h2></li>
+		<% unless @challenge_detail["Challenge_Type__c"].eql?("Race") %>
+			<li><h3>Time Left For Submission</h3><h2><span><%= format_close_date_time(@challenge_detail['End_Date__c']) %></span></h2></li>
+		<% end %>
 	<% end %>
 	
 	<% if @challenge_detail["Prize_Type__c"].eql?("Currency") %>
@@ -21,9 +23,11 @@
 	</li>
 	<% end %>
 
-	<li><h3>End Date</h3><strong><span>
-	<%= DateTime.parse(@challenge_detail["End_Date__c"]).strftime("%B %e, %Y at %I:%M%p") %>
-	</span></strong></li>	
+	<% unless @challenge_detail["Challenge_Type__c"].eql?("Race") %>
+		<li><h3>End Date</h3><strong><span>
+		<%= DateTime.parse(@challenge_detail["End_Date__c"]).strftime("%B %e, %Y at %I:%M%p") %>
+		</span></strong></li>	
+	<% end %>
 	
 	<li><h3>Winner Announced</h3><strong><span>
 	<% if @challenge_detail["Status__c"].eql?("Winner Selected") %>
