@@ -381,6 +381,13 @@ class ChallengesController < ApplicationController
       format.json { render :json => @challenges }
     end
   end
+
+  # no need to check if challenge exists. taken care of in the view
+  def iframe
+    @challenge_detail = current_challenge
+    determine_page_title
+    render :layout => "blank"
+  end
   
   def feed
     show_open = false

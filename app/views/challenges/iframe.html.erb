@@ -1,0 +1,13 @@
+<div>
+<% if @challenge_detail %>
+	<%= link_to @challenge_detail['Name'], challenge_preview_path, :target => '_blank' %><br/>
+	Top Prize: <%= @challenge_detail["Top_Prize__c"] %><br/>
+	Starts: <%= DateTime.parse(@challenge_detail["Start_Date__c"]).strftime("%B %e, %Y at %I:%M%p") %><br/>
+	Ends: <%= DateTime.parse(@challenge_detail["End_Date__c"]).strftime("%B %e, %Y at %I:%M%p") %><br/>
+	Winner Announced: <%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %><br/>
+	<%= link_to "View all submission files", all_submissions_path, :target => '_blank' %><br/>
+	<%= link_to "Score submissions", outstanding_reviews_path, :target => '_blank' %>
+<% else %>
+  No challenge found.
+<% end %>
+</div>
