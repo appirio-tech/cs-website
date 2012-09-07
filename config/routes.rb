@@ -99,6 +99,7 @@ CloudSpokes::Application.routes.draw do
   get "admin/display_settings"
   get "admin/send_mail"
   get "admin/refresh_token"
+  get "admin/cache_stats"  
   match 'admin/blogfodder/:id', :to => 'admin#blogfodder'
   get "admin/create_badgeville_users"
   match 'admin/create_badgeville_user/:membername', :to => 'admin#create_badgeville_user'

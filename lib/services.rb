@@ -117,5 +117,11 @@ class Services
       return false
     end
   end
+
+  # kicks off the batch job for the home page stats
+  def self.submit_platform_stats_job(access_token)  
+    set_header_token(access_token)
+    get(ENV['SFDC_REST_API_URL']+'/platform-stats/submit')
+  end
   
 end

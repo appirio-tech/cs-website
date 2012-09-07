@@ -1,3 +1,5 @@
+require 'services'
+
 class AdminController < ApplicationController
 
   before_filter :authenticate
@@ -95,6 +97,10 @@ class AdminController < ApplicationController
       end   
     end
     render :text => 'Done!'
+  end
+
+  def cache_stats
+    @results = Services.submit_platform_stats_job(current_access_token)
   end
   
   def blogfodder
