@@ -99,6 +99,16 @@ class AdminController < ApplicationController
     render :text => 'Done!'
   end
 
+  def stats
+    client = Savon.client('http://cs-production.s3.amazonaws.com/cloudspokes-stats-wsdl.xml')
+    response = client.request(:stat, :platform_stats) do
+      soap.namespaces["xmlns:stat"] = "http://soap.sforce.com/schemas/class/StatsWS"
+      soap.header = { 'stat:SessionHeader' => { 'stat:sessionId' => current_access_token }}
+    end 
+    page = response.to_array(:platform_stats_response, :result).first
+    render :json => page
+  end  
+
   def cache_stats
     @results = Services.submit_platform_stats_job(current_access_token)
   end
