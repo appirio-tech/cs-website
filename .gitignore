@@ -5,4 +5,5 @@ tmp/
 .sass-cache/
 .DS_Store
 .powenv
+.rvmrc
 config/initializers/development_settings.rb

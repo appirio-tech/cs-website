@@ -35,10 +35,21 @@ group :development, :test do
   gem 'guard'
   gem 'guard-bundler'
   gem 'guard-rspec'
+  gem "guard-spork"
+  gem 'guard-cucumber'
   gem 'growl'
   gem 'rb-fsevent'
   gem 'ruby-debug19'
   gem 'heroku'
+
+  gem 'spork'
+  gem 'factory_girl'
+  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails-training-wheels'
+
+  gem 'capybara'
+  gem 'timecop'
+  gem 'webmock'
 end
 
 group :test do
