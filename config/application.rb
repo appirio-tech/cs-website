@@ -23,7 +23,7 @@ module CloudSpokes
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
+    config.autoload_paths += %W(#{config.root}/lib)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -53,16 +53,16 @@ module CloudSpokes
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-    
+
     config.generators do |g|
       g.template_engine :erb
       g.test_framework :rspec
     end
-    
-    AWS::S3::Base.establish_connection!(  
-        :access_key_id     => 'AKIAJXNGEXQID3CELIVA',  
-        :secret_access_key => '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' 
+
+    AWS::S3::Base.establish_connection!(
+        :access_key_id     => 'AKIAJXNGEXQID3CELIVA',
+        :secret_access_key => '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'
     )
-    
+
   end
 end
