@@ -50,6 +50,7 @@ group :development, :test do
   gem 'capybara'
   gem 'timecop'
   gem 'webmock'
+  gem 'database_cleaner'
 end
 
 group :test do

@@ -99,6 +99,7 @@ GEM
       cucumber-rails (>= 1.1.1)
     daemons (1.1.8)
     dalli (2.0.5)
+    database_cleaner (0.8.0)
     databasedotcom (1.2.5)
       json
       multipart-post (~> 1.1)
@@ -328,6 +329,7 @@ DEPENDENCIES
   cucumber-rails
   cucumber-rails-training-wheels
   dalli
+  database_cleaner
   databasedotcom
   databasedotcom-rails
   exception_notification
