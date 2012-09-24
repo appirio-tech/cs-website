@@ -46,63 +46,68 @@ class SessionsController < ApplicationController
   # submit cs u/p to sfdc
   def signup_cs_create
     
-    @signup_form = SignupForm.new(params[:signup_form])
-    if @signup_form.valid?
+    if params[:signup_form]
+      @signup_form = SignupForm.new(params[:signup_form])
+      if @signup_form.valid?
+        
+        # remove the password_confirmation key from the hash
+        params[:signup_form].delete(:password_confirmation)
+                    
+        # create the member and user in sfdc
+        results = Services.new_member(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_form])
       
-      # remove the password_confirmation key from the hash
-      params[:signup_form].delete(:password_confirmation)
-                  
-      # create the member and user in sfdc
-      results = Services.new_member(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_form])
-    
-      logger.info "[SessionsController]==== creating a new cloudspokes user for #{params[:signup_form][:username]} with results: #{results}"
-    
-      if results[:success].eql?('true')
-    
-        # add the sfdc_username to the hash so we can insert locally
-        params[:signup_form][:sfdc_username] = results[:sfdc_username]
-        # remove the terms_of_service key from the hash
-        params[:signup_form].delete(:terms_of_service)
-        @user = User.new(params[:signup_form])
+        logger.info "[SessionsController]==== creating a new cloudspokes user for #{params[:signup_form][:username]} with results: #{results}"
       
-        # success!!
-        if @user.save
-          logger.info "[SessionsController]==== successfully created cloudspokes user: #{params[:signup_form][:username]}"
-          sign_in @user
-          # send the 'welcome' email
-          Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
-          # add the user to badgeville
-          Resque.enqueue(NewBadgeVilleUser, current_access_token, params[:signup_form][:username], results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
-          # update their member info in sfdc with the marketing data
-          unless session[:marketing].nil?
-            Resque.enqueue(MarketingUpdateNewMember, current_access_token, params[:signup_form][:username], session[:marketing]) 
-            # delete the marketing session hash
-            session.delete(:marketing)
+        if results[:success].eql?('true')
+      
+          # add the sfdc_username to the hash so we can insert locally
+          params[:signup_form][:sfdc_username] = results[:sfdc_username]
+          # remove the terms_of_service key from the hash
+          params[:signup_form].delete(:terms_of_service)
+          @user = User.new(params[:signup_form])
+        
+          # success!!
+          if @user.save
+            logger.info "[SessionsController]==== successfully created cloudspokes user: #{params[:signup_form][:username]}"
+            sign_in @user
+            # send the 'welcome' email
+            Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            # add the user to badgeville
+            Resque.enqueue(NewBadgeVilleUser, current_access_token, params[:signup_form][:username], results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
+            # update their member info in sfdc with the marketing data
+            unless session[:marketing].nil?
+              Resque.enqueue(MarketingUpdateNewMember, current_access_token, params[:signup_form][:username], session[:marketing]) 
+              # delete the marketing session hash
+              session.delete(:marketing)
+            end
+            # check for any referral & update the record with the newly created member
+            unless session[:referral].nil?
+              Resque.enqueue(ProcessReferral, session[:referral], params[:signup_form][:username])     
+              # delete the referral_id session hash
+              session.delete(:referral)
+            end
+            redirect_to welcome2cloudspokes_path
+          else
+            # could not save the user in the database
+            logger.error "[SessionsController]==== could not save new user to database: #{@user.errors.full_messages}"
+            flash.now[:error] = @user.errors.full_messages
+            render :action => 'signup'
           end
-          # check for any referral & update the record with the newly created member
-          unless session[:referral].nil?
-            Resque.enqueue(ProcessReferral, session[:referral], params[:signup_form][:username])     
-            # delete the referral_id session hash
-            session.delete(:referral)
-          end
-          redirect_to welcome2cloudspokes_path
+        
         else
-          # could not save the user in the database
-          logger.error "[SessionsController]==== could not save new user to database: #{@user.errors.full_messages}"
-          flash.now[:error] = @user.errors.full_messages
+          # could not create the user in sfdc.
+          logger.info "[SessionsController]==== could not create user in sfdc: #{results[:message]}"
+          flash.now[:error] = results[:message]
           render :action => 'signup'
         end
-      
-      else
-        # could not create the user in sfdc.
-        logger.info "[SessionsController]==== could not create user in sfdc: #{results[:message]}"
-        flash.now[:error] = results[:message]
+
+      else     
+        # not valid. display signup for with errors from validations
         render :action => 'signup'
       end
 
-    else     
-      # not valid. display signup for with errors from validations
-      render :action => 'signup'
+    else
+      redirect_to signup_path
     end
 
   end
@@ -332,7 +337,9 @@ class SessionsController < ApplicationController
 
   # redirect anyone trying to login with an appirio address
   def prevent_appirio_cs_signups
-    redirect_to "http://content.cloudspokes.com/appirio-cloudspokes-users" if params[:signup_form][:email].include?('@appirio.com')
+    if params[:signup_form]
+      redirect_to "http://content.cloudspokes.com/appirio-cloudspokes-users" if params[:signup_form][:email].include?('@appirio.com')
+    end
   end  
 
   def login_required 
