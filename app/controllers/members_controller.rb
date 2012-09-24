@@ -140,7 +140,8 @@ class MembersController < ApplicationController
   end
   
   def recommend_new
-    results = Recommendations.save(current_access_token, params[:id], current_user.username, params[:recommendation][:comments])
+    results = Recommendations.save(current_access_token, params[:id], current_user.username, 
+      params[:recommendation][:comments]) unless params[:recommendation][:comments].empty?
     redirect_to member_path(params[:id])
   end
 
