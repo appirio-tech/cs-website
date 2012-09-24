@@ -103,14 +103,14 @@ class ChallengesController < ApplicationController
         else
           flash[:error] = "There was an error submitting your File. Please check it and submit it again."
         end
-        redirect_to(:back)
+        redirect_to(submission_path)
       
       rescue Exception => exc
         render :text => "Couldn't complete the upload: #{exc.message}"
       end
     else
       flash[:error] = "Please ensure that you upload a valid file."
-      redirect_to(:back)
+      redirect_to(submission_path)
     end
   end  
   
@@ -126,7 +126,7 @@ class ChallengesController < ApplicationController
     else
       flash[:error] = "Please enter a valid URL."
     end
-    redirect_to(:back)
+    redirect_to(submission_path)
   end  
     
   def submission_url_delete
@@ -136,7 +136,7 @@ class ChallengesController < ApplicationController
     else
       flash[:error] = "There was an error deleting your URL or File. Please try again."
     end
-    redirect_to(:back)
+    redirect_to(submission_path)
   end
   
   def submission
