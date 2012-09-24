@@ -104,7 +104,7 @@ class SessionsController < ApplicationController
       # not valid. display signup for with errors from validations
       render :action => 'signup'
     end
-    
+
   end
   
   def callback
