@@ -238,34 +238,38 @@ class SessionsController < ApplicationController
   # authenticate them against sfdc in with cloudspokes u/p
   def login_cs_auth
     
-    @login_form = LoginForm.new(params[:login_form])
-    if @login_form.valid?
-      
-      # make sure their user in sfdc is active
-      if Services.activate_user(current_access_token, params[:login_form][:username])
+    if params[:login_form]
+      @login_form = LoginForm.new(params[:login_form])
+      if @login_form.valid?
+        
+        # make sure their user in sfdc is active
+        if Services.activate_user(current_access_token, params[:login_form][:username])
 
-        user = User.authenticate(current_access_token, params[:login_form][:username],
-            params[:login_form][:password])
+          user = User.authenticate(current_access_token, params[:login_form][:username],
+              params[:login_form][:password])
 
-        if user.nil?
-          flash.now[:error] = "Invalid username/password combination."
-          render :action => 'login'
-        else
-          sign_in user
-          if session[:redirect_to_after_auth].nil?
-            redirect_to challenges_path
+          if user.nil?
+            flash.now[:error] = "Invalid username/password combination."
+            render :action => 'login'
           else
-            redirect_to session[:redirect_to_after_auth] 
+            sign_in user
+            if session[:redirect_to_after_auth].nil?
+              redirect_to challenges_path
+            else
+              redirect_to session[:redirect_to_after_auth] 
+            end
           end
+        
+        else
+          redirect_to login_denied_path
         end
-      
-      else
-        redirect_to login_denied_path
-      end
 
+      else
+        # show the error message
+        render :action => 'login'
+      end
     else
-      # show the error message
-      render :action => 'login'
+      redirect_to login_path
     end
     
   end
