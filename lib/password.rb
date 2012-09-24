@@ -10,7 +10,7 @@ class Password < Cloudspokes
   end
 
   def self.update(name, passcode, newpassword)
-    request_url  = ENV['SFDC_REST_API_URL'] + "/password/reset?username=#{name}&passcode=#{passcode}&newpassword=#{newpassword}"
+    request_url  = ENV['SFDC_REST_API_URL'] + "/password/reset?username=#{name}&passcode=#{passcode}&newpassword=#{CGI.escape(newpassword)}"
     put(request_url,:body => {}) 
   end
 
