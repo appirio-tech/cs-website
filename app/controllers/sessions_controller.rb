@@ -53,7 +53,7 @@ class SessionsController < ApplicationController
       params[:signup_form].delete(:password_confirmation)
                   
       # create the member and user in sfdc
-      results = Services.new_member(current_access_token, params[:signup_form])
+      results = Services.new_member(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_form])
     
       logger.info "[SessionsController]==== creating a new cloudspokes user for #{params[:signup_form][:username]} with results: #{results}"
     
@@ -169,7 +169,7 @@ class SessionsController < ApplicationController
       if @signup_complete_form.valid?
         
         # try and create the member in sfdc
-        new_member_create_results = Services.new_member(current_access_token, params[:signup_complete_form])
+        new_member_create_results = Services.new_member(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_complete_form])
         logger.info "[SessionsController]==== creating a new third party user with email address (#{@signup_complete_form.email}): #{new_member_create_results.to_yaml}"
         
         # if the user was created successfully in sfdc
