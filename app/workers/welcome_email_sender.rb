@@ -14,7 +14,7 @@ class WelcomeEmailSender
       mail = MemberMailer.welcome_email(membername, member_results['Email__c']).deliver
 
     rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e      
-      Rails.logger.info "[Resque]==== SMTP Error sending 'Welcome Email'! Cause: #{e.message}"   
+      Rails.logger.info "[FATAL][Resque]==== SMTP Error sending 'Welcome Email'! Cause: #{e.message}"   
     end       
 
   end
