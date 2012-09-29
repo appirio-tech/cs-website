@@ -6,25 +6,17 @@ class WelcomeEmailSender
     
     # fetch the member's email address from sfdc
     member_results = Members.find_by_username(access_token, username,'Email__c')[0]
-    
-    # generate the mail to send
-    mail = MemberMailer.welcome_email(username)
 
-    options = {
-      :body => {
-          :mailUsername => ENV['MAILER_USERNAME'],
-          :mailPassword => ENV['MAILER_PASSWORD'],
-          :toAddress  => member_results['Email__c'],
-          :toAddressName => username,
-          :fromAddress => 'support@cloudspokes.com',
-          :fromAddressName => 'CloudSpokes Team', 
-          :subject => mail.subject.to_s,
-          :content => mail.body.to_s  
-      }
-    }
-    results = post('http://cs-mailchimp-mailer.herokuapp.com/sendSimpleMail', options)
-    Rails.logger.info "[Resque]==== welcome email send results for #{member_results['Email__c']}: #{results}"
-    
+    begin
+
+      Rails.logger.info "[Resque]==== sending welcome email to #{member_results['Email__c']}"
+      # generate the mail to send and send it
+      mail = MemberMailer.welcome_email(username, member_results['Email__c']).deliver
+
+    rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e      
+      Rails.logger.info "[Resque]==== SMTP Error sending 'Welcome Email'! Cause: #{e.message}"   
+    end       
+
   end
   
 end

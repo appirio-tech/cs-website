@@ -1,9 +1,9 @@
 class MemberMailer < ActionMailer::Base
-  default from: "support@cloudspokes.com"
+  default from: "CloudSpokes Team <support@cloudspokes.com>"
   
-  def welcome_email(username)
+  def welcome_email(username, email)
     @username = username
-    mail(:subject => "Thank you for registering #{username}")
+    mail(:to => "#{username} <#{email}>", :subject => "Thank you for registering #{username}")
   end
   
   def new_challenge_comment(id, name, username, profile_pic, comments, reply_to)
