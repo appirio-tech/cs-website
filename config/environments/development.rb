@@ -23,8 +23,8 @@ CloudSpokes::Application.configure do
     :address        => "smtp.mandrillapp.com",
     :port           => "587",
     :authentication => :plain,
-    :user_name      => 'cloudspokes',
-    :password       => '9d0fa1da-6e78-4de5-a4ca-77ca7185ec5c',
+    :user_name      => '',
+    :password       => '',
     :domain         => 'cloudspokes.com'
   }  
 
