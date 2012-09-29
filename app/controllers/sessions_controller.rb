@@ -71,7 +71,7 @@ class SessionsController < ApplicationController
             logger.info "[SessionsController]==== successfully created cloudspokes user: #{params[:signup_form][:username]}"
             sign_in @user
             # send the 'welcome' email
-            Resque.enqueue(WelcomeEmailSender, current_access_token, results[:sfdc_username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            Resque.enqueue(WelcomeEmailSender, current_access_token, params[:signup_form][:username]) unless ENV['MAILER_ENABLED'].eql?('false')
             # add the user to badgeville
             Resque.enqueue(NewBadgeVilleUser, current_access_token, params[:signup_form][:username], results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
             # update their member info in sfdc with the marketing data
