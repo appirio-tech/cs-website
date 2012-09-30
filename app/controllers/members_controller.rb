@@ -47,7 +47,7 @@ class MembersController < ApplicationController
     # Gather all required information for the page
     @member = requested_member
     @page_title = "Member Profile: #{@member['Name']}"
-    @recommendations   = Recommendations.all(current_access_token, :select => DEFAULT_RECOMMENDATION_FIELDS,:where => params[:id])
+    @recommendations   = Members.recommendations(current_access_token, params[:id])
     @total_recommendations = @recommendations.size
     @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
     @challenges = Members.challenges(current_access_token, :name => params[:id])
@@ -140,8 +140,9 @@ class MembersController < ApplicationController
   end
   
   def recommend_new
-    results = Recommendations.save(current_access_token, params[:id], current_user.username, 
+    results = Members.recommend(current_access_token, params[:id], current_user.username, 
       params[:recommendation][:comments]) unless params[:recommendation][:comments].empty?
+    puts "==== results: #{results}"
     redirect_to member_path(params[:id])
   end
 

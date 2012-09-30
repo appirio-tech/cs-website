@@ -24,6 +24,14 @@ class Cloudspokes
     headers 'Authorization' => "OAuth #{access_token}" 
   end
 
+  def self.set_api_header_token(access_token)
+    headers 'oauth_token' => "#{access_token}" 
+  end  
+
+  def self.set_api_header_key
+    headers 'Authorization' => 'Token token="'+ENV['CS_API_KEY']+'"'
+  end    
+
   # generic get with given options
   def self.get_sobjects(options)
     if AvailableObjects.include?(self.to_s.downcase)

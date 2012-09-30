@@ -12,6 +12,25 @@ class Members < Cloudspokes
     set_header_token(access_token)    
     get(ENV['SFDC_REST_API_URL']+"/members/#{esc username}?fields=#{esc fields.gsub(' ','').downcase}")
   end
+
+  def self.recommend(access_token, membername_for, membername_from, text)
+    set_api_header_token(access_token) 
+    set_api_header_key   
+    
+    options = {
+      :body => {
+          :recommendation_for => membername_for,
+          :recommendation_from_username => membername_from,
+          :recommendation_text => text
+      }.to_json
+    }
+    post(ENV['CS_API_URL']+"/members/#{esc membername_for}/recommendations/create", options)
+  end
+
+  def self.recommendations(access_token, membername)
+    set_api_header_token(access_token)    
+    get(ENV['CS_API_URL']+"/members/#{esc membername}/recommendations")['response']
+  end
   
   def self.upload_profile_pic(url, pic)
     
