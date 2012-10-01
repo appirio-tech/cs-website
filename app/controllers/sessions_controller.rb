@@ -301,7 +301,7 @@ class SessionsController < ApplicationController
   # Send a passcode by mail for password reset
   def public_forgot_password_send
     if params[:form_forgot_password]
-      results = Password.reset(params[:form_forgot_password][:username])
+      results = Account.reset_password(params[:form_forgot_password][:username])
       if results['Success'].eql?('true')
         flash[:notice] = results["Message"]
         redirect_to reset_password_url
