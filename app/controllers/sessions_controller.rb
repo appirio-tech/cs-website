@@ -302,11 +302,11 @@ class SessionsController < ApplicationController
   def public_forgot_password_send
     if params[:form_forgot_password]
       results = Account.reset_password(params[:form_forgot_password][:username])
-      if results['Success'].eql?('true')
-        flash[:notice] = results["Message"]
+      if results['success'].eql?('true')
+        flash[:notice] = results["message"]
         redirect_to reset_password_url
       else 
-        flash[:error] = results["Message"]
+        flash[:error] = results["message"]
         redirect_to forgot_password_url
       end
     end
@@ -323,8 +323,8 @@ class SessionsController < ApplicationController
       @reset_form = ResetPasswordForm.new(params[:reset_password_form])
       if @reset_form.valid?
         Services.activate_user(current_access_token, params[:reset_password_form][:username])
-        results = Password.update(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
-        flash.now[:warning] = results["Message"]
+        results = Account.update_password(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
+        flash.now[:warning] = results["message"]
         render :action => 'public_reset_password'
       else
         # not valid. display signup for with errors

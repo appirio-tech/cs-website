@@ -1,5 +1,3 @@
-require 'faqs'
-require 'webpages'
 require 'sfdc_connection'
 
 class ContentController < ApplicationController
