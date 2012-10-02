@@ -32,6 +32,12 @@ class Members < Cloudspokes
     get(ENV['CS_API_URL']+"/members/#{esc membername}/recommendations")['response']
   end
   
+  def self.payments(access_token, membername)
+    set_api_header_token(access_token) 
+    set_api_header_key   
+    get(ENV['CS_API_URL']+"/members/#{esc membername}/payments")['response']
+  end  
+
   def self.upload_profile_pic(url, pic)
     
     options = {

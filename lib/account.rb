@@ -1,6 +1,6 @@
-class Account < Cloudspokes
+require 'cloud_spokes'
 
-	require 'cloud_spokes'
+class Account < Cloudspokes
 
   def self.reset_password(name)
     set_api_header_key   

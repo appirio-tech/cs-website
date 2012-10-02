@@ -60,7 +60,7 @@
 				    <thead>
 				    	<tr>
 							<th scope="col">ID</th>
-				            <th scope="col">Challenge</th>
+				      <th scope="col">Challenge</th>
 							<th scope="col">Place</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Reason</th>
@@ -70,15 +70,15 @@
 				    </thead>
 				    <tbody>
 						<% @payments.each do |record| %>
-							<% if !record['Status__c'].eql?('Paid')%>
+							<% if !record['status'].eql?('Paid')%>
 					    	<tr>
-								<td><%= record['Name'] %></td>
-								<td><%= record['Challenge__r']['Name'] %></td>
-								<td><%= record['Place__c'].to_i.ordinalize %></td>
-								<td><%= number_to_currency(record["Money__c"], :precision => 0) %></td>
-								<td><%= record['Reason__c'] %></td>
-								<td><%= record['Type__c'] %></td>
-								<td><%= record['Status__c'] %></td>
+								<td><%= record['name'] %></td>
+								<td><%= record['challenge__r']['name'] %></td>
+								<td><%= record['place'].to_i.ordinalize %></td>
+								<td><%= number_to_currency(record["money"], :precision => 0) %></td>
+								<td><%= record['reason'] %></td>
+								<td><%= record['type'] %></td>
+								<td><%= record['status'] %></td>
 					        </tr>
 							<% end %>
 						<% end %>
@@ -97,7 +97,7 @@
 				    <thead>
 				    	<tr>
 							<th scope="col">ID</th>
-				            <th scope="col">Challenge</th>
+				      <th scope="col">Challenge</th>
 							<th scope="col">Place</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Reason</th>
@@ -108,16 +108,16 @@
 				    </thead>
 				    <tbody>
 						<% @payments.each do |record| %>
-							<% if record['Status__c'].eql?('Paid')%>
+							<% if record['status'].eql?('Paid')%>
 					    	<tr>	
-								<td><%= record['Name'] %></td>
-								<td><%= record['Challenge__r']['Name'] %></td>
-								<td><%= record['Place__c'].to_i.ordinalize %></td>
-								<td><%= number_to_currency(record["Money__c"], :precision => 0) %></td>
-								<td><%= record['Reason__c'] %></td>
-								<td><%= record['Type__c'] %></td>
-								<td><%= record['Payment_Sent__c'] %></td>
-								<td><%= record['Reference_Number__c'] %></td>
+								<td><%= record['name'] %></td>
+								<td><%= record['challenge__r']['name'] %></td>
+								<td><%= record['place'].to_i.ordinalize %></td>
+								<td><%= number_to_currency(record["money"], :precision => 0) %></td>
+								<td><%= record['reason'] %></td>
+								<td><%= record['type'] %></td>
+								<td><%= record['payment_sent'] %></td>
+								<td><%= record['reference_number'] %></td>
 					        </tr>
 							<% end %>
 						<% end %>
