@@ -1,5 +1,3 @@
-require 'services'
-
 class AdminController < ApplicationController
 
   before_filter :authenticate

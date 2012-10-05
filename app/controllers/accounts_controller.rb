@@ -1,3 +1,5 @@
+require 'cs_api_account'
+
 class AccountsController < ApplicationController
   before_filter :require_login, :except => ["public_forgot_password","public_reset_password"]
   before_filter :get_account, :except => ["public_forgot_password","public_reset_password"]
@@ -132,7 +134,7 @@ class AccountsController < ApplicationController
   # Action to change the password of logged user (not activated)
   def password    
     if params[:reset]
-      results = CsApiAccount.reset_password(current_user.username)
+      results = CsApi::Account.reset_password(current_user.username)
       if results['success'].eql?('true')
         redirect_to password_reset_url, :notice => results["message"]
       else 
@@ -151,7 +153,7 @@ class AccountsController < ApplicationController
     if params[:reset_password_account_form]
       @reset_form = ResetPasswordAccountForm.new(params[:reset_password_account_form])
       if @reset_form.valid?
-        results = CsApiAccount.update_password(current_user.username, params[:reset_password_account_form][:passcode], 
+        results = CsApi::Account.update_password(current_user.username, params[:reset_password_account_form][:passcode], 
           params[:reset_password_account_form][:password])
         if results["success"].eql?('false')
           flash.now[:error] = results["message"]

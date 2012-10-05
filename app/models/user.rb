@@ -1,5 +1,4 @@
 class User < ActiveRecord::Base
-  require 'services'
   
   validates :username, :presence => true, 
             :uniqueness => true
@@ -10,8 +9,8 @@ class User < ActiveRecord::Base
   # called from sessions_controller when logging in using cs credentials
   def self.authenticate(access_token, username, password)
         
-    # make sure their sfdc credentials are correct
-    login_results = sfdc_login(username, password)
+    login_results = CsApi::Account.authenticate(username, password).symbolize_keys!
+    logger.info "[User]==== Authentication with cs-api for #{username}: #{login_results}"
     
     if login_results[:success].eql?('true')
       # get their member record and profile_pic
@@ -34,12 +33,13 @@ class User < ActiveRecord::Base
   def self.authenticate_third_party(access_token, third_party_service, third_party_username)
     
     # find their sfdc username and cloudspokes username
-    results = Services.sfdc_username(access_token, third_party_service, third_party_username)
+    results = CsApi::Account.find_by_service(third_party_service, third_party_username).symbolize_keys!
 
     if results[:success].eql?('true')
       
       # not make sure their credentials are correct and get their access token
-      login_results = sfdc_login(results[:username], ENV['THIRD_PARTY_PASSWORD'])
+      login_results = CsApi::Account.authenticate(results[:username], ENV['THIRD_PARTY_PASSWORD']).symbolize_keys!
+      logger.info "[User]==== Authentication with cs-api for #{:username}: #{login_results}"
       
       # if they logged in successfully, then they are golden
       if login_results[:success].eql?('true')
@@ -62,25 +62,6 @@ class User < ActiveRecord::Base
       return nil
     end
   end
-  
-  # this method only called from this user class
-  def self.sfdc_login(username, password)
-    
-    config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
-    client = Databasedotcom::Client.new(config)
-    sfdc_username = username+'@'+ENV['SFDC_USERNAME_DOMAIN']
-    logger.info "[User]==== logging into salesforce with sfdc username: #{sfdc_username}"
-
-    # log into sfdc with their credentials to return their access token
-    begin
-      access_token = client.authenticate :username => sfdc_username, :password => password
-      return {:success => 'true', :message => 'Successful sfdc login.', :access_token => access_token}
-    rescue Exception => exc
-      logger.error "[User]==== using gem to authenticate to get access_token: #{exc.message}"
-      return {:success => 'false', :message => exc.message}
-    end
-
-  end 
   
   def self.authenticate_with_salt(id)
     user = find_by_id(id)

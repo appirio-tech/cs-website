@@ -1,6 +1,6 @@
 require 'auth'
-require 'services'
 require 'sfdc_connection'
+require 'cs_api_account'
 
 class SessionsController < ApplicationController
   
@@ -54,8 +54,7 @@ class SessionsController < ApplicationController
         params[:signup_form].delete(:password_confirmation)
                     
         # create the member and user in sfdc
-        results = Services.new_member(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_form])
-      
+        results = CsApi::Account.create(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_form]).symbolize_keys!
         logger.info "[SessionsController]==== creating a new cloudspokes user for #{params[:signup_form][:username]} with results: #{results}"
       
         if results[:success].eql?('true')
@@ -118,9 +117,10 @@ class SessionsController < ApplicationController
     as = AuthSession.new(request.env['omniauth.auth'], params[:provider])
     
     logger.info "[SessionsController]==== starting callback for #{params[:provider]} for #{as.get_hash[:username]}"
-            
+           
     # see if they exist as a member with these third party credentials
-    user_exists_results = Services.sfdc_username(current_access_token, as.get_hash[:provider], thirdparty_username(as.get_hash))
+    user_exists_results = CsApi::Account.find_by_service(as.get_hash[:provider], 
+      thirdparty_username(as.get_hash)).symbolize_keys!
     logger.info "[SessionsController]==== does the user #{thirdparty_username(as.get_hash)} for #{as.get_hash[:provider]} exist: #{user_exists_results}"
     
     # bad session!!!
@@ -137,7 +137,7 @@ class SessionsController < ApplicationController
       # user already exists. log them in
       else
 
-        if Services.activate_user(current_access_token, user_exists_results[:username])
+        if CsApi::Account.activate(user_exists_results[:username])
         
           # log them in
           user = User.authenticate_third_party(current_access_token, as.get_hash[:provider],thirdparty_username(as.get_hash))
@@ -174,7 +174,7 @@ class SessionsController < ApplicationController
       if @signup_complete_form.valid?
         
         # try and create the member in sfdc
-        new_member_create_results = Services.new_member(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_complete_form])
+        new_member_create_results = CsApi::Account.create(SfdcConnection.admin_dbdc_client.oauth_token, params[:signup_complete_form]).symbolize_keys!
         logger.info "[SessionsController]==== creating a new third party user with email address (#{@signup_complete_form.email}): #{new_member_create_results.to_yaml}"
         
         # if the user was created successfully in sfdc
@@ -183,7 +183,8 @@ class SessionsController < ApplicationController
           # delete the user if they already exists
           User.delete(User.find_by_username(new_member_create_results[:username]))
           
-          user = User.new(:username => new_member_create_results[:username], :sfdc_username => new_member_create_results[:sfdc_username], 
+          user = User.new(:username => new_member_create_results[:username], 
+            :sfdc_username => new_member_create_results[:sfdc_username], 
             :password => ENV['THIRD_PARTY_PASSWORD'])
             
           logger.info "[SessionsController]==== try to save #{@signup_complete_form.email} to the database"
@@ -248,7 +249,7 @@ class SessionsController < ApplicationController
       if @login_form.valid?
         
         # make sure their user in sfdc is active
-        if Services.activate_user(current_access_token, params[:login_form][:username])
+        if CsApi::Account.activate(params[:login_form][:username])
 
           user = User.authenticate(current_access_token, params[:login_form][:username],
               params[:login_form][:password])
@@ -301,7 +302,7 @@ class SessionsController < ApplicationController
   # Send a passcode by mail for password reset
   def public_forgot_password_send
     if params[:form_forgot_password]
-      results = Account.reset_password(params[:form_forgot_password][:username])
+      results = CsApi::Account.reset_password(params[:form_forgot_password][:username])
       if results['success'].eql?('true')
         flash[:notice] = results["message"]
         redirect_to reset_password_url
@@ -322,8 +323,11 @@ class SessionsController < ApplicationController
     if params[:reset_password_form]
       @reset_form = ResetPasswordForm.new(params[:reset_password_form])
       if @reset_form.valid?
-        Services.activate_user(current_access_token, params[:reset_password_form][:username])
-        results = Account.update_password(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
+
+        CsApi::Account.activate(params[:reset_password_form][:username])
+        logger.info "[SessionsController]==== Activating account with cs-api for #{params[:reset_password_form][:username]}"
+
+        results = CsApi::Account.update_password(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
         flash.now[:warning] = results["message"]
         render :action => 'public_reset_password'
       else
