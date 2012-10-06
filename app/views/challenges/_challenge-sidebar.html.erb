@@ -49,6 +49,8 @@
 	<li><h3>Winner Announced</h3><strong><span>
 	<% if @challenge_detail["Status__c"].eql?("Winner Selected") %>
 		<%= link_to "View the Winners", results_path %></span></strong>
+	<% elsif @challenge_detail["Status__c"].eql?("No Winner Selected") %>
+		<%= link_to "View the Scorecards", results_path %></span></strong>		
 	<% else %>
 		<%= Date.parse(@challenge_detail["Winner_Announced__c"]).strftime("%B %e, %Y") %>
 	<% end %></span></strong></li>

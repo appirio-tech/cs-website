@@ -233,7 +233,7 @@ class ChallengesController < ApplicationController
   
   def results
     @challenge_detail = current_challenge
-    if !@challenge_detail['Status__c'].eql?('Winner Selected')
+    unless ['Winner Selected','No Winner Selected'].include?(@challenge_detail['Status__c'])
       flash[:notice] = "No winners available at this time."
       redirect_to challenge_path
     else
