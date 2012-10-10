@@ -111,10 +111,8 @@ class MembersController < ApplicationController
   end
 
   def search
-    @page_title = "Member Search Results"
-    @members = Members.all(current_access_token, 
-      :select => MEMBER_SEARCH_FIELDS, 
-      :where => params[:keyword])
+    @page_title = "Member Search Results"   
+    @members = CsApi::Member.search(current_access_token, params[:keyword], PRETTY_MEMBER_SEARCH_FIELDS)    
     @members = @members.paginate(:page => params[:page] || 1, :per_page => 10)
     tn = Time.now
     this_month = Time.new(tn.year, tn.month)

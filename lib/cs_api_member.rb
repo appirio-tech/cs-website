@@ -4,6 +4,11 @@ module CsApi
 
   class Member < CloudSpokesApi
 
+	  def self.search(access_token, keyword, fields)
+	    set_api_header_token(access_token)    
+	    get(ENV['CS_API_URL']+"/members/search?keyword=#{keyword}&fields=#{esc fields}")['response']
+	  end  	   	
+
 	  def self.all(access_token, fields, order_by)
 	    set_api_header_token(access_token)    
 	    get(ENV['CS_API_URL']+"/members?fields=#{esc fields}&order_by=#{esc order_by}")['response']
