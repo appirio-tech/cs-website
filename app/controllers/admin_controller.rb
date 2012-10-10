@@ -106,10 +106,6 @@ class AdminController < ApplicationController
     page = response.to_array(:platform_stats_response, :result).first
     render :json => page
   end  
-
-  def cache_stats
-    @results = Services.submit_platform_stats_job(current_access_token)
-  end
   
   def blogfodder
     @challenge = Challenges.find_by_id(current_access_token, params[:id])[0]
@@ -139,11 +135,6 @@ class AdminController < ApplicationController
   def display_settings
     @results = Settings.all
   end  
-  
-  def send_mail
-    Resque.enqueue(WelcomeEmailSender, current_access_token, 'jeffdonthemic')
-    render :inline => "Mail sent"
-  end
   
   def authenticate
     authenticate_or_request_with_http_basic do |username, password|
