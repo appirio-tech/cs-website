@@ -72,10 +72,15 @@ class ChallengesController < ApplicationController
 
     if @challenges.nil? || @challenges.size == 0
       @challenges_found = false
-      if params[:show].eql?('closed')
-        flash.now[:warning] = 'No closed challenges found.'
-      else
-        flash.now[:warning] = "No challenges found. <a href='#{request.fullpath}&show=closed'>Try searching closed challenges</a>.".html_safe
+      respond_to do |format|
+        format.html {
+          if params[:show].eql?('closed')
+            flash.now[:warning] = 'No closed challenges found.'
+          else
+            flash.now[:warning] = "No challenges found. <a href='#{request.fullpath}&show=closed'>Try searching closed challenges</a>.".html_safe
+          end
+        }
+        format.json { render :json => {} }
       end
     else
       @challenges_found = true     
