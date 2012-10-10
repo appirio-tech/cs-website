@@ -10,7 +10,7 @@ include ActionView::Helpers::NumberHelper
 class ChallengesController < ApplicationController
   before_filter :check_if_challenge_exists, :only => [:register, :submission, :submission_view_only, :cal, :preview, :show, :registrants, :results, :participant_submissions, :participant_scorecard, :scorecard, :survey]
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:preview, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email]
+  before_filter :must_be_signed_in, :only => [:preview, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email, :participant_submissions]
   before_filter :must_be_open, :only => [:submission_file_upload, :submission_url_upload]  
   before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
