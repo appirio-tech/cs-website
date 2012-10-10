@@ -90,10 +90,6 @@ CloudSpokes::Application.routes.draw do
   match 'quizes/flag_answer/:id', :to => 'quizes#flag_answer', :as => :flag_answer
   match 'quizes/:id/question', :to => 'quizes#fetch_question', :as => :fetchquestion
   
-  match 'quiz_questions/authored', :to => 'quiz_questions#authored', :as => :questions_authored
-  match 'quiz_questions/reviewed', :to => 'quiz_questions#reviewed', :as => :questions_reviewed  
-  resources :quiz_questions
-  
   match '/admin',  :to => 'admin#index'
   get "admin/index"
   get "admin/delete_all_users"
