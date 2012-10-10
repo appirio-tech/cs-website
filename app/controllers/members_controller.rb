@@ -1,4 +1,5 @@
 require 'will_paginate/array'
+require 'cs_api_member'
 
 class MembersController < ApplicationController
   before_filter :require_login, :only => [:recommend_new, :recommend]
@@ -8,16 +9,13 @@ class MembersController < ApplicationController
   def index
     @page_title = "Members and Top 10 Leaderboard"
     # Define the default order criteria
-    order_by = params[:order_by] || "total_wins__c"
-    if order_by == "total_wins__c" or order_by == "challenges_entered__c"
+    order_by = params[:order_by] || "total_wins"
+    if order_by == "total_wins" or order_by == "challenges_entered"
       order_by = "#{order_by} desc"
     end
     display_leaderboard  = params[:period] || "month"
 
-    @members = Members.all(current_access_token, 
-      :select => MEMBER_SEARCH_FIELDS, 
-      :order_by => order_by)
-      
+    @members = CsApi::Member.all(current_access_token, PRETTY_MEMBER_SEARCH_FIELDS, order_by)
     @members = @members.paginate(:page => params[:page] || 1, :per_page => 10) 
     
     tn = Time.now
@@ -39,7 +37,7 @@ class MembersController < ApplicationController
     end
     respond_to do |format|
       format.html
-      format.json { render :json => @members }
+      format.json { render :json => @leaderboard }
     end
   end
 
@@ -47,10 +45,10 @@ class MembersController < ApplicationController
     # Gather all required information for the page
     @member = requested_member
     @page_title = "Member Profile: #{@member['Name']}"
-    @recommendations   = Members.recommendations(current_access_token, params[:id])
+    @recommendations   = CsApi::Member.recommendations(current_access_token, params[:id])
     @total_recommendations = @recommendations.size
     @recommendations = @recommendations.paginate(:page => params[:page] || 1, :per_page => 3) 
-    @challenges = Members.challenges(current_access_token, :name => params[:id])
+    @challenges = CsApi::Member.challenges(current_access_token, params[:id])
     @challenges = @challenges.reverse
 
     # Gather challenges and group them depending of their end date
@@ -58,10 +56,10 @@ class MembersController < ApplicationController
     @past_challenges   = []
     
     @challenges.each do |challenge|        
-      if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
-        ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
+      if !challenge['challenge_participants__r']['records'][0]['status'].eql?('Watching') &&
+        ACTIVE_CHALLENGE_STATUSES.include?(challenge['status'])
         @active_challenges << challenge
-      elsif challenge['Challenge_Participants__r']['records'].first['Has_Submission__c']
+      elsif challenge['challenge_participants__r']['records'].first['has_submission']
         @past_challenges << challenge
       end
     end
@@ -76,17 +74,15 @@ class MembersController < ApplicationController
   end 
   
   def past_challenges
-    # Gather all required information for the page
     @member = requested_member
-    @challenges = Members.challenges(current_access_token, :name => params[:id])
+    @challenges = CsApi::Member.challenges(current_access_token, params[:id])
     @challenges = @challenges.reverse
 
     # Gather challenges and group them depending of their end date
     @past_challenges   = []
     @challenges.each do |challenge|
-      if ['Winner Selected','No Winner Selected','Completed'].include?(challenge['Status__c']) && 
-        !challenge['Challenge_Participants__r']['records'].first['Status__c'].eql?('Watching')
-        @past_challenges << challenge
+      unless ACTIVE_CHALLENGE_STATUSES.include?(challenge['status'])
+        @past_challenges << challenge if challenge['challenge_participants__r']['records'].first['has_submission']
       end
     end
     respond_to do |format|
@@ -96,16 +92,15 @@ class MembersController < ApplicationController
   end
   
   def active_challenges
-    # Gather all required information for the page
     @member = requested_member
-    @challenges = Members.challenges(current_access_token, :name => params[:id])
+    @challenges = CsApi::Member.challenges(current_access_token, params[:id])
     @challenges = @challenges.reverse
 
     # Gather challenges and group them depending of their end date
     @active_challenges   = []
     @challenges.each do |challenge|
-      if !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') && 
-        ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
+      if !challenge['challenge_participants__r']['records'][0]['status'].eql?('Watching') && 
+        ACTIVE_CHALLENGE_STATUSES.include?(challenge['status'])
         @active_challenges << challenge
       end
     end
@@ -140,14 +135,13 @@ class MembersController < ApplicationController
   end
   
   def recommend_new
-    results = Members.recommend(current_access_token, params[:id], current_user.username, 
+    results = CsApi::Member.recommend(current_access_token, params[:id], current_user.username, 
       params[:recommendation][:comments]) unless params[:recommendation][:comments].empty?
-    puts "==== results: #{results}"
     redirect_to member_path(params[:id])
   end
 
   def requested_member
-    @member ||= Members.find_by_username(current_access_token, params[:id], PUBLIC_MEMBER_FIELDS).first
+    @member ||= CsApi::Member.find_by_membername(current_access_token, params[:id], PRETTY_PUBLIC_MEMBER_FIELDS)
   end
 
   def check_if_member_exists

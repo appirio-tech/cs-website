@@ -8,7 +8,7 @@
 
     .list-challenges
       - if @past_challenges.size > 0
-        %a.fr{:href => "/members/#{@member["Name"]}/past_challenges"}
+        %a.fr{:href => "/members/#{@member["name"]}/past_challenges"}
           See all »
       %h3= pluralize(@past_challenges.size, "past challenge")
       - @past_challenges[0..2].each do |past_challenge|

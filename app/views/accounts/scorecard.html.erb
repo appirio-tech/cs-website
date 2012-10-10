@@ -369,6 +369,7 @@ var INPUT_JSON = '{  " {\'Success\':\'True\',\'Message\':\'Query Ran Successfull
 <input type="hidden" name="json" id="hiddenjson" value="">
 <input type="hidden" name="participantId" id="participantId" value="<%= params[:id] %>">
 <% if !@scored %>
+<p style="padding-top: 15px;padding-left: 15px;padding-right:5px"><b>Before submitting:</b> Please look at your comments again. This is the only feedback that developers will receive for their hard word. Do your comments clearly explain why you gave certain scores, what they could have done better or why another submission was superior? </p>
 <a class="button" onClick="doSubmit(false)"><span>Save for Later</span></a>
 <a class="button" onClick="doSubmit(true)"><span>Submit Scorecard</span></a>
 <p><br><span style="padding-left:50px"><input type="checkbox" value="true" id="deleteSubmissionCheckbox" name="delete_participant_submission"> Check this box & 'Submit Scorecard' to delete if not a valid scorecard.</span></p>

@@ -3,7 +3,7 @@ module MembersHelper
   def member_category_display(categories)
     cats = ''
     categories["records"].each do |record|
-      cats = cats + record["Category__r"]["Name"] + ", "
+      cats = cats + record["category__r"]["name"] + ", "
     end
     return cats[0..cats.length-3]
   end

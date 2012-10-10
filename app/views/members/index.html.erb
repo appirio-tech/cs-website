@@ -38,21 +38,21 @@
                                 <div class="box-b">
                                     <div class="box-t">
                                         <div class="user-info fl">
-                                            <a href='<%= member_path(member["Name"]) %>'><img class="member-pic" src="<%= member["Profile_Pic__c"]%>" style="height:48px;width:48px;border-width:0px;" /></a>
+                                            <a href='<%= member_path(member["name"]) %>'><img class="member-pic" src="<%= member["profile_pic"]%>" style="height:48px;width:48px;border-width:0px;" /></a>
                                             <div class="text-holder">
-                                                <h4><a href='<%= member_path(member["Name"]) %>'><%= member["Name"]%></a></h4>
+                                                <h4><a href='<%= member_path(member["name"]) %>'><%= member["name"]%></a></h4>
                                                 <span class="stats">
                                                     Active:
-                                                    <%= member["Active_Challenges__c"] %>
+                                                    <%= member["active_challenges"] %>
                                                     # of Wins:
-                                                    <%= member["Total_1st_Place__c"].to_i + member["Total_2nd_Place__c"].to_i + member["Total_3st_Place__c"].to_i %>
-													<br/>Total Money: <%= number_to_currency(member["Total_Public_Money__c"], :precision => 0) %>
+                                                    <%= member["total_1st_place"].to_i + member["total_2nd_place"].to_i + member["total_3st_place"].to_i %>
+													<br/>Total Money: <%= number_to_currency(member["total_public_money"], :precision => 0) %>
                                                 </span>
                                             </div>
                                             <div class="cl">&nbsp;</div>
                                         </div>
                                         <div class="user-desc fr">
-                                            <p><strong>About Me:</strong><%= member["Summary_Bio__c"]%> <a href='<%= member_path(member["Name"]) %>'>View Profile</a></p>
+                                            <p><% if member["summary_bio"] %><%= member["summary_bio"]%><br/><% end %><a href='<%= member_path(member["name"]) %>'>View Profile</a></p>
                                         </div>
                                         <div class="cl">&nbsp;</div>
                                     </div>

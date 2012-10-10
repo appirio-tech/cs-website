@@ -16,7 +16,7 @@
       Badgeville.crouton = function(){};
       Badgeville.Settings.showToast = 0;
 
-      BV.setPlayer( '<%= @member["Badgeville_Id__c"] %>' );
+      BV.setPlayer( '<%= @member["badgeville_id"] %>' );
 	  
       Badgeville.bind('afterCreate:showcase', function(event, widget) {
         if (widget && widget.element) {
@@ -32,7 +32,7 @@
     (function() {
       var s = document.createElement( 'script' );
       s.async = true;
-      s.src =  'http://api.badgeville.com/v3/badgeville-current.js';
+      s.src =  'http://api.v2.badgeville.com/v4/badgeville-current.js';
       document.body.appendChild( s );
     }());
   </script>

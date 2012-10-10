@@ -4,25 +4,25 @@
       .box-t
         .col-left.fl
           %h4
-            %a{:href => challenge_url(challenge["Challenge_Id__c"])}= challenge["Name"]
-          %p= "#{truncate(challenge["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
+            %a{:href => challenge_url(challenge["challenge_id"])}= challenge["name"]
+          %p= "#{truncate(challenge["description"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
         .col-right.fr
           %p
-            %strong= challenge['Challenge_Participants__r']['records'].first['Status__c']
+            %strong= challenge['challenge_participants__r']['records'].first['status']
             %br
-            = "#{number_to_currency(challenge["Total_Prize_Money__c"], :precision => 0)} for"
+            = "#{number_to_currency(challenge["total_prize_money"], :precision => 0)} for"
             %br
             %span
-              - challenge["Challenge_Categories__r"]["records"].each do |category|
-                %span{:class =>category["Category__r"]["Name"]}= category["Category__r"]["Name"]
+              - challenge["challenge_categories__r"]["records"].each do |category|
+                %span{:class =>category["category__r"]["name"]}= category["category__r"]["name"]
             %br
             %br 
             - if type.eql?('watching')
-              = link_to('Register' , challenge_url(challenge["Challenge_Id__c"]))
+              = link_to('Register' , challenge_url(challenge["challenge_id"]))
               %br
-              = format_close_date_time(challenge['End_Date__c'])
+              = format_close_date_time(challenge['end_date'])
             - elsif type.eql?('active')
-              = link_to('Submit' , '/challenges/'+challenge['Challenge_Id__c']+'/submission')
+              = link_to('Submit' , '/challenges/'+challenge['challenge_id']+'/submission')
               %br
-              = format_close_date_time(challenge['End_Date__c'])
+              = format_close_date_time(challenge['end_date'])
         .cl  

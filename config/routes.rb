@@ -22,8 +22,8 @@ CloudSpokes::Application.routes.draw do
   match "/forgot_service"               => "sessions#forgot_service"
   
   match "/members/order_by_name"        => "members#index", :defaults => { :order_by => 'name' }
-  match "/members/order_by_win"         => "members#index", :defaults => { :order_by => 'total_wins__c' }
-  match "/members/order_by_active"      => "members#index", :defaults => { :order_by => 'challenges_entered__c' }
+  match "/members/order_by_win"         => "members#index", :defaults => { :order_by => 'total_wins' }
+  match "/members/order_by_active"      => "members#index", :defaults => { :order_by => 'challenges_entered' }
   match "/members/search"               => "members#search", :as => :members_search
   match "/members/:id/past_challenges"  => "members#past_challenges"
   match "/members/:id/active_challenges"  => "members#active_challenges"  

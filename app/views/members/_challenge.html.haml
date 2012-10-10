@@ -4,15 +4,15 @@
       .box-t
         .col-left.fl
           %h4
-            %a{:href => challenge_url(challenge["Challenge_Id__c"])}= challenge["Name"]
-          %p= "#{truncate(challenge["Description__c"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
+            %a{:href => challenge_url(challenge["challenge_id"])}= challenge["name"]
+          %p= "#{truncate(challenge["description"].gsub(/<\/?[^>]*>/, ""), :length => 300, :separator => ' ')}"
         .col-right.fr
           %p
-            %strong= member_challenge_place(challenge['Challenge_Participants__r']['records'].first['Place__c'])
+            %strong= member_challenge_place(challenge['challenge_participants__r']['records'].first['place'])
             %br
-            = "$#{challenge['Challenge_Participants__r']['records'].first['Money_Awarded__c'].round} for"
+            = "$#{challenge['challenge_participants__r']['records'].first['money_awarded'].round} for"
             %br
             %span
-              = member_category_display(challenge["Challenge_Categories__r"])
+              = member_category_display(challenge["challenge_categories__r"])
             %br
         .cl  

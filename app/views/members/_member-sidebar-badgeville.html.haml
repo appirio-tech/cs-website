@@ -2,17 +2,17 @@
   .profile
     %span
       = render "badgeProfile"
-      %h3= @member["Country__c"]
+      %h3= @member["country"]
     .cl= " "
     %p
-      - if !@member["Summary_Bio__c"].nil?
+      - if !@member["summary_bio"].nil?
         %strong About me :
-        %span= @member["Summary_Bio__c"]
-      - if !@member["Quote__c"].nil?
+        %span= @member["summary_bio"]
+      - if !@member["quote"].nil?
         %br
         %br
         %strong Quote :
-        %span= @member["Quote__c"]
+        %span= @member["quote"]
     .actions
       %ul
         %li.recommend
@@ -26,46 +26,46 @@
   .stats
     %ul
       %li
-        = @member["Total_1st_Place__c"]
+        = @member["total_1st_place"]
         %strong # of 1st Places
       %li
-        = @member["Total_2nd_Place__c"]
+        = @member["total_2nd_place"]
         %strong # of 2nd Places
       %li
-        = @member["Total_3st_Place__c"]
+        = @member["total_3st_place"]
         %strong # of 3rd Places
       %li
-        = @member["Challenges_Entered__c"]
+        = @member["challenges_entered"]
         %strong Contests Entered
       %li
-        = @member["Total_Points__c"]
+        = @member["total_points"]
         %strong Total Points
       %li
-        = number_to_currency(@member["Total_Public_Money__c"], :precision => 0)
+        = number_to_currency(@member["total_public_money"], :precision => 0)
         %strong Total Money
   .achievements
 
   %h3 Social
   .socials
     %ul
-      - "Twitter__c,LinkedIn__c,Facebook__c,Github__c".split(',').each do |social|
+      - "twitter,linkedin,facebook,github".split(',').each do |social|
         - if @member[social]
           %li
-            - if social.eql?('Twitter__c')
+            - if social.eql?('twitter')
               %a{:href => 'http://www.twitter.com/' + @member[social], :target => "_blank"}
-                = image_tag social[0..-4].downcase + ".gif"
-            - elsif social.eql?('Github__c')
+                = image_tag social.downcase + ".gif"
+            - elsif social.eql?('github')
               %a{:href => 'http://www.github.com/' + @member[social], :target => "_blank"}
-                = image_tag social[0..-4].downcase + ".gif"
+                = image_tag social.downcase + ".gif"
             - else
               %a{:href => @member[social], :target => "_blank"}
-                = image_tag social[0..-4].downcase + ".gif"
+                = image_tag social.downcase + ".gif"
   .cl
-  - if @member["Website__c"]
+  - if @member["website"]
     .website
       %strong Website :
-      %a{:href => @member["Website__c"], :target => "_blank"}
-        = @member["Website__c"]
+      %a{:href => @member["website"], :target => "_blank"}
+        = @member["website"]
 
   %br
   %h3 Share

@@ -1,4 +1,5 @@
 require 'cs_api_account'
+require 'cs_api_member'
 
 class AccountsController < ApplicationController
   before_filter :require_login, :except => ["public_forgot_password","public_reset_password"]
@@ -37,8 +38,7 @@ class AccountsController < ApplicationController
 
   def challenges
     @page_title = "Your Challenges"
-    # Gather challenges for sorting
-    @challenges          = Members.challenges(current_access_token, :name => @current_user.username)
+    @challenges = CsApi::Member.challenges(current_access_token, @current_user.username)
 
     @followed_challenges = []
     @active_challenges   = []
@@ -46,11 +46,11 @@ class AccountsController < ApplicationController
 
     # Sort challenges depending of the end date or status
     @challenges.each do |challenge|
-      if challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
-        ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
+      if challenge['challenge_participants__r']['records'][0]['status'].eql?('Watching') &&
+        ACTIVE_CHALLENGE_STATUSES.include?(challenge['status'])
           @followed_challenges << challenge
-      elsif !challenge['Challenge_Participants__r']['records'][0]['Status__c'].eql?('Watching') &&
-        ['Created','Review','Review - Pending'].include?(challenge['Status__c'])
+      elsif !challenge['challenge_participants__r']['records'][0]['status'].eql?('Watching') &&
+        ACTIVE_CHALLENGE_STATUSES.include?(challenge['status'])
           @active_challenges << challenge
       else
         @past_challenges << challenge
@@ -72,7 +72,7 @@ class AccountsController < ApplicationController
     # get the member's id for docusign
     member = Members.find_by_username(current_access_token, @current_user.username, 'id').first
     @memberId = member['Id']
-    @payments = Members.payments(current_access_token, @current_user.username)
+    @payments = CsApi::Member.payments(current_access_token, @current_user.username)
     @payments.each do |record| 
       if record['status'].eql?('Paid')
         @show_paid_section = true
