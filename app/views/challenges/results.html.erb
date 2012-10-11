@@ -11,23 +11,24 @@
 					<div style="text-align: center; padding:50px"><b>No winners found for this challenge.</b></div>
 				<% else %>
 				
-				<p>Once every judge fills out a scorecard for each participant the scoring engine runs which calculates a winner. Participants must meet a scoring threshold of 75% to be eligible for prize money. In the case of a tie score, the participant that submitted their entry first wins. You can click on the "Scorecard" link to view the 
-					scores and comments from the individual judge.</p>
+				<p>Once every judge fills out a scorecard for each participant the scoring engine runs which calculates a winner. Participants must meet a scoring threshold of 75% to be eligible for prize money. In the case of a tie score, the participant that submitted their entry first wins. You can click on the "Scorecard" link to view the scores and comments from the individual judge.</p>
 				
 				<p>If you submitted for this challenge then you are also able to view everyone else's submission after the results are final. Feel free to download their code, watch their videos and read their documentation to learn from their submission. </p>
+
+				<p><%= @challenge_detail["Results_Overview__c"] %></p>
 				
 					<% if @challenge_detail["Challenge_Type__c"].eql?('Code') %>
 					
 						<table  id="submissions-current" style="width:100%">
 						    <thead>
 						    	<tr>
-									<th scope="col">Member</th>
-						            <th scope="col">Place</th>
-									<th scope="col">Prize</th>
-									<th scope="col">Score</th>
-									<th scope="col">Submitted</th>
-									<th scope="col">View</th>
-						        </tr>
+										<th scope="col">Member</th>
+							      <th scope="col">Place</th>
+										<th scope="col">Prize</th>
+										<th scope="col">Score</th>
+										<th scope="col">Submitted</th>
+										<th scope="col">View</th>
+						      </tr>
 						    </thead>
 						    <tbody>
 							<% @participants.each do |participant| %>
