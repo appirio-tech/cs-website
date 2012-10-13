@@ -13,32 +13,32 @@
         = form_tag("/account/school", :name => "form_school")
         %label.large
           Company:
-        %input.txt.large{:maxlength => 180, :name => "form_school[company__c]", :value => @account["Company__c"]}
+        %input.txt.large{:maxlength => 180, :name => "form_school[company__c]", :value => @account["company"]}
         .cl
         %label.large
           School/University:
-        %input.txt.large{:maxlength => 180, :name => "form_school[school__c]", :value => @account["School__c"]}
+        %input.txt.large{:maxlength => 180, :name => "form_school[school__c]", :value => @account["school"]}
         .cl
         %label.large
           Years of Experience:
-        %input.txtsm{:maxlength => 100, :name => "form_school[years_of_experience__c]", :value => @account["Years_of_Experience__c"]}
+        %input.txtsm{:maxlength => 100, :name => "form_school[years_of_experience__c]", :value => @account["years_of_experience"]}
         %label
         .cl
         %label.large
           Work Status:
-        = select_tag("form_school[work_status__c]", options_for_select(work_options, @account["Work_Status__c"]) )
+        = select_tag("form_school[work_status__c]", options_for_select(work_options, @account["work_status"]) )
         .cl
         %label.large
           Shirt Size:
-        = select_tag("form_school[shirt_size__c]", options_for_select(shirt_size_options, @account["Shirt_Size__c"]) )
+        = select_tag("form_school[shirt_size__c]", options_for_select(shirt_size_options, @account["shirt_size"]) )
         .cl
         %label.large
           Age Range:
-        = select_tag("form_school[age_range__c]", options_for_select(age_range_options, @account["Age_Range__c"]) )
+        = select_tag("form_school[age_range__c]", options_for_select(age_range_options, @account["age_range"]) )
         .cl
         %label.large
           Gender:
-        = select_tag("form_school[gender__c]", options_for_select(gender_options, @account["Gender__c"]) )
+        = select_tag("form_school[gender__c]", options_for_select(gender_options, @account["gender"]) )
         .cl
         %br
         #button-container

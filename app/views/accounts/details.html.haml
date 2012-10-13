@@ -13,52 +13,52 @@
         = form_tag("/account/details", :name => "form_details")
         %label
           First Name:
-        %input.txt{:maxlength => 100, :name => "form_details[first_name__c]", :value => @account["First_Name__c"]}
+        %input.txt{:maxlength => 100, :name => "form_details[first_name__c]", :value => @account["first_name"]}
         %label
           Username:
         %div{:style => "padding-top:6px;"}
           %span.Uname
-            = @account["Name"]
+            = @account["name"]
         .cl
         %label
           Last Name:
-        %input.txt{:maxlength => 100, :name => "form_details[last_name__c]", :value => @account["Last_Name__c"]}
+        %input.txt{:maxlength => 100, :name => "form_details[last_name__c]", :value => @account["last_name"]}
         %label
           %span.required *
           Email Address:
-        %input.txt{:maxlength => 250, :name => "form_details[email__c]", :value => @account["Email__c"], :style => 'width:250px'}
+        %input.txt{:maxlength => 250, :name => "form_details[email__c]", :value => @account["email"], :style => 'width:250px'}
         .cl
         %hr{:style => 'margin: 10px'}
         %label
           Address:
-        %input.field{:maxlength => 100, :name => "form_details[address_line1__c]", :value => @account["Address_Line1__c"]}
+        %input.field{:maxlength => 100, :name => "form_details[address_line1__c]", :value => @account["address_line1"]}
         .cl
         %label
           Address:
-        %input.field{:maxlength => 100, :name => "form_details[address_line2__c]", :value => @account["Address_Line2__c"]}
+        %input.field{:maxlength => 100, :name => "form_details[address_line2__c]", :value => @account["address_line2"]}
         .cl
         %label
           City:
-        %input.txt{:maxlength => 15, :name => "form_details[city__c]", :value => @account["City__c"]}
+        %input.txt{:maxlength => 15, :name => "form_details[city__c]", :value => @account["city"]}
         %label.sm
           State:
-        %input.txt{:maxlength => 150, :name => "form_details[state__c]", :value => @account["State__c"]}
+        %input.txt{:maxlength => 150, :name => "form_details[state__c]", :value => @account["state"]}
         %label.sm
           Zip:
-        %input.txt{:maxlength => 11, :name => "form_details[zip__c]", :value => @account["Zip__c"]}
+        %input.txt{:maxlength => 11, :name => "form_details[zip__c]", :value => @account["zip"]}
         .cl
         %label
           Country:
-        = country_select(:form_details, :country__c,  @account["Country__c"] =>  @account["Country__c"] )
+        = country_select(:form_details, :country__c,  @account["country"] =>  @account["country"] )
         .cl
         %div{:style => 'margin:10px'}
         %label
           Phone:
-        %input.txt{:maxlength => 15, :name => "form_details[phone_mobile__c]", :value => @account["Phone_Mobile__c"]}
+        %input.txt{:maxlength => 15, :name => "form_details[phone_mobile__c]", :value => @account["phone_mobile"]}
         .cl
         %label
           Time Zone:
-        = select_tag("form_details[time_zone__c]", options_for_select(timezone_options, @account["Time_Zone__c"]), :style => 'width: 400px' )  
+        = select_tag("form_details[time_zone__c]", options_for_select(timezone_options, @account["time_zone"]), :style => 'width: 400px' )  
         .cl
         %br
         #button-container

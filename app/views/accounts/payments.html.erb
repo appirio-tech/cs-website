@@ -24,23 +24,23 @@
 				<%= form_for "/account/payments", :name => "form_payment", :method => "post", :html => { :multipart => true } do |f| %>
 				
 				<label>Preferred Payment:</label>
-				<%= select_tag("form_payment[preferred_payment__c]", options_for_select(preferred_payment_options, @account["Preferred_Payment__c"]), :style => 'margin: 5px 5px 5px 0px;' ) %>
+				<%= select_tag("form_payment[preferred_payment__c]", options_for_select(preferred_payment_options, @account["preferred_payment"]), :style => 'margin: 5px 5px 5px 0px;' ) %>
 				<div class="spacer"></div>
 				
 				<label>Paperwork Status:</label>
-				<div class="display"><%= @account["Paperwork_Received__c"]%>&nbsp;</div>
+				<div class="display"><%= @account["paperwork_received"]%>&nbsp;</div>
 				<div class="spacer"></div>
 				
 				<label>Paperwork Sent:</label>
-				<div class="display"><%= @account["Paperwork_Sent__c"]%>&nbsp;</div>
+				<div class="display"><%= @account["paperwork_sent"]%>&nbsp;</div>
 				<div class="spacer"></div>
 				
 				<label>Paperwork for Year:</label>
-				<div class="display"><%= @account["Paperwork_Year__c"]%>&nbsp;</div>
+				<div class="display"><%= @account["paperwork_year"]%>&nbsp;</div>
 				<div class="spacer"></div>
 				
 				<label>PayPal Address:</label>
-				<input name="form_payment[paypal_payment_address__c]" value="<%= @account["Paypal_Payment_Address__c"]%>" class="field" style="width: 200px">
+				<input name="form_payment[paypal_payment_address__c]" value="<%= @account["paypal_payment_address"]%>" class="field" style="width: 200px">
 				<div class="spacer"></div>
 				<% end %>
 				

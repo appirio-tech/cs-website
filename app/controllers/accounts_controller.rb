@@ -2,8 +2,8 @@ require 'cs_api_account'
 require 'cs_api_member'
 
 class AccountsController < ApplicationController
-  before_filter :require_login, :except => ["public_forgot_password","public_reset_password"]
-  before_filter :get_account, :except => ["public_forgot_password","public_reset_password"]
+  before_filter :require_login, :except => [:public_forgot_password, :public_reset_password]
+  before_filter :get_account, :only => [:details, :payments, :school, :public_profile, :password]
   before_filter :redirect_to_http
    
   def index
@@ -60,18 +60,18 @@ class AccountsController < ApplicationController
   
   # Member details info tab
   def payments
-    if params["form_payment"]
-      results = Members.update(current_access_token, @current_user.username, params["form_payment"])
+    if params['form_payment']
+      results = CsApi::Member.update(current_access_token, @current_user.username, params['form_payment'])
       #check for errors!!
-      if results["Success"].eql?('false')
-        flash.now[:error] = results["Message"]
+      if results['success'].eql?('false')
+        flash.now[:error] = results['message']
       else
-        flash.now[:notice] = "Your payment information has been updated."
+        flash.now[:notice] = 'Your payment information has been updated.'
+        get_account
       end
     end
-    # get the member's id for docusign
-    member = Members.find_by_username(current_access_token, @current_user.username, 'id').first
-    @memberId = member['Id']
+    # set the member's id for docusign
+    @memberId = @account['id']
     @payments = CsApi::Member.payments(current_access_token, @current_user.username)
     @payments.each do |record| 
       if record['status'].eql?('Paid')
@@ -80,8 +80,7 @@ class AccountsController < ApplicationController
         @show_outstanding_section = true
       end
     end
-    @page_title = "Your Payments and Payment Info"
-    get_account
+    @page_title = 'Your Payments and Payment Info'
     respond_to do |format|
       format.html
       format.json { render :json => @payments }
@@ -90,45 +89,45 @@ class AccountsController < ApplicationController
 
   # Member details info tab
   def details
-    if params["form_details"]
-      results = Members.update(current_access_token, @current_user.username,params["form_details"])
+    if params['form_details']
+      results = CsApi::Member.update(current_access_token, @current_user.username, params['form_details'])
       #check for errors!!
-      if results["Success"].eql?('false')
-        if results["Message"].index('Email__c duplicates').nil?
-          flash.now[:error] = results["Message"]
+      if results['success'].eql?('false')
+        if results['message'].index('Email__c duplicates').nil?
+          flash.now[:error] = results['message']
         else
           flash.now[:error] = 'Duplicate email address found! The email address that you specified is already in use.'
         end
       else
-        flash.now[:notice] = "Your account information has been updated."
-      end
+        flash.now[:notice] = 'Your account information has been updated.'
+        # get the updated account
+        get_account         
+      end     
     end
-    @page_title = "Account Details"
-    # get the updated account
-    get_account
+    @page_title = 'Account Details'
   end
 
   # School & Work info tab
   def school
-    if params["form_school"]
-      Members.update(current_access_token, @current_user.username, params["form_school"])
-      flash.now[:notice] = "Your school and work information has been updated."      
+    if params['form_school']
+      CsApi::Member.update(current_access_token, @current_user.username, params['form_school'])
+      flash.now[:notice] = "Your school and work information has been updated."    
+      # get the updated account
+      get_account   
     end
-    @page_title = "Account Details"
-    # get the updated account
-    get_account
+    @page_title = 'Account Details'
   end
   
   # School & Work info tab
   def public_profile
-    if params["form_profile"]
-      Members.update(current_access_token, @current_user.username, params["form_profile"])
+    if params['form_profile']
+      CsApi::Member.update(current_access_token, @current_user.username, params['form_profile'])
       Resque.enqueue(UpdateBadgeVillePlayer, current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
-      flash.now[:notice] = "Your profile information has been updated."
+      flash.now[:notice] = 'Your profile information has been updated.'
+      # get the updated account
+      get_account      
     end
-    @page_title = "Public Profile"
-    # get the updated account
-    get_account
+    @page_title = 'Public Profile'
   end
 
   # Action to change the password of logged user (not activated)
@@ -140,11 +139,11 @@ class AccountsController < ApplicationController
       else 
         flash.now[:notice] = results["message"]
       end
+      get_account
     end
     @page_title = "Change Your Password"
-    get_account
-    if !@account["Login_Managed_By__c"].eql?('CloudSpokes')
-      flash.now[:warning] = "You are logging into CloudSpokes with your #{@account["Login_Managed_By__c"]} account. You will need to change your password at #{@account["Login_Managed_By__c"]}"
+    if !@account["login_managed_by"].eql?('CloudSpokes')
+      flash.now[:warning] = "You are logging into CloudSpokes with your #{@account["login_managed_by"]} account. You will need to change your password at #{@account["login_managed_by"]}"
     end
   end
   
@@ -173,7 +172,7 @@ class AccountsController < ApplicationController
   end
   
   def get_account
-    @account = Members.find_by_username(current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS)[0]
+    @account = CsApi::Member.find_by_membername(current_access_token, @current_user.username, PRETTY_ACCOUNT_MEMBER_FIELDS)
   end
   
 end

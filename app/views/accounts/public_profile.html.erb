@@ -70,7 +70,7 @@
 				<div class="holder">
 					<table>
 					<tr>
-						<td valign="top"><img src="<%= @account["Profile_Pic__c"]%>" class="profile_pic" id="current_pic"></td>
+						<td valign="top"><img src="<%= @account["profile_pic"]%>" class="profile_pic" id="current_pic"></td>
 						<td height="128"><!--<%= file_field 'form_profile', 'Profile_Pic__c', :class => 'file' %>-->
 							<iframe src="http://cs-image-service.appspot.com" id="someIframe" width="400" height="125" frameborder="0">
 						        <p>Your browser does not support iframes.</p>
@@ -82,31 +82,31 @@
 				<div class="spacer"></div>
 				
 				<label>Summary / Bio:</label>
-				<div class="holder"><textarea name="form_profile[Summary_Bio__c]" rows="8" cols="40"><%= @account["Summary_Bio__c"]%></textarea></div>
+				<div class="holder"><textarea name="form_profile[Summary_Bio__c]" rows="8" cols="40"><%= @account["summary_bio"]%></textarea></div>
 				<div class="spacer"></div>
 
 				<label>Quote:</label>
-				<div class="holder"><textarea name="form_profile[Quote__c]" rows="8" cols="40"><%= @account["Quote__c"]%></textarea></div>
+				<div class="holder"><textarea name="form_profile[Quote__c]" rows="8" cols="40"><%= @account["quote"]%></textarea></div>
 				<div class="spacer"></div>
 				
 				<label>Site / Blog:</label>
-				<input name="form_profile[Website__c]" value="<%= @account["Website__c"]%>" class="field" style="width: 400px">
+				<input name="form_profile[Website__c]" value="<%= @account["website"]%>" class="field" style="width: 400px">
 				<div class="spacer"></div>
 				
 				<label>Twitter Username:</label>
-				<input name="form_profile[Twitter__c]" value="<%= @account["Twitter__c"]%>" class="field">
+				<input name="form_profile[Twitter__c]" value="<%= @account["twitter"]%>" class="field">
 				<div class="spacer"></div>
 				
 				<label>GitHub Username:</label>
-				<input name="form_profile[Github__c]" value="<%= @account["Github__c"]%>" class="field">
+				<input name="form_profile[Github__c]" value="<%= @account["github"]%>" class="field">
 				<div class="spacer"></div>
 				
 				<label>Facebook URL:</label>
-				<input name="form_profile[Facebook__c]" value="<%= @account["Facebook__c"]%>" class="field" style="width: 400px">
+				<input name="form_profile[Facebook__c]" value="<%= @account["facebook"]%>" class="field" style="width: 400px">
 				<div class="spacer"></div>
 				
 				<label>LinkedIn URL:</label>
-				<input name="form_profile[LinkedIn__c]" value="<%= @account["LinkedIn__c"]%>" class="field" style="width: 400px">
+				<input name="form_profile[LinkedIn__c]" value="<%= @account["linkedin"]%>" class="field" style="width: 400px">
 				<div class="spacer"></div>
 				<% end %>
 				
