@@ -4,6 +4,12 @@ module CsApi
 
   class Member < CloudSpokesApi
 
+	  def self.update(access_token, membername, params)
+	    set_api_header_token(access_token)   
+	    set_api_header_key   
+	    put(ENV['CS_API_URL']+"/members/#{esc membername}/update", :query => params)['response']
+	  end
+
 	  def self.search(access_token, keyword, fields)
 	    set_api_header_token(access_token)    
 	    get(ENV['CS_API_URL']+"/members/search?keyword=#{keyword}&fields=#{esc fields}")['response']
