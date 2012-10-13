@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
 
   PRETTY_MEMBER_SEARCH_FIELDS   = "id,name,profile_pic,summary_bio,challenges_entered,active_challenges,total_wins,total_1st_place,total_2nd_place,total_3st_place,total_public_money"
   PRETTY_PUBLIC_MEMBER_FIELDS   = "id,name,school,years_of_experience,gender,time_zone,profile_pic,country,summary_bio,quote,challenges_entered,total_public_money,website,twitter,linkedin,icq,jabber,github,facebook,digg,myspace,total_wins,total_points,total_1st_place,total_2nd_place,total_3st_place,valid_submissions,badgeville_id"
+  PRETTY_ACCOUNT_MEMBER_FIELDS  = "id,name,company,school,years_of_experience,work_status,shirt_size,age_range,gender,email,last_name,first_name,address_line1,address_line2,city,zip,state,phone_mobile,time_zone,profile_pic,country,summary_bio,quote,challenges_entered,total_public_money,website,twitter,linkedin,icq,jabber,github,facebook,digg,myspace,total_wins,total_points,total_1st_place,total_2nd_place,total_3st_place,Login_Managed_By,Paperwork_Received,Paperwork_Sent,Paperwork_Year,Paypal_Payment_Address,Preferred_Payment,valid_submissions,badgeville_id" 
  
 
   def notifications 
