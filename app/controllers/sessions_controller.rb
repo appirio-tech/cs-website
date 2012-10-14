@@ -251,14 +251,14 @@ class SessionsController < ApplicationController
         # make sure their user in sfdc is active
         if CsApi::Account.activate(params[:login_form][:username])
 
-          user = User.authenticate(current_access_token, params[:login_form][:username],
+          login_results = User.authenticate(current_access_token, params[:login_form][:username],
               params[:login_form][:password])
 
-          if user.nil?
-            flash.now[:error] = "Invalid username/password combination."
+          if login_results[:user].nil?
+            flash.now[:error] = cs_login_error_message(login_results[:message])
             render :action => 'login'
           else
-            sign_in user
+            sign_in login_results[:user]
             if session[:redirect_to_after_auth].nil?
               redirect_to challenges_path
             else

@@ -1,4 +1,16 @@
 module SessionsHelper
+
+  def cs_login_error_message(message)
+    if message.include?('Password Lockout')
+      'LOCKED OUT -- You have been locked out for 10 invalid login attempts. 
+        Please wait 15 minutes before attempting to login again.'
+    elsif message.include?('Invalid Password')
+      'Invalid username/password combination. Try the Forgot 
+        Password? link below to reset your password.'
+    else
+      message
+    end
+  end
   
   def thirdparty_username(auth)
     if ['github','twitter'].include?(auth[:provider]) 

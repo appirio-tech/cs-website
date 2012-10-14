@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120104144026) do
+ActiveRecord::Schema.define(:version => 20120104144328) do
 
   create_table "openid_associations", :force => true do |t|
     t.datetime "issued_at"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20120104144026) do
     t.string   "sfdc_username"
     t.string   "access_token"
     t.string   "profile_pic"
+    t.string   "accountid"
   end
 
 end

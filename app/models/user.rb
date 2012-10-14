@@ -22,10 +22,10 @@ class User < ActiveRecord::Base
         :password => password, :access_token => login_results[:access_token], 
         :profile_pic => member['Profile_Pic__c'], :email => member['Email__c'], :accountid => member['Account__c'])
       user.save
-      return user
+      { :user => user, :message => login_results[:message] }
     else
       logger.error "[User]==== could not authenticate user in sfdc: #{login_results.to_yaml}"
-      return nil
+      { :user => nil, :message => login_results[:message] }
     end
   end
   
