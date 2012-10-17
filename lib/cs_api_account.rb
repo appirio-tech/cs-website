@@ -16,7 +16,7 @@ module CsApi
     #used for cloudspokes and third party
     def self.find_by_service(service, service_username)
       set_api_header_key   
-      get(ENV['CS_API_URL'] + "/accounts/find_by_service?service=#{service}&service_username=#{service_username}")['response']
+      get(ENV['CS_API_URL'] + "/accounts/find_by_service?service=#{esc service}&service_username=#{esc service_username}")['response']
     end	
 
     def self.reset_password(membername)
