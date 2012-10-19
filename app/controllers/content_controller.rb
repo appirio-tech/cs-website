@@ -6,12 +6,18 @@ class ContentController < ApplicationController
   def home
     @page_title = "A unique cloud development community, focused on mobile technologies and public cloud platforms."
 
-    client = Savon.client(ENV['STATS_WSDL_URL'])
-    response = client.request(:stat, :platform_stats) do
-      soap.namespaces["xmlns:stat"] = "http://soap.sforce.com/schemas/class/StatsWS"
-      soap.header = { 'stat:SessionHeader' => { 'stat:sessionId' => current_access_token }}
-    end 
-    @page = response.to_array(:platform_stats_response, :result).first
+    # cache the home page stats for 15 minutes
+    @page = Rails.cache.fetch('home_page_stats', :expires_in => 15.minute) do
+
+      client = Savon.client(ENV['STATS_WSDL_URL'])
+      response = client.request(:stat, :platform_stats) do
+        soap.namespaces["xmlns:stat"] = "http://soap.sforce.com/schemas/class/StatsWS"
+        soap.header = { 'stat:SessionHeader' => { 'stat:sessionId' => current_access_token }}
+      end 
+      response.to_array(:platform_stats_response, :result).first
+
+    end
+
     @featured_member_username = @page[:featured_member_username]
     @featured_member_pic = @page[:featured_member_pic]
     @featured_member_money = @page[:featured_member_money]
