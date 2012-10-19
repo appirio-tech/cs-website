@@ -52,10 +52,10 @@ class SfdcConnection
     
       begin
 
-        access_token = client.authenticate :username => sfdc_username, :password => current_user.password
+        access_token = client.authenticate :username => sfdc_username, :password => Encryptinator.decrypt_string(current_user.password)
         current_user.access_token = access_token
         # try and save the record now
-        Rails.logger.error "[SfdcConnection]==== could not save new access_token to the datbase for #{current_user.username}. Error: #{user.errors.full_messages}" if !current_user.save
+        Rails.logger.error "[SfdcConnection]==== could not save new access_token to the datbase for #{current_user.username} / #{Encryptinator.decrypt_string(current_user.password)}. Error: #{user.errors.full_messages}" if !current_user.save
         # touch the record to update the updated_at time if no values were changed
         current_user.touch
         return current_user.access_token
@@ -64,7 +64,7 @@ class SfdcConnection
       # if we get an error, just return the public_access_token. it will check again on the
       # next call to this method until it returns the access_token successfully
       rescue Exception => exc
-        Rails.logger.warn "[SfdcConnection]==== error getting the access_token for #{current_user.username}. returning public_access_token instead. sfdc returned error: #{exc.message}"
+        Rails.logger.warn "[SfdcConnection]==== error getting the access_token for #{current_user.username} / #{Encryptinator.decrypt_string(current_user.password)}. returning public_access_token instead. sfdc returned error: #{exc.message}"
         return SfdcConnection.public_access_token
       end
     

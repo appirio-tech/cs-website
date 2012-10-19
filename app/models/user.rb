@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
       User.delete(User.find_by_username(username))
       # create the new user in the database
       user = User.new(:username => username, :sfdc_username => username+'@'+ENV['SFDC_USERNAME_DOMAIN'], 
-        :password => password, :access_token => login_results[:access_token], 
+        :password => Encryptinator.encrypt_string(password), :access_token => login_results[:access_token], 
         :profile_pic => member['Profile_Pic__c'], :email => member['Email__c'], :accountid => member['Account__c'])
       user.save
       { :user => user, :message => login_results[:message] }
@@ -48,18 +48,18 @@ class User < ActiveRecord::Base
         User.delete(User.find_by_username(results[:username]))
         # save the user
         user = User.new(:username => results[:username], :sfdc_username => results[:sfdc_username], 
-            :password => ENV['THIRD_PARTY_PASSWORD'], :access_token => login_results[:access_token],
+            :password => Encryptinator.encrypt_string(ENV['THIRD_PARTY_PASSWORD']), :access_token => login_results[:access_token],
             :profile_pic => results[:profile_pic], :email => results[:email], :accountid => results[:accountid])
         logger.error "[User]==== could not save user to database: #{user.errors.full_messages}" unless user.save
-        return user
+        user
         
       else
         logger.error "[User]==== could not authenticate via third party credentials: #{login_results.to_yaml}"
-        return nil
+        nil
       end
     else
       logger.error "[User]==== could not authenticate via third party credentials. could not fetch sfdc username: #{results.to_yaml}"
-      return nil
+      nil
     end
   end
   

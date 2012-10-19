@@ -185,7 +185,7 @@ class SessionsController < ApplicationController
           
           user = User.new(:username => new_member_create_results[:username], 
             :sfdc_username => new_member_create_results[:sfdc_username], 
-            :password => ENV['THIRD_PARTY_PASSWORD'])
+            :password => Encryptinator.encrypt_string(ENV['THIRD_PARTY_PASSWORD']))
             
           logger.info "[SessionsController]==== try to save #{@signup_complete_form.email} to the database"
 

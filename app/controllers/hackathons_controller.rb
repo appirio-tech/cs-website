@@ -40,7 +40,7 @@ class HackathonsController < ApplicationController
     def dbdc_client
       config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
       client = Databasedotcom::Client.new(config)
-      client.authenticate :username => current_user.sfdc_username, :password => current_user.password
+      client.authenticate :username => current_user.sfdc_username, :password => Encryptinator.decrypt_string(current_user.password)
       return client
     end
 
