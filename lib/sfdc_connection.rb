@@ -9,7 +9,7 @@ class SfdcConnection
     s = Settings.first
         
     # if the settings are older than an hour, fetch a new access token from sfdc
-    if Time.now > 1.minutes.since(s.created_at.getlocal)
+    if Time.now > 60.minutes.since(s.created_at.getlocal)
       
       Rails.logger.info "[SfdcConnection]==== public_access_token has expired. fetching a new one." 
       
@@ -41,7 +41,7 @@ class SfdcConnection
   def self.member_access_token(current_user)
         
     # if the access token is nil or the access token hasn't been updated in an hour
-    if current_user.access_token.nil? || Time.now > current_user.updated_at.getlocal + (1*60)
+    if current_user.access_token.nil? || Time.now > current_user.updated_at.getlocal + (60*60)
     
       Rails.logger.info "[SfdcConnection]==== access token for #{current_user.username} is nil or an hour old (token last updated: #{current_user.updated_at.getlocal}). fetching new access token."
     

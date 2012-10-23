@@ -32,13 +32,12 @@ gem 'encryptor'
 
 group :development, :test do
   gem 'sqlite3-ruby'
-  gem 'rspec-rails', '~> 2.6'
+  gem 'rspec-rails', '~> 2.11'
   gem 'annotate', '2.4.0'
   gem 'guard'
   gem 'guard-bundler'
   gem 'guard-rspec'
   gem 'growl'
-  gem 'rb-fsevent'
   gem 'ruby-debug19'
   gem 'heroku'
 end

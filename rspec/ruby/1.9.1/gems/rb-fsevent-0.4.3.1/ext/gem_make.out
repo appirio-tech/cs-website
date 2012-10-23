@@ -1,0 +1,3 @@
+/Users/Jeff/.rvm/rubies/ruby-1.9.2-p290/bin/ruby extconf.rb 
+creating Makefile
+extconf.rb:21:in `<main>': Only Darwin systems greater than 8 (Mac OS X 10.5+) are supported (RuntimeError)
