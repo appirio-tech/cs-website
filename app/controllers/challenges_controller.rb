@@ -497,7 +497,7 @@ class ChallengesController < ApplicationController
   end
   
   def current_challenge
-    @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id])[0] 
+    @current_challenge ||= Challenges.find_by_id(current_access_token, params[:id].strip)[0] 
   end
   
   # most of the time the title will be the challenge name but be flexible
