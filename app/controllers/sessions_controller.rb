@@ -161,7 +161,7 @@ class SessionsController < ApplicationController
     end
     
     rescue OAuth::Unauthorized => e
-      logger.error e.response.inspect
+      logger.error e.response.inspect   
   end
   
   # agree to the tos and complete the signup
@@ -236,8 +236,7 @@ class SessionsController < ApplicationController
   end  
   
   def callback_failure
-    logger.error "[SessionsController]==== authentication via omniauth failed:"
-    logger.error request.env["omniauth"].to_yaml
+    logger.error "[SessionsController]==== OAuth authentication failed. They probably denied access."
     redirect_to root_url
   end
     
