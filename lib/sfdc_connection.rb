@@ -64,7 +64,7 @@ class SfdcConnection
       # if we get an error, just return the public_access_token. it will check again on the
       # next call to this method until it returns the access_token successfully
       rescue Exception => exc
-        Rails.logger.warn "[SfdcConnection]==== error getting the access_token for #{current_user.username} / #{Encryptinator.decrypt_string(current_user.password)}. returning public_access_token instead. sfdc returned error: #{exc.message}"
+        Rails.logger.warn "[SfdcConnection]==== error getting the access_token for #{current_user.username}. returning public_access_token instead. sfdc returned error: #{exc.message}"
         return SfdcConnection.public_access_token
       end
     
