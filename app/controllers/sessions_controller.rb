@@ -325,8 +325,9 @@ class SessionsController < ApplicationController
 
         CsApi::Account.activate(params[:reset_password_form][:username])
         logger.info "[SessionsController]==== Activating account with cs-api for #{params[:reset_password_form][:username]}"
-
+        logger.info "[SessionsController][DEBUG]==== Resetting password for #{params[:reset_password_form][:username]} with passcode #{params[:reset_password_form][:passcode]} and password #{params[:reset_password_form][:password]}"
         results = CsApi::Account.update_password(params[:reset_password_form][:username], params[:reset_password_form][:passcode], params[:reset_password_form][:password])
+        logger.info "[SessionsController][DEBUG]==== Password reset results: #{results}"
         flash.now[:warning] = results['message']
         render :action => 'public_reset_password'
       else
