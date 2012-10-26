@@ -25,7 +25,7 @@ class ChallengesController < ApplicationController
     end
     #see if we need to show them tos different than the default standard ones
     if @challenge_detail['Terms_of_Service__r']['Default_TOS__c'].eql?(true)
-      Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
+      Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Registered')
       redirect_to(:back)
     # challenge has it's own terms. show and make them register
     else
@@ -36,13 +36,13 @@ class ChallengesController < ApplicationController
   
   #these should probably be refactored to ajax calls
   def register_agree_to_tos
-    Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Registered')
+    Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Registered')
     redirect_to challenge_path
   end
   
   #these should probably be refactored to ajax calls
   def watch
-    Challenges.set_participation_status(current_access_token, current_user.username, params[:id], 'Watching')
+    Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Watching')
     redirect_to(:back)
   end
 
@@ -96,15 +96,15 @@ class ChallengesController < ApplicationController
     if !params[:file].nil?
       begin
         sanitized = sanitize_filename(params[:file][:file_name].original_filename)
-        complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+current_user.username+'/'+sanitized
-        AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id]+'/'+current_user.username, :access => :public_read)
+        complete_url = 'https://s3.amazonaws.com/'+ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id].strip+'/'+current_user.username+'/'+sanitized
+        AWS::S3::S3Object.store(sanitized, params[:file][:file_name].read, ENV['AMAZON_S3_DEFAULT_BUCKET']+'/challenges/'+params[:id].strip+'/'+current_user.username, :access => :public_read)
         # submit the files to sfdc
         submission_results = Challenges.save_submission(current_access_token, 
           params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
         if submission_results['Success'].eql?('true')
           flash[:notice] = "File successfully submitted for this challenge."
           # send the race submission notification from jeffdonthemic -- todo: implement a gneric clyde user
-          send_race_email_notification(params[:id], 'jeffdonthemic', 'A new submission has been uploaded for this challenge.') if params[:file_submission][:send_race_email]
+          send_race_email_notification(params[:id].strip, 'jeffdonthemic', 'A new submission has been uploaded for this challenge.') if params[:file_submission][:send_race_email]
         else
           flash[:error] = "There was an error submitting your File. Please check it and submit it again."
         end
@@ -175,13 +175,13 @@ class ChallengesController < ApplicationController
   
   # private appirio page
   def all_submissions
-    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id].strip)
   end
   
   # private appirio page
   def cal
     @challenge_detail = current_challenge
-    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id].strip)
   end
   
   def preview
@@ -193,15 +193,15 @@ class ChallengesController < ApplicationController
   def show
     @challenge_detail = current_challenge
     determine_page_title
-    @comments = Comments.find_by_challenge(current_access_token, params[:id])
+    @comments = Comments.find_by_challenge(current_access_token, params[:id].strip)
     @participation_status = challenge_participation_status
     @use_captcha = use_captcha? if signed_in?
     
     # grab some extra data for quickquizes
     if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')   
-      @todays_results = QuickQuizes.winners_today(current_access_token, params[:id], 'all');
+      @todays_results = QuickQuizes.winners_today(current_access_token, params[:id].strip, 'all');
       # get the current member's status for the challenge
-      @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, params[:id], current_user.username) : nil
+      @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, params[:id].strip, current_user.username) : nil
     end
     
     respond_to do |format|
@@ -215,19 +215,19 @@ class ChallengesController < ApplicationController
   end
   
   def toggle_discussion_email
-    Challenges.toggle_discussion_emails_status(current_access_token, current_user.username, params[:id])
+    Challenges.toggle_discussion_emails_status(current_access_token, current_user.username, params[:id].strip)
     if challenge_participation_status[:send_discussion_emails] == false
       flash[:notice] = "No problem. We've removed you from the Discussion board distribution list for this challenge. You can always subscribe again at the bottom of this page."
     else
       flash[:notice] = "OK! We've added you to the Discussion board distribution list for this challenge. You will receive an email any time someone posts to the Discussion board."
     end
-    redirect_to challenge_path(params[:id])
+    redirect_to challenge_path(params[:id].strip)
   end
     
   def registrants    
     @challenge_detail = current_challenge
     determine_page_title("Registrants for #{@challenge_detail['Name']}")
-    @registrants = Challenges.registrants(current_access_token, params[:id])
+    @registrants = Challenges.registrants(current_access_token, params[:id].strip)
     @registrants = @registrants.paginate(:page => params[:page] || 1, :per_page => 50) unless @registrants.nil?
     @participation_status = challenge_participation_status
     respond_to do |format|
@@ -243,7 +243,7 @@ class ChallengesController < ApplicationController
       redirect_to challenge_path
     else
       determine_page_title("Results for #{@challenge_detail['Name']}")
-      @participants = Challenges.scorecards(current_access_token, params[:id])
+      @participants = Challenges.scorecards(current_access_token, params[:id].strip)
       @participation_status = challenge_participation_status    
       @has_submission = signed_in? ? @participation_status[:has_submission] : false
       respond_to do |format|
@@ -259,7 +259,7 @@ class ChallengesController < ApplicationController
     @participation_status = challenge_participation_status    
     # if the current user did not submit for the challenge, they cannot see this page
     redirect_to challenge_path unless @participation_status[:has_submission]
-    @all_submissions = Challenges.all_submissions(current_access_token, params[:id])
+    @all_submissions = Challenges.all_submissions(current_access_token, params[:id].strip)
     @all_submissions.each do |participant| 
       if participant['Challenge_Participant__c'].eql?(params[:participant])
         @participant_name = participant['Username__c']
@@ -270,7 +270,7 @@ class ChallengesController < ApplicationController
   def participant_scorecard
     @challenge_detail = current_challenge
     determine_page_title
-    @participants = Challenges.scorecards(current_access_token, params[:id])
+    @participants = Challenges.scorecards(current_access_token, params[:id].strip)
     @participation_status = challenge_participation_status
     scorecard = Scoring.scorecard(current_access_token, params[:scorecard], params[:reviewer]).to_json
     # set the json results to be html safe are usable in the javascript
@@ -280,7 +280,7 @@ class ChallengesController < ApplicationController
   def scorecard    
     @challenge_detail = current_challenge
     determine_page_title("Scorecard for #{@challenge_detail['Name']}")
-    @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id])
+    @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id].strip)
     @participation_status = challenge_participation_status
   end
   
@@ -289,7 +289,7 @@ class ChallengesController < ApplicationController
     determine_page_title
     @participation_status = challenge_participation_status
     if params["survey"]
-      post_results = Surveys.save(current_access_token, params[:id], params["survey"])
+      post_results = Surveys.save(current_access_token, params[:id].strip, params["survey"])
       flash[:notice] = "Thanks for completing the survey!" 
       redirect_to challenge_path     
     end
@@ -312,7 +312,7 @@ class ChallengesController < ApplicationController
           # if they are replying to a certain message use that else, use the new message id from sfdc
           reply_to = params[:discussion][:reply_to].empty? ? post_results['Message'] : params[:discussion][:reply_to]
           # send an email to all registered members of the new comment post
-          Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id], 
+          Resque.enqueue(NewChallengeCommentSender, current_access_token, params[:id].strip, 
             current_user.username, params[:discussion][:comments], reply_to) unless ENV['MAILER_ENABLED'].eql?('false')
         else
           flash[:error] = "There was an error posting your comments. Please try again."
@@ -534,7 +534,7 @@ class ChallengesController < ApplicationController
     
     def challenge_participation_status
       if signed_in?      
-        participation = Challenges.participant_status(current_access_token, current_user.username, params[:id])[0]
+        participation = Challenges.participant_status(current_access_token, current_user.username, params[:id].strip)[0]
         if participation.nil?
           status =  {:status => 'Not Registered', :participantId => nil, :has_submission => false, 
             :send_discussion_emails => false, :total_valid_submissions => 0}
