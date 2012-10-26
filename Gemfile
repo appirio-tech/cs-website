@@ -39,7 +39,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'growl'
   gem 'ruby-debug19'
-  gem 'heroku'
 end
 
 group :test do

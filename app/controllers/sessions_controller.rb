@@ -64,6 +64,8 @@ class SessionsController < ApplicationController
           # remove the terms_of_service key from the hash
           params[:signup_form].delete(:terms_of_service)
           @user = User.new(params[:signup_form])
+          # encrypt their password
+          @user.password = Encryptinator.encrypt_string(params[:signup_form][:password])
         
           # success!!
           if @user.save
