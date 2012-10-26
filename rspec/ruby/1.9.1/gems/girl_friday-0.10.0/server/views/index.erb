@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>girl_friday status</title>
+    <link href="<%=u 'css/style.css' %>" media="screen" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="header">
+      <h1>girl_friday</h1>
+    </div>
+
+    <div id="main">
+      <table id="queues">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Busy</th>
+            <th>Backlog</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+      <% @status.keys.sort.each do |name|
+        stats = @status[name]
+         %>
+         <tr id="<%= h name %>">
+           <td class="name">></td>
+           <td class="pool_size">></td>
+           <td class="busy">></td>
+           <td class="backlog">></td>
+           <td class="note"></td>
+          </tr>
+      <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="<%= u 'js/jquery.min.js' %>"></script>
+    <script src="<%= u 'js/girl_friday.js' %>"></script>
+  </body>
+</html>

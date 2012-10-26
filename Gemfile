@@ -27,8 +27,8 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'flash_messages_helper'
 gem 'remote_syslog_logger'
 gem 'dalli'
-gem 'exception_notification'
 gem 'encryptor'
+gem 'airbrake'
 
 group :development, :test do
   gem 'sqlite3-ruby'
