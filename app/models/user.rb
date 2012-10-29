@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     
     if login_results[:success].eql?('true')
       # get their member record and profile_pic
-      member = Members.find_by_username(access_token, username, 'id,profile_pic__c,email__c,account__c').first      
+      member = CsApi::Member.find_by_membername(access_token, username, 'id,profile_pic,email,account')
       # check for an existing record in the database and delete it
       User.delete(User.find_by_username(username))
       # create the new user in the database

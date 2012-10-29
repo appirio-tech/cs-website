@@ -1,6 +1,7 @@
 require 'auth'
 require 'sfdc_connection'
 require 'cs_api_account'
+require 'cs_api_member'
 
 class SessionsController < ApplicationController
   
@@ -284,11 +285,11 @@ class SessionsController < ApplicationController
   def forgot_service
     if params[:form_forgot_service]
       if !params[:form_forgot_service][:username].empty?
-        account = Members.find_by_username(current_access_token, params[:form_forgot_service][:username], 'Login_Managed_By__c')[0]
+        account = CsApi::Member.find_by_membername(current_access_token, params[:form_forgot_service][:username], 'login_managed_by')
         if account.nil? || account['errorCode']
           flash.now[:error] = "Could not find a member with the CloudSpokes username '#{params[:form_forgot_service][:username]}'"
         else
-          @login_service = "#{account["Login_Managed_By__c"]}"
+          @login_service = "#{account["login_managed_by"]}"
         end
       else
         flash.now[:error] = 'Please enter a CloudSpokes username.'

@@ -9,7 +9,7 @@ class NewChallengeCommentSender
     # fetch the challenge to get all of the participants
     challenge = Challenges.find_by_id(access_token, id)[0]
     # fetch the member so we can user the profile pic
-    member = Members.find_by_username(access_token, username, 'id,profile_pic__c').first
+    member = CsApi::Member.find_by_membername(access_token, username, 'id,profile_pic')
     # create an array to hold all of the addresses
     addresses = Array.new
     notifiers = Comments.notifiers(access_token, id, reply_to)

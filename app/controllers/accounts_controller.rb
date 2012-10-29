@@ -122,7 +122,7 @@ class AccountsController < ApplicationController
   def public_profile
     if params['form_profile']
       CsApi::Member.update(current_access_token, @current_user.username, params['form_profile'])
-      Resque.enqueue(UpdateBadgeVillePlayer, current_access_token, @current_user.username, DEFAULT_MEMBER_FIELDS) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
+      Resque.enqueue(UpdateBadgeVillePlayer, current_access_token, @current_user.username, 'name,first_name,last_name,profile_pic') unless ENV['BADGEVILLE_ENABLED'].eql?('false')
       flash.now[:notice] = 'Your profile information has been updated.'
       # get the updated account
       get_account      

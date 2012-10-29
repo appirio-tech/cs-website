@@ -39,18 +39,18 @@ class Badgeville
         
     options = {
       :body => {
-          'player[name]' => member['Name'],
-          'player[display_name]' => member['Name'],
-          'player[nickname]' => member['Name'],
-          'player[first_name]' => member['First_Name__c'],
-          'player[last_name]' => member['Last_Name__c'],
-          'player[picture_url]' => member['Profile_Pic__c'],
-          'player[custom_picture_url]' => member['Profile_Pic__c']
+          'player[name]' => member['name'],
+          'player[display_name]' => member['name'],
+          'player[nickname]' => member['name'],
+          'player[first_name]' => member['first_name'],
+          'player[last_name]' => member['last_name'],
+          'player[picture_url]' => member['profile_pic'],
+          'player[custom_picture_url]' => member['profile_pic']
           
       }
     }
-    results = HTTParty::put("#{ENV['BADGEVILLE_API_URL']}/api/berlin/#{ENV['BADGEVILLE_API_KEY']}/players/#{member['Badgeville_Id__c']}.json", options)
-    Rails.logger.info "[Badgeville]==== updated #{member['Name']} with player_id #{member['Badgeville_Id__c']} in Badgeveille with response: #{results}"
+    results = HTTParty::put("#{ENV['BADGEVILLE_API_URL']}/api/berlin/#{ENV['BADGEVILLE_API_KEY']}/players/#{member['badgeville_id']}.json", options)
+    Rails.logger.info "[Badgeville]==== updated #{member['name']} with player_id #{member['badgeville_id']} in Badgeveille with response: #{results}"
   end
 
   def self.update_user(badgeville_user_id, username, email)
