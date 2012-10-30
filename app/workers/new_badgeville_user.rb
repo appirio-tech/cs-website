@@ -16,7 +16,7 @@ class NewBadgeVilleUser
     unless player_id.nil?
       Badgeville.send_site_registration(player_id)
       # update sfdc with badgeville player id
-      Members.update(access_token, username, {"Badgeville_Id__c" => player_id})
+      CsApi::Member.update(access_token, username, {"Badgeville_Id__c" => player_id})
     end
     
   end

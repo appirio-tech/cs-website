@@ -23,7 +23,7 @@ class NewChallengeCommentSender
 
         Rails.logger.info "[Resque]==== sending challenge comment to #{to_address}"
         # create the actual email and send it
-        mail = MemberMailer.new_challenge_comment(to_address, id, challenge["Name"], username, member['Profile_Pic__c'], comments, reply_to).deliver
+        mail = MemberMailer.new_challenge_comment(to_address, id, challenge["Name"], username, member['profile_pic'], comments, reply_to).deliver
 
       rescue Net::SMTPAuthenticationError, Net::SMTPServerBusy, Net::SMTPSyntaxError, Net::SMTPFatalError, Net::SMTPUnknownError => e      
         Rails.logger.info "[FATAL][Resque]==== SMTP Error sending challenge comment. Cause: #{e.message}"   
