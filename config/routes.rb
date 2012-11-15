@@ -53,6 +53,7 @@ CloudSpokes::Application.routes.draw do
   match 'challenges/feed/recent', :to => 'challenges#feed_recent', :as => :feed_recent, :defaults => { :format => 'atom' }
   match 'challenges/recent', :to => 'challenges#recent'
   match 'challenges/:id', :to => 'challenges#show', :as => :challenge
+  match 'challenges/:id/edit', :to => 'challenges#edit', :as => :challenge_edit  
   match 'challenges/:id/iframe', :to => 'challenges#iframe', :as => :challenge_iframe
   match 'challenges/:id/preview', :to => 'challenges#preview', :as => :challenge_preview  
   match 'challenges/:id/registrants', :to => 'challenges#registrants', :as => :registrants

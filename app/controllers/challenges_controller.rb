@@ -14,6 +14,11 @@ class ChallengesController < ApplicationController
   before_filter :must_be_open, :only => [:submission_file_upload, :submission_url_upload]  
   before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
+
+  def edit
+    @challenge_detail = current_challenge
+    @participation_status = challenge_participation_status
+  end
   
   def register
     @challenge_detail = current_challenge

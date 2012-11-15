@@ -1,0 +1,138 @@
+<!--WYSIWYGEditorPage dependencies-->
+<link rel="stylesheet" href="/assets/tinyeditor.css">
+<script src="/assets/tiny.editor.packed.js"></script>
+<!--end of WYSIWYGEditorPage dependencies-->
+
+<div class="page two-cols-bg top-border">
+	<!-- Content Wrapper -->
+  <div class="challenge-content-wrapper">
+  <!-- Widecolumn -->
+  <div class="widecolumn fl">
+  <!-- Challenge Registrants -->
+  <span></span>
+	<p><%= link_to "Back to Challenge Details", challenge_path %></p>
+	<h3>Edit Challenge</h3>
+
+<!-- Description text area-->
+	<form id="formWithTextAreas" name="formWithTextAreas" action="http://requestb.in/15b48wb1">
+		<h4>Description</h4>
+		<textarea id="description" name="description" style="width: 400px; height: 200px"></textarea>
+		<script>
+			var description = new TINY.editor.edit('description', {
+				id : 'description',
+				width : 584,
+				height : 400,
+				cssclass : 'tinyeditor',
+				controlclass : 'tinyeditor-control',
+				rowclass : 'tinyeditor-header',
+				dividerclass : 'tinyeditor-divider',
+				controls : ['bold', 'italic', 'underline', 'strikethrough', '|', 'subscript', 'superscript', '|', 'orderedlist', 'unorderedlist', '|', 'outdent', 'indent', '|', 'leftalign', 'centeralign', 'rightalign', 'blockjustify', '|', 'unformat', '|', 'undo', 'redo', 'n', 'font', 'size', 'style', '|', 'image', 'hr', 'link', 'unlink', '|', 'print'],
+				footer : true,
+				fonts : ['Verdana', 'Arial', 'Georgia', 'Trebuchet MS'],
+				xhtml : true,
+				bodyid : 'description',
+				//starting content
+				content : '<%= raw(@challenge_detail["Description__c"]) %>',
+				footerclass : 'tinyeditor-footer',
+				toggle : {
+					text : 'source',
+					activetext : 'wysiwyg',
+					cssclass : 'toggle'
+				},
+				resize : {
+					cssclass : 'resize'
+				}
+			});
+		</script>
+
+		<!-- Requirements text area-->
+		</br></br><h4>Requirements</h4>
+		<textarea id="requirements" name="requirements" style="width: 400px; height: 200px"></textarea>
+		<script>
+			var requirements = new TINY.editor.edit('requirements', {
+				id : 'requirements',
+				width : 584,
+				height : 400,
+				cssclass : 'tinyeditor',
+				controlclass : 'tinyeditor-control',
+				rowclass : 'tinyeditor-header',
+				dividerclass : 'tinyeditor-divider',
+				controls : ['bold', 'italic', 'underline', 'strikethrough', '|', 'subscript', 'superscript', '|', 'orderedlist', 'unorderedlist', '|', 'outdent', 'indent', '|', 'leftalign', 'centeralign', 'rightalign', 'blockjustify', '|', 'unformat', '|', 'undo', 'redo', 'n', 'font', 'size', 'style', '|', 'image', 'hr', 'link', 'unlink', '|', 'print'],
+				footer : true,
+				fonts : ['Verdana', 'Arial', 'Georgia', 'Trebuchet MS'],
+				xhtml : true,
+				bodyid : 'requirements',
+				content : '<%= raw(@challenge_detail["Requirements__c"]) %>',
+				footerclass : 'tinyeditor-footer',
+				toggle : {
+					text : 'source',
+					activetext : 'wysiwyg',
+					cssclass : 'toggle'
+				},
+				resize : {
+					cssclass : 'resize'
+				}
+			});
+		</script>
+
+		<!-- Submission Details text area-->
+		</br></br><h4>Submission Details</h4>
+		<textarea id="submissionDetails" name="submissionDetails" style="width: 400px; height: 200px"></textarea>
+		<script>
+			var submissionDetails = new TINY.editor.edit('submissionDetails', {
+				id : 'submissionDetails',
+				width : 584,
+				height : 250,
+				cssclass : 'tinyeditor',
+				controlclass : 'tinyeditor-control',
+				rowclass : 'tinyeditor-header',
+				dividerclass : 'tinyeditor-divider',
+				controls : ['bold', 'italic', 'underline', 'strikethrough', '|', 'subscript', 'superscript', '|', 'orderedlist', 'unorderedlist', '|', 'outdent', 'indent', '|', 'leftalign', 'centeralign', 'rightalign', 'blockjustify', '|', 'unformat', '|', 'undo', 'redo', 'n', 'font', 'size', 'style', '|', 'image', 'hr', 'link', 'unlink', '|', 'print'],
+				footer : true,
+				fonts : ['Verdana', 'Arial', 'Georgia', 'Trebuchet MS'],
+				xhtml : true,
+				bodyid : 'submissionDetails',
+				content : '<%= raw(@challenge_detail["Submission_Details__c"]) %>',
+				footerclass : 'tinyeditor-footer',
+				toggle : {
+					text : 'source',
+					activetext : 'wysiwyg',
+					cssclass : 'toggle'
+				},
+				resize : {
+					cssclass : 'resize'
+				}
+			});
+			function sendData() {
+				requirements.post();
+				submissionDetails.post();
+				description.post();
+				document.formWithTextAreas.submit();
+			}
+
+		</script>
+
+
+	<div class="post-submission" style="padding-top:10px">
+		<a class="button fl" onclick="sendData();"> <span>Submit</span></a>
+	</div>
+	</form>	
+	
+
+  </div>
+  <!-- END Widecolumn -->
+  <!-- Sidebar -->
+  <div class="sidebar fr">
+          
+	<!-- Challenge Sidebar -->
+	<div class="challenge-sidebar">
+		<%= render "challenge-sidebar" %>
+	</div>
+	<!-- END Challenge Sidebar -->
+
+      </div>
+      <!-- END Sidebar -->
+      <div class="cl">&nbsp;</div>
+  </div>
+  <!-- END Content Wrapper -->
+</div>
