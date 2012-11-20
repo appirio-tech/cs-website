@@ -305,6 +305,7 @@ class SessionsController < ApplicationController
   def public_forgot_password_send
     if params[:form_forgot_password]
       results = CsApi::Account.reset_password(params[:form_forgot_password][:username])
+      logger.info "[SessionsController][DEBUG]==== reset results: #{results}"
       if results['success'].eql?('true')
         flash[:notice] = results["message"]
         redirect_to reset_password_url
