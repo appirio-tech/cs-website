@@ -7,7 +7,7 @@ module CsApi
 	  def self.update(access_token, membername, params)
 	    set_api_header_token(access_token)   
 	    set_api_header_key   
-	    put(ENV['CS_API_URL']+"/members/#{esc membername}/update", :query => params)['response']
+	    put(ENV['CS_API_URL']+"/members/#{esc membername}", :query => params)['response']
 	  end
 
 	  def self.search(access_token, keyword, fields)
