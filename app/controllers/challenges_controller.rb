@@ -208,6 +208,9 @@ class ChallengesController < ApplicationController
       # get the current member's status for the challenge
       @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, params[:id].strip, current_user.username) : nil
     end
+
+    # record the page view
+    Challenges.page_view(current_access_token, params[:id].strip) unless appirio_user?
     
     respond_to do |format|
       if @challenge_detail["Challenge_Type__c"].eql?('Quick Quiz')

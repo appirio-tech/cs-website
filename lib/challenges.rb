@@ -46,6 +46,11 @@ class Challenges < Cloudspokes
     end
     
   end
+
+  def self.page_view(access_token, id) 
+    set_header_token(access_token)
+    get(ENV['SFDC_REST_API_URL']+"/challenges/#{id}/pageview")
+  end    
   
   #this method may go away
   def self.find_by_id(access_token, id) 
