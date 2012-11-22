@@ -23,7 +23,7 @@ class AccountsController < ApplicationController
 
   def referrals
     @page_title = "Referred CloudSpokes Members"
-    @referrals = CsApi::Member.referrals(current_access_token, 'salpartovi')
+    @referrals = CsApi::Member.referrals(current_access_token, current_user.username)
   end
     
   def outstanding_reviews
