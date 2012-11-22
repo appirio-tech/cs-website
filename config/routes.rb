@@ -45,6 +45,8 @@ CloudSpokes::Application.routes.draw do
   match '/account/scorecard_save'       => 'accounts#scorecard_save', :as => :scorecard_save
   match '/account/profile_pic'          => 'accounts#profile_pic', :as => :profile_pic 
   match '/account/communities'          => 'accounts#communities', :as => :my_communities 
+  match '/account/invite'               => 'accounts#invite', :as => :invite 
+  match '/account/referrals'            => 'accounts#referrals', :as => :referrals 
 
   #challenges
   get "challenges/index"

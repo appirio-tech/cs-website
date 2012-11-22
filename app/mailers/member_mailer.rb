@@ -14,6 +14,11 @@ class MemberMailer < ActionMailer::Base
     @comments = comments
     @reply_to_id = reply_to
     mail(:to => email, :subject => "New Comment for '#{name}' Challenge")
-  end  
+  end 
+
+  def invite(membername, email)
+    @membername = membername
+    mail(:to => email, :subject => "#{membername} invites you to join CloudSpokes!")
+  end   
   
 end

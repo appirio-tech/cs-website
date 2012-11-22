@@ -55,6 +55,12 @@ module CsApi
 	    get(ENV['CS_API_URL']+"/members/#{esc membername}/payments")['response']
 	  end    	
 
+	  def self.referrals(access_token, membername)
+	    set_api_header_token(access_token) 
+	    set_api_header_key   
+	    get(ENV['CS_API_URL']+"/members/#{esc membername}/referrals")['response']
+	  end   	  
+
   end
 
 end

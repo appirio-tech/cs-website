@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="/assets/bootstrap.css" type="text/css" media="screen">
+
+<style>
+.inputbox,
+.submitbox {
+    clear:both;
+}
+.submitbox {
+    width:250px;
+}
+.help-block {
+    float:right;
+    padding-top:10px;
+}
+.btn-hide {
+    display:none;
+}
+</style>     
+
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "invite"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Invite your Friends to Join CloudSpokes & Win $$</h3>
+			<%= flash_messages %>
+
+      <p>Every time that someone you referred to CloudSpokes wins money, so will you! During their first year, you'll earn 10% of all money that your friends win competing in CloudSpokes challenges. So if a friend wins $1000 in a coding challenge, we'll give you an additional $100.</p>
+
+      <p>Refer as many friends as you like. Here's your invite code for you to give out:</p>
+
+      <h3 style="padding-left:25px;padding-top:10px;font-size:14pt">https://www.cloudspokes.com/signup/<%= current_user.username %></h3>
+
+      <p style="padding-top:40px">Send invites to your friends using the handy invite form below.</p>
+
+      <%= form_for "emailform", :url => { :action => :invite }, :name => "invite", :html => { :style => "padding-left:10px"}, :method => "post" do |f| %>
+          <div id="areabox">
+              <div id="inputprimarybox" class="inputbox">
+                  <div class="input-prepend input-append">
+                      <input type="email" name="invite[email1]" value="" 
+                          placeholder="Email address..." required="required" />
+                      <button type="button" class="btn-hide" onclick="delete_inputbox(this)">X</button>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="submitbox">
+              <span class="help-block"><a href="#" onclick="add_email_button()">Add Email</a></span>
+              <button type="submit" class="btn">Send Invites</button>
+          </div>    
+      <% end %>
+      <script>
+         // This variable represents the total email invite field
+         // which can be added by user
+         var totalMax = 10;
+         // current count, this counter will keep on increasing
+         // used mainly to create distinct name id
+         var currentCount = 1; 
+
+          $(document).ready(function(){
+             // use jquery tools to validate email 
+             $("#emailform").submit(function(){
+                 $(this).validator();
+             });
+          });
+          
+          // adding new email button 
+          function add_email_button(){
+              var whatsizenow = $("#areabox").children().length;
+              if (whatsizenow >= totalMax){
+                  window.alert("Sorry, limit " + totalMax + " invites at a time.");
+              } else {
+                  currentCount++;
+                  var obj = $("#inputprimarybox").clone();
+                  $(obj).find("button").removeClass("btn-hide");
+                  $(obj).find("button").addClass("btn btn-danger");
+                  $(obj).find("input[type='email']").attr("name", "invite[email" + currentCount + "]");
+                  $(obj).find("input[type='email']").attr("placeholder", "Email address...");
+                  $(obj).find("input[type='email']").attr("value", "");
+                  $(obj).appendTo("#areabox");
+              }
+          }
+          // deleting the input fields
+          // 2 parents up will corespond to the div containing the input and button
+          function delete_inputbox(obj){
+              $(obj).parent().parent().remove();
+          }
+      </script>
+			
+
+		</div>
+
+	</div>
+</div>

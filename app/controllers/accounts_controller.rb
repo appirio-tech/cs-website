@@ -2,12 +2,28 @@ require 'cs_api_account'
 require 'cs_api_member'
 
 class AccountsController < ApplicationController
+
   before_filter :require_login, :except => [:public_forgot_password, :public_reset_password]
   before_filter :get_account, :only => [:details, :payments, :school, :public_profile, :password]
   before_filter :redirect_to_http
    
   def index
     redirect_to '/account/challenges'
+  end
+
+  def invite
+    if params['invite']
+      params[:invite].each do |email|
+        Resque.enqueue(InviteEmailSender, current_user.username, email.second)
+      end     
+      flash.now[:notice] = 'Your invites have been sent!'
+    end
+    @page_title = "Invite your friends to join CloudSpokes"
+  end   
+
+  def referrals
+    @page_title = "Referred CloudSpokes Members"
+    @referrals = CsApi::Member.referrals(current_access_token, 'salpartovi')
   end
     
   def outstanding_reviews

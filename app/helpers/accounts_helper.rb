@@ -1,13 +1,17 @@
 module AccountsHelper
 
   MENU_OPTIONS_ACCOUNT = { :account_details      => {:value => "account details",     :link => "/account/details"},
-                       :payments             => {:value => "payment info",        :link => "/account/payments"},
-                       :school_work_info     => {:value => "school & work info",  :link => "/account/school"},
-                       :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
-                       :change_password      => {:value => "change password",     :link => "/account/password"}}
+                           :payments             => {:value => "payment info",        :link => "/account/payments"},
+                           :school_work_info     => {:value => "school & work info",  :link => "/account/school"},
+                           :edit_public_profile  => {:value => "edit public profile", :link => "/account/public_profile"},
+                           :change_password      => {:value => "change password",     :link => "/account/password"}
+                     }
                        
-  MENU_OPTIONS_MY = { :my_challenges        => {:value => "my challenges",       :link => "/account/challenges"},
-                      :my_communities       => {:value => "my communities",       :link => "/account/communities"}}                       
+  MENU_OPTIONS_MY = { :my_challenges        => {:value => "my challenges",        :link => "/account/challenges"},
+                      :invite              => {:value => "invite friends",       :link => "/account/invite"},
+                      :my_referrals         => {:value => "referred members",     :link => "/account/referrals"},
+                      :my_communities       => {:value => "my communities",       :link => "/account/communities"}
+                    }                       
 
   MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
   

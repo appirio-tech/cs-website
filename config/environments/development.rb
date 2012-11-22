@@ -19,13 +19,14 @@ CloudSpokes::Application.configure do
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
+  # to test the mailer... hard code the username & password
   ActionMailer::Base.smtp_settings = {
-    :address        => "smtp.mandrillapp.com",
+    :address        => "smtp.gmail.com",
     :port           => "587",
     :authentication => :plain,
-    :user_name      => ENV['MANDRILL_USERNAME'],
-    :password       => ENV['MANDRILL_APIKEY'],
-    :domain         => 'cloudspokes.com'
+    :enable_starttls_auto => true,
+    :user_name      => '',
+    :password       => ''
   }  
 
   # Print deprecation notices to the Rails logger
