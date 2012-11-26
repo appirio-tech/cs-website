@@ -70,7 +70,7 @@ class Challenges < Cloudspokes
         
   # this method may go away
   def self.get_challenges(access_token, show_open, orderby, category)
-    qry_open = show_open ? '&open=true' : '&open=false'reg
+    qry_open = show_open ? '&open=true' : '&open=false'
     qry_orderby = "&orderby=#{esc orderby}"
     qry_category = category.nil? ? '' : "&category=#{esc category}"    
     set_header_token(access_token) 
