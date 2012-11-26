@@ -1,0 +1,141 @@
+<div class="page-heading">
+	<h2 class="melbourne">Challenge Preview Survey</h2>
+</div>
+
+<div class="content-wrapper">
+
+	<%= flash_messages %>
+
+	<p style="padding-top:10px">Thanks for taking the time to preview this challenge before it's posted to the 
+		community. Your feedback is extremely valuable and we appreciate your effort! Our goal is to prevent launching challenges that are poorly written, confusing or have bad timeline/prize money. Your feedback will help us launch better challenges to the community.</p>
+
+	<p>Some challenge are better written than other and are a work in progress. We apologize if some info is missing but 
+		please provide your feedback with the current information at hand. Again, we appreciate your effort.</p><br/>
+
+	<h1 style="font-size: 20pt; padding-bottom:15px"><%= @preview_challenge.Name %></h1>
+
+	<% if @preview_challenge['Status__c'].eql?('Planned') %>
+
+		Starts: <%= @preview_challenge["Start_Date__c"] %><br/>
+		Ends: <%= @preview_challenge["End_Date__c"] %><br/>	
+		Type: <%= @preview_challenge["Challenge_Type__c"] %><br/>
+		<% unless @preview_challenge["Comments__c"].nil? %>
+			Comments: <%= @preview_challenge["Comments__c"] %><br/>
+		<% end %>
+
+		<% if @prizes.count > 0 %>
+			Prizes:<br/>
+			<% @prizes.each do |record| %>                
+				&nbsp;&nbsp;<%= record["Place__c"].to_i.ordinalize %> <%= record["Prize__c"] %><br />
+			<% end %>
+		<% end %>	
+
+		<% if @categories.count > 0 %>
+			Categories:<br/>	
+			<% @categories.each do |record| %>                
+				&nbsp;&nbsp;<%= record["Display_Name__c"] %><br />
+			<% end %>
+		<% end %>		
+
+		<% if @assets.count > 0 %>
+			Assets:<br/>	
+			<% @assets.each do |record| %>                
+				&nbsp;&nbsp;<a href="https://s3.amazonaws.com/<%= ENV['AMAZON_S3_DEFAULT_BUCKET'] %>/challenges/<%= params[:id] %>/<%= record["Filename__c"] %>" target="_blank"><%= record["Filename__c"] %></a><br />
+			<% end %>
+		<% end %>		
+
+		<h3 style="padding-top: 15px">Description</h3>
+		<p><%= raw(@preview_challenge["Description__c"])%></p>
+
+		<h3 style="padding-top: 15px">Requirements</h3>
+		<p><%= raw(@preview_challenge["Requirements__c"])%></p>
+
+		<h3 style="padding-top: 15px">Submission Details</h3>
+		<p><%= raw(@preview_challenge["Submission_Details__c"]) %></p>
+
+		<% unless @preview_challenge["Additional_Info__c"].nil? %>
+			<h3 style="padding-top: 15px">Additional Info</h3>
+			<p><%= raw(@preview_challenge["Additional_Info__c"]) %></p>
+		<% end %>
+
+		<hr style="margin-bottom:15px">
+		
+		<div id="survey">
+			<%= form_for survey_path, :name => "survey", :method => "post" do |f| %>
+			<input type="hidden" name="survey[membername]" value="<%= current_user.username %>">
+
+			<label>1. Are the challenge description and requirements clearly stated and achievable?</label>
+			<div class="holder">
+			<input type="radio" name="survey[requirements]" value="Yes" />
+			<%= label_tag("Yes") %><br/>
+			<input type="radio" name="survey[requirements]" value="No" />
+			<%= label_tag("No") %><br/>
+			<input type="radio" name="survey[requirements]" value="Requirements may not be possible" />
+			<%= label_tag("Requirements may not be possible") %><br/>
+			<input type="radio" name="survey[requirements]" value="The description needs to be written better" />
+			<%= label_tag("The description needs to be written better") %><br/>
+			<input type="radio" name="survey[requirements]" value="The requirements are not clear" />
+			<%= label_tag("The requirements are not clear") %><br/>
+			<input type="radio" name="survey[requirements]" value="I don't understand the description nor the requirements" />
+			<%= label_tag("I don't understand the description nor the requirements") %>
+
+			</div>
+			<div class="spacer"></div>
+
+			<label>2. If there is a problem with the description and/or requirements what needs to be fixed or addressed? How can we make it better?</label>
+			<div class="holder"><textarea name="survey[requirements_feedback]" rows="8" cols="40"></textarea></div>
+			<div class="spacer"></div>			
+			
+			<label>3. Is this enough time to complete the challenge?</label>
+			<div class="holder">
+			<input type="radio" name="survey[timeframe]" value="Yes" />
+			<%= label_tag("Yes") %><br/>
+			<input type="radio" name="survey[timeframe]" value="No" />
+			<%= label_tag("No") %><br/>
+			<input type="radio" name="survey[timeframe]" value="Too much time" />
+			<%= label_tag("Too much time") %>
+			</div>
+			<div class="spacer"></div>
+			
+			<label>4. If the prize money is specified, is it adequate for the effort and time allotted?</label>
+			<div class="holder">
+			<input type="radio" name="survey[prize_money]" value="Yes" />
+			<%= label_tag("Yes") %><br/>
+			<input type="radio" name="survey[prize_money]" value="No" />
+			<%= label_tag("No") %><br/>
+			<input type="radio" name="survey[prize_money]" value="Too much money" />
+			<%= label_tag("Too much money") %><br/>
+			<input type="radio" name="survey[prize_money]" value="Not enough money" />
+			<%= label_tag("Not enough money") %>	<br/>
+			<input type="radio" name="survey[prize_money]" value="I don't see the prize money" />
+			<%= label_tag("I don't see the prize money") %>
+			</div>
+			<div class="spacer"></div>
+			
+			<label>5. How would you participate in this challenge?</label>
+			<div class="holder">
+			<input type="radio" name="survey[participation]" value="Possibly submit a solution" />
+			<%= label_tag("Possibly submit a solution") %><br/>
+			<input type="radio" name="survey[participation]" value="Probably submit a solution" />
+			<%= label_tag("Probably submit a solution") %><br/>
+			<input type="radio" name="survey[participation]" value="Would like to be a reviewer" />
+			<%= label_tag("Would like to be a reviewer") %><br/>
+			<input type="radio" name="survey[participation]" value="This doesn't interest me at all" />
+			<%= label_tag("This doesn't interest me at all") %>
+			</div>
+			<div class="spacer"></div>
+			
+			<label>6. What can we do to make this challenge better?</label>
+			<div class="holder"><textarea name="survey[improvements]" rows="8" cols="40"></textarea></div>
+		
+			<% end %>
+
+			<a class="button" style="margin-left:25px; margin-top:10px" onclick="document.forms[0].submit();"> <span>Submit</span></a>
+
+		</div>
+
+		<% else %>
+			Sorry... this challenge is not available for preview. Looks like it has already been launched.
+		<% end %>
+
+</div>

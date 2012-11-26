@@ -8,9 +8,9 @@ require 'json'
 include ActionView::Helpers::NumberHelper
 
 class ChallengesController < ApplicationController
-  before_filter :check_if_challenge_exists, :only => [:register, :submission, :submission_view_only, :cal, :preview, :show, :registrants, :results, :participant_submissions, :participant_scorecard, :scorecard, :survey]
+  before_filter :check_if_challenge_exists, :only => [:register, :submission, :submission_view_only, :cal, :preview, :preview_survey, :show, :registrants, :results, :participant_submissions, :participant_scorecard, :scorecard, :survey]
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
-  before_filter :must_be_signed_in, :only => [:preview, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email, :participant_submissions]
+  before_filter :must_be_signed_in, :only => [:preview, :preview_survey, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email, :participant_submissions]
   before_filter :must_be_open, :only => [:submission_file_upload, :submission_url_upload]  
   before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
@@ -291,13 +291,39 @@ class ChallengesController < ApplicationController
     @scorecard_group = Challenges.scorecard_questions(current_access_token, params[:id].strip)
     @participation_status = challenge_participation_status
   end
+
+  def preview_survey          
+    if params["survey"]
+      post_results = Surveys.save_pre_challenge(current_access_token, params[:id].strip, params["survey"])
+      logger.info post_results
+      flash.now[:notice] = "Submitted! Thanks for contributing to the community by helping us launch better challenges." 
+    end
+
+    @preview_challenge = SfdcConnection.dbdc_client(current_access_token)
+      .query("select name, description__c, requirements__c, comments__c, start_date__c, end_date__c, 
+        top_prize__c, submission_details__c, additional_info__c, challenge_type__c, status__c 
+        from challenge__c where challenge_id__c = '#{params[:id].strip}'").first
+
+    @prizes = SfdcConnection.dbdc_client(current_access_token)
+      .query("select Place__c, Prize__c from Challenge_Prize__c 
+        where challenge__r.challenge_id__c = '#{params[:id].strip}' order by place__c")
+
+    @categories = SfdcConnection.dbdc_client(current_access_token)
+      .query("select Display_Name__c from Challenge_Category__c  
+        where challenge__r.challenge_id__c = '#{params[:id].strip}'")      
+
+    @assets = SfdcConnection.admin_dbdc_client
+      .query("select Filename__c from Asset__c  
+        where challenge__r.challenge_id__c = '#{params[:id].strip}'")   
+
+  end  
   
   def survey    
     @challenge_detail = current_challenge
     determine_page_title
     @participation_status = challenge_participation_status
     if params["survey"]
-      post_results = Surveys.save(current_access_token, params[:id].strip, params["survey"])
+      post_results = Surveys.save_post_challenge(current_access_token, params[:id].strip, params["survey"])
       flash[:notice] = "Thanks for completing the survey!" 
       redirect_to challenge_path     
     end
