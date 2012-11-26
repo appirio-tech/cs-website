@@ -74,7 +74,7 @@
 		                                    <% end %>
 
 		                                    <% if record['Community__c'] %><%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Name'].downcase) %><br/><% end %>
-																				<%= link_to pluralize(record["Registered_Members__c"], 'registered member'), registrants_url(record['Challenge_Id__c']) %>
+																				<%= pluralize(record["Participating_Members__c"], 'member') %> watching or participating
 																				</p>
 
 																				<p style="margin-top:5px"><%= image_tag("type-"+record['Challenge_Type__c'].downcase+".png", :height => "18", :alt => record['Challenge_Type__c'].upcase) %></p>
