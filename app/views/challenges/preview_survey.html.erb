@@ -114,18 +114,22 @@
 			
 			<label>5. How would you participate in this challenge?</label>
 			<div class="holder">
-			<input type="radio" name="survey[participation]" value="Possibly submit a solution" />
-			<%= label_tag("Possibly submit a solution") %><br/>
-			<input type="radio" name="survey[participation]" value="Probably submit a solution" />
-			<%= label_tag("Probably submit a solution") %><br/>
-			<input type="radio" name="survey[participation]" value="Would like to be a reviewer" />
-			<%= label_tag("Would like to be a reviewer") %><br/>
-			<input type="radio" name="survey[participation]" value="This doesn't interest me at all" />
-			<%= label_tag("This doesn't interest me at all") %>
+			<input type="radio" name="survey[participation]" value="I would like to be a reviewer" />
+			<%= label_tag("I would like to be a reviewer") %><br/>
+			<input type="radio" name="survey[participation]" value="I will submit a solution" />
+			<%= label_tag("I will submit a solution") %><br/>
+			<input type="radio" name="survey[participation]" value="75% chance that I will submit a solution" />
+			<%= label_tag("75% chance that I will submit a solution") %><br/>
+			<input type="radio" name="survey[participation]" value="I would consider submitting but the challenge needs to be reworked" />
+			<%= label_tag("I would consider submitting but the challenge needs to be reworked") %><br/>
+			<input type="radio" name="survey[participation]" value="I'm not interested even though the requirements are clear" />
+			<%= label_tag("I'm not interested even though the requirements are clear") %><br/>
+			<input type="radio" name="survey[participation]" value="This challenge is too poorly written and/or vague for me to consider participating" />
+			<%= label_tag("This challenge is too poorly written and/or vague for me to consider participating") %>			
 			</div>
 			<div class="spacer"></div>
 			
-			<label>6. What can we do to make this challenge better?</label>
+			<label>6. What can we do to make this challenge better? Feel free to suggest prize money or timeline.</label>
 			<div class="holder"><textarea name="survey[improvements]" rows="8" cols="40"></textarea></div>
 		
 			<% end %>
