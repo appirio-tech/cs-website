@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
       # create the new user in the database
       user = User.new(:username => username, :sfdc_username => username+'@'+ENV['SFDC_USERNAME_DOMAIN'], 
         :password => Encryptinator.encrypt_string(password), :access_token => login_results[:access_token], 
-        :profile_pic => member['Profile_Pic__c'], :email => member['Email__c'], :accountid => member['Account__c'])
+        :profile_pic => member['profile_pic'], :email => member['email'], :accountid => member['accountid'])
       user.save
       { :user => user, :message => login_results[:message] }
     else
