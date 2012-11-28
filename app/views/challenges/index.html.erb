@@ -69,9 +69,7 @@
 		                                <p>
 		                                    <strong><%= number_to_currency(record["Total_Prize_Money__c"], :precision => 0) %>&nbsp;<%= category_display(record['Challenge_Categories__r']) %></strong><br />
 
-		                                    <% unless record['Challenge_Type__c'].eql?('Race')  %>
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span><br />
-		                                    <% end %>
 
 		                                    <% if record['Community__c'] %><%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Name'].downcase) %><br/><% end %>
 																				<%= pluralize(record["Participating_Members__c"], 'member') %> watching or participating
