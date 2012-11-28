@@ -43,7 +43,7 @@
 
 					<% if @challenge_detail['Challenge_Type__c'].eql?('Race') %>
 						<%= image_tag("type-race.png", :align => :left, :style => "padding-right:10px;padding-top:10px")%>
-						<p style="margin-top:7px"> This challenge is a race! We will judge the submissions in the order in which we receive them. If the first submission passes review the participant will be declared the winner. If the submission does not pass review, we will judge the next person's code and so on, until we either declare a winning submission or exhaust all submissions. We will post a message to the discussion board each time a member submits. Feel free to submit even if other members have submitted before you. Their submissions may not pass. <strong>There are currently <%= pluralize(@challenge_detail['Submissions__c'], 'submission') %> for this challenge.</strong></p> 
+						<p style="margin-top:7px"> This challenge is a race! We will judge the submissions in the order in which we receive them. If the first submission passes review the participant will be declared the winner. If the submission does not pass review, we will judge the next person's code and so on, until we either declare a winning submission or exhaust all submissions. We will only pay first place prize money. We will post a message to the discussion board each time a member submits. Feel free to submit even if other members have submitted before you. Their submissions may not pass. <strong>There are currently <%= pluralize(@challenge_detail['Submissions__c'], 'submission') %> for this challenge.</strong></p> 
 						<div style="clear: both;"></div>
 					<% end %>
 
