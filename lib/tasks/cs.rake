@@ -16,6 +16,14 @@ task :send_invite => :environment do
 	puts "Email sent!!"
 end
 
+desc "Pick sweepstakes winners -- bundle exec rake pick_sweepstakes_winners[1907]"
+task :pick_sweepstakes_winners, :challenge_id do |t, args|
+	participants = HTTParty.get("https://api.cloudspokes.com/v1/challenges/#{args.challenge_id}/participants")['response']
+	puts "#{participants.count} participants"
+	puts "First place: #{participants[rand(participants.count)]['member__r']['name']}"
+	puts "Second place: #{participants[rand(participants.count)]['member__r']['name']}"
+end
+
 desc "Reads members from pg and creates them in sfdc"
 task :import_members => :environment do
 
