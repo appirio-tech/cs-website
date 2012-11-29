@@ -28,7 +28,6 @@ desc "Reads members from pg and creates them in sfdc"
 task :import_members, :partner_name, :limit, :randomize, :needs => :environment do |t, args|
 
 	access_token = SfdcConnection.admin_dbdc_client.oauth_token
-	
 
 	ImportMember.where("sfdc_username is null").limit(args.limit).each do |m|
 
@@ -42,7 +41,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 
 		# create the member in sfdc
 		results = CsApi::Account.create(access_token, 
-			{:username => membername, :password => password, :email => m.email}).symbolize_keys!
+			{:username => membername, :password => plain_text_password, :email => m.email}).symbolize_keys!
 
 		if results[:success].eql?('true')
 
@@ -51,7 +50,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 			# update the import member with the sfdc username and temp password
 			m.sfdc_username = results[:sfdc_username]
 			m.membername = membername
-			m.temp_password = Encryptinator.encrypt_string(password)
+			m.temp_password = Encryptinator.encrypt_string(plain_text_password)
 			m.save
 
 			# update with some data
@@ -63,7 +62,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 			puts "[FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
 
 		  # send the 'welcome' email
-		  Resque.enqueue(WelcomeEmailFromImportSender, membername, m.email, m.temp_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
+		  Resque.enqueue(WelcomeEmailFromImportSender, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
 		  # add the user to badgeville
 		  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
 
