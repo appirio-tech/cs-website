@@ -1,4 +1,5 @@
 require 'cs_api_account'
+require 'cs_api_challenge'
 require 'cs_api_member'
 require 'sfdc_connection'
 
