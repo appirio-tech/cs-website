@@ -33,7 +33,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 
 		# create the membername from the first part of the email
 		membername = m.email.slice(0,m.email.index('@'))
-		password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
+		plain_text_password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
 		if args.randomize
 			membername << rand(99).to_s
 			puts "[INFO]Randomizing membername to overcome dupes. New membername: #{membername}"
