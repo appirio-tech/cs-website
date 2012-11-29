@@ -25,15 +25,20 @@ task :pick_sweepstakes_winners, :challenge_id do |t, args|
 end
 
 desc "Reads members from pg and creates them in sfdc"
-task :import_members => :environment do
+task :import_members, :partner_name, :limit, :randomize, :needs => :environment do |t, args|
 
 	access_token = SfdcConnection.admin_dbdc_client.oauth_token
+	
 
-	ImportMember.where("sfdc_username is null").each do |m|
+	ImportMember.where("sfdc_username is null").limit(args.limit).each do |m|
 
 		# create the membername from the first part of the email
 		membername = m.email.slice(0,m.email.index('@'))
 		password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
+		if args.randomize
+			membername << rand(99).to_s
+			puts "[INFO]Randomizing membername to overcome dupes. New membername: #{membername}"
+		end
 
 		# create the member in sfdc
 		results = CsApi::Account.create(access_token, 
@@ -46,7 +51,7 @@ task :import_members => :environment do
 			# update the import member with the sfdc username and temp password
 			m.sfdc_username = results[:sfdc_username]
 			m.membername = membername
-			m.temp_password = password
+			m.temp_password = Encryptinator.encrypt_string(password)
 			m.save
 
 			# update with some data
@@ -58,15 +63,19 @@ task :import_members => :environment do
 			puts "[FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
 
 		  # send the 'welcome' email
-		  #Resque.enqueue(WelcomeEmailSender, access_token, username) unless ENV['MAILER_ENABLED'].eql?('false')
+		  Resque.enqueue(WelcomeEmailFromImportSender, membername, m.email, m.temp_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
 		  # add the user to badgeville
 		  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
 
 		  sleep(5)
 
 		else
+			m.error_message = results[:message]
+			m.save
 			puts "[FATAL]Could not create sfdc user for #{membername}: #{results[:message]}"
 		end
+
+		puts "[INFO]Member import finished!"
 
 	end	
 

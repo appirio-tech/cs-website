@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121128110132) do
+ActiveRecord::Schema.define(:version => 20121129111530) do
 
   create_table "import_members", :force => true do |t|
     t.string   "first_name"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20121128110132) do
     t.string   "campaign_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "error_message"
   end
 
   create_table "openid_associations", :force => true do |t|
