@@ -1,54 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body>
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+	</head>
+	<body>
 	<table with="100%" cellpadding="2" cellspacing="2">
 	<tr>
 		<td><a href="<%= ENV['WEBSITE_URL'] %>"><img src="https://s3.amazonaws.com/cs-public/email_images/cloudspokes-logo.png"></a></td>
 		<td><h2><%= @partner_name %> and CloudSpokes have partnered up!</h2></td>
 	</tr>
 	</table>
-    <p>
-			<%= @partner_name %> has signed you up for CloudSpokes, and <a href="<%= ENV['WEBSITE_URL'] %>/login">you are now able to login</a>!
-		</p>
 
-		<p>
-			Membername: <strong><%= @membername %></strong><br/>
-			Password: <strong><%= @temp_password %></strong><br/>
-			<a href="http://www.cloudspokes.com/login">http://www.cloudspokes.com/login</a>
-		</p>		
+	<p><%= @partner_name %> has signed you up for CloudSpokes, and <a href="<%= ENV['WEBSITE_URL'] %>/login">you are now able to login</a>!</p>
 
-		<p>
-			CloudSpokes is the worldwide leader in crowdsourced cloud development and is extremely excited to be partnering with <%= @partner_name %>.
-		</p>
+	<p>Membername: <strong><%= @membername %></strong><br/>
+	Password: <strong><%= @temp_password %></strong><br/>
+	<a href="http://www.cloudspokes.com/login">http://www.cloudspokes.com/login</a></p>		
 
-		<p>
-			With over 50,000 cloud experts and nearly $800k paid out to our members in less than 2 years, CloudSpokes is a great place for you to enhance your development and design skills, as well as build a great portfolio of professional level work.
-		</p>
+	<p>CloudSpokes is the worldwide leader in crowdsourced cloud development and is extremely excited to be partnering with <%= @partner_name %>.</p>
 
-		<p>
-			Our members win an average of $1,000 a day, so what are you waiting for? Earn some extra cash now! To sign in just use the following user name and password:
-		</p>
+	<p>With over 50,000 cloud experts and nearly $800k paid out to our members in less than 2 years, CloudSpokes is a great place for you to enhance your development and design skills, as well as build a great portfolio of professional level work.</p>
 
-		<p>
-			Here are a just a few of the awesome challenges that await you:
-			<ul>
-			<li><a href="http://www.cloudspokes.com/challenges/1901">Lead Response time and Lead Visibility Project</a> -- $1,000</li>
-			<li><a href="http://www.cloudspokes.com/challenges/1890">Bus Route Directions Generator</a> --$1,150</li>
-			<li><a href="http://www.cloudspokes.com/challenges/1897">Backbonify the FlexiFilter</a> -- $1,250</li>
-			<li><a href="http://www.cloudspokes.com/challenges/1896">Visualforce Sales Strategy Planner with jQuery</a> -- $2,000</li>
-			<li><a href="http://www.cloudspokes.com/challenges/1874">MS Exchange Header - Data Injector</a> -- $2,000</li>
-		</p>
+	<p>Our members win an average of $1,000 a day, so what are you waiting for? Earn some extra cash now! To sign in just use the following user name and password:</p>
+
+	<p>Here are a just a few of the awesome challenges that await you:
+	<ul>
+	<li><a href="http://www.cloudspokes.com/challenges/1901">Lead Response time and Lead Visibility Project</a> -- $1,000</li>
+	<li><a href="http://www.cloudspokes.com/challenges/1890">Bus Route Directions Generator</a> --$1,150</li>
+	<li><a href="http://www.cloudspokes.com/challenges/1897">Backbonify the FlexiFilter</a> -- $1,250</li>
+	<li><a href="http://www.cloudspokes.com/challenges/1896">Visualforce Sales Strategy Planner with jQuery</a> -- $2,000</li>
+	<li><a href="http://www.cloudspokes.com/challenges/1874">MS Exchange Header - Data Injector</a> -- $2,000</li>
+	</p>
    
-	<p>
-		<a href="<%= ENV['WEBSITE_URL'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!
-	</p>
+	<p><a href="<%= ENV['WEBSITE_URL'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!</p>
+
 	<h3>Getting Started</h3>
-	<p>
-		Take a look at our <a href="<%= ENV['WEBSITE_URL'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="<%= ENV['WEBSITE_URL'] %>/about">how the process works</a>.
-	</p>
+	<p>Take a look at our <a href="<%= ENV['WEBSITE_URL'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="<%= ENV['WEBSITE_URL'] %>/about">how the process works</a>.</p>
 
 	<h3>Stay up to date on our latest development challenges for money, prizes and badges:</h3>
 	<ul>
@@ -58,10 +45,10 @@
 	</ul>
 
 	<p>Oh.. and after you login, make sure you change your temp password.</p>
-	
+
 	<p><br>Regards,<br/>The CloudSpokes Team<br/><em>...where the rubber meets the code!</em></p>
-	
-    <h3 style="padding-top:25px">Follow Us!</h3>
+
+	<h3 style="padding-top:25px">Follow Us!</h3>
 	<table cellpadding="2" cellspacing="2">
 	<tr>
 		<td><a href="http://www.github.com/cloudspokes"><img src="https://s3.amazonaws.com/cs-public/email_images/github_64.png"></a></td>
@@ -75,5 +62,5 @@
 
 	<p><a href="<%= ENV['WEBSITE_URL'] %>"><%= ENV['WEBSITE_URL'] %></a></p>
 
-  </body>
+	</body>
 </html>
