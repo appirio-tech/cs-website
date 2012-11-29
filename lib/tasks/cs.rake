@@ -69,14 +69,15 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 
 		  sleep(5)
 
+		# coud not create member in salesforce
 		else
 			m.error_message = results[:message]
 			m.save
 			puts "[FATAL]Could not create sfdc user for #{membername}: #{results[:message]}"
 		end
 
-		puts "[INFO]Member import finished!"
-
 	end	
+
+	puts "[INFO]Member import finished!"
 
 end
