@@ -42,15 +42,18 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 	ImportMember.where("sfdc_username is null").limit(args.limit).each do |m|
 
 		# create the membername from the first part of the email
-		membername = m.email.slice(0,m.email.index('@'))
+		membername = m.email.slice(0,m.emailend.index('@'))
 		plain_text_password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
 		if args.randomize
 			membername << rand(99).to_s
 			puts "[INFO]Randomizing membername to overcome dupes. New membername: #{membername}"
 		end
 
-		# make the username safe to only contain letters, numbers and underscores -- jeff-d !99#@'.gsub(/-/,'_').gsub(/\W/,'') => jeff_d99
-		membername.gsub!(/-/,'_').gsub!(/\W/,'')
+		# make the username safe to only contain letters, numbers and underscores
+		# replace - wiht _
+		membername.gsub!(/-/,'_') if membername.include?('-')
+		# replace all non letters, number and underscores
+		membername.gsub!(/\W/,'')
 
 		# create the member in sfdc
 		results = CsApi::Account.create(access_token, 
