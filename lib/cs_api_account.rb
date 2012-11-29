@@ -48,6 +48,11 @@ module CsApi
       get(ENV['CS_API_URL'] + "/accounts/activate/#{membername}")['response'] 
   	end	
 
+    def self.disable(membername)
+      set_api_header_key  
+      get(ENV['CS_API_URL'] + "/accounts/disable/#{membername}")['response'] 
+    end     
+
   end
 
 end

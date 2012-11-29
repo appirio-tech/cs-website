@@ -1,5 +1,6 @@
 require 'cs_api_account'
 require 'cs_api_member'
+require 'sfdc_connection'
 
 desc "Returns a salesforce.com access token for the current environment"
 task :get_access_token => :environment do
@@ -13,6 +14,14 @@ end
 desc "Send an 'invite' email to jeffdonthemic"
 task :send_invite => :environment do
 	Resque.enqueue(InviteEmailSender, 'jeffdonthemic', 'jeff@appirio.com')
+	puts "Email sent!!"
+end
+
+desc "Send the 'import invite' email"
+task :send_invite_from_import => :environment do
+	access_token = SfdcConnection.public_access_token
+	Resque.enqueue(WelcomeEmailFromImportSender, access_token, 'sample-membername', 'jeff@appirio.com', 
+		'mypassword123', "Super-Duper Site Welcomes you to CloudSpokes", 'Super-Duper')
 	puts "Email sent!!"
 end
 
@@ -39,6 +48,9 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 			puts "[INFO]Randomizing membername to overcome dupes. New membername: #{membername}"
 		end
 
+		# make the username safe to only contain letters, numbers and underscores -- jeff-d !99#@'.gsub(/-/,'_').gsub(/\W/,'') => jeff_d99
+		membername.gsub!(/-/,'_').gsub!(/\W/,'')
+
 		# create the member in sfdc
 		results = CsApi::Account.create(access_token, 
 			{:username => membername, :password => plain_text_password, :email => m.email}).symbolize_keys!
@@ -62,9 +74,11 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 			puts "[FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
 
 		  # send the 'welcome' email
-		  Resque.enqueue(WelcomeEmailFromImportSender, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
+		  Resque.enqueue(WelcomeEmailFromImportSender, access_token, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
 		  # add the user to badgeville
 		  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
+		  # disable the user for license purposes
+		  CsApi::Account.disable(membername)
 
 		  sleep(5)
 

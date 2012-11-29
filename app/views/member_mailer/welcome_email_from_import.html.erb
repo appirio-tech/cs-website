@@ -25,11 +25,9 @@
 
 	<p>Here are a just a few of the awesome challenges that await you:
 	<ul>
-	<li><a href="http://www.cloudspokes.com/challenges/1901">Lead Response time and Lead Visibility Project</a> -- $1,000</li>
-	<li><a href="http://www.cloudspokes.com/challenges/1890">Bus Route Directions Generator</a> --$1,150</li>
-	<li><a href="http://www.cloudspokes.com/challenges/1897">Backbonify the FlexiFilter</a> -- $1,250</li>
-	<li><a href="http://www.cloudspokes.com/challenges/1896">Visualforce Sales Strategy Planner with jQuery</a> -- $2,000</li>
-	<li><a href="http://www.cloudspokes.com/challenges/1874">MS Exchange Header - Data Injector</a> -- $2,000</li>
+	<% @challenges.each do |c| %>
+		<li><a href="http://www.cloudspokes.com/challenges/<%= c['challenge_id'] %>"><%= c['name'] %></a> -- <%= number_to_currency(c['total_prize_money'], :precision => 0) %></li>
+	<% end %>
 	</p>
    
 	<p><a href="<%= ENV['WEBSITE_URL'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!</p>
