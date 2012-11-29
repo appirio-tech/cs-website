@@ -42,7 +42,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 	ImportMember.where("sfdc_username is null").limit(args.limit).each do |m|
 
 		# create the membername from the first part of the email
-		membername = m.email.slice(0,m.emailend.index('@'))
+		membername = m.email.slice(0,m.email.index('@'))
 		plain_text_password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
 		if args.randomize
 			membername << rand(99).to_s
