@@ -25,8 +25,8 @@ CloudSpokes::Application.configure do
     :port           => "587",
     :authentication => :plain,
     :enable_starttls_auto => true,
-    :user_name      => 'jeff@jeffdouglas.com',
-    :password       => 'ilovemywife'
+    :user_name      => '',
+    :password       => ''
   }  
 
   # Print deprecation notices to the Rails logger
