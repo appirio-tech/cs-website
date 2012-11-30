@@ -11,7 +11,7 @@ class WelcomeEmailFromImportSender
 
     begin
 
-      Rails.logger.info "[Resque]==== sending welcome email to member #{membername} at #{email}"
+      Rails.logger.info "[Resque]==== sending welcome email to imported member #{membername} at #{email}"
       # generate the mail to send and send it
       mail = MemberMailer.welcome_email_from_import(membername, email, temp_password, subject, partner_name, open_challenges).deliver
 
