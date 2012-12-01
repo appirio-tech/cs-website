@@ -12,7 +12,7 @@ class ChallengesController < ApplicationController
   before_filter :valid_challenge, :only => [:submission, :show, :registrants, :results, :scorecard, :register, :survey]
   before_filter :must_be_signed_in, :only => [:preview, :preview_survey, :review, :register, :watch, :register_agree_to_tos, :submission, :submission_view_only, :new_comment, :toggle_discussion_email, :participant_submissions]
   before_filter :must_be_open, :only => [:submission_file_upload, :submission_url_upload]  
-  before_filter :admin_only, :only => [:all_submissions, :cal, :preview, :registrants]
+  before_filter :admin_only, :only => [:all_submissions, :cal, :preview]
   before_filter :redirect_to_http
 
   def edit
@@ -199,6 +199,7 @@ class ChallengesController < ApplicationController
     @challenge_detail = current_challenge
     determine_page_title
     @comments = Comments.find_by_challenge(current_access_token, params[:id].strip)
+    @registrants = Challenges.registrants(current_access_token, params[:id].strip)
     @participation_status = challenge_participation_status
     @use_captcha = use_captcha? if signed_in?
     
@@ -207,7 +208,7 @@ class ChallengesController < ApplicationController
       @todays_results = QuickQuizes.winners_today(current_access_token, params[:id].strip, 'all');
       # get the current member's status for the challenge
       @member_status = signed_in? ? QuickQuizes.member_status_today(current_access_token, params[:id].strip, current_user.username) : nil
-    end
+    end  
 
     # record the page view
     Challenges.page_view(current_access_token, params[:id].strip) unless appirio_user?
@@ -238,6 +239,7 @@ class ChallengesController < ApplicationController
     @registrants = Challenges.registrants(current_access_token, params[:id].strip)
     @registrants = @registrants.paginate(:page => params[:page] || 1, :per_page => 50) unless @registrants.nil?
     @participation_status = challenge_participation_status
+    @appirio_user = appirio_user?
     respond_to do |format|
       format.html
       format.json { render :json => @registrants }

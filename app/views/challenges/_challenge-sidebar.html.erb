@@ -61,7 +61,7 @@
 
 	<% unless @challenge_detail["Challenge_Type__c"].eql?("Info Only - No Registration") %>
 		<li style="display:block;"><h3>Participants</h3>
-			<strong><span><%= pluralize(@challenge_detail["Participating_Members__c"].to_i, 'member') %> watching or participating</span></strong>
+			<strong><span><a href="<%= participants_path %>"><%= pluralize(@challenge_detail["Participating_Members__c"].to_i, 'member') %> participating with <%= @challenge_detail["Registered_Members__c"].to_i %> registered</a></span></strong>
 		</li>
 	<% end %>
 
