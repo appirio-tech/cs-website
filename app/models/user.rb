@@ -15,12 +15,14 @@ class User < ActiveRecord::Base
     if login_results[:success].eql?('true')
       # get their member record and profile_pic
       member = CsApi::Member.find_by_membername(access_token, username, 'id,profile_pic,email,account')
+      puts member.to_yaml
       # check for an existing record in the database and delete it
       User.delete(User.find_by_username(username))
       # create the new user in the database
       user = User.new(:username => username, :sfdc_username => username+'@'+ENV['SFDC_USERNAME_DOMAIN'], 
         :password => Encryptinator.encrypt_string(password), :access_token => login_results[:access_token], 
-        :profile_pic => member['profile_pic'], :email => member['email'], :accountid => member['accountid'])
+        :profile_pic => member['profile_pic'], :email => member['email'], :accountid => member['account'])
+      puts user.to_yaml
       user.save
       { :user => user, :message => login_results[:message] }
     else
