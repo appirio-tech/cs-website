@@ -13,7 +13,8 @@ module AccountsHelper
                       :my_communities       => {:value => "my communities",       :link => "/account/communities"}
                     }                       
 
-  MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"}}
+  MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"},
+                          :judging_queue       => {:value => "judging queue",       :link => "/account/judging_queue"} }
   
   MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/quiz_questions/new"},
                           :review_questions  => {:value => "review questions", :link => "/quiz_questions"}}
