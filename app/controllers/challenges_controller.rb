@@ -297,8 +297,15 @@ class ChallengesController < ApplicationController
   def preview_survey          
     if params["survey"]
       post_results = Surveys.save_pre_challenge(current_access_token, params[:id].strip, params["survey"])
-      logger.info post_results
-      flash.now[:notice] = "Submitted! Thanks for contributing to the community by helping us launch better challenges." 
+
+      #sign them up as a judge
+      if params['survey']['participation'].eql?('I would like to be a reviewer')
+        judging_signup_results = CsApi::Judging.add(current_access_token, {'challenge_id' => params[:id], 
+              'membername' => current_user.username})['message'] 
+      end
+
+      flash.now[:notice] = "Submitted! Thanks for contributing to the community by helping us launch 
+        better challenges. #{judging_signup_results}" 
     end
 
     @preview_challenge = SfdcConnection.dbdc_client(current_access_token)
