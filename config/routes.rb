@@ -47,6 +47,8 @@ CloudSpokes::Application.routes.draw do
   match '/account/communities'          => 'accounts#communities', :as => :my_communities 
   match '/account/invite'               => 'accounts#invite', :as => :invite 
   match '/account/referrals'            => 'accounts#referrals', :as => :referrals 
+  match "/account/judging_queue"        => "accounts#judging_queue"
+  match "/account/add_judge/:id"        => "accounts#add_judge"
 
   #challenges
   get "challenges/index"

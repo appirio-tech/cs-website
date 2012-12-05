@@ -10,7 +10,7 @@
 
 			<p><%= link_to "Invite your friends to join CloudSpokes!", invite_path, :style => 'font-size:12pt' %></p>
 				
-			<% if !@referrals.empty? %>
+			<% unless @referrals.empty? %>
 
 				<table class="fancytable" style="width:100%">
 				    <thead>
@@ -40,8 +40,6 @@
 					<img src="http://static3.businessinsider.com/image/4d93481149e2ae9951800000/dropbox-referral.jpg" width="250" style="float:left">
 					<div style="padding-top:25px;font-weight:bold">No referrals yet. Go invite your friends!</div></p>
 			<% end %>
-		
-			
 
 		</div>
 

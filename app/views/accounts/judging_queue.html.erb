@@ -1,0 +1,70 @@
+<script type="text/javascript">
+function signup(challenge_id) {
+	document.getElementById("signup").innerHTML = 'Processing request...';
+	$.ajax({
+	  type: 'GET',
+	  url: '/account/add_judge/'+challenge_id,
+	  success: function(results) { 
+	  	document.getElementById("signup").outerHTML = results; 
+	  }
+	});
+}
+</script>
+
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "judging_queue"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Judging Queue</h3>
+			<p>Would you like to judge challenge submissions? Here's how the judging process works. We typically have two judges per challenges so the following challenges need at least one judge. Find a challenge in a technology category that you feel confident that you can judge. Make sure that you can also commit to submitting all scorecards by the Due date for the challenge.</p>
+
+			<p>Once the challnege closes you'll receive a notification email that the submissions are available and scorecards are ready for you to judge. Once you install, run, test and evaluate each submission (we have plenty of judging instructions for you), you'll complete a scorecard grading the submission. Once all judges have completed all scorecards the winners will be selected.</p>
+
+			<p>We will pay you $25 for each submission that you judge and a bonus of $50 for every 10 submissions that you judge within a month. You can judge as many submissions as you'd like. Any poor reviews and/or scorecards will not be credit. Only CloudSpokes members that have won at least one challenge are eligible.</p>
+				
+			<% unless @challenges.empty? or @total_wins == 0 %>
+
+				<table class="fancytable" style="width:100%">
+				    <thead>
+				    	<tr>
+								<th scope="col">Challenge</th>
+								<th scope="col" width="150">Categories</th>
+					      <th scope="col" width="50">Ends</th>
+								<th scope="col" width="75">Due</th>
+								<th scope="col" width="125"></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+						<% @challenges.each do |record| %>
+				    	<tr>
+							<td>
+								<% if record['status'].eql?('Planned') %>
+									<%= link_to record['name'], preview_survey_path(record['challenge_id']), :target => 'blank' %>
+								<% else %>
+									<%= link_to record['name'], challenge_path(record['challenge_id']), :target => 'blank' %>
+								<% end %>
+							</td>
+							<td><%= judging_category_display(record['challenge_categories__r']) %></td>
+							<td><%= Date.parse(record['end_date']).strftime("%m/%d/%Y") %></td>
+							<td><%= Date.parse(record['winner_announced']).strftime("%m/%d/%Y") %></td>
+							<td><div id="signup" style="cursor: pointer;color:#09f"><span onclick="signup('<%= record['challenge_id'] %>')">Sign up to judge</span></div></td>
+				      </tr>
+						<% end %>
+				    </tbody>
+				</table>
+			
+			<% else %>
+				<% if @total_wins == 0 %>
+					<strong>Sorry... you must have won at least one CloudSpokes challenge before you are eligible to judge.</strong>
+				<% else %>	
+					<strong>Sorry... there are currently no challenges that are in need of judges. Please check back later.</strong>
+				<% end %>
+			<% end %>			
+
+		</div>
+
+	</div>
+</div>

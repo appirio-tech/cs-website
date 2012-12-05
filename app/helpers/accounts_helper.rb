@@ -13,7 +13,7 @@ module AccountsHelper
                       :my_communities       => {:value => "my communities",       :link => "/account/communities"}
                     }                       
 
-  MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"} }
+  MENU_OPTIONS_REVIEW = { :outstanding_reviews  => {:value => "outstanding reviews", :link => "/account/outstanding_reviews"}}
   
   MENU_OPTIONS_QUICKQUIZ = { :submit_question => {:value => "submit a question",       :link => "/quiz_questions/new"},
                           :review_questions  => {:value => "review questions", :link => "/quiz_questions"}}
@@ -31,6 +31,15 @@ module AccountsHelper
     end
     return content.html_safe
   end
+
+  def judging_category_display(categories)
+    cats = ''
+    return cats if categories.nil? 
+    categories.each do |record|
+      cats = cats + record['display_name'] + ", "
+    end
+    return cats[0..cats.length-3]
+  end  
 
   def work_options
     [["Please select ...",nil],["Contractor","Contractor"],["Employed","Employed"],["Unemployed","Unemployed"],["Prefer Not To Answer","Prefer Not To Answer"]]

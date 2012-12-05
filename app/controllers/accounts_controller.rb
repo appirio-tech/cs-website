@@ -1,5 +1,6 @@
 require 'cs_api_account'
 require 'cs_api_member'
+require 'cs_api_judging'
 
 class AccountsController < ApplicationController
 
@@ -10,6 +11,17 @@ class AccountsController < ApplicationController
   def index
     redirect_to '/account/challenges'
   end
+
+  def judging_queue
+    @challenges = CsApi::Judging.queue(current_access_token)
+    @total_wins = CsApi::Member.find_by_membername(current_access_token, 
+      current_user.username, PRETTY_PUBLIC_MEMBER_FIELDS)['total_wins']
+  end  
+
+  def add_judge
+    render :text => CsApi::Judging.add(current_access_token, {'challenge_id' => params[:id], 
+      'membername' => current_user.username})['message']
+  end    
 
   def invite
     if params['invite']
