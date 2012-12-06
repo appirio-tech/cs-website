@@ -30,8 +30,9 @@ class ChallengesController < ApplicationController
     end
     #see if we need to show them tos different than the default standard ones
     if @challenge_detail['Terms_of_Service__r']['Default_TOS__c'].eql?(true)
-      Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Registered')
-      redirect_to(:back)
+      results = Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Registered')
+      flash[:error] = "Registration failed: #{results['Message']}" if results['Success'].eql?('false') 
+      redirect_to challenge_path
     # challenge has it's own terms. show and make them register
     else
       @participation_status = challenge_participation_status
@@ -47,8 +48,9 @@ class ChallengesController < ApplicationController
   
   #these should probably be refactored to ajax calls
   def watch
-    Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Watching')
-    redirect_to(:back)
+    results = Challenges.set_participation_status(current_access_token, current_user.username, params[:id].strip, 'Watching')
+    flash[:error] = "Watching failed: #{results['Message']}" if results['Success'].eql?('false') 
+    redirect_to challenge_path    
   end
 
   def index   
