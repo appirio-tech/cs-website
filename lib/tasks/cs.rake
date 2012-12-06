@@ -37,7 +37,7 @@ end
 desc "Reads members from pg and creates them in sfdc"
 task :import_members, :partner_name, :limit, :randomize, :needs => :environment do |t, args|
 
-	Rails.logger.info "[INFO]Starting member import. Limit #{args.limit}. Partner #{args.partner_name}"
+	Rails.logger.info "[IMPORT]Starting member import. Limit #{args.limit}. Partner #{args.partner_name}"
 
 	access_token = SfdcConnection.public_access_token
 
@@ -48,7 +48,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 		plain_text_password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
 		if args.randomize
 			membername << rand(99).to_s
-			Rails.logger.info "[INFO]Randomizing membername to overcome dupes. New membername: #{membername}"
+			Rails.logger.info "[IMPORT]Randomizing membername to overcome dupes. New membername: #{membername}"
 		end
 
 		# make the username safe to only contain letters, numbers and underscores
@@ -63,7 +63,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 
 		if results[:success].eql?('true')
 
-			Rails.logger.info "[INFO]Creating new SFDC member for #{membername}: #{results}"
+			Rails.logger.info "[IMPORT]Creating new SFDC member for #{membername}: #{results}"
 
 			# update the import member with the sfdc username and temp password
 			m.sfdc_username = results[:sfdc_username]
@@ -77,7 +77,7 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 				'campaign_source__c' => m.campaign_source, 'first_name__c' => m.first_name, 
 				'last_name__c' => m.last_name}).symbolize_keys!
 			
-			Rails.logger.info "[FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
+			Rails.logger.info "[IMPORT][FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
 
 		  # send the 'welcome' email
 		  Resque.enqueue(WelcomeEmailFromImportSender, access_token, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
@@ -92,12 +92,12 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 		else
 			m.error_message = results[:message]
 			m.save
-			Rails.logger.info "[FATAL]Could not create sfdc user for #{membername}: #{results[:message]}"
+			Rails.logger.info "[IMPORT][FATAL]Could not create sfdc user for #{membername}: #{results[:message]}"
 		end
 
 	end	
 
-	puts "[INFO]Member import finished!"
-	Rails.logger.info "[INFO]Member import finished!"
+	puts "[IMPORT]Member import finished!"
+	Rails.logger.info "[IMPORT]Member import finished!"
 
 end
