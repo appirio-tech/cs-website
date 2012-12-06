@@ -71,7 +71,7 @@
 
 		                                    <span><%= format_close_date(record['End_Date__c']) %> for </span><br />
 
-		                                    <% if record['Community__c'] %><%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Name'].downcase) %><br/><% end %>
+		                                    <% if record['Community__r'] %><%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Name'].downcase) %><br/><% end %>
 																				<%= pluralize(record["Participating_Members__c"], 'member') %> participating with <%= record["Registered_Members__c"].to_i %> registered
 																				</p>
 

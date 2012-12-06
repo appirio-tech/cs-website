@@ -21,7 +21,7 @@
 
 					<%= flash_messages %>
 
-					<% unless @challenge_detail["Community__c"].nil? %>
+					<% if @challenge_detail["Community__r"] %>
 						<h3><%= @challenge_detail['Community__r']['Name'] %> Community</h3>
 						<p>This is a private challenge for members of the <%= link_to "#{@challenge_detail['Community__r']['Name']} Community", community_url(@challenge_detail['Community__r']['Name'].downcase) %>.</p>
 					<% end %>
