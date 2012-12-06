@@ -22,8 +22,10 @@
 					<%= flash_messages %>
 
 					<% if @challenge_detail["Community__r"] %>
-						<h3><%= @challenge_detail['Community__r']['Name'] %> Community</h3>
-						<p>This is a private challenge for members of the <%= link_to "#{@challenge_detail['Community__r']['Name']} Community", community_url(@challenge_detail['Community__r']['Name'].downcase) %>.</p>
+						<% unless @challenge_detail['Community__r']['Name'].eql?('Private Challenges') %>
+							<h3><%= @challenge_detail['Community__r']['Name'] %> Community</h3>
+							<p>This is a private challenge for members of the <%= link_to "#{@challenge_detail['Community__r']['Name']} Community", community_url(@challenge_detail['Community__r']['Name'].downcase) %>.</p>
+						<% end %>
 					<% end %>
 
 					<% unless @challenge_detail["Description__c"].nil? %>
