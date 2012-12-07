@@ -1,6 +1,7 @@
 require 'cs_api_account'
 require 'cs_api_member'
 require 'cs_api_judging'
+require 'cs_api_community'
 
 class AccountsController < ApplicationController
 
@@ -196,7 +197,7 @@ class AccountsController < ApplicationController
   end
 
   def communities
-    @communities = SfdcConnection.dbdc_client(current_access_token).query("select name, about__c, members__c from community__c order by name")
+    @communities = CsApi::Community.all(current_access_token)
   end
   
   def get_account

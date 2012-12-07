@@ -4,7 +4,7 @@ CloudSpokes::Application.routes.draw do
 
   match "/appirio" => redirect("/communities/appirio")
   match "/saphana" => redirect("http://content.cloudspokes.com/saphana")
-  match 'communities/:community', :to => 'communities#show', :as => :community
+  match 'communities/:community_id', :to => 'communities#show', :as => :community
 
   match '/signup',  :to => 'sessions#signup'
   match '/signup/:id', :to => 'sessions#signup_referral'
