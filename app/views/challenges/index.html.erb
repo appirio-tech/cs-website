@@ -73,7 +73,7 @@
 
 		                                    <% if record['Community__r'] %>
 																					<% unless record['Community__r']['Name'].eql?('Private Challenges') %>
-				                                    <%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Name'].downcase) %><br/>
+				                                    <%= link_to "#{record['Community__r']['Name']} Community", community_url(record['Community__r']['Community_Id__c'].downcase) %><br/>
 																					<% end %>
 		                                    <% end %>
 																				<%= pluralize(record["Participating_Members__c"], 'member') %> participating with <%= record["Registered_Members__c"].to_i %> registered

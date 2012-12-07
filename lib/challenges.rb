@@ -74,14 +74,14 @@ class Challenges < Cloudspokes
     qry_orderby = "&orderby=#{esc orderby}"
     qry_category = category.nil? ? '' : "&category=#{esc category}"    
     set_header_token(access_token) 
-    get(ENV['SFDC_REST_API_URL']+'/challengesearch?fields=Id,Challenge_Id__c,Name,Description__c,Total_Prize_Money__c,Challenge_Type__c,Days_till_Close__c,Registered_Members__c,Participating_Members__c,Start_Date__c,End_Date__c,Is_Open__c,Community__r.Name'+qry_orderby+qry_open+qry_category)
+    get(ENV['SFDC_REST_API_URL']+'/challengesearch?fields=Id,Challenge_Id__c,Name,Description__c,Total_Prize_Money__c,Challenge_Type__c,Days_till_Close__c,Registered_Members__c,Participating_Members__c,Start_Date__c,End_Date__c,Is_Open__c,Community__r.Name,Community__r.Community_Id__c'+qry_orderby+qry_open+qry_category)
   end
   
   #this method may go away
   def self.get_challenges_by_keyword(access_token, keyword, show_open)  
     set_header_token(access_token)
     keyword.gsub!(/'/) { |c| "\\#{c}" }
-    get(ENV['SFDC_REST_API_URL']+"/challengesearch?fields=Id,Challenge_Id__c,Name,Description__c,Total_Prize_Money__c,Challenge_Type__c,Days_till_Close__c,End_Date__c,Is_Open__c,Community__r.Name&search=#{esc keyword}&open=#{show_open}")
+    get(ENV['SFDC_REST_API_URL']+"/challengesearch?fields=Id,Challenge_Id__c,Name,Description__c,Total_Prize_Money__c,Challenge_Type__c,Days_till_Close__c,End_Date__c,Is_Open__c,Community__r.Name,Community__r.Community_Id__c&search=#{esc keyword}&open=#{show_open}")
   end
       
   def self.registrants(access_token, id)
