@@ -6,10 +6,12 @@ class MemberMailer < ActionMailer::Base
     mail(:to => "#{username} <#{email}>", :subject => "Thank you for registering #{username}")
   end
 
-  def welcome_email_from_import(membername, email, temp_password, subject, partner_name, open_challenges)
+  # TODO - refactor to params
+  def welcome_email_from_import(membername, email, temp_password, subject, partner_name, community_id, open_challenges)
     @membername = membername
     @temp_password = temp_password
     @partner_name = partner_name
+    @community_id = community_id
     @challenges = open_challenges
     mail(:to => "#{membername} <#{email}>", :subject => subject)
   end  

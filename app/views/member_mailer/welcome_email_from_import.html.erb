@@ -14,8 +14,13 @@
 	<p><%= @partner_name %> has signed you up for CloudSpokes, and <a href="<%= ENV['WEBSITE_URL'] %>/login">you are now able to login</a>!</p>
 
 	<p>Membername: <strong><%= @membername %></strong><br/>
-	Password: <strong><%= @temp_password %></strong><br/>
-	<a href="http://www.cloudspokes.com/login">http://www.cloudspokes.com/login</a></p>		
+	Password: <strong><%= @temp_password %></strong></p>>
+
+	<p>Once you <a href="<%= ENV['WEBSITE_URL'] %>/login">log into CloudSpokes</a>, make sure you <a href="<%= ENV['WEBSITE_URL'] %>//account/password">change your password</a>.</p>
+
+	<% unless @community_id.eql?('none') %>
+		<p>We have also added you to the Private CloudSpokes Community for <%= @partner_name %>. Once you login, you can access the community and all of it's challenges at: <%= ENV['WEBSITE_URL'] %>/communities/<%= @community_id %></p>
+	<% end %>
 
 	<p>CloudSpokes is the worldwide leader in crowdsourced cloud development and is extremely excited to be partnering with <%= @partner_name %>.</p>
 
@@ -33,7 +38,7 @@
 	<p><a href="<%= ENV['WEBSITE_URL'] %>/challenges">Start competing today</a> for money, prizes, badges and bragging rights!</p>
 
 	<h3>Getting Started</h3>
-	<p>Take a look at our <a href="<%= ENV['WEBSITE_URL'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="<%= ENV['WEBSITE_URL'] %>/about">how the process works</a>.</p>
+	<p>Take a look at our <a href="<%= ENV['WEBSITE_URL'] %>/challenges">list of open challenges</a> and find one that interests you. You can register to compete or add challenges to your watch-list to track their progress. Once you've registered, develop your application based upon the challenge requirements and submit your code before the challenge closes for entries. All entries are judged on a balanced scorecard by your peers and a winner(s) is selected. For full details, check out <a href="<%= ENV['WEBSITE_URL'] %>/how-it-works/challenge">how the process works</a>.</p>
 
 	<h3>Stay up to date on our latest development challenges for money, prizes and badges:</h3>
 	<ul>
@@ -41,8 +46,6 @@
 		<li>Subscribe to our RSS feed for <a href="<%= ENV['WEBSITE_URL'] %>/challenges/feed">new, open challenges</a> or <a href="<%= ENV['WEBSITE_URL'] %>/challenges/feed/recent">recently completed ones</a>.
 		<li>Watch the <a href="http://blog.cloudspokes.com">CloudSpokes Blog</a> for the latest info, submission results and videos</li>
 	</ul>
-
-	<p>Oh.. and after you login, make sure you change your temp password.</p>
 
 	<p><br>Regards,<br/>The CloudSpokes Team<br/><em>...where the rubber meets the code!</em></p>
 

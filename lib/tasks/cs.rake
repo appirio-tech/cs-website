@@ -1,7 +1,10 @@
 require 'cs_api_account'
 require 'cs_api_challenge'
 require 'cs_api_member'
+require 'cs_api_community'
 require 'sfdc_connection'
+require 'open-uri'
+require 'csv' 
 
 desc "Returns a salesforce.com access token for the current environment"
 task :get_access_token => :environment do
@@ -22,7 +25,7 @@ desc "Send the 'import invite' email"
 task :send_invite_from_import => :environment do
 	access_token = SfdcConnection.public_access_token
 	Resque.enqueue(WelcomeEmailFromImportSender, access_token, 'sample-membername', 'jeff@appirio.com', 
-		'mypassword123', "Super-Duper Site Welcomes you to CloudSpokes", 'Super-Duper')
+		'mypassword123', "Super-Duper Site Welcomes you to CloudSpokes", 'Super-Duper', 'appirio')
 	puts "Email sent!!"
 end
 
@@ -34,8 +37,20 @@ task :pick_sweepstakes_winners, :challenge_id do |t, args|
 	puts "Second place: #{participants[rand(participants.count)]['member__r']['name']}"
 end
 
+desc "import imports csv file into import_members table"
+task :import_members_csv, :url, :needs => :environment do |t, args|	
+
+	csv = CSV.parse(open(args.url), :headers => true)
+	csv.each do |row|
+	  row = row.to_hash.with_indifferent_access
+	  ImportMember.create!(row.to_hash.symbolize_keys)
+	end
+	puts "Done!"
+
+end
+
 desc "Reads members from pg and creates them in sfdc"
-task :import_members, :partner_name, :limit, :randomize, :needs => :environment do |t, args|
+task :import_members, :partner_name, :limit, :community_id, :randomize, :needs => :environment do |t, args|
 
 	Rails.logger.info "[IMPORT]Starting member import. Limit #{args.limit}. Partner #{args.partner_name}"
 
@@ -76,13 +91,20 @@ task :import_members, :partner_name, :limit, :randomize, :needs => :environment 
 				'campaign_medium__c' => m.campaign_medium, 'campaign_name__c' => m.campaign_name, 
 				'campaign_source__c' => m.campaign_source, 'first_name__c' => m.first_name, 
 				'last_name__c' => m.last_name}).symbolize_keys!
-			
+
 			Rails.logger.info "[IMPORT][FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
 
+		  # add the member to the community
+		  unless args.community_id.eql?('none')
+		  	add_member_results = CsApi::Community.add_member(access_token, {:membername => membername, :community_id => args.community_id})
+				Rails.logger.info "[IMPORT]Adding member to community: #{add_member_results}"
+			end
+
 		  # send the 'welcome' email
-		  Resque.enqueue(WelcomeEmailFromImportSender, access_token, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name) unless ENV['MAILER_ENABLED'].eql?('false')
+		  Resque.enqueue(WelcomeEmailFromImportSender, access_token, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name, args.community_id) unless ENV['MAILER_ENABLED'].eql?('false')
 		  # add the user to badgeville
 		  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
+		  
 		  # disable the user for license purposes
 		  CsApi::Account.disable(membername)
 
