@@ -14,9 +14,9 @@
 	<p><%= @partner_name %> has signed you up for CloudSpokes, and <a href="<%= ENV['WEBSITE_URL'] %>/login">you are now able to login</a>!</p>
 
 	<p>Membername: <strong><%= @membername %></strong><br/>
-	Password: <strong><%= @temp_password %></strong></p>>
+	Password: <strong><%= @temp_password %></strong></p>
 
-	<p>Once you <a href="<%= ENV['WEBSITE_URL'] %>/login">log into CloudSpokes</a>, make sure you <a href="<%= ENV['WEBSITE_URL'] %>//account/password">change your password</a>.</p>
+	<p>Once you <a href="<%= ENV['WEBSITE_URL'] %>/login">log into CloudSpokes</a>, make sure that you <a href="<%= ENV['WEBSITE_URL'] %>//account/password">change your password</a>.</p>
 
 	<% unless @community_id.eql?('none') %>
 		<p>We have also added you to the Private CloudSpokes Community for <%= @partner_name %>. Once you login, you can access the community and all of it's challenges at: <%= ENV['WEBSITE_URL'] %>/communities/<%= @community_id %></p>
