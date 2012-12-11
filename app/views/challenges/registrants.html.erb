@@ -22,7 +22,7 @@
 										<div class="text-holder">
 											<h4><a href='/members/<%= record["Member__r"]["Name"] %>'><%= record["Member__r"]["Name"] %></a></h4>
 											<span class="stats"># of Wins: <%= record["Member__r"]["Total_Wins__c"] %></span>
-											<% if @appirio_user %><span class="stats">Status: <%= record["Status__c"] %><% end %></span>
+											<% if @appirio_user or @challenge_detail["Status__c"].eql?('Winner Selected') %><span class="stats">Status: <%= record["Status__c"] %><% end %></span>
 										</div>
 										<div class="cl"></div>
 									</div>
