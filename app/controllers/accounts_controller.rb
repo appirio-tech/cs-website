@@ -2,6 +2,7 @@ require 'cs_api_account'
 require 'cs_api_member'
 require 'cs_api_judging'
 require 'cs_api_community'
+require 'atomentry_judging'
 
 class AccountsController < ApplicationController
 
@@ -17,7 +18,29 @@ class AccountsController < ApplicationController
     @challenges = CsApi::Judging.queue(current_access_token)
     @total_wins = CsApi::Member.find_by_membername(current_access_token, 
       current_user.username, PRETTY_PUBLIC_MEMBER_FIELDS)['total_wins']
-  end  
+  end 
+
+  def judging_feed    
+    challenges = CsApi::Judging.queue(current_access_token)
+
+    @feed_items = Array.new   
+    @feed_title = 'CloudSpokes Judging Queue'
+
+    unless challenges.nil?      
+      challenges.each do |challenge|
+        entry = AtomEntryJudging.new(:id => challenge['id'], :title => challenge['name'], :end_date => challenge['end_date'],  
+          :due_date => challenge['winner_announced'], :categories => challenge['challenge_categories__r'])
+        @feed_items.push(entry)
+      end
+    end
+
+    respond_to do |format|
+      format.atom { render :layout => false }
+      # we want the RSS feed to redirect permanently to the ATOM feed
+      format.rss { redirect_to judging_feed_path(:format => :atom), :status => :moved_permanently }
+    end
+
+  end     
 
   def add_judge
     render :text => CsApi::Judging.add(current_access_token, {'challenge_id' => params[:id], 

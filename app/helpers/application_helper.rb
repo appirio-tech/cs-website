@@ -16,6 +16,15 @@ module ApplicationHelper
     end
     return cats[0..cats.length-3]
   end
+
+  def category_display_new_api(categories)
+    cats = ''
+    return cats if categories.nil? 
+    categories.each do |record|
+      cats = cats + record['display_name'] + ", "
+    end
+    return cats[0..cats.length-3]
+  end  
   
   def format_close_date_time(end_date)
     

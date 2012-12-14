@@ -3,7 +3,6 @@ CloudSpokes::Application.routes.draw do
   resources :sessions
 
   match "/appirio" => redirect("/communities/appirio")
-  match "/saphana" => redirect("http://content.cloudspokes.com/saphana")
   match 'communities/:community_id', :to => 'communities#show', :as => :community
 
   match '/signup',  :to => 'sessions#signup'
@@ -48,6 +47,7 @@ CloudSpokes::Application.routes.draw do
   match '/account/invite'               => 'accounts#invite', :as => :invite 
   match '/account/referrals'            => 'accounts#referrals', :as => :referrals 
   match "/account/judging_queue"        => "accounts#judging_queue"
+  match "/account/judging_feed"         => "accounts#judging_feed", :as => :judging_feed, :defaults => { :format => 'atom' }  
   match "/account/add_judge/:id"        => "accounts#add_judge"
 
   #challenges
