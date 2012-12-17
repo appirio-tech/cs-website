@@ -47,7 +47,7 @@ CloudSpokes::Application.routes.draw do
   match '/account/invite'               => 'accounts#invite', :as => :invite 
   match '/account/referrals'            => 'accounts#referrals', :as => :referrals 
   match "/account/judging_queue"        => "accounts#judging_queue"
-  match "/account/judging_feed"         => "accounts#judging_feed", :as => :judging_feed, :defaults => { :format => 'atom' }  
+  match "/account/judging/feed"         => "accounts#judging_feed", :as => :judging_feed, :defaults => { :format => 'atom' }  
   match "/account/add_judge/:id"        => "accounts#add_judge"
 
   #challenges
