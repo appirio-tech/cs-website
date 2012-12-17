@@ -28,7 +28,7 @@ class AccountsController < ApplicationController
 
     unless challenges.nil?      
       challenges.each do |challenge|
-        entry = AtomEntryJudging.new(:id => challenge['id'], :title => challenge['name'], :end_date => challenge['end_date'],  
+        entry = AtomEntryJudging.new(:id => '65', :title => challenge['name'], :end_date => challenge['end_date'],  
           :due_date => challenge['winner_announced'], :categories => challenge['challenge_categories__r'])
         @feed_items.push(entry)
       end
