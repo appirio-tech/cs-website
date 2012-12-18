@@ -20,6 +20,7 @@ class AccountsController < ApplicationController
       current_user.username, PRETTY_PUBLIC_MEMBER_FIELDS)['total_wins']
   end 
 
+  # can't get this to create a feed is subscribable!! argh!!
   def judging_feed    
     challenges = CsApi::Judging.queue(current_access_token)
 
