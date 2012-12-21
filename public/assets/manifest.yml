@@ -1,4 +1,7 @@
 ---
+header-bg.gif: header-bg-775822202b98fbac65a44bb2a9d3d18e.gif
+icons.png: icons-85859cde44a80b99fae25598a91efdb5.png
+resize.gif: resize-653e5fc1dade69901f47ced48e4a7463.gif
 quickquiz/CodeMirror-2.2/LICENSE: quickquiz/CodeMirror-2.2/LICENSE
 quickquiz/CodeMirror-2.2/README.md: quickquiz/CodeMirror-2.2/README-11207d16e04b24b4e9255206fedcfeb2.md
 quickquiz/CodeMirror-2.2/clike.js: quickquiz/CodeMirror-2.2/clike-61994eb413350a293925d7ca528245a5.js
@@ -553,6 +556,7 @@ quickquiz/jquery-ui-1.8.17.custom/js/jquery-1.7.1.min.js: quickquiz/jquery-ui-1.
 quickquiz/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min.js: quickquiz/jquery-ui-1.8.17.custom/js/jquery-ui-1.8.17.custom.min-2227d06e86d9308519dfea9655c5e9d3.js
 quickquiz/jquery.stopwatch.js: quickquiz/jquery.stopwatch-807a1b8363f084e9cdc9cb9b85e20278.js
 quickquiz/knockout-2.0.0.js: quickquiz/knockout-2.0.0-cbc439f2076a0ca747b0f36846ea66e0.js
+tiny.editor.packed.js: tiny.editor.packed-3328f51b8d16bfd4d0ffb467fbf2b038.js
 jquery-ui.min.js: jquery-ui.min-2b432ef5545e6620f94e7638b7574058.js
 jquery.min.js: jquery.min-460459a37590253002f65e6137a90b87.js
 application.js: application-165796b3725839c80efc7a3597ca985c.js
