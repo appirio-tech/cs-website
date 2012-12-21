@@ -19,7 +19,7 @@ class CommunitiesController < ApplicationController
 
   def check_if_community_exists
     community = requested_community
-    render :file => "#{Rails.root}/public/404.html", :status => :not_found if community.nil?
+    render :file => "#{Rails.root}/public/404-community.html", :status => :not_found if community.nil?
   end
 
 end
