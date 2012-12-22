@@ -110,7 +110,7 @@ task :import_members, :partner_name, :limit, :community_id, :randomize, :needs =
 			  # disable the user for license purposes
 			  CsApi::Account.disable(membername)
 
-			  sleep(5)
+			  sleep(2)
 
 			# coud not create member in salesforce
 			else
