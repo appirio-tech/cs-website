@@ -58,64 +58,70 @@ task :import_members, :partner_name, :limit, :community_id, :randomize, :needs =
 
 	ImportMember.where("sfdc_username is null").limit(args.limit).each do |m|
 
-		# create the membername from the first part of the email
-		membername = m.email.slice(0,m.email.index('@'))
-		plain_text_password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
-		if args.randomize
-			membername << rand(99).to_s
-			Rails.logger.info "[IMPORT]Randomizing membername to overcome dupes. New membername: #{membername}"
-		end
+		begin
 
-		# make the username safe to only contain letters, numbers and underscores
-		# replace - wiht _
-		membername.gsub!(/-/,'_') if membername.include?('-')
-		# replace all non letters, number and underscores
-		membername.gsub!(/\W/,'')
-
-		# create the member in sfdc
-		results = CsApi::Account.create(access_token, 
-			{:username => membername, :password => plain_text_password, :email => m.email}).symbolize_keys!
-
-		if results[:success].eql?('true')
-
-			Rails.logger.info "[IMPORT]Creating new SFDC member for #{membername}: #{results}"
-
-			# update the import member with the sfdc username and temp password
-			m.sfdc_username = results[:sfdc_username]
-			m.membername = membername
-			m.temp_password = Encryptinator.encrypt_string(plain_text_password)
-			m.save
-
-			# update with some data
-			update_results = CsApi::Member.update(access_token, membername, {'school__c' => m.school, 
-				'campaign_medium__c' => m.campaign_medium, 'campaign_name__c' => m.campaign_name, 
-				'campaign_source__c' => m.campaign_source, 'first_name__c' => m.first_name, 
-				'last_name__c' => m.last_name}).symbolize_keys!
-
-			Rails.logger.info "[IMPORT][FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
-
-		  # add the member to the community
-		  unless args.community_id.eql?('none')
-		  	add_member_results = CsApi::Community.add_member(access_token, {:membername => membername, :community_id => args.community_id})
-				Rails.logger.info "[IMPORT]Adding member to community: #{add_member_results}"
+			# create the membername from the first part of the email
+			membername = m.email.slice(0,m.email.index('@'))
+			plain_text_password = (0...6).map{65.+(rand(26)).chr}.join+rand(99).to_s
+			if args.randomize
+				membername << rand(99).to_s
+				Rails.logger.info "[IMPORT]Randomizing membername to overcome dupes. New membername: #{membername}"
 			end
 
-		  # send the 'welcome' email
-		  Resque.enqueue(WelcomeEmailFromImportSender, access_token, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name, args.community_id) unless ENV['MAILER_ENABLED'].eql?('false')
-		  # add the user to badgeville
-		  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
-		  
-		  # disable the user for license purposes
-		  CsApi::Account.disable(membername)
+			# make the username safe to only contain letters, numbers and underscores
+			# replace - wiht _
+			membername.gsub!(/-/,'_') if membername.include?('-')
+			# replace all non letters, number and underscores
+			membername.gsub!(/\W/,'')
 
-		  sleep(5)
+			# create the member in sfdc
+			results = CsApi::Account.create(access_token, 
+				{:username => membername, :password => plain_text_password, :email => m.email}).symbolize_keys!
 
-		# coud not create member in salesforce
-		else
-			m.error_message = results[:message]
-			m.save
-			Rails.logger.info "[IMPORT][FATAL]Could not create sfdc user for #{membername}: #{results[:message]}"
-		end
+			if results[:success].eql?('true')
+
+				Rails.logger.info "[IMPORT]Creating new SFDC member for #{membername}: #{results}"
+
+				# update the import member with the sfdc username and temp password
+				m.sfdc_username = results[:sfdc_username]
+				m.membername = membername
+				m.temp_password = Encryptinator.encrypt_string(plain_text_password)
+				m.save
+
+				# update with some data
+				update_results = CsApi::Member.update(access_token, membername, {'school__c' => m.school, 
+					'campaign_medium__c' => m.campaign_medium, 'campaign_name__c' => m.campaign_name, 
+					'campaign_source__c' => m.campaign_source, 'first_name__c' => m.first_name, 
+					'last_name__c' => m.last_name}).symbolize_keys!
+
+				Rails.logger.info "[IMPORT][FATAL]Updating member #{membername}: #{update_results}" if update_results[:success].eql?('false')
+
+			  # add the member to the community
+			  unless args.community_id.eql?('none')
+			  	add_member_results = CsApi::Community.add_member(access_token, {:membername => membername, :community_id => args.community_id})
+					Rails.logger.info "[IMPORT]Adding member to community: #{add_member_results}"
+				end
+
+			  # send the 'welcome' email
+			  Resque.enqueue(WelcomeEmailFromImportSender, access_token, membername, m.email, plain_text_password, "#{args.partner_name} Welcomes you to CloudSpokes", args.partner_name, args.community_id) unless ENV['MAILER_ENABLED'].eql?('false')
+			  # add the user to badgeville
+			  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
+			  
+			  # disable the user for license purposes
+			  CsApi::Account.disable(membername)
+
+			  sleep(5)
+
+			# coud not create member in salesforce
+			else
+				m.error_message = results[:message]
+				m.save
+				Rails.logger.info "[IMPORT][FATAL]Could not create sfdc user for #{membername}: #{results[:message]}"
+			end
+
+    rescue Exception => exc
+      Rails.logger.info "[IMPORT][FATAL] #{exc.message}"
+    end		
 
 	end	
 
