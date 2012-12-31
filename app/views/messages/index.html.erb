@@ -1,0 +1,155 @@
+<link rel="stylesheet" type="text/css" href="/assets/messages/jquery-ui-1.8.custom.css">
+<link rel="stylesheet" href="/assets/messages.css" type="text/css" media="screen">
+
+<script type="text/javascript">
+$(document).ready(function(){				
+		
+		// Fancy box init to dipslay "New Message" pop-up
+		$("#messageBoxLink").fancybox({
+			'modal' : true
+		});		
+					
+		$(".inbox-row_container").click(function(e){
+			window.location = "/messages/" + e.currentTarget.id;
+		});
+
+});
+
+// replace line breaks with br
+function submitMessage() {
+	var textArea = document.getElementById('body').value;
+	text = textArea.replace(/\n\r?/g, '<br />');
+	document.getElementById('body_hidden').value = text;
+
+	to = document.getElementById('to');
+	subject = document.getElementById('subject');
+	body = document.getElementById('body');
+
+	if (to.value.length > 0 && subject.value.length > 0 && body.value.length > 0) {
+		document.forms[0].submit();
+	}
+}	
+</script>
+
+<!-- new message section starts -->
+<div id="page" style="width: auto; height: auto; overflow: auto; position: relative;">
+	<div id="newMsg">			
+		<div class="modal-header">
+		<a onclick="$.fancybox.close();" href="javascript:;" style="float:right;">Close</a>
+		<h3>New Message</h3>
+		</div>
+		<%= form_for "frm", :url => "/messages", :name => "message", :method => "post" do |f| %>
+		<input type="hidden" name="message[from]" value="<%= current_user.username %>">
+		<input type="hidden" name="message[body]" id="body_hidden">
+		<div class="modal-new-body">		
+					<div class="form_input">
+					<div class="input_Fields_label"><span>To:</span></div><div class="input_Container"><input class="input_Fields" type="text" name="message[to]" id="to"></div>
+				  </div>
+				  <div class="form_input clear">
+					<div class="input_Fields_label"><span>Subject:</span></div><div class="input_Container"><input class="input_Fields" type="text" name="message[subject]" id="subject"></div>
+				  </div>			 
+				  <div class="form_input">
+					<div class="input_Fields_label"><span>Message:</span></div>
+					<div class="input_Container">
+					<textarea class="input_Fields" id="body" name="body" rows="10" cols="20"></textarea>
+					</div>
+				  </div>
+		</div>
+		<div class="modal-footer">
+		<a href="javascript:;" onclick="submitMessage();" class="bluishBtn button_small" >Send Message</a>
+		<a href="javascript:;" onclick="$.fancybox.close();" class="greyishBtn button_small" >Discard</a>
+		<% end %>
+		</div>
+	</div>
+</div>
+<!-- new message section ends -->
+
+
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'accounts/menu', :selected_item => "my_messages"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>My Messages</h3>
+			<%= flash_messages %>
+
+			<div id="content_wrap">
+
+        <div id="quick_actions">
+            <a id="messageBoxLink" class="fancy button_big" href="#newMsg">New Message</a>                   
+        </div>
+        <!--One_Wrap-->
+        <div class="one_wrap">
+            <!--Datatable-->
+            <div class="widget">                            
+                <div class="widget_body">
+							<div class="demo_jui">	
+								<ul class="tabs-v2 inbox-tabview-nav">
+										<li class="<%= 'selected' if @message_box.type.eql?(:inbox) %>"><a href="/messages/inbox">
+											<em>Inbox</em> <%if @message_box.type.eql?(:inbox) && @message_box.unread > 0 %><span><%= @message_box.unread %></span><% end %></a>
+										</li>
+										<li class="<%= 'selected' if @message_box.type.eql?(:sent) %>"><a href="/messages/sent">
+											<em>Sent</em></a>
+										</li>
+								</ul>
+							</div>
+								<div>
+									<% unless @messages.empty? %>
+                  <div id="main_wrapper" class="dataTables_wrapper " role="grid">
+                      <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br  ui-helper-clearfix">
+											<div id="mainTable" class="messageBox">
+												
+												<div class="content">
+												<p></p>
+
+													<div class="well remote-html-load" id="messages">
+														<% @messages.each do |m| %>
+															<div>
+																<div class="checkbox checkbox-inbox-row" id="checkbox-<%= m['id'] %>" style="padding-top:12px">
+																	<img width="12" height="12" src="/assets/messages/<%= m['icon'] %>" alt="<%= m['status'] %>">
+																</div>
+<% 
+=begin %>
+																<div class="checkbox checkbox-inbox-row" id="checkbox-<%= m['id'] %>">															
+																	<input type="checkbox" class="input_checkbox" id="entry" name="entry" value="<%= m['id'] %>">			
+																</div>
+<% 
+=end %>
+																<div class="clearfix inbox-row main-link inbox-row_container <%= m['status'] %>" data-id="<%= m['id'] %>" id="<%= m['id'] %>" >
+																	<div class="replied-to-who" style="">
+																		<div class="who" style="padding-top:2px"><%= m['display_user'] %> (<%= m['replies'] %>)</div>
+																	</div>
+																	<div class="timestamp-likes">
+																		<div class="timestamp" rel="twipsy" title="12 Aug 2012 12:06 pm"><%= DateTime.parse(m['datetime']).strftime("%m/%e/%Y at %I:%M%p") %></div>
+																		<div class="likes"></div>
+																	</div>
+																	<div class="popover-below replied-to-where">
+																		<div class="where">
+																			<div class="site" style="padding-top:2px">
+																				<img width="20" height="20" src="<%= m['profile_pic'] %>">
+																			</div>
+																			<div class="site">
+																				<span class="post"><%= m['subject'] %></span>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														<% end %>
+													</div>
+												</div>
+											</div>
+                </div> 
+				</div>
+			<% else %>
+				<h4 style="padding-left:10px">No messages found.</h4>
+			<% end %>		
+
+	</div>
+</div>
+
+<div style="padding-top:10px;padding-left:10px">
+<%= will_paginate @messages %>
+</div>

@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="/assets/messages.css" type="text/css" media="screen">
+<style type="text/css">
+.inbox-row { cursor: default; }
+</style>
+
+<script type="text/javascript">
+	// Fancy box init to dipslay "Reply/Forward" pop-up
+	$(document).ready(function(){							
+			$("#messageBoxLink").fancybox({
+				'modal' : true
+			});					
+	});
+
+	// replace line breaks with br
+	function submitReply() {
+		var textArea = document.getElementById('body').value;
+		text = textArea.replace(/\n\r?/g, '<br />');
+		document.getElementById('body_hidden').value = text;
+
+		if (document.getElementById('body').value.length > 0) {
+			document.forms[0].submit();
+		}
+
+	}	
+</script>
+
+<!-- reply/forward section starts -->
+<div id="page" style="width: auto; height: auto; overflow: auto; position: relative;">
+	<div id="newMsg">			
+		<div class="modal-header">
+		<a onclick="$.fancybox.close();" href="javascript:;" style="float:right;">Close</a>
+		<h3>Reply</h3>
+		</div>
+		<%= form_for "frm", :url => "/messages/#{@message['id']}/reply", :name => "message_reply", :method => "post" do |f| %>
+		<input type="hidden" name="message_reply[from]" value="<%= current_user.username %>">
+		<input type="hidden" name="message_reply[private_message]" value="<%= @message['id'] %>">
+		<input type="hidden" name="message_reply[body]" id="body_hidden">
+		<div class="modal-body">					 
+				  <div class="form_input">
+					<div class="input_Fields_label"><span>Message:</span></div>
+					<div class="input_Container">
+					<textarea class="input_Fields" id="body" name="body" rows="10" cols="20"></textarea>
+					</div>
+				  </div>
+		</div>
+		<div class="modal-footer">
+		<a href="javascript:;" onclick="submitReply();" class="bluishBtn button_small" disabled>Reply</a>
+		<a href="javascript:;" onclick="$.fancybox.close();" class="greyishBtn button_small" >Discard</a>
+		<% end %>
+		</div>
+	</div>
+</div>
+<!-- reply/forward section ends -->
+
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'accounts/menu', :selected_item => "my_messages"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>My Messages</h3>
+			<%= flash_messages %>
+
+ <div id="content_wrap">
+                   
+  <!--One_Wrap-->
+  <div class="one_wrap">
+
+	    <div id="quick_actions">
+        <a id="inboxLink" class="button_big" href="/messages">Inbox</a>
+        <a id="messageBoxLink" class="fancy button_big" href="#newMsg">Reply</a>                 
+      </div><br/><br/>
+      <!--Datatable-->
+      <div class="widget">
+          <div class="widget_body">              
+						<div class="demo_jui">
+                  <div id="jqtable_wrapper" class="dataTables_wrapper " role="grid">
+                      <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix">																					
+                      </div>
+                      <div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br  ui-helper-clearfix">
+											<div id="mainTable" class="messageBox">
+											
+												<div class="content">
+													<p></p>
+													
+													<!-- Message summary Starts -->
+													<div class="well remote-html-load"  id="messages">
+														
+														<div class="">															
+															<div class="clearfix inbox-row main-link" style="cursor: arrow;">
+																<div class="replied-to-who" style="">
+																	<div class="who" style="font-size:12pt;max-width:500px;padding-top:5px;padding-left:10px"><%= @message['subject'] %></div>
+																</div>
+																<div class="timestamp-likes">
+																	<div class="timestamp"><%= DateTime.parse(@message['createddate']).strftime("%m/%e/%Y at %I:%M%p") %></div>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- Message summary Ends -->
+													
+													<% @message['private_message_texts__r'].each do |text| %>
+													<div class=" clearfix ">		
+														<div style="float: left; width: 100%; padding-bottom: 50px;">
+															<div style="float: left; margin-right: 75px; width: 40px;">
+																<img width="30" height="30" alt="<%= text['from__r']['name'] %>" src="<%= text['from__r']['profile_pic'] %>">
+																<br>
+																<div style="float: left;"><%= text['from__r']['name'] %></div>
+																<div style="font-size: 9px; color: #666666; float: left; clear: both;"><%= DateTime.parse(text['createddate']).strftime("%m/%e/%Y") %><br/><%= DateTime.parse(text['createddate']).strftime("%I:%M%p") %></div>
+															</div>
+															<div style="width: 500px; background-color: #ffffff; border: 1px solid #d7d9d9; float: left; min-height: 75px;">
+																<img style="margin-left: -32px; margin-top: 20px;float: left;" src="/assets/messages/comment.png">
+																<div style="float: left; padding: 20px;"><%= raw(text['body']) %></div>
+															</div>
+														</div>
+													</div>
+													<% end %>
+												
+													
+												</div>
+											
+											</div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br class="clear">
+            </div>
+        </div>         
+</div>
+
+      
+			
+
+		</div>
+
+	</div>
+</div>

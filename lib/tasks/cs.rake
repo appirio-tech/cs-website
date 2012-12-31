@@ -108,8 +108,7 @@ task :import_members, :partner_name, :limit, :community_id, :randomize, :needs =
 			  Resque.enqueue(NewBadgeVilleUser, access_token, membername, results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')		
 			  
 			  # disable the user for license purposes
-			  disable_results = CsApi::Account.disable(membername)
-			  Rails.logger.info "[IMPORT]Disable account for sfdc user for #{membername}: #{disable_results}"
+			  CsApi::Account.disable(membername)
 
 			  sleep(2)
 

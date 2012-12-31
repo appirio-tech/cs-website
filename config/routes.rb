@@ -50,6 +50,14 @@ CloudSpokes::Application.routes.draw do
   match "/account/judging/feed"         => "accounts#judging_feed", :as => :judging_feed, :defaults => { :format => 'atom' }  
   match "/account/add_judge/:id"        => "accounts#add_judge"
 
+  # messages
+  match "messages"                      => "messages#index", :as => :messages, :via => :get, :type => 'inbox'
+  match "messages/inbox"                => "messages#index", :as => :messages_inbox, :via => :get, :type => 'inbox'
+  match "messages/sent"                 => "messages#index", :as => :messages_sent, :via => :get, :type => 'sent'  
+  match "messages"                      => "messages#create", :as => :messages, :via => :post
+  match "messages/:id"                  => "messages#show", :as => :message
+  match "messages/:id/reply"            => "messages#reply", :as => :message_reply      
+
   #challenges
   get "challenges/index"
   match 'challenges', :to => 'challenges#index', :as => :challenges
