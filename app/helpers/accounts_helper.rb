@@ -7,8 +7,7 @@ module AccountsHelper
                            :change_password      => {:value => "change password",     :link => "/account/password"}
                      }
                        
-  MENU_OPTIONS_MY = { :my_messages        => {:value => "messages",        :link => "/messages/inbox"},
-                      :my_challenges        => {:value => "challenges",        :link => "/account/challenges"},
+  MENU_OPTIONS_MY = { :my_challenges        => {:value => "challenges",        :link => "/account/challenges"},
                       :invite              => {:value => "invite friends",       :link => "/account/invite"},
                       :my_referrals         => {:value => "referred members",     :link => "/account/referrals"},
                       :my_communities       => {:value => "communities",       :link => "/account/communities"}
