@@ -20,11 +20,8 @@ class MessagesController < ApplicationController
   def show
   	@message = CsApi::Message.find(current_access_token, params[:id])
     # update the correct status
-    if current_user.username.eql?(@message['to__r']['name'])
-      data = {status_to: 'Read'} 
-    else
-      data = {status_from: 'Read'}
-    end
+    data = {status_from: 'Read'}
+    data = {status_to: 'Read'} if current_user.username.eql?(@message['to__r']['name'])
     # mark the message as being read
     results = CsApi::Message.update(current_access_token, params[:id], data)
   end
