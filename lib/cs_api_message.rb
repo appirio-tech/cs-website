@@ -4,12 +4,6 @@ module CsApi
 
   class Message < CloudSpokesApi	
 
-	  def self.all(access_token)
-	    set_api_header_token(access_token)  
-	    set_api_header_key      
-	    get(ENV['CS_API_URL']+"/messages")['response']
-	  end 
-
 	  def self.inbox(access_token, membername)
 	    set_api_header_token(access_token)
 			set_api_header_key        
