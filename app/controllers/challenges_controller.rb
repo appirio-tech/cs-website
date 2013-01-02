@@ -340,9 +340,9 @@ class ChallengesController < ApplicationController
     end
   end
   
-  def new_comment    
+  def new_comment
     # capture their comments so we can show them again if recaptcha error
-    session[:captcha_comments] = params[:discussion][:comments]
+    session[:captcha_comments] = params[:discussion][:comments] if params[:discussion][:comments].length < 2000
     # get their status so we can determine whether or not to show captcha
     @participation_status = challenge_participation_status
     # if their captcha was valid OR no need to use captcha
@@ -350,6 +350,7 @@ class ChallengesController < ApplicationController
       if params[:discussion][:comments].length > 2000
         flash[:error] = "Comments cannot be longer than 2000 characters. Please try again."        
       else  
+        params[:discussion][:comments] = params[:discussion][:comments].gsub(/\n/, "<br/>")
         post_results = Comments.save(current_access_token, current_user.username, params)
         if post_results['Success'].eql?('true')
           # delete their comments in the session if it exists for a failed attempt
