@@ -69,7 +69,7 @@
 
 	    <div id="quick_actions">
         <a id="inboxLink" class="button_big" href="/messages">Inbox</a>
-        <a id="messageBoxLink" class="fancy button_big" href="#newMsg">Reply</a>                 
+        <a id="messageBoxLink" class="fancy button_big" href="#newMsg">Reply to this message</a>                 
       </div><br/><br/>
       <!--Datatable-->
       <div class="widget">
@@ -93,7 +93,7 @@
 																	<div class="who" style="font-size:12pt;max-width:500px;padding-top:5px;padding-left:10px"><%= @message['subject'] %></div>
 																</div>
 																<div class="timestamp-likes">
-																	<div class="timestamp"><%= DateTime.parse(@message['createddate']).strftime("%m/%e/%Y at %I:%M%p") %></div>
+																	<div class="timestamp"><%= DateTime.parse(@message['createddate']).strftime("%-m/%-d/%Y at %I:%M%p") %></div>
 																</div>
 															</div>
 														</div>
@@ -107,7 +107,7 @@
 																<img width="30" height="30" alt="<%= text['from__r']['name'] %>" src="<%= text['from__r']['profile_pic'] %>">
 																<br>
 																<div style="float: left;"><%= text['from__r']['name'] %></div>
-																<div style="font-size: 9px; color: #666666; float: left; clear: both;"><%= DateTime.parse(text['createddate']).strftime("%m/%e/%Y") %><br/><%= DateTime.parse(text['createddate']).strftime("%I:%M%p") %></div>
+																<div style="font-size: 9px; color: #666666; float: left; clear: both;"><%= DateTime.parse(text['createddate']).strftime("%-m/%-d/%Y") %><br/><%= DateTime.parse(text['createddate']).strftime("%I:%M%p") %></div>
 															</div>
 															<div style="width: 500px; background-color: #ffffff; border: 1px solid #d7d9d9; float: left; min-height: 75px;">
 																<img style="margin-left: -32px; margin-top: 20px;float: left;" src="/assets/messages/comment.png">

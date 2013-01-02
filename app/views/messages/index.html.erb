@@ -122,7 +122,7 @@ function submitMessage() {
 																		<div class="who" style="padding-top:2px"><%= m['display_user'] %> (<%= m['replies'] %>)</div>
 																	</div>
 																	<div class="timestamp-likes">
-																		<div class="timestamp" rel="twipsy" title="12 Aug 2012 12:06 pm"><%= DateTime.parse(m['datetime']).strftime("%m/%e/%Y at %I:%M%p") %></div>
+																		<div class="timestamp" rel="twipsy" title="12 Aug 2012 12:06 pm"><%= DateTime.parse(m['datetime']).strftime("%-m/%-d/%Y at %I:%M%p") %></div>
 																		<div class="likes"></div>
 																	</div>
 																	<div class="popover-below replied-to-where">
