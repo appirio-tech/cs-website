@@ -17,7 +17,7 @@
 
 				<p><%= @challenge_detail["Results_Overview__c"] %></p>
 				
-					<% if ['Code','Race'].include?(@challenge_detail["Challenge_Type__c"]) %>
+					<% if ['Code','Race','Design'].include?(@challenge_detail["Challenge_Type__c"]) %>
 					
 						<table  id="submissions-current" style="width:100%">
 						    <thead>
