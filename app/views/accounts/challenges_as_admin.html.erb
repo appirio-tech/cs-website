@@ -1,0 +1,108 @@
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "admin_challenges"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>My 'Admin' Challlenges</h3>
+			<p style="margin-bottom:15px">Below are the challenges in which you are either a judge, contact or comment notifier.</p>
+
+			<% unless @planned_challenges.empty? %>
+
+				<h4>Planned Challlenges</h4>
+				<table class="fancytable" style="width:100%">
+				    <thead>
+				    	<tr>
+								<th scope="col">Challenge</th>
+					      <th scope="col" width="75">Starts</th>
+								<th scope="col" width="75">Ends</th>
+				      </tr>
+				    </thead>
+				    <tbody>
+						<% @planned_challenges.each do |record| %>
+				    	<tr>
+							<td><%= link_to record['name'], challenge_preview_path(record['challenge_id']), :target => 'blank' %></td>						
+							<td><%= Date.parse(record['start_date']).strftime("%m/%d/%Y") %></td>
+							<td><%= Date.parse(record['end_date']).strftime("%m/%d/%Y") %></td>
+				      </tr>
+						<% end %>
+				    </tbody>
+				</table>
+			
+			<% end %>		
+
+			<% unless @in_progress_challenges.empty? %>
+
+				<h4>In Progress Challlenges</h4>
+				<table class="fancytable" style="width:100%">
+				    <thead>
+				    	<tr>
+								<th scope="col" colspan="2">Challenge</th>
+								<th scope="col" width="75">Status</th>
+								<th scope="col" width="15">Reg</th>
+								<th scope="col" width="15">Sub</th>
+					      <th scope="col" width="50">Ends</th>
+								<th scope="col" width="100"></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+						<% @in_progress_challenges.each do |record| %>
+				    	<tr>
+							<td><% if record['health'] %><img src="https://na12.salesforce.com/img/samples/light_<%= record['health'] %>.gif"><% end %></td>
+							<td><%= link_to record['name'], challenge_path(record['challenge_id']), :target => 'blank' %></td>
+							<td><%= record['status'] %></td>							
+							<td><%= record['registered_members'].to_i %></td>
+							<td><%= record['submissions'].to_i %></td>
+							<td><%= Date.parse(record['end_date']).strftime("%m/%d/%Y") %></td>
+							<td><%= link_to 'code', all_submissions_path(record['challenge_id']), :target => 'blank' %> &middot; <%= link_to 'partiicpants', participants_path(record['challenge_id']), :target => 'blank' %></td>
+				      </tr>
+						<% end %>
+				    </tbody>
+				</table>
+			
+			<% end %>		
+
+			<% unless @completed_challenges.empty? %>
+
+				<h4>Completed Challlenges</h4>
+				<table class="fancytable" style="width:100%";margin-bottom:25px>
+				    <thead>
+				    	<tr>
+								<th scope="col">Challenge</th>
+								<th scope="col" width="75">Status</th>
+								<th scope="col" width="15">Reg</th>
+								<th scope="col" width="15">Sub</th>
+					      <th scope="col" width="50">Ended</th>
+								<th scope="col" width="125"></th>
+				      </tr>
+				    </thead>
+				    <tbody>
+						<% @completed_challenges.each do |record| %>
+				    	<tr>
+							<td><%= link_to record['name'], challenge_path(record['challenge_id']), :target => 'blank' %></td>
+							<td><%= record['status'] %></td>							
+							<td><%= record['registered_members'].to_i %></td>
+							<td><%= record['submissions'].to_i %></td>
+							<td><%= Date.parse(record['end_date']).strftime("%m/%d/%Y") %></td>
+							<td><%= link_to 'code', all_submissions_path(record['challenge_id']), :target => 'blank' %> &middot; <%= link_to 'winners', results_path(record['challenge_id']), :target => 'blank' %></td>
+				      </tr>
+						<% end %>
+				    </tbody>
+				</table>
+
+        <div class="paging">
+           <%= will_paginate @completed_challenges %>
+        </div>
+			
+			<% end %>		
+
+			<% if @planned_challenges.empty? && @in_progress_challenges.empty? && @completed_challenges.empty? %>
+				You do not appear to be involved in any challenges at this time.
+			<% end %>
+						
+
+		</div>
+
+	</div>
+</div>
