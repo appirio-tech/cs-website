@@ -103,7 +103,7 @@ class AccountsController < ApplicationController
         @planned_challenges << challenge
       elsif ['Winner Selected','No Winner Selected','Completed'].include?(challenge['status'])
         @completed_challenges << challenge
-      else
+      elsif !challenge['status'].eql?('Hidden')
         @in_progress_challenges << challenge
       end
     end
