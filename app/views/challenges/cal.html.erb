@@ -35,9 +35,9 @@
             	<p><%= raw(@challenge_detail["Additional_Info__c"]) %></p>
 			<% end %>
 	
-          <h3>All Submission Resources</h3>
+    <h3>All Submission Resources</h3>
 
-		<% if @all_submissions.length > 0 %>
+		<% unless @all_submissions.empty? %>
 		<table id="submissions-current" style="width:925px">
 		    <thead>
 		    	<tr>
@@ -64,7 +64,7 @@
 			<p style="padding-bottom:200px">There are no submissions for this challenge.</p>
 		<% end %>
 					
-      </div>
+  </div>
 
       <!-- END Challenge Information -->
   </div>

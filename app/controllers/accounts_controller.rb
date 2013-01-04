@@ -3,6 +3,7 @@ require 'cs_api_member'
 require 'cs_api_judging'
 require 'cs_api_community'
 require 'atomentry_judging'
+require 'will_paginate/array'
 
 class AccountsController < ApplicationController
 
@@ -88,6 +89,26 @@ class AccountsController < ApplicationController
       redirect_to(:back)
     end
   end
+
+  def challenges_as_admin
+    challenges = CsApi::Member.challenges_as_admin(current_access_token, 
+      current_user.username)
+
+    @planned_challenges = []
+    @in_progress_challenges = []
+    @completed_challenges = []
+
+    challenges.each do |challenge|
+      if challenge['status'].eql?('Planned')
+        @planned_challenges << challenge
+      elsif ['Winner Selected','No Winner Selected','Completed'].include?(challenge['status'])
+        @completed_challenges << challenge
+      else
+        @in_progress_challenges << challenge
+      end
+    end
+    @completed_challenges = @completed_challenges.paginate(:page => params[:page] || 1, :per_page => 30) unless @completed_challenges.nil?
+  end  
 
   def challenges
     @page_title = "Your Challenges"

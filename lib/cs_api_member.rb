@@ -28,7 +28,12 @@ module CsApi
 	  def self.challenges(access_token, membername)
 	    set_api_header_token(access_token)     
 	    get(ENV['CS_API_URL']+"/members/#{esc membername}/challenges")['response'] 
-	  end  	 	
+	  end  	 
+
+	  def self.challenges_as_admin(access_token, membername)
+	    set_api_header_token(access_token)    
+	    get(ENV['CS_API_URL']+"/members/#{esc membername}/challenges_as_admin")['response']
+	  end   	
 
 	  def self.recommend(access_token, membername_for, membername_from, text)
 	    set_api_header_token(access_token) 

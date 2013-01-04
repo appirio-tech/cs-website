@@ -23,9 +23,9 @@ function signup(challenge_id) {
 
 			<p>Once the challnege closes you'll receive a notification email that the submissions are available and scorecards are ready for you to judge. Once you install, run, test and evaluate each submission (we have plenty of judging instructions for you), you'll complete a scorecard grading the submission. Once all judges have completed all scorecards the winners will be selected.</p>
 
-			<p>We will pay you $25 for each submission that you judge and a bonus of $50 for every 10 submissions that you judge within a month. You can judge as many submissions as you'd like. Any poor reviews and/or scorecards will not be credit. Only CloudSpokes members that have won at least one challenge are eligible.</p>
+			<p>We will pay you $25 for each submission that you judge and a bonus of $50 for every 10 submissions that you judge within a month. You can judge as many submissions as you'd like. Any poor reviews and/or scorecards will not be credit. Only CloudSpokes members that have won at least three challenges are eligible.</p>
 				
-			<% unless @challenges.empty? or @total_wins == 0 %>
+			<% unless @challenges.empty? or @total_wins < 3 %>
 
 				<table class="fancytable" style="width:100%">
 				    <thead>
@@ -57,8 +57,8 @@ function signup(challenge_id) {
 				</table>
 			
 			<% else %>
-				<% if @total_wins == 0 %>
-					<strong>Sorry... you must have won at least one CloudSpokes challenge before you are eligible to judge.</strong>
+				<% if @total_wins < 3 %>
+					<strong>Sorry... you must have won at least three CloudSpokes challenges before you are eligible to judge.</strong>
 				<% else %>	
 					<strong>Sorry... there are currently no challenges that are in need of judges. Please check back later.</strong>
 				<% end %>

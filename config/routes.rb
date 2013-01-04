@@ -33,6 +33,7 @@ CloudSpokes::Application.routes.draw do
 
   match "account"                       => "accounts#index"
   match "/account/challenges"           => "accounts#challenges"
+  match "/account/challenges_as_admin"  => "accounts#challenges_as_admin"
   match "/account/school"               => "accounts#school"
   match "/account/details"              => "accounts#details"
   match "/account/payments"             => "accounts#payments"
