@@ -10,7 +10,7 @@
 
 			<% unless @planned_challenges.empty? %>
 
-				<h4>Planned Challenges</h4>
+				<h4>Planned Challenges (<%= @planned_challenges.count %>)</h4>
 				<table class="fancytable" style="width:100%">
 				    <thead>
 				    	<tr>
@@ -34,7 +34,7 @@
 
 			<% unless @in_progress_challenges.empty? %>
 
-				<h4>In Progress Challenges</h4>
+				<h4>In Progress Challenges (<%= @in_progress_challenges.count %>)</h4>
 				<table class="fancytable" style="width:100%">
 				    <thead>
 				    	<tr>
@@ -65,8 +65,8 @@
 
 			<% unless @completed_challenges.empty? %>
 
-				<h4>Completed Challenges</h4>
-				<table class="fancytable" style="width:100%";margin-bottom:15px>
+				<h4>Completed Challenges (<%= @completed_challenges.count %>)</h4>
+				<table class="fancytable" style="width:100%";margin-bottom:5px>
 				    <thead>
 				    	<tr>
 								<th scope="col">Challenge</th>
