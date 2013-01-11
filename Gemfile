@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0'
+gem 'rails', '3.1.10'
 gem 'compass', git: 'git://github.com/chriseppstein/compass.git'
 gem 'databasedotcom'
 gem 'databasedotcom-rails'
