@@ -25,7 +25,7 @@ function signup(challenge_id) {
 
 			<p>We will pay you $25 for each submission that you judge and a bonus of $50 for every 10 submissions that you judge within a month. You can judge as many submissions as you'd like. Any poor reviews and/or scorecards will not be credit. Only CloudSpokes members that have won at least three challenges are eligible.</p>
 				
-			<% unless @challenges.empty? %>
+			<% unless @challenges.empty? or @total_wins < 3 %>
 
 				<table class="fancytable" style="width:100%">
 				    <thead>
