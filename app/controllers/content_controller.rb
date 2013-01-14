@@ -1,5 +1,8 @@
 require 'sfdc_connection'
 require 'cs_api_stats'
+require 'base64'
+require 'cgi'
+require 'openssl'
 
 class ContentController < ApplicationController
   before_filter :redirect_to_http
@@ -34,6 +37,48 @@ class ContentController < ApplicationController
       format.json { render :json => @page }
     end
     
+  end
+
+  def forums
+
+    client_id = '1048311983'
+    secret = 'ac9be007d9819ace8d687405b3139a47'
+
+    #create the signed user as json
+    user = {email: 'jdouglas@appirio.com', name: 'jeff douglas', 
+        photourl: 'http://www.cloudspokes.com/some-image.png',
+        uniqueid: 'jeffdonthemic', 
+        client_id: client_id}.to_json
+     
+    # base64 encode the user with the time stamp
+    signature_string = "#{Base64.encode64(user)} #{Time.now}"
+    # sign the signature string
+    signature = CGI.escape("#{OpenSSL::HMAC.digest('sha1', secret, signature_string)}")
+    # build the final sso string
+    @vanilla_sso = "#{signature_string} #{signature} #{Time.now} hmacsha1"
+
+  end
+
+  def forums_authenticate 
+
+    client_id = '1048311983'
+    secret = 'ac9be007d9819ace8d687405b3139a47'
+
+    user = {email: 'jdouglas@appirio.com', name: 'jeff douglas', 
+        photourl: 'http://www.cloudspokes.com/some-image.png',
+        uniqueid: 'jeffdonthemic'}
+
+    # Url encode the sorted user
+    signature_string = user.to_param
+
+    # sign the signature_string with the secret. no base64 encoding?
+    signature = CGI.escape("#{OpenSSL::HMAC.digest('sha1', secret, signature_string)}") 
+
+    # add the client_id and signature to the user
+    user.merge!({client_id: client_id, signature: signature})
+
+    #render as json
+    render :json => "callback(#{user.to_json})"  
   end
 
 end

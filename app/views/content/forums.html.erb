@@ -1,2 +1,19 @@
+<script type="text/javascript">
+var vanilla_forum_url = 'http://cloudspokes.vanillaforums.com'; 
+var vanilla_sso = '<%=@signed_signature %> <%= @signature %> <%= Time.now %> hmacsha1';
+
+/*** DON'T EDIT BELOW THIS LINE ***/
+
+(function() {
+var vanilla = document.createElement('script');
+vanilla.type = 'text/javascript';
+var timestamp = new Date().getTime();
+vanilla.src = vanilla_forum_url + '/js/embed.js';
+
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(vanilla);
+})();
+
+</script>
+
 <script type="text/javascript" src="http://cloudspokes.vanillaforums.com/js/embed.js"></script>
 <noscript>Please enable JavaScript to view the <a href="http://vanillaforums.com/?ref_noscript">discussions powered by Vanilla.</a></noscript>

@@ -144,6 +144,7 @@ CloudSpokes::Application.routes.draw do
   match "/badges", to: "content#badges" # moving to refinery
   match "/home", to: "content#home", :as => :home
   match "/forums", to: "content#forums", :as => :forums
+  match "/forums-authenticate", to: "content#forums_authenticate", :as => :forums_authenticate
   root to: 'content#home'
   
   mount Resque::Server, :at => "/resque"
