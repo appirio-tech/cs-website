@@ -15,6 +15,26 @@ task :get_access_token => :environment do
 	puts "Access token for #{ENV['DATABASEDOTCOM_HOST']}: #{access_token}"
 end
 
+desc "Refreshes the settting table with a new access token"
+task :refresh_settings_access_token => :environment do
+	config = YAML.load_file(File.join(::Rails.root, 'config', 'databasedotcom.yml'))
+	client = Databasedotcom::Client.new(config)
+	access_token = client.authenticate :username => ENV['SFDC_USERNAME'], :password => ENV['SFDC_PASSWORD'] 
+	# delete the current record
+	p Settings.delete(Settings.first)
+	# save the new token
+	s = Settings.new
+	s.access_token = access_token
+	s.save
+	puts "Token refreshed and written to pg - #{access_token}"
+end
+
+desc "Deletes all users from PG and logs everyone off the site"
+task :log_out_users => :environment do
+	User.delete_all
+	puts "All users logged out of the site"
+end
+
 desc "Send an 'invite' email to jeffdonthemic"
 task :send_invite => :environment do
 	Resque.enqueue(InviteEmailSender, 'jeffdonthemic', 'jeff@appirio.com')
