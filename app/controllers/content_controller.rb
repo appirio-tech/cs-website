@@ -3,6 +3,7 @@ require 'cs_api_stats'
 require 'base64'
 require 'cgi'
 require 'openssl'
+require 'js_connect'
 
 class ContentController < ApplicationController
   before_filter :redirect_to_http
@@ -45,17 +46,17 @@ class ContentController < ApplicationController
     secret = 'ac9be007d9819ace8d687405b3139a47'
 
     #create the signed user as json
-    user = {email: 'jdouglas@appirio.com', name: 'jeff douglas', 
-        photourl: 'http://www.cloudspokes.com/some-image.png',
+    user = {email: 'jdouglas@appirio.com', name: 'jeffdonthemic', 
+        photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
         uniqueid: 'jeffdonthemic', 
         client_id: client_id}.to_json
      
     # base64 encode the user with the time stamp
-    signature_string = "#{Base64.encode64(user)} #{Time.now}"
+    signature_string = "#{Base64.encode64(user)} #{Time.now.to_i}"
     # sign the signature string
     signature = CGI.escape("#{OpenSSL::HMAC.digest('sha1', secret, signature_string)}")
     # build the final sso string
-    @vanilla_sso = "#{signature_string} #{signature} #{Time.now} hmacsha1"
+    @vanilla_sso = "#{signature_string} #{signature} #{Time.now.to_i} hmacsha1"
 
   end
 
@@ -64,21 +65,14 @@ class ContentController < ApplicationController
     client_id = '1048311983'
     secret = 'ac9be007d9819ace8d687405b3139a47'
 
-    user = {email: 'jdouglas@appirio.com', name: 'jeff douglas', 
-        photourl: 'http://www.cloudspokes.com/some-image.png',
-        uniqueid: 'jeffdonthemic'}
+    user = {'email' => 'jdouglas@appirio.com', 'name' => 'jeffdonthemic', 
+        'photourl' => 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
+        'uniqueid' => 'jeffdonthemic'}
 
-    # Url encode the sorted user
-    signature_string = user.to_param
-
-    # sign the signature_string with the secret. no base64 encoding?
-    signature = CGI.escape("#{OpenSSL::HMAC.digest('sha1', secret, signature_string)}") 
-
-    # add the client_id and signature to the user
-    user.merge!({client_id: client_id, signature: signature})
+    callback = JsConnect::getJsConnectString(user, request, client_id, secret)
 
     #render as json
-    render :json => "callback(#{user.to_json})"  
+    render :json => callback 
   end
 
 end
