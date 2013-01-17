@@ -147,6 +147,6 @@ task :import_members, :partner_name, :limit, :community_id, :randomize, :needs =
 
 	puts "[IMPORT]Member import finished!"
 	Rails.logger.info "[IMPORT]Member import finished!"
-=end	
 
 end
+=end	
