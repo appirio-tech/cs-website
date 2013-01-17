@@ -18,12 +18,11 @@ class ContentController < ApplicationController
 
     # json encode the user
     json = ActiveSupport::JSON.encode(user);     
-    # base 64 encode the user
+    # base 64 encode the user json
     signature_string = Base64.encode64(json)
-    # Sign the signature string with your signature and the current timestamp using hmac sha1 (use vanilla secret)
+    # Sign the signature string with signature and the current timestamp using hmac sha1 (use vanilla secret as the key??)
     signature = OpenSSL::HMAC.digest('sha1', ENV['VANILLA_SECRET'], signature_string + ' ' +  Time.now.to_s)
-    #signature = Digest::MD5.hexdigest(signature_string + ' ' + Time.now);
-    # # build the final sso string
+    # build the final sso string
     @vanilla_sso = "#{signature_string} #{signature} #{Time.now} hmacsha1"
 
   end
