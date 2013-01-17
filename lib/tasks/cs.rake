@@ -56,7 +56,7 @@ task :pick_sweepstakes_winners, :challenge_id do |t, args|
 	puts "First place: #{participants[rand(participants.count)]['member__r']['name']}"
 	puts "Second place: #{participants[rand(participants.count)]['member__r']['name']}"
 end
-
+=begin
 desc "import imports csv file into import_members table"
 task :import_members_csv, :url, :needs => :environment do |t, args|	
 
@@ -147,5 +147,6 @@ task :import_members, :partner_name, :limit, :community_id, :randomize, :needs =
 
 	puts "[IMPORT]Member import finished!"
 	Rails.logger.info "[IMPORT]Member import finished!"
+=end	
 
 end
