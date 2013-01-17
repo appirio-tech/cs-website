@@ -1,0 +1,171 @@
+<%= f.input :name, required: true, input_html: {required: true, autofocus: true} %>
+<%= f.input :status, required: true, collection: @challenge.statuses, input_html: {required: true} %>
+
+<%= f.input :description, :as => :text, input_html: { :class => 'ckeditor' } %>
+<%= f.input :requirements, :as => :text, input_html: { :class => 'ckeditor' } %>
+<%= f.input :submission_details, :as => :text, input_html: { :class => 'ckeditor' } %>
+
+<div class="control-group">
+  <label class="control-label">Start and End Dates</label>
+  <div class="controls">
+    <div id="date-range">
+      <div id="start-end-date">
+        <span id="display"></span>
+      </div>
+      <div id="datepicker-calendar"></div>
+      <%= f.hidden_field :start_date, id: "date-range-hidden-start" %>
+      <%= f.hidden_field :end_date, id: "date-range-hidden-end" %>
+      <span class="help-inline">the first click will set the start date, the second click will set the end date</span>
+    </div>
+  </div>
+</div>
+
+<%= f.input :start_date, as: :time, label: 'Time', required: false, hint: 'Times are in your local time zone' %>
+
+<script>
+// we need erb here as well. for later refactoring, we should move these to
+// a data-attribute somewhere (or maybe use gon)
+$(function() {
+  var to = new Date(<%= @challenge.end_date.to_time.utc.to_i * 1000 %>);
+  var from = new Date(<%= @challenge.start_date.to_time.utc.to_i * 1000 %>);
+
+  var $elem = $('#start-end-date')
+  $elem.DatePicker({
+    inline: true,
+    date: [from, to],
+    calendars: 3,
+    mode: 'range',
+    onChange: function(dates,el) {
+      // update the range display
+      $('#start-end-date span#display').text(
+        dates[0].getDate()+' '+dates[0].getMonthName(true)+', '+
+        dates[0].getFullYear()+' - '+
+        dates[1].getDate()+' '+dates[1].getMonthName(true)+', '+
+        dates[1].getFullYear());
+      $('#date-range-hidden-start').val($elem.DatePickerGetDate()[0][0])
+      $('#date-range-hidden-end').val($elem.DatePickerGetDate()[0][1])
+    }
+  });
+  $('#date-range-hidden-start').val($elem.DatePickerGetDate()[0][0])
+  $('#date-range-hidden-end').val($elem.DatePickerGetDate()[0][1])
+
+
+  // initialize the special date dropdown field
+  $('#start-end-date span#display').text(from.getDate()+' '+from.getMonthName(true)+', '+from.getFullYear()+' - '+
+                                      to.getDate()+' '+to.getMonthName(true)+', '+to.getFullYear());
+
+})
+</script>
+
+<div class="control-group">
+  <label class="control-label">Winner Announced</label>
+  <div class="controls">
+    <div id="date-range">
+      <div id="winner-announced-date">
+        <span id="display"></span>
+      </div>
+      <div id="datepicker-calendar"></div>
+      <%= f.hidden_field :winner_announced, id: "winner-announced-hidden" %>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  var to = new Date(<%= @challenge.winner_announced.to_time.utc.to_i * 1000 %>);
+  var $elem = $('#winner-announced-date')
+  $elem.DatePicker({
+    mode: 'single',
+    calendars: 3,
+    inline: true,
+    date: to,
+    onChange: function(date,el) {
+      // update the range display
+      $('#winner-announced-date span#display').text(
+        date.getDate()+' '+date.getMonthName(true)+', '+
+        date.getFullYear())
+      $('#winner-announced-hidden').val($elem.DatePickerGetDate()[0])
+    }
+  })
+  $('#winner-announced-hidden').val($elem.DatePickerGetDate()[0])
+
+  // initialize the special date dropdown field
+  $('#winner-announced-date span#display').text(to.getDate()+' '+to.getMonthName(true)+', '+to.getFullYear());
+
+})
+</script>
+
+<%= f.input :reviewers %>
+<script>
+$(function() {
+  var member_search_settings = {
+    initSelection: function(element, callback) {
+      var data = [];
+      $(element.val().split(",")).each(function () {
+        data.push({name: this});
+      });
+      callback(data);
+    },
+    placeholder: "Search for a member",
+    minimumInputLength: 1,
+    multiple: true,
+    id: "name",
+    ajax: { // instead of writing the function to execute the request we use Select2's convenient helper
+      url: "/members/search",
+      dataType: 'jsonp',
+      data: function (term, page) {
+        return {
+          keyword: term, // search term
+        };
+      },
+      results: function (data, page) { // parse the results into the format expected by Select2.
+        // since we are using custom formatting functions we do not need to alter remote JSON data
+        return {results: data};
+      }
+    },
+    formatResult: function(member) {
+      return member.name
+    },
+    formatSelection: function(member) {
+      return member.name
+    },
+    containerCssClass: "span6" // apply css that makes the dropdown taller
+  }
+
+  $('#admin_challenge_reviewers').val("<%= @challenge.reviewers.join(',') %>").select2(member_search_settings)
+  $('#admin_challenge_categories').val("<%= @challenge_categories %>").select2({
+    initSelection: function(element, callback) {
+      var data = [];
+      $(element.val().split(",")).each(function () {
+        data.push({id: this, text: this});
+      });
+      callback(data);
+    },
+    multiple: true,
+    data:  <%= Category.names.map {|name| { id: name, text: name } }.to_json.html_safe %>,
+    containerCssClass: "span6" // apply css that makes the dropdown taller
+  })
+  $('#admin_challenge_commentNotifiers').val("<%= @challenge.commentNotifiers.join(',') %>").select2(member_search_settings)
+})
+</script>
+
+<%= f.input :categories %>
+
+<%= f.input :commentNotifiers %>
+
+<div class="accordion" id="advanced-options">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#advanced-options" href="#advanced-options-content">
+        Advanced Options (optional for power users -- click to edit)
+      </a>
+    </div>
+    <div id="advanced-options-content" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <%= f.input :challenge_type, collection: %w(Code First2Finish Design Bug), default: 'Code' %>
+        <%= f.input :terms_of_service, collection: ['Standard Terms & Conditions', 'Private Challenge'], default: 'Standard Terms & Conditions' %>
+        <%= f.input :comments, :as => :text, input_html: { :class => 'ckeditor' } %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,8 @@
 			<h3>My 'Admin' Challenges</h3>
 			<p style="margin-bottom:15px">Below are the challenges in which you are either a judge, contact or comment notifier.</p>
 
+			<p><%= link_to "New Challenge", new_admin_challenge_path %></p>
+
 			<% unless @planned_challenges.empty? %>
 
 				<h4>Planned Challenges (<%= @planned_challenges.count %>)</h4>
@@ -22,7 +24,7 @@
 				    <tbody>
 						<% @planned_challenges.each do |record| %>
 				    	<tr>
-							<td><%= link_to record['name'], challenge_preview_path(record['challenge_id']), :target => 'blank' %></td>						
+							<td><%= link_to record['name'], edit_admin_challenge_path(record['challenge_id']) %></td>						
 							<td><%= Date.parse(record['start_date']).strftime("%m/%d/%Y") %></td>
 							<td><%= Date.parse(record['end_date']).strftime("%m/%d/%Y") %></td>
 				      </tr>
@@ -50,7 +52,7 @@
 						<% @in_progress_challenges.each do |record| %>
 				    	<tr>
 							<td><% if record['health'] %><img src="https://na12.salesforce.com/img/samples/light_<%= record['health'] %>.gif"><% end %></td>
-							<td><%= link_to record['name'], challenge_path(record['challenge_id']), :target => 'blank' %></td>
+							<td><%= link_to record['name'], edit_admin_challenge_path(record['challenge_id']) %></td>
 							<td><%= record['status'] %></td>							
 							<td><%= record['registered_members'].to_i %></td>
 							<td><%= record['submissions'].to_i %></td>
@@ -80,7 +82,7 @@
 				    <tbody>
 						<% @completed_challenges.each do |record| %>
 				    	<tr>
-							<td><%= link_to record['name'], challenge_path(record['challenge_id']), :target => 'blank' %></td>
+							<td><%= link_to record['name'], edit_admin_challenge_path(record['challenge_id']) %></td>
 							<td><%= record['status'] %></td>							
 							<td><%= record['registered_members'].to_i %></td>
 							<td><%= record['submissions'].to_i %></td>

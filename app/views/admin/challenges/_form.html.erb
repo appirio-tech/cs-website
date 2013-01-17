@@ -1,0 +1,34 @@
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+<%= simple_form_for @challenge, validate: true, html: { :class => 'form-horizontal' } do |f| %>
+  <%= f.hidden_field :challenge_id, value: @challenge.challenge_id %>
+  <div class="row">
+    <div class="span12">
+
+      <div class='tabbable'>
+
+        <ul class='nav nav-tabs'>
+          <li class="active"><a href="#challenge-info" data-toggle="tab">Challenge Info</a></li>
+          <li><a href="#prizes" data-toggle="tab">Prizes</a></li>
+          <li><a href="#assets" data-toggle="tab">Assets</a></li>
+        </ul>
+
+        <div class='tab-content'>
+          <div class='tab-pane active' id='challenge-info'>
+            <%= render 'challenge_info', {f: f} %>
+          </div>
+          <div class='tab-pane' id='prizes'>
+            <%= render 'prizes' %>
+          </div>
+          <div class='tab-pane' id='assets'>
+            <%= render 'assets', {f: f} %>
+          </div>
+        </div>
+
+      </div>
+
+      <hr />
+      <%= f.button :submit %>
+
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,17 @@
+# pack-refs with: peeled 
+e14d463491c5436cf3ef95523fabbd317d49e92e refs/heads/master
+dcdce9f2aec0e6d6242f3f5febe97ae77423d50b refs/heads/plupload-1.5.4
+690c3d9ad445efe2c2208a76fc4ec8d6d2a97b1d refs/tags/v1.0.0
+^dedc0658b527b0204f6cc377ad20ae996aad5c98
+74ffb6927ed91f0eeb4a396dc5cc22ea6e2e0a0e refs/tags/v1.0.1
+^f54789f09ffe2d4aa9209e3a6cfbd598caeaabcc
+532dc8abbef834ece5a9cd106f762fe5b435b24d refs/tags/v1.0.2
+^d3f6ba9103f86d7de4a67e5c71c79708ce0365df
+6c5b0addf332b4b1d0cee8a6f14d16a3f37c7ac7 refs/tags/v1.0.3
+^a98be68065625db43eebff1c16d1166a4ffed4cb
+b7c34b0660f03adfe7303462c9a7038652792a3e refs/tags/v1.0.4
+^fca78ea7a4b5c4a519ccbe94260e911c0e2cda35
+6a91759054864ba135d14c0a6fdc6aa6e462e075 refs/tags/v1.0.5
+^473d4a233454c761233d54f313721f889f8bd2f9
+b60c7d43033b4c7b02a9cf3d01411c9759acdfb4 refs/tags/v1.0.6
+^e8c332aad26b3a3efde2ef275a068272b88a8531

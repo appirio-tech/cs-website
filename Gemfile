@@ -20,6 +20,21 @@ gem 'omniauth-salesforce'
 gem 'savon'
 gem 'rack-timeout'
 
+# challenge admin -- not exactly sure which are needed?
+gem 'sass-rails', '~> 3.1.0'
+gem 'bootstrap-sass', '2.1.1.0'
+gem 'simple_form', '2.0.4'
+gem 'chosen-rails'
+gem "select2-rails" # this is WAY better than chosen as it supports loading remote data
+gem 'ckeditor_rails', git: 'git://github.com/tsechingho/ckeditor-rails.git'
+gem 'plupload-rails', git: 'git://github.com/thatdutchguy/plupload-rails.git'
+gem 'client_side_validations'
+gem 'client_side_validations-simple_form'
+gem 'awesome_print'
+gem 'fog'
+gem 'nest'
+gem 'text'
+
 gem 'redis'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'thin'
@@ -55,7 +70,6 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
 end

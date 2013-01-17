@@ -106,21 +106,10 @@ CloudSpokes::Application.routes.draw do
   match 'quizes/flag_answer/:id', :to => 'quizes#flag_answer', :as => :flag_answer
   match 'quizes/:id/question', :to => 'quizes#fetch_question', :as => :fetchquestion
   
-  match '/admin',  :to => 'admin#index'
-  get "admin/index"
-  get "admin/delete_all_users"
-  get "admin/display_settings"
-  get "admin/send_mail"
-  get "admin/refresh_token"
-  get "admin/cache_stats"
-  get "admin/stats"
-  match 'admin/blogfodder/:id', :to => 'admin#blogfodder'
-  get "admin/create_badgeville_users"
-  match 'admin/create_badgeville_user/:membername', :to => 'admin#create_badgeville_user'
-  match 'admin/update_badgeville_player/:membername', :to => 'admin#update_badgeville_player'
-  
-  get "admin/update_badgeville_players"
-  get 'admin/update_badgeville_player_ids'
+  namespace :admin do
+    resources :challenges, only: [:index, :new, :create, :edit, :update] # remove the restrictions once the new challenges are up
+    post 'challenges/assets'
+  end
   
   match '/auth/:provider/callback', :to => 'sessions#callback'
   match '/auth/failure', :to => 'sessions#callback_failure' 

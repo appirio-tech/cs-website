@@ -1,0 +1,25 @@
+// Place all the styles related to the Admin::Challenge controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+	padding-top: 20px;
+	padding-left: 20px;
+}
+
+/* Style the calendar custom widget */
+#date-range {
+  position:relative;
+}
+
+div.datepicker td.datepickerFuture a {
+  color: black;
+}
+
+#s2id_admin_challenge_categories {
+
+}
+
+.plupload_container {
+  padding: 0px;
+}
