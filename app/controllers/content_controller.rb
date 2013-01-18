@@ -10,19 +10,19 @@ class ContentController < ApplicationController
 
   def forums
 
-    # user = {name: '', photourl: ''}
-    # if current_user
-    #   user = {email: current_user.email, name: current_user.username, 
-    #       photourl: current_user.profile_pic,
-    #       uniqueid: current_user.username}
-    # end  
-    # user.merge!({client_id: ENV['VANILLA_CLIENT_ID']})    
+    user = {name: '', photourl: ''}
+    if current_user
+      user = {email: current_user.email, name: current_user.username, 
+          photourl: current_user.profile_pic,
+          uniqueid: current_user.username}
+    end  
+    user.merge!({client_id: ENV['VANILLA_CLIENT_ID']})    
 
     # Start with the signed in user and add in the client_id
-    user = {email: 'jeff+snippets@jeffdouglas.com', name: 'jeffdonthemic-snippets', 
-        photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
-        uniqueid: 'jeffdonthemic-snippets', 
-        client_id: ENV['VANILLA_CLIENT_ID']}
+    # user = {email: 'jeff+snippets@jeffdouglas.com', name: 'jeffdonthemic-snippets', 
+    #     photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
+    #     uniqueid: 'jeffdonthemic-snippets', 
+    #     client_id: ENV['VANILLA_CLIENT_ID']}
 
     # json encode the user
     json = ActiveSupport::JSON.encode(user);     
@@ -37,16 +37,16 @@ class ContentController < ApplicationController
 
   def forums_authenticate 
 
-    # user = {name: '', photourl: ''}
-    # if current_user
-    #   user = {email: current_user.email, name: current_user.username, 
-    #       photourl: current_user.profile_pic,
-    #       uniqueid: current_user.username}
-    # end    
+    user = {name: '', photourl: ''}
+    if current_user
+      user = {email: current_user.email, name: current_user.username, 
+          photourl: current_user.profile_pic,
+          uniqueid: current_user.username}
+    end    
 
-    user = {email: 'jeff+snippets@jeffdouglas.com', name: 'jeffdonthemic-snippets', 
-        photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
-        uniqueid: 'jeffdonthemic-snippets'}
+    # user = {email: 'jeff+snippets@jeffdouglas.com', name: 'jeffdonthemic-snippets', 
+    #     photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
+    #     uniqueid: 'jeffdonthemic-snippets'}
 
     render :json => JsConnect::getJsConnectString(user, request, ENV['VANILLA_CLIENT_ID'], ENV['VANILLA_SECRET']) 
 
