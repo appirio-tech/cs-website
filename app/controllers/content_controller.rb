@@ -21,9 +21,10 @@ class ContentController < ApplicationController
     # base 64 encode the user json
     signature_string = Base64.encode64(json)
     # Sign the signature string with signature and the current timestamp using hmac sha1 (use vanilla secret as the key??)
-    signature = OpenSSL::HMAC.digest('sha1', ENV['VANILLA_SECRET'], signature_string + ' ' +  Time.now.to_s)
+    #signature = OpenSSL::HMAC.digest('sha1', ENV['VANILLA_SECRET'], signature_string + ' ' +  Time.now.to_s)
+    signature = Digest::HMAC.hexdigest(signature_string + ' ' +  Time.now.to_i.to_s, ENV['VANILLA_SECRET'], Digest::SHA1)
     # build the final sso string
-    @vanilla_sso = "#{signature_string} #{signature} #{Time.now} hmacsha1"
+    @vanilla_sso = "#{signature_string} #{signature} #{Time.now.to_i} hmacsha1"
 
   end
 
