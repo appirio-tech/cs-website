@@ -1,8 +1,6 @@
 require 'sfdc_connection'
 require 'cs_api_stats'
 require 'base64'
-require 'cgi'
-require 'openssl'
 require 'js_connect'
 
 class ContentController < ApplicationController
@@ -18,18 +16,13 @@ class ContentController < ApplicationController
     end  
     user.merge!({client_id: ENV['VANILLA_CLIENT_ID']})    
 
-    # Start with the signed in user and add in the client_id
-    # user = {email: 'jeff+snippets@jeffdouglas.com', name: 'jeffdonthemic-snippets', 
-    #     photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
-    #     uniqueid: 'jeffdonthemic-snippets', 
-    #     client_id: ENV['VANILLA_CLIENT_ID']}
-
     # json encode the user
     json = ActiveSupport::JSON.encode(user);     
     # base 64 encode the user json
     signature_string = Base64.strict_encode64(json)
-    # Sign the signature string with signature and the current timestamp using hmac sha1 (use vanilla secret as the key??)
-    signature = Digest::HMAC.hexdigest(signature_string + ' ' +  Time.now.to_i.to_s, ENV['VANILLA_SECRET'], Digest::SHA1)
+    # Sign the signature string with current timestamp using hmac sha1
+    signature = Digest::HMAC.hexdigest(signature_string + ' ' +  
+      Time.now.to_i.to_s, ENV['VANILLA_SECRET'], Digest::SHA1)
     # build the final sso string
     @vanilla_sso = "#{signature_string} #{signature} #{Time.now.to_i} hmacsha1"
 
@@ -44,11 +37,8 @@ class ContentController < ApplicationController
           uniqueid: current_user.username}
     end    
 
-    # user = {email: 'jeff+snippets@jeffdouglas.com', name: 'jeffdonthemic-snippets', 
-    #     photourl: 'http://lh4.ggpht.com/4wzpuaY9Oz1uNSyjinB72Re8V3DMEEyaeaLzJegV_tHyDYZm2nrNq6E_LuICWFs0-r-E70LgxlHca4qKxXKCSaP2zjarwgg',
-    #     uniqueid: 'jeffdonthemic-snippets'}
-
-    render :json => JsConnect::getJsConnectString(user, request, ENV['VANILLA_CLIENT_ID'], ENV['VANILLA_SECRET']) 
+    render :json => JsConnect::getJsConnectString(user, request, 
+      ENV['VANILLA_CLIENT_ID'], ENV['VANILLA_SECRET']) 
 
   end
 
