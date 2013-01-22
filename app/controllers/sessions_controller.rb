@@ -72,8 +72,8 @@ class SessionsController < ApplicationController
           if @user.save
             logger.info "[SessionsController]==== successfully created cloudspokes user: #{params[:signup_form][:username]}"
             sign_in @user
-            # send the 'welcome' email
-            Resque.enqueue(WelcomeEmailSender, current_access_token, params[:signup_form][:username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            # send the 'welcome' email -- taken care of by the API now
+            # Resque.enqueue(WelcomeEmailSender, current_access_token, params[:signup_form][:username]) unless ENV['MAILER_ENABLED'].eql?('false')
             # add the user to badgeville
             Resque.enqueue(NewBadgeVilleUser, current_access_token, params[:signup_form][:username], results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
             # update their member info in sfdc with the marketing data
@@ -197,8 +197,8 @@ class SessionsController < ApplicationController
             # sign the user in
             sign_in user
             logger.info "[SessionsController]==== #{@signup_complete_form.email} successfully signed in"
-            # send the 'welcome' email
-            Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
+            # send the 'welcome' email -- taken care of by the API now
+            # Resque.enqueue(WelcomeEmailSender, current_access_token, new_member_create_results[:username]) unless ENV['MAILER_ENABLED'].eql?('false')
             # add the user to badgeville
             Resque.enqueue(NewBadgeVilleUser, current_access_token, new_member_create_results[:username], new_member_create_results[:sfdc_username]) unless ENV['BADGEVILLE_ENABLED'].eql?('false')
             unless session[:marketing].nil?
