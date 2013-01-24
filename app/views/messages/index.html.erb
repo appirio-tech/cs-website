@@ -2,7 +2,12 @@
 <link rel="stylesheet" href="/assets/messages.css" type="text/css" media="screen">
 
 <script type="text/javascript">
-$(document).ready(function(){				
+$(document).ready(function(){	
+
+		// if a 'to' member name was passed, pop up the window
+		if(document.URL.split('?')[1] != undefined) {
+	    $("#messageBoxLink").fancybox().trigger('click');
+    }
 		
 		// Fancy box init to dipslay "New Message" pop-up
 		$("#messageBoxLink").fancybox({
@@ -43,7 +48,7 @@ function submitMessage() {
 		<input type="hidden" name="message[body]" id="body_hidden">
 		<div class="modal-new-body">		
 					<div class="form_input">
-					<div class="input_Fields_label"><span>To:</span></div><div class="input_Container"><input class="input_Fields" type="text" name="message[to]" id="to"></div>
+					<div class="input_Fields_label"><span>To:</span></div><div class="input_Container"><input class="input_Fields" type="text" name="message[to]" id="to" value="<%= params[:to] %>"></div>
 				  </div>
 				  <div class="form_input clear">
 					<div class="input_Fields_label"><span>Subject:</span></div><div class="input_Container"><input class="input_Fields" type="text" name="message[subject]" id="subject"></div>

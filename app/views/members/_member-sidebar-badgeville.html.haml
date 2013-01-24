@@ -15,6 +15,11 @@
         %span= @member["quote"]
     .actions
       %ul
+        %li.message
+          - if signed_in?
+            %a{:href => messages_url + "?to=#{@member["name"]}"} Message
+          - else
+            %a{:href => login_popup_path, :class => 'fancy'} Message
         %li.recommend
           - if signed_in?
             %a{:href => recommend_member_url} Recommend
