@@ -19,6 +19,7 @@ gem 'omniauth-openid'
 gem 'omniauth-salesforce'
 gem 'savon'
 gem 'rack-timeout'
+gem 'bootstrap-sass'
 
 gem 'redis'
 gem 'aws-s3', :require => 'aws/s3'

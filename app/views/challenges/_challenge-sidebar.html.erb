@@ -40,7 +40,7 @@
 	</li>
 	<% end %>
 
-	<% unless ['Race','Evaluation'].include?@challenge_detail["Challenge_Type__c"] %>
+	<% unless ['Task','Evaluation'].include?@challenge_detail["Challenge_Type__c"] %>
 		<li><h3>End Date</h3><strong><span>
 		<%= DateTime.parse(@challenge_detail["End_Date__c"]).strftime("%B %e, %Y at %I:%M%p") %>
 		</span></strong></li>

@@ -70,6 +70,7 @@ GEM
       builder
       mime-types
       xml-simple
+    bootstrap-sass (2.1.1.0)
     builder (3.0.4)
     chunky_png (1.2.5)
     coffee-rails (3.1.1)
@@ -288,6 +289,7 @@ DEPENDENCIES
   airbrake
   annotate (= 2.4.0)
   aws-s3
+  bootstrap-sass
   coffee-rails (~> 3.1.0)
   compass!
   dalli

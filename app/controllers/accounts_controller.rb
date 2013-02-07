@@ -15,6 +15,28 @@ class AccountsController < ApplicationController
     redirect_to '/account/challenges'
   end
 
+  def preferences
+    categories = Categories.all(current_access_token, :select => 'name', :where => 'true', :order_by => 'name')
+    if params[:preference]
+      to_sfdc = {}
+      Preference.column_names.each { |p| to_sfdc.merge!({ p.to_s => pref_setting_value(params[:preference][p])}) }
+      categories.each { |c| to_sfdc.merge!({ "Category|#{c['Name']}" => pref_category_value(params, c['Name'])}) }
+      CsApi::Member.preferences_update(current_access_token, current_user.username, to_sfdc)
+    end
+    prefs = CsApi::Member.preferences(current_access_token, current_user.username)    
+    @preference = Preference.new prefs
+    @categories = categories.map {|cat| cat['Name']}
+  end
+
+  def pref_setting_value(pref)
+    pref.join(';') if pref
+  end  
+
+  def pref_category_value(params, category_name)
+    methods = params[:preference]['categories'][category_name]
+    methods.join(';') if methods
+  end
+
   def judging_queue
     @challenges = CsApi::Judging.queue(current_access_token)
     @total_wins = CsApi::Member.find_by_membername(current_access_token, 

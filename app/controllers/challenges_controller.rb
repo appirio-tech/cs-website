@@ -110,8 +110,8 @@ class ChallengesController < ApplicationController
           params[:file_submission][:participantId], complete_url, params[:file_submission][:comments], 'File')
         if submission_results['Success'].eql?('true')
           flash[:notice] = "File successfully submitted for this challenge."
-          # send the race submission notification from jeffdonthemic -- todo: implement a gneric clyde user
-          send_race_email_notification(params[:id].strip, 'jeffdonthemic', 'A new submission has been uploaded for this challenge.') if params[:file_submission][:send_race_email]
+          # send the task submission notification from jeffdonthemic -- todo: implement a gneric clyde user
+          send_task_email_notification(params[:id].strip, 'jeffdonthemic', 'A new submission has been uploaded for this challenge.') if params[:file_submission][:send_task_email]
         else
           flash[:error] = "There was an error submitting your File. Please check it and submit it again."
         end
@@ -559,7 +559,7 @@ class ChallengesController < ApplicationController
   
   private
 
-    def send_race_email_notification(id, username, email_text)
+    def send_task_email_notification(id, username, email_text)
       # corrent the correct params hash
       discussion = {:comments => email_text, :reply_to => ''}
       params = {:discussion => discussion, :id => id}

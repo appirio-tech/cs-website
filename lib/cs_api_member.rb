@@ -64,7 +64,17 @@ module CsApi
 	    set_api_header_token(access_token) 
 	    set_api_header_key   
 	    get(ENV['CS_API_URL']+"/members/#{esc membername}/referrals")['response']
-	  end   	  
+	  end
+
+	  def self.preferences(access_token, membername)
+	    set_api_header_token(access_token)    
+	    get(ENV['CS_API_URL']+"/preferences/#{esc membername}")['response']
+	  end   	
+
+	  def self.preferences_update(access_token, membername, params)
+	    set_api_header_token(access_token)    
+	    put(ENV['CS_API_URL']+"/preferences/#{esc membername}?#{params.to_param}")['response']
+	  end    
 
   end
 

@@ -2,4 +2,10 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-  hello: "Hello world"
+  on_private_message: Notify me when a member sends me a private message.
+  on_reviewer_has_question: Notify me when a reviewer has a question about my submission.
+  on_registered_challenge_near_expiry: Notify me when a challenge I am registered for ends in the next 24 hours.
+  on_registered_challenge_extenstion_granted: Notify me when a challenge extension is requested for a challenge I am registered for.
+  on_challenge_extension_granted: Notify me when a challenge extension is granted.
+  on_challenge_results_final: Notify me when a challenge results are final.
+  on_cloud_spokes_newsletter_sent_out: Notify me when the CloudSpokes newsletter is sent out.

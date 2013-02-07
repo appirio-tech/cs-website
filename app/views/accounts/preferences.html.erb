@@ -1,0 +1,22 @@
+<%= stylesheet_link_tag "preferences" %>
+
+<div class="content-wrapper left-sidebar top-border">
+	<div id="account">
+		<div class="sidebar fl">
+      	<%= render 'menu', :selected_item => "Preferences"%>
+		</div>
+		<div class="widecolumn fr">
+
+			<h3>Notification Preferences</h3>
+				
+			<div class="row">
+			  <div class="span8 offset2">
+			    <%= render 'preferences_form' %>
+			  </div>
+			</div>				
+			
+
+		</div>
+
+	</div>
+</div>
