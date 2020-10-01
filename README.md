@@ -1,4 +1,4 @@
-# CloudSpokes (on Rails!)
+# CloudSpokes (on Rails!)its an amamizing project
 
 This application is not a pixel-for-pixel or same-HTML remake of
 Cloudspokes. This was an intentional decision as it has been built with
