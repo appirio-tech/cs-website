@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    exception_notification (2.6.0)
+    exception_notification (2.6.1)
       actionmailer (>= 3.0.4)
 
 GEM
@@ -83,7 +83,7 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.33)
+    tzinfo (0.3.61)
 
 PLATFORMS
   ruby
